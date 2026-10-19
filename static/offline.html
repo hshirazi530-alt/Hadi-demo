@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5ef">
+  <title>بدون اتصال | هژیر مارکت</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: #f7f5ef;
+      color: #18352d;
+      font-family: Tahoma, sans-serif;
+      text-align: center;
+    }
+    main { width: min(100%, 430px); }
+    .mark {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 24px;
+      display: grid;
+      place-items: center;
+      border: 1px solid #d9c69e;
+      border-radius: 50%;
+      color: #a58142;
+      font-size: 30px;
+    }
+    h1 { margin: 0 0 12px; font-size: 25px; }
+    p { margin: 0 0 25px; color: #69736e; line-height: 2; }
+    a, button {
+      min-height: 48px;
+      padding: 12px 22px;
+      border: 0;
+      border-radius: 14px;
+      background: #18352d;
+      color: #fff;
+      font: inherit;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .actions { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="mark" aria-hidden="true">هـ</div>
+    <h1>فعلاً اتصال اینترنت برقرار نیست</h1>
+    <p>برای دیدن محصولات و ادامهٔ خرید دوباره به اینترنت وصل شوید. اطلاعات حساب و سبد خرید شما روی این دستگاه ذخیره نمی‌شود.</p>
+    <div class="actions">
+      <button type="button" onclick="location.reload()">تلاش دوباره</button>
+      <a href="/">بازگشت به فروشگاه</a>
+    </div>
+  </main>
+</body>
+</html>

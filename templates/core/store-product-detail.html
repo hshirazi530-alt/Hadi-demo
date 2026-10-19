@@ -1,0 +1,175 @@
+{% extends 'partials/base.html' %}
+{% load static humanize %}
+{% block title %}{{ p.title }} | هژیر مارکت{% endblock %}
+{% block meta_description %}{{ meta_product_description|default:p.title }}{% endblock %}
+{% block og_title %}{{ p.title }} | هژیر مارکت{% endblock %}
+{% block og_description %}{{ meta_product_description|default:p.title }}{% endblock %}
+{% block og_type %}product{% endblock %}
+{% block extra_head %}<script type="application/ld+json">{{ product_schema_json }}</script>{% endblock %}
+
+{% block content %}
+<main class="store-page" dir="rtl">
+    <nav class="store-breadcrumb" aria-label="مسیر صفحه">
+        <a href="{% url 'core:index' %}">خانه</a><span aria-hidden="true">/</span>
+        <a href="{% url 'core:product-list' %}">فروشگاه</a><span aria-hidden="true">/</span>
+        {% if p.category %}<a href="{% url 'core:category-product-list' p.category.cid %}">{{ p.category.title }}</a><span aria-hidden="true">/</span>{% endif %}
+        <span aria-current="page">{{ p.title }}</span>
+    </nav>
+
+    <section class="store-product-detail">
+        <div class="store-product-gallery">
+            <figure class="store-product-gallery__main store-product-gallery__main--3d{% if spin_frames %} store-product-gallery__main--spin{% endif %}" data-product-3d{% if spin_frames %} data-spin-viewer data-spin-frames="{{ spin_frames|join:'|' }}"{% endif %} tabindex="0" role="group" aria-label="{% if spin_frames %}نمایش چرخش واقعی ۳۶۰ درجهٔ محصول؛ برای چرخاندن بکشید یا از کلیدهای چپ و راست استفاده کنید{% else %}تصویر محصول با افکت پرسپکتیو؛ برای تغییر زاویهٔ افکت از کلیدهای جهت استفاده کنید{% endif %}" aria-keyshortcuts="ArrowLeft ArrowRight Home">
+                {% if p.image %}<img data-gallery-main data-gallery-original-src="{{ p.image.url }}" data-gallery-original-alt="{{ p.title }}" src="{{ p.image.url }}" alt="{{ p.title }}" fetchpriority="high" loading="eager" draggable="false">{% else %}<img data-gallery-main src="{% static 'assets/imgs/beauty/barber-shop.jpg' %}" alt="فضای آرایشگاه مردانه" fetchpriority="high" loading="eager" draggable="false">{% endif %}
+                <button class="store-product-gallery__zoom-toggle" type="button" data-zoom-toggle aria-pressed="false" aria-label="بزرگ‌نمایی تصویر محصول">
+                    <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                    <span>بزرگ‌نمایی</span>
+                </button>
+                {% if spin_frames %}
+                <button class="store-product-gallery__spin-reset" type="button" data-spin-reset aria-label="بازگشت به نمای نخست">بازگشت به نمای نخست</button>
+                <span class="store-product-gallery__spin-badge" aria-hidden="true">چرخش واقعی ۳۶۰°</span>
+                {% endif %}
+                {% if "(نمونه)" in p.title %}<span class="store-badge store-badge--sample">تصویر نمونه</span>{% elif p.is_sale %}<span class="store-badge">تخفیف ویژه</span>{% endif %}
+            </figure>
+            <p class="store-product-gallery__hint">{% if spin_frames %}برای چرخاندن محصول، تصویر را با ماوس یا انگشت به چپ و راست بکشید؛ با کلیدهای جهت یا Home هم می‌توانید زاویه را تغییر دهید. برای دیدن عکس با وضوح اصلی، روی تصویر بزنید.{% else %}برای دیدن عکس با وضوح اصلی، روی تصویر بزنید یا نشانگر را روی آن ببرید تا جزئیات را بررسی کنید.{% endif %}</p>
+            {% if p_image and not spin_frames %}
+            <div class="store-product-gallery__thumbs" role="group" aria-label="انتخاب تصویر محصول">
+                {% for image in p_image %}
+                <button type="button" data-gallery-thumb data-gallery-image="{{ image.images.url }}" data-gallery-alt="نمای دیگر {{ p.title }}" aria-label="نمایش تصویر {{ forloop.counter }} از {{ p.title }}" aria-pressed="false">
+                    <img src="{{ image.images.url }}" alt="" loading="lazy">
+                </button>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="store-product-info product-cart-wrap"
+             data-product-id="{{ p.id }}"
+             data-product-pid="{{ p.pid }}"
+             data-product-title="{{ p.title }}"
+             data-product-price="{% if p.is_sale and p.sale_price %}{{ p.sale_price }}{% else %}{{ p.price }}{% endif %}"
+             data-product-image="{{ p.image.url }}"
+             data-cart-url="{% url 'core:add-to-cart' %}">
+            <p class="store-eyebrow">{% if p.category %}{{ p.category.title }}{% else %}ابزار مراقبت شخصی{% endif %}</p>
+            <h1>{{ p.title }}</h1>
+            {% if p.vendor %}<p class="store-product-info__vendor">فروشنده: {{ p.vendor.title }}</p>{% endif %}
+            <a class="store-product-info__rating" href="#reviews" aria-label="رفتن به نظرهای محصول">
+                <span aria-hidden="true">★</span>
+                {% if average_rating.rating %}{{ average_rating.rating|floatformat:1 }} از ۵ · {% endif %}{{ reviews.count }} نظر
+            </a>
+
+            <div class="store-product-info__price">
+                {% if "(نمونه)" in p.title %}<span class="store-product-info__price-label">قیمت نمایشی</span>{% endif %}
+                {% if p.is_sale and p.sale_price %}
+                <del>{{ p.price|intcomma }} تومان</del>
+                <strong>{{ p.sale_price|intcomma }} <small>تومان</small></strong>
+                {% else %}
+                <strong>{{ p.price|intcomma }} <small>تومان</small></strong>
+                {% endif %}
+            </div>
+            <p class="store-product-info__availability{% if "(نمونه)" not in p.title and not p.in_stock %} store-product-info__availability--off{% endif %}">
+                {% if "(نمونه)" in p.title %}<span class="availability-dot"></span> آمادهٔ افزودن به سبد آزمایشی
+                {% elif p.in_stock %}<span class="availability-dot"></span> موجود برای ثبت سفارش
+                {% else %}<span class="availability-dot availability-dot--off"></span> ناموجود{% endif %}
+            </p>
+
+            {% if "(نمونه)" in p.title %}
+            <p class="store-product-sample-note">این کالا نمونهٔ نمایشی است. می‌توانید روند سبد و ثبت سفارش آزمایشی را بررسی کنید؛ قیمت فرضی است، هیچ وجهی دریافت نمی‌شود و سفارش برای ارسال واقعی نیست.</p>
+            {% endif %}
+            {% if p.description %}<div class="store-product-info__description">{{ p.description|safe|truncatechars:280 }}</div>{% endif %}
+
+            <div class="store-product-info__actions">
+                {% if p.in_stock or "(نمونه)" in p.title %}
+                <label for="product-quantity-{{ p.id }}">{% if "(نمونه)" in p.title %}تعداد آزمایشی{% else %}تعداد{% endif %}</label>
+                <input id="product-quantity-{{ p.id }}" class="product-quantity-{{ p.id }}" type="number" min="1" max="99" value="1" inputmode="numeric">
+                {% endif %}
+                <button class="beauty-button beauty-button--primary product-cart-btn" type="button"{% if not p.in_stock and "(نمونه)" not in p.title %} disabled{% endif %}>
+                    {% if "(نمونه)" in p.title %}افزودن به سبد دمو{% else %}افزودن به سبد خرید{% endif %}
+                </button>
+                <button class="beauty-button store-wishlist-button add-to-wishlist" type="button" data-product-item="{{ p.id }}" aria-label="افزودن {{ p.title }} به علاقه‌مندی‌ها">♡</button>
+            </div>
+            <ul class="store-product-facts" aria-label="اطلاعات محصول">
+                {% if p.type %}<li><span>نوع کالا</span><strong>{{ p.type }}</strong></li>{% endif %}
+                {% if p.life %}<li><span>گارانتی یا مهلت</span><strong>{{ p.life }}</strong></li>{% endif %}
+                {% if p.sku %}<li><span>شناسهٔ کالا</span><strong>{{ p.sku }}</strong></li>{% endif %}
+            </ul>
+            {% if "(نمونه)" not in p.title %}
+            <p class="store-product-note">اطلاعات و قیمت این کالا بر اساس مشخصات ثبت‌شده در فروشگاه نمایش داده می‌شود.</p>
+            {% endif %}
+        </div>
+    </section>
+
+    <section class="store-product-description" aria-labelledby="product-description-title">
+        <div class="store-section-heading">
+            <p class="store-eyebrow">جزئیات کالا</p>
+            <h2 id="product-description-title">توضیحات و مشخصات</h2>
+        </div>
+        {% if p.specifications %}
+        <div class="store-rich-content">{{ p.specifications|safe }}</div>
+        {% elif p.description %}
+        <div class="store-rich-content">{{ p.description|safe }}</div>
+        {% else %}
+        <p class="store-muted">برای این کالا هنوز توضیحات تکمیلی ثبت نشده است.</p>
+        {% endif %}
+    </section>
+
+    <section class="store-reviews" id="reviews" aria-labelledby="reviews-title">
+        <div class="store-section-heading">
+            <p class="store-eyebrow">تجربهٔ خریداران</p>
+            <h2 id="reviews-title">نظرهای این محصول ({{ reviews.count }})</h2>
+        </div>
+        <div class="store-review-list comment-list">
+            {% for review in reviews %}
+            <article class="store-review">
+                <div class="store-review__meta"><strong>{{ review.user.username }}</strong><span>{{ review.date|date:"Y/m/d" }}</span></div>
+                <p class="store-review__rating" aria-label="امتیاز {{ review.rating }} از ۵">{% for star in "12345" %}{% if forloop.counter <= review.rating %}★{% else %}☆{% endif %}{% endfor %}</p>
+                <p>{{ review.review }}</p>
+            </article>
+            {% empty %}
+            <p class="store-muted">هنوز نظری برای این کالا ثبت نشده است.</p>
+            {% endfor %}
+        </div>
+        {% if request.user.is_authenticated and make_review %}
+        <div class="store-review-form">
+            <h3 class="add-review">نظر خود را بنویسید</h3>
+            <p id="review-res" role="status" aria-live="polite"></p>
+            <form class="hide-comment-form" action="{% url 'core:ajax-add-review' p.id %}" id="commentForm" method="post">
+                {% csrf_token %}
+                <label for="{{ review_form.review.id_for_label }}">نظر شما</label>
+                {{ review_form.review }}
+                <label for="{{ review_form.rating.id_for_label }}">امتیاز</label>
+                {{ review_form.rating }}
+                <button class="beauty-button beauty-button--primary" type="submit">ثبت نظر</button>
+            </form>
+        </div>
+        {% elif not request.user.is_authenticated %}
+        <p class="store-muted"><a href="{% url 'userauths:sign-in' %}?next={{ request.path|urlencode }}">برای ثبت نظر وارد حساب کاربری شوید.</a></p>
+        {% else %}
+        <p class="store-muted">شما پیش‌تر برای این محصول نظر ثبت کرده‌اید.</p>
+        {% endif %}
+    </section>
+
+    {% if products %}
+    <section class="store-related-products" aria-labelledby="related-title">
+        <div class="store-section-heading"><p class="store-eyebrow">شاید بپسندید</p><h2 id="related-title">محصولات مرتبط</h2></div>
+        <div class="store-product-grid">
+            {% for product in products %}
+            <article class="store-product-card product-cart-wrap"
+                     data-product-id="{{ product.id }}" data-product-pid="{{ product.pid }}"
+                     data-product-title="{{ product.title }}"
+                     data-product-price="{% if product.is_sale and product.sale_price %}{{ product.sale_price }}{% else %}{{ product.price }}{% endif %}"
+                     data-product-image="{% if product.image %}{{ product.image.url }}{% endif %}" data-cart-url="{% url 'core:add-to-cart' %}">
+                <a class="store-product-card__image" href="{% url 'core:product-detail' product.pid %}"><img src="{{ product.image.url }}" alt="{{ product.title }}" loading="lazy"></a>
+                <div class="store-product-card__body">
+                    {% if product.category %}<p>{{ product.category.title }}</p>{% endif %}
+                    <h3><a href="{% url 'core:product-detail' product.pid %}">{{ product.title }}</a></h3>
+                    <strong>{% if product.is_sale and product.sale_price %}{{ product.sale_price|intcomma }}{% else %}{{ product.price|intcomma }}{% endif %} تومان</strong>
+                    <button class="beauty-button beauty-button--primary product-cart-btn" type="button"{% if not product.in_stock and "(نمونه)" not in product.title %} disabled{% endif %}>{% if "(نمونه)" in product.title %}افزودن به سبد دمو{% else %}افزودن به سبد خرید{% endif %}</button>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+</main>
+<div class="store-cart-status" id="store-cart-status" role="status" aria-live="polite"></div>
+{% endblock %}

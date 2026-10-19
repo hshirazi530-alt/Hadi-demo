@@ -1,0 +1,81 @@
+{% extends 'partials/base.html' %}
+{% load static humanize %}
+{% block title %}سبد خرید | هژیر مارکت{% endblock %}
+
+{% block content %}
+<main class="store-page store-cart-page" id="cart-list" dir="rtl"
+      data-update-url="{% url 'core:update-cart' %}"
+      data-delete-url="{% url 'core:delete-from-cart' %}">
+    <nav class="store-breadcrumb" aria-label="مسیر صفحه"><a href="{% url 'core:index' %}">خانه</a><span aria-hidden="true">/</span><span aria-current="page">سبد خرید</span></nav>
+    <ol class="store-checkout-progress" aria-label="مراحل ثبت سفارش">
+        <li class="is-current" aria-current="step"><span>۱</span> سبد خرید</li>
+        <li><span>۲</span> بررسی سفارش</li>
+        <li><span>۳</span> پرداخت</li>
+    </ol>
+    <header class="store-page-heading store-page-heading--inline">
+        <div><p class="store-eyebrow">انتخاب‌های شما</p><h1>سبد خرید</h1></div>
+        <p>{{ cart_line_count }} ردیف کالا · {{ totalcartitems }} عدد</p>
+    </header>
+
+    {% if totalcartitems %}
+    <form action="{% url 'core:save_checkout_info' %}" method="post" class="store-cart-layout">
+        {% csrf_token %}
+        <section class="store-cart-items" aria-label="کالاهای سبد خرید">
+            {% if has_demo_items %}
+            <div class="store-product-sample-note" role="status">حالت دمو: قیمت کالاهای نمونه فرضی است. سفارش فقط برای نمایش روند خرید ثبت می‌شود؛ ارسال واقعی و دریافت وجه انجام نمی‌شود.</div>
+            {% endif %}
+            {% for product_id, item in cart_data.items %}
+            <article class="store-cart-item">
+                <a class="store-cart-item__image" href="{% url 'core:product-detail' item.pid %}"><img src="{{ item.image }}" alt="{{ item.title }}"></a>
+                <div class="store-cart-item__details">
+                    <h2><a href="{% url 'core:product-detail' item.pid %}">{{ item.title }}</a></h2>
+                    <p>{% if item.is_demo_sample %}قیمت نمایشی واحد: {% else %}قیمت واحد: {% endif %}{{ item.price|floatformat:0|intcomma }} تومان</p>
+                    <label for="cart-qty-{{ product_id }}">تعداد</label>
+                    <input id="cart-qty-{{ product_id }}" type="number" min="1" max="99" class="product-qty-{{ product_id }}" value="{{ item.qty }}" inputmode="numeric">
+                </div>
+                <div class="store-cart-item__total">
+                    <strong>{% if item.is_demo_sample %}جمع نمایشی: {% endif %}{{ item.line_total_display }} تومان</strong>
+                    <button class="store-cart-action" type="button" data-cart-action="update" data-product="{{ product_id }}">به‌روزرسانی تعداد</button>
+                    <button class="store-cart-action store-cart-action--remove" type="button" data-cart-action="remove" data-product="{{ product_id }}">حذف کالا</button>
+                </div>
+            </article>
+            {% endfor %}
+
+            <div class="store-cart-customer">
+                <h2>اطلاعات تماس و ارسال</h2>
+                <div class="store-cart-form-grid">
+                    <div><label for="checkout-name">نام و نام خانوادگی *</label><input id="checkout-name" type="text" name="full_name" required autocomplete="name" value="{% if request.user.is_authenticated %}{{ request.user.username }}{% endif %}"></div>
+                    <div><label for="checkout-email">ایمیل *</label><input id="checkout-email" type="email" name="email" required autocomplete="email" value="{% if request.user.is_authenticated %}{{ request.user.email }}{% endif %}"></div>
+                    <div><label for="checkout-mobile">شمارهٔ همراه *</label><input id="checkout-mobile" type="tel" name="mobile" required autocomplete="tel" inputmode="tel"></div>
+                    <div><label for="checkout-address">نشانی *</label><input id="checkout-address" type="text" name="address" required autocomplete="street-address"></div>
+                    <div><label for="checkout-city">شهر *</label><input id="checkout-city" type="text" name="city" required autocomplete="address-level2"></div>
+                    <div><label for="checkout-state">استان *</label><input id="checkout-state" type="text" name="state" required autocomplete="address-level1"></div>
+                    <div><label for="checkout-country">کشور *</label><input id="checkout-country" type="text" name="country" value="ایران" required autocomplete="country-name"></div>
+                </div>
+            </div>
+        </section>
+        <aside class="store-cart-summary">
+            <h2>خلاصهٔ سبد</h2>
+            <div class="store-cart-summary__row"><span>تعداد کالا</span><strong>{{ totalcartitems }}</strong></div>
+            <div class="store-cart-summary__row"><span>هزینهٔ ارسال</span><span>در مرحلهٔ بعد مشخص می‌شود</span></div>
+            <div class="store-cart-summary__total"><span>{% if has_demo_items %}جمع نمایشی کالاها{% else %}جمع کالاها{% endif %}</span><strong>{{ cart_total_display }} تومان</strong></div>
+            <p>با ادامه، اطلاعات تماس و نشانی برای ثبت سفارش استفاده می‌شود. مرحلهٔ بعد فقط پرداخت نمایشی است و هیچ مبلغی دریافت نمی‌شود.</p>
+            {% if request.user.is_authenticated %}
+            <button class="beauty-button beauty-button--primary" type="submit">ادامهٔ ثبت سفارش</button>
+            {% else %}
+            <a class="beauty-button beauty-button--primary" href="{% url 'userauths:sign-in' %}?next={{ request.path|urlencode }}">برای ادامه وارد حساب شوید</a>
+            {% endif %}
+            <a class="store-cart-summary__continue" href="{% url 'core:product-list' %}">ادامهٔ خرید</a>
+        </aside>
+    </form>
+    {% else %}
+    <section class="store-empty-state store-empty-state--cart">
+        <span class="store-empty-state__icon" aria-hidden="true">♡</span>
+        <h2>سبد خریدت هنوز خالی است</h2>
+        <p>محصولات موردنیازت را پیدا کن و به سبد خرید اضافه کن.</p>
+        <a class="beauty-button beauty-button--primary" href="{% url 'core:product-list' %}">رفتن به فروشگاه</a>
+    </section>
+    {% endif %}
+</main>
+<div class="store-cart-status" id="store-cart-status" role="status" aria-live="polite"></div>
+{% endblock %}

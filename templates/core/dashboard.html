@@ -1,0 +1,292 @@
+{% extends 'partials/base.html' %}
+{% load static humanize %}
+{% block title %}حساب من | هژیر مارکت{% endblock %}
+{% block content %}
+<main class="main pages customer-dashboard" dir="rtl">
+    <div class="page-header breadcrumb-wrap">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="{% url 'core:index' %}" rel="nofollow">خانه</a>
+                <span aria-hidden="true">/</span>
+                <span aria-current="page">حساب من</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-content customer-dashboard__content">
+        <div class="container">
+            {% if messages %}
+            <div class="customer-dashboard__messages" role="status">
+                {% for message in messages %}
+                <p class="alert alert-{{ message.tags }}">{{ message }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="customer-dashboard__layout">
+                <aside class="customer-dashboard__sidebar" aria-label="ناوبری حساب کاربری">
+                    <div class="customer-dashboard__identity">
+                        {% if user_profile.image %}
+                        <img class="customer-dashboard__avatar-image" src="{{ user_profile.image.url }}" alt="">
+                        {% else %}
+                        <span class="customer-dashboard__avatar" aria-hidden="true">
+                            {{ user_profile.full_name|default:request.user.username|first }}
+                        </span>
+                        {% endif %}
+                        <div>
+                            <strong>{{ user_profile.full_name|default:request.user.username }}</strong>
+                            <span>{{ request.user.email }}</span>
+                        </div>
+                    </div>
+                    <nav class="customer-dashboard__nav" aria-label="بخش‌های حساب">
+                        <a href="#dashboard" data-account-tab="dashboard" class="is-active" aria-current="page">
+                            <span aria-hidden="true">⌂</span> نمای کلی
+                        </a>
+                        <a href="#orders" data-account-tab="orders">
+                            <span aria-hidden="true">▤</span> سفارش‌های من
+                            <span class="customer-dashboard__nav-count">{{ total_orders }}</span>
+                        </a>
+                        <a href="#track-orders" data-account-tab="track-orders">
+                            <span aria-hidden="true">⌕</span> پیگیری سفارش
+                        </a>
+                        <a href="#address" data-account-tab="address">
+                            <span aria-hidden="true">⌖</span> نشانی‌های من
+                            <span class="customer-dashboard__nav-count">{{ addresses|length }}</span>
+                        </a>
+                        <a href="#account-detail" data-account-tab="account-detail">
+                            <span aria-hidden="true">◎</span> اطلاعات حساب
+                        </a>
+                    </nav>
+                    <a class="customer-dashboard__logout" href="{% url 'userauths:sign-out' %}">
+                        <span aria-hidden="true">↪</span> خروج از حساب
+                    </a>
+                </aside>
+
+                <div class="customer-dashboard__main">
+                    <section class="account-panel is-active" id="dashboard" data-account-panel aria-labelledby="dashboard-title">
+                        <div class="account-panel__heading">
+                            <div>
+                                <p class="store-eyebrow">فضای شخصی شما</p>
+                                <h1 id="dashboard-title">سلام {{ user_profile.full_name|default:request.user.username }}، خوش آمدید</h1>
+                                <p>سفارش‌ها، نشانی‌ها و اطلاعات حساب خود را از اینجا مدیریت کنید.</p>
+                            </div>
+                            <span class="account-panel__heading-mark" aria-hidden="true">هژیر</span>
+                        </div>
+                        <div class="customer-dashboard__stats">
+                            <article class="customer-dashboard__stat">
+                                <span class="customer-dashboard__stat-icon" aria-hidden="true">▤</span>
+                                <span>همهٔ سفارش‌ها</span>
+                                <strong>{{ total_orders }}</strong>
+                            </article>
+                            <article class="customer-dashboard__stat">
+                                <span class="customer-dashboard__stat-icon" aria-hidden="true">◷</span>
+                                <span>در انتظار پرداخت</span>
+                                <strong>{{ unpaid_orders }}</strong>
+                            </article>
+                            <article class="customer-dashboard__stat">
+                                <span class="customer-dashboard__stat-icon" aria-hidden="true">⌖</span>
+                                <span>نشانی‌های ثبت‌شده</span>
+                                <strong>{{ addresses|length }}</strong>
+                            </article>
+                        </div>
+                        <div class="account-card">
+                            <div class="account-card__heading">
+                                <div>
+                                    <h2>آخرین سفارش‌ها</h2>
+                                    <p>وضعیت سفارش‌های اخیر خود را ببینید.</p>
+                                </div>
+                                <a class="account-text-link" href="#orders" data-account-tab="orders">همهٔ سفارش‌ها <span aria-hidden="true">←</span></a>
+                            </div>
+                            {% include "core/partials/dashboard-orders.html" with compact=True %}
+                        </div>
+                    </section>
+
+                    <section class="account-panel" id="orders" data-account-panel aria-labelledby="orders-title" hidden>
+                        <div class="account-panel__title">
+                            <p class="store-eyebrow">تاریخچهٔ خرید</p>
+                            <h1 id="orders-title">سفارش‌های من</h1>
+                            <p>سفارش‌ها و وضعیت پرداخت هرکدام را بررسی کنید.</p>
+                        </div>
+                        <div class="account-card">
+                            {% include "core/partials/dashboard-orders.html" %}
+                        </div>
+                    </section>
+
+                    <section class="account-panel" id="track-orders" data-account-panel aria-labelledby="track-title" hidden>
+                        <div class="account-panel__title">
+                            <p class="store-eyebrow">پیگیری آسان</p>
+                            <h1 id="track-title">پیگیری سفارش</h1>
+                            <p>شناسهٔ سفارش و ایمیلی که هنگام ثبت سفارش وارد کردید را بنویسید.</p>
+                        </div>
+                        <div class="account-card account-card--narrow">
+                            <form method="post" action="{% url 'core:dashboard' %}#track-orders" class="account-form">
+                                {% csrf_token %}
+                                <input type="hidden" name="form_type" value="track">
+                                <label for="tracking-order-id">شناسهٔ سفارش</label>
+                                <input id="tracking-order-id" class="form-control" name="order_id" value="{{ tracking_order_id }}" required autocomplete="off" dir="ltr">
+                                <label for="tracking-billing-email">ایمیل صورتحساب</label>
+                                <input id="tracking-billing-email" class="form-control" name="billing_email" type="email" value="{{ tracking_email }}" required autocomplete="email" dir="ltr">
+                                {% if tracking_error %}<p class="account-form__error" role="alert">{{ tracking_error }}</p>{% endif %}
+                                <button class="beauty-button beauty-button--primary" type="submit">بررسی وضعیت سفارش</button>
+                            </form>
+                            {% if tracked_order %}
+                            <div class="tracking-result" role="status">
+                                <p>سفارش <strong dir="ltr">{{ tracked_order.oid }}</strong></p>
+                                <p>وضعیت سفارش: <strong>{{ tracked_order.get_product_status_display }}</strong></p>
+                                <p>پرداخت: <strong>{% if tracked_order.paid_status %}پرداخت‌شده{% else %}در انتظار پرداخت{% endif %}</strong></p>
+                                {% if tracked_order.tracking_id %}
+                                <p>کد رهگیری مرسوله: <strong dir="ltr">{{ tracked_order.tracking_id }}</strong></p>
+                                {% endif %}
+                                {% if tracked_order.tracking_website_address %}
+                                <a href="{{ tracked_order.tracking_website_address }}" target="_blank" rel="noopener noreferrer">پیگیری در وب‌سایت شرکت حمل‌ونقل</a>
+                                {% endif %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </section>
+
+                    <section class="account-panel" id="address" data-account-panel aria-labelledby="address-title" hidden>
+                        <div class="account-panel__title">
+                            <p class="store-eyebrow">نشانی‌های ارسال</p>
+                            <h1 id="address-title">نشانی‌های من</h1>
+                            <p>نشانی پیش‌فرض برای تسویه‌حساب شما استفاده می‌شود.</p>
+                        </div>
+                        <div class="account-card account-card--narrow">
+                            <form method="post" action="{% url 'core:dashboard' %}#address" class="account-form">
+                                {% csrf_token %}
+                                <input type="hidden" name="form_type" value="address">
+                                {{ address_form.non_field_errors }}
+                                {% for field in address_form %}
+                                <div class="account-form__field">
+                                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                    {{ field }}
+                                    {% for error in field.errors %}<span class="account-form__error">{{ error }}</span>{% endfor %}
+                                </div>
+                                {% endfor %}
+                                <button type="submit" class="beauty-button beauty-button--primary">ثبت نشانی</button>
+                            </form>
+                        </div>
+                        <div class="customer-dashboard__address-grid">
+                            {% for saved_address in addresses %}
+                            <article class="account-card customer-dashboard__address{% if saved_address.status %} is-default{% endif %}" data-address-card>
+                                <div class="customer-dashboard__address-heading">
+                                    <h2>نشانی {{ forloop.counter }}</h2>
+                                    {% if saved_address.status %}<span class="customer-dashboard__default-badge">نشانی پیش‌فرض</span>{% endif %}
+                                </div>
+                                <address>{{ saved_address.address }}</address>
+                                <p class="customer-dashboard__address-phone" dir="ltr">{{ saved_address.mobile }}</p>
+                                {% if not saved_address.status %}
+                                <form method="post" action="{% url 'core:make-default-address' %}" class="customer-dashboard__default-form">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="id" value="{{ saved_address.id }}">
+                                    <button type="submit" class="account-text-link">انتخاب به‌عنوان نشانی پیش‌فرض</button>
+                                </form>
+                                {% endif %}
+                            </article>
+                            {% empty %}
+                            <div class="account-card customer-dashboard__empty">
+                                <span aria-hidden="true">⌖</span>
+                                <h2>هنوز نشانی‌ای ثبت نکرده‌اید</h2>
+                                <p>برای تسریع ثبت سفارش، نخستین نشانی خود را اضافه کنید.</p>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </section>
+
+                    <section class="account-panel" id="account-detail" data-account-panel aria-labelledby="account-title" hidden>
+                        <div class="account-panel__title">
+                            <p class="store-eyebrow">اطلاعات شخصی</p>
+                            <h1 id="account-title">اطلاعات حساب</h1>
+                            <p>اطلاعات تماس و گذرواژهٔ حساب خود را به‌روز نگه دارید.</p>
+                        </div>
+                        <div class="account-card account-card--narrow">
+                            <h2 class="account-card__title">اطلاعات تماس</h2>
+                            <form method="post" action="{% url 'core:dashboard' %}#account-detail" class="account-form">
+                                {% csrf_token %}
+                                <input type="hidden" name="form_type" value="account">
+                                {{ account_form.non_field_errors }}
+                                {% for field in account_form %}
+                                <div class="account-form__field">
+                                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                    {{ field }}
+                                    {% for error in field.errors %}<span class="account-form__error">{{ error }}</span>{% endfor %}
+                                </div>
+                                {% endfor %}
+                                <button type="submit" class="beauty-button beauty-button--primary">ذخیرهٔ اطلاعات</button>
+                            </form>
+                            <hr class="account-card__divider">
+                            <h2 class="account-card__title">نمایه و اطلاعات شخصی</h2>
+                            <form method="post" action="{% url 'core:dashboard' %}#account-detail" enctype="multipart/form-data" class="account-form">
+                                {% csrf_token %}
+                                <input type="hidden" name="form_type" value="profile">
+                                {{ profile_form.non_field_errors }}
+                                {% for field in profile_form %}
+                                <div class="account-form__field">
+                                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                    {{ field }}
+                                    {% for error in field.errors %}<span class="account-form__error">{{ error }}</span>{% endfor %}
+                                </div>
+                                {% endfor %}
+                                <button type="submit" class="beauty-button beauty-button--primary">ذخیرهٔ نمایه</button>
+                            </form>
+                            <hr class="account-card__divider">
+                            <h2 class="account-card__title">تغییر گذرواژه</h2>
+                            <form method="post" action="{% url 'core:dashboard' %}#account-detail" class="account-form">
+                                {% csrf_token %}
+                                <input type="hidden" name="form_type" value="password">
+                                {{ password_form.non_field_errors }}
+                                {% for field in password_form %}
+                                <div class="account-form__field">
+                                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                    {{ field }}
+                                    {% if field.help_text %}<small>{{ field.help_text|safe }}</small>{% endif %}
+                                    {% for error in field.errors %}<span class="account-form__error">{{ error }}</span>{% endfor %}
+                                </div>
+                                {% endfor %}
+                                <button type="submit" class="beauty-button beauty-button--primary">به‌روزرسانی گذرواژه</button>
+                            </form>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+    (function () {
+        var tabs = Array.prototype.slice.call(document.querySelectorAll('[data-account-tab]'));
+        var panels = Array.prototype.slice.call(document.querySelectorAll('[data-account-panel]'));
+        function activatePanel(id, updateHistory) {
+            var target = document.getElementById(id);
+            if (!target || !target.matches('[data-account-panel]')) return;
+            panels.forEach(function (panel) {
+                var active = panel === target;
+                panel.hidden = !active;
+                panel.classList.toggle('is-active', active);
+            });
+            tabs.forEach(function (tab) {
+                var active = tab.getAttribute('href') === '#' + id;
+                tab.classList.toggle('is-active', active);
+                if (active) tab.setAttribute('aria-current', 'page');
+                else tab.removeAttribute('aria-current');
+            });
+            if (updateHistory && window.location.hash !== '#' + id) {
+                window.history.replaceState(null, '', '#' + id);
+            }
+        }
+        tabs.forEach(function (tab) {
+            tab.addEventListener('click', function (event) {
+                var id = tab.getAttribute('href').slice(1);
+                if (!document.getElementById(id)?.matches('[data-account-panel]')) return;
+                event.preventDefault();
+                activatePanel(id, true);
+            });
+        });
+        var initialId = window.location.hash.slice(1);
+        activatePanel(
+            panels.some(function (panel) { return panel.id === initialId; }) ? initialId : 'dashboard',
+            false
+        );
+    }());
+</script>
+{% endblock content %}

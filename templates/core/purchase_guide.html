@@ -1,0 +1,153 @@
+﻿{% extends 'partials/base.html' %}
+{% load static %}
+{% block content %}
+<main class="main pages purchase-guide-page" dir="rtl">
+    <div class="page-header breadcrumb-wrap">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="{% url 'core:index' %}" rel="nofollow">صفحه اصلی <i class="fi-rs-home mr-5"></i></a>
+                <span></span> صفحات <span></span> راهنمای خرید مطمئن
+            </div>
+        </div>
+    </div>
+
+    <div class="page-content pt-50">
+        <div class="container">
+            <div class="purchase-guide-hero">
+                <div class="purchase-guide-hero__content">
+                    <p class="purchase-guide-hero__eyebrow">راهنمای خرید مطمئن</p>
+                    <h1 class="purchase-guide-hero__title">از انتخاب تا تحویل، با اطمینان خرید کنید</h1>
+                    <p class="purchase-guide-hero__sub">راهنمای ۷ مرحله‌ای برای خرید ابزارهای زیبایی و مراقبت شخصی در ایران. قیمت‌ها و قوانین ممکن است تغییر کنند؛ تاریخ بررسی: <strong>مهر ۱۴۰۵</strong>.</p>
+                </div>
+                <div class="purchase-guide-hero__visual">
+                    <div class="purchase-guide-hero__ring"></div>
+                    <div class="purchase-guide-hero__badge">
+                        <img src="{% static 'assets/imgs/theme/hejrmarket-logo.png' %}" alt="هژیر مارکت" width="64" height="64">
+                    </div>
+                </div>
+            </div>
+
+            <div class="purchase-guide-timeline">
+                <div class="purchase-guide-step" data-step="1">
+                    <div class="purchase-guide-step__icon">
+                        <img src="{% static 'assets/imgs/icons/purchase-step-1.png' %}" alt="مشخص کردن نیازها" width="64" height="64">
+                    </div>
+                    <div class="purchase-guide-step__body">
+                        <h3>۱. مشخص‌کردن نیازها و معیارهای انتخاب</h3>
+                        <p>پیش از خرید، نیاز واقعی خود را مشخص کنید. نوع مو، حساسیت پوست، فرکانس استفاده و بودجه را در نظر بگیرید.</p>
+                        <div class="purchase-guide-step__details">
+                            <div class="purchase-guide-step__action"><strong>اقدام:</strong> لیستی از ویژگی‌های ضروری و دلخواه تهیه کنید.</div>
+                            <div class="purchase-guide-step__warning"><strong>⚠ هشدار:</strong> اگر محصولی «همه‌کاره» معرفی شد اما هیچ مشخصهٔ فنی نداشت، احتمالاً کیفیت پایین است.</div>
+                            <div class="purchase-guide-step__checklist"><strong>چک‌لیست:</strong> ☐ نیاز مشخص شد ☐ بودجه تعیین شد ☐ ویژگی‌های ضروری لیست شد</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="purchase-guide-step" data-step="2">
+                    <div class="purchase-guide-step__icon">
+                        <img src="{% static 'assets/imgs/icons/purchase-step-2.png' %}" alt="بررسی ویژگی‌ها" width="64" height="64">
+                    </div>
+                    <div class="purchase-guide-step__body">
+                        <h3>۲. بررسی ویژگی‌ها، کیفیت، قیمت و گزینه‌های جایگزین</h3>
+                        <p>مشخصات فنی، جنس تیغه، توان موتور، مدت گارانتی و قیمت را در چند فروشگاه مقایسه کنید.</p>
+                        <div class="purchase-guide-step__details">
+                            <div class="purchase-guide-step__action"><strong>اقدام:</strong> حداقل ۳ محصول مشابه را در سایت‌های مختلف مقایسه کنید.</div>
+                            <div class="purchase-guide-step__warning"><strong>⚠ هشدار:</strong> قیمت خیلی پایین‌تر از میانگین بازار معمولاً نشانهٔ کالای تقلبی یا استوک است.</div>
+                            <div class="purchase-guide-step__checklist"><strong>چک‌لیست:</strong> ☐ مشخصات فنی بررسی شد ☐ گارانتی مقایسه شد ☐ قیمت در ۳ فروشگاه چک شد</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="purchase-guide-step" data-step="3">
+                    <div class="purchase-guide-step__icon">
+                        <img src="{% static 'assets/imgs/icons/purchase-step-3.png' %}" alt="ارزیابی اعتبار" width="64" height="64">
+                    </div>
+                    <div class="purchase-guide-step__body">
+                        <h3>۳. ارزیابی اعتبار فروشنده و اصالت کالا</h3>
+                        <p>فروشندهٔ دارای نماد اعتماد الکترونیکی (اینماد) و نشان ترب را انتخاب کنید. اصالت کالا را از طریق کد رهگیری یا بارکد استعلام کنید.</p>
+                        <div class="purchase-guide-step__details">
+                            <div class="purchase-guide-step__action"><strong>اقدام:</strong> نماد اعتماد فروشنده را در <a href="https://trustseal.enamad.ir" target="_blank" rel="noopener">trustseal.enamad.ir</a> تأیید کنید.</div>
+                            <div class="purchase-guide-step__warning"><strong>⚠ هشدار:</strong> فروشنده بدون نماد اعتماد، بدون آدرس فیزیکی یا با شمارهٔ تماس ناشناس.</div>
+                            <div class="purchase-guide-step__checklist"><strong>چک‌لیست:</strong> ☐ نماد اعتماد تأیید شد ☐ نشان ترب بررسی شد ☐ آدرس فیزیکی فروشنده مشخص است</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="purchase-guide-step" data-step="4">
+                    <div class="purchase-guide-step__icon">
+                        <img src="{% static 'assets/imgs/icons/purchase-step-4.png' %}" alt="هزینه‌های نهایی" width="64" height="64">
+                    </div>
+                    <div class="purchase-guide-step__body">
+                        <h3>۴. بررسی هزینه‌های نهایی، شرایط پرداخت، ضمانت و امکان مرجوعی</h3>
+                        <p>هزینهٔ ارسال، مالیات، شرایط پرداخت (نقدی/اقساطی)، مدت گارانتی و سیاست مرجوعی را دقیقاً بخوانید.</p>
+                        <div class="purchase-guide-step__details">
+                            <div class="purchase-guide-step__action"><strong>اقدام:</strong> جمع کل سفارش (کالا + ارسال + مالیات) را محاسبه و با بودجه مقایسه کنید.</div>
+                            <div class="purchase-guide-step__warning"><strong>⚠ هشدار:</strong> عدم ذکر شرایط مرجوعی یا گارانتی کوتاه‌تر از استاندارد بازار (معمولاً ۱۲ ماه).</div>
+                            <div class="purchase-guide-step__checklist"><strong>چک‌لیست:</strong> ☐ هزینهٔ نهایی محاسبه شد ☐ شرایط مرجوعی خوانده شد ☐ مدت گارانتی ≥ ۱۲ ماه</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="purchase-guide-step" data-step="5">
+                    <div class="purchase-guide-step__icon">
+                        <img src="{% static 'assets/imgs/icons/purchase-step-5.png' %}" alt="پرداخت امن" width="64" height="64">
+                    </div>
+                    <div class="purchase-guide-step__body">
+                        <h3>۵. پرداخت امن و نکاتی برای ثبت سفارش</h3>
+                        <p>پرداخت را فقط از طریق درگاه‌های معتبر (زرین‌پال، پی‌پال و …) انجام دهید. اطلاعات کارت را در سایت‌های ناشناس وارد نکنید.</p>
+                        <div class="purchase-guide-step__details">
+                            <div class="purchase-guide-step__action"><strong>اقدام:</strong> پس از پرداخت، کد رهگیری و شمارهٔ سفارش را ذخیره کنید.</div>
+                            <div class="purchase-guide-step__warning"><strong>⚠ هشدار:</strong> درگاه پرداخت بدون HTTPS یا با آدرس مشکوک.</div>
+                            <div class="purchase-guide-step__checklist"><strong>چک‌لیست:</strong> ☐ درگاه HTTPS بود ☐ کد رهگیری ذخیره شد ☐ صفحهٔ تأیید پرداخت مشاهده شد</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="purchase-guide-step" data-step="6">
+                    <div class="purchase-guide-step__icon">
+                        <img src="{% static 'assets/imgs/icons/purchase-step-6.png' %}" alt="پیگیری ارسال" width="64" height="64">
+                    </div>
+                    <div class="purchase-guide-step__body">
+                        <h3>۶. پیگیری ارسال و تحویل</h3>
+                        <p>کد رهگیری پستی را در سایت پست ایران (tracking.post.ir) پیگیری کنید. زمان تحویل معمولاً ۲ تا ۵ روز کاری است.</p>
+                        <div class="purchase-guide-step__details">
+                            <div class="purchase-guide-step__action"><strong>اقدام:</strong> هر ۲۴ ساعت وضعیت ارسال را چک کنید.</div>
+                            <div class="purchase-guide-step__warning"><strong>⚠ هشدار:</strong> عدم به‌روزرسانی وضعیت پس از ۴۸ ساعت یا آدرس اشتباه در سیستم.</div>
+                            <div class="purchase-guide-step__checklist"><strong>چک‌لیست:</strong> ☐ کد رهگیری دریافت شد ☐ وضعیت در tracking.post.ir چک شد ☐ آدرس تحویل تأیید شد</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="purchase-guide-step" data-step="7">
+                    <div class="purchase-guide-step__icon">
+                        <img src="{% static 'assets/imgs/icons/purchase-step-7.png' %}" alt="بررسی کالا" width="64" height="64">
+                    </div>
+                    <div class="purchase-guide-step__body">
+                        <h3>۷. بررسی کالا هنگام دریافت و اقدام در صورت مغایرت، آسیب یا تأخیر</h3>
+                        <p>هنگام تحویل، بسته‌بندی را بررسی کنید. در صورت آسیب، تأخیر یا مغایرت، بلافاصله عکس بگیرید و با پشتیبانی تماس بگیرید.</p>
+                        <div class="purchase-guide-step__details">
+                            <div class="purchase-guide-step__action"><strong>اقدام:</strong> در حضور مأمور پست، بسته را باز کرده و کالا را بررسی کنید.</div>
+                            <div class="purchase-guide-step__warning"><strong>⚠ هشدار:</strong> بسته‌بندی آسیب‌دیده، محتویات ناقص یا کالای متفاوت از سفارش.</div>
+                            <div class="purchase-guide-step__checklist"><strong>چک‌لیست:</strong> ☐ بسته‌بندی سالم بود ☐ کالا مطابق سفارش بود ☐ در صورت مشکل، عکس گرفته شد و گزارش ثبت شد</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="purchase-guide-final-checklist">
+                <h2>✅ چک‌لیست نهایی پیش از پرداخت</h2>
+                <ul>
+                    <li>☐ نیاز و بودجه مشخص شده</li>
+                    <li>☐ حداقل ۳ گزینه مقایسه شده</li>
+                    <li>☐ فروشنده دارای نماد اعتماد است</li>
+                    <li>☐ هزینهٔ نهایی (کالا + ارسال + مالیات) محاسبه شده</li>
+                    <li>☐ شرایط مرجوعی و گارانتی خوانده شده</li>
+                    <li>☐ درگاه پرداخت HTTPS و معتبر است</li>
+                    <li>☐ کد رهگیری پس از پرداخت ذخیره می‌شود</li>
+                </ul>
+                <p class="purchase-guide-final-checklist__note"><em>تاریخ بررسی اطلاعات: مهر ۱۴۰۵. قیمت‌ها و قوانین ممکن است تغییر کنند؛ پیش از خرید، اطلاعات را در سایت فروشنده تأیید کنید.</em></p>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

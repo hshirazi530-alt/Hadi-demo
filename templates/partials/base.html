@@ -1,0 +1,474 @@
+{% load static %}
+
+<html lang="fa" class="rtl">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}هژیر مارکت | فروشگاه ابزارهای مراقبت شخصی{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}ابزارهای مراقبت شخصی هژیر مارکت؛ ریش‌تراش، سشوار و اتوی مو با اطلاعات روشن و پشتیبانی فارسی.{% endblock %}">
+    <meta name="robots" content="{% block meta_robots %}index,follow{% endblock %}">
+    <meta name="theme-color" content="#f7f5ef">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="هژیر مارکت">
+    <link rel="manifest" href="{% static 'manifest.webmanifest' %}">
+    <link rel="apple-touch-icon" href="{% static 'assets/imgs/theme/icons/hejrmarket-app-192.png' %}">
+    <meta property="og:site_name" content="هژیر مارکت">
+    <meta property="og:locale" content="fa_IR">
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+    <meta property="og:title" content="{% block og_title %}هژیر مارکت | ابزارهای مراقبت شخصی{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}انتخابی آگاهانه برای مراقبت روزانه؛ محصولات منتخب هژیر مارکت را بررسی کنید.{% endblock %}">
+    {% block canonical_url %}<link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">{% endblock %}
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/png" href="{% static 'assets/imgs/theme/hejrmarket-logo.png' %}?v=3" />
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/slider-range.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/animate.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/main48b2.css' %}?v=2">
+    <!-- Custom store theme -->
+    <link rel="stylesheet" href="{% static 'css/store.css' %}?v=50">
+    <!-- Font Awesome (CDN allowed for icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Persian fonts are served locally when available. -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    {% block extra_head %}{% endblock %}
+</head>
+
+<body class="store-css">
+<noscript><style>#hm-preloader{display:none !important;}</style></noscript>
+<div id="hm-preloader" class="hm-preloader" role="status" aria-live="polite" aria-label="در حال بارگذاری هژیر مارکت">
+    <div class="hm-preloader__inner">
+        <span class="hm-preloader__logo">
+            <span class="hm-preloader__halo" aria-hidden="true"></span>
+            <span class="hm-preloader__ring" aria-hidden="true"></span>
+            <img src="{% static 'assets/imgs/theme/hejrmarket-logo.png' %}?v=3" alt="هژیر مارکت" width="768" height="768" fetchpriority="high" decoding="async">
+        </span>
+        <p class="hm-preloader__title">هژیر مارکت</p>
+        <p class="hm-preloader__sub">انتخابی آگاهانه برای مراقبت روزانه</p>
+        <span class="hm-preloader__bar" aria-hidden="true"><i></i></span>
+    </div>
+</div>
+<form hidden aria-hidden="true">{% csrf_token %}</form>
+
+<!-- ========== HEADER ========== -->
+<header class="header-area header-style-1 header-height-2" dir="rtl">
+    <!-- Header Middle: Logo + Search + Icons -->
+    <div class="header-middle header-middle-ptb-1 d-none d-lg-block">
+        <div class="container">
+            <div class="header-wrap">
+                <div class="logo logo-width-1">
+                    <a href="/" class="mb-15">
+                        <img class="store-brand-logo" src="{% static 'assets/imgs/theme/hejrmarket-logo.png' %}?v=3" alt="هژیر مارکت" />
+                    </a>
+                </div>
+                <div class="header-right">
+                    <!-- Search -->
+                    <div class="search-style-2">
+                        <form action="{% url 'core:search' %}" method="GET" role="search">
+                            <input type="search" name="q" aria-label="جست‌وجوی محصولات" placeholder="جست‌وجوی محصولات مراقبت شخصی">
+                        </form>
+                    </div>
+                    <!-- Icons -->
+                    <div class="header-action-right">
+                        <div class="header-action-2">
+                            <!-- Wishlist -->
+                            <div class="header-action-icon-2">
+                                <a href="{% url 'core:wishlist' %}">
+                                    <img class="svgInject" alt="علاقه‌مندی" src="{% static 'assets/imgs/theme/icons/icon-heart.svg' %}" />
+                                    {% if request.user.is_authenticated %}
+                                        <span class="pro-count blue">{{ wishlist.count }}</span>
+                                    {% else %}
+                                        <span class="pro-count blue">0</span>
+                                    {% endif %}
+                                </a>
+                                <a href="{% url 'core:wishlist' %}"><span class="lable">علاقه‌مندی</span></a>
+                            </div>
+                            <!-- Cart -->
+                            <div class="header-action-icon-2">
+                                <a class="mini-cart-icon" href="{% url 'core:cart' %}">
+                                    <img alt="سبد خرید" src="{% static 'assets/imgs/theme/icons/icon-cart.svg' %}" />
+                                    <span class="pro-count blue cart-items-count">{{ cart_item_count|default:0 }}</span>
+                                </a>
+                                <a href="{% url 'core:cart' %}"><span class="lable">سبد خرید</span></a>
+                            </div>
+                            <!-- Account -->
+                            <div class="header-action-icon-2">
+                                <a href="{% url 'core:dashboard' %}">
+                                    <img class="svgInject" alt="حساب" src="{% static 'assets/imgs/theme/icons/icon-user.svg' %}" />
+                                </a>
+                                <a href="{% url 'core:dashboard' %}"><span class="lable ml-0">حساب من</span></a>
+                                <div class="cart-dropdown-wrap cart-dropdown-hm2 account-dropdown">
+                                    <ul>
+                                        <li><a href="{% url 'core:dashboard' %}"><i class="fi fi-rs-user mr-10"></i>داشبورد</a></li>
+                                        <li><a href="{% url 'core:wishlist' %}"><i class="fi fi-rs-heart mr-10"></i>علاقه‌مندی</a></li>
+                                        <li><a href="{% url 'core:dashboard' %}"><i class="fi fi-rs-settings-sliders mr-10"></i>تنظیمات</a></li>
+                                        {% if request.user.is_authenticated %}
+                                            <li><a href="{% url 'userauths:sign-out' %}"><i class="fi fi-rs-sign-out mr-10"></i>خروج</a></li>
+                                        {% else %}
+                                            <li><a href="{% url 'userauths:sign-in' %}"><i class="fi fi-rs-sign-in mr-10"></i>ورود</a></li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header Bottom: Clean Navigation -->
+    <div class="header-bottom header-bottom-bg-color sticky-bar">
+        <div class="container">
+            <div class="header-wrap header-space-between position-relative">
+                <!-- Mobile Logo -->
+                <div class="logo logo-width-1 d-block d-lg-none">
+                    <a href="{% url 'core:index' %}"><img class="store-brand-logo" src="{% static 'assets/imgs/theme/hejrmarket-logo.png' %}?v=3" alt="هژیر مارکت" /></a>
+                </div>
+                <!-- Desktop Nav -->
+                <div class="header-nav d-none d-lg-flex">
+                    <div class="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block font-heading">
+                        <nav>
+                            <ul>
+                                <li>
+                                    <a class="active" href="{% url 'core:index' %}">خانه</a>
+                                </li>
+                                <li>
+                                    <a href="#">دسته‌بندی‌ها <i class="fi-rs-angle-down"></i></a>
+                                    <ul class="sub-menu">
+                                        {% for c in categories %}
+                                            <li{% if c.subcategories.all %} class="menu-item-has-children"{% endif %}>
+                                                <a href="{% url 'core:category-product-list' c.cid %}">
+                                                    {% if c.image %}<img class="subcategory-thumb" src="{{ c.image.url }}" alt="" style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px; margin-left: 10px;">{% endif %}
+                                                    {{ c.title }}
+                                                    {% if c.subcategories.all %}<i class="fi-rs-angle-right subcategory-caret"></i>{% endif %}
+                                                </a>
+                                                {% if c.subcategories.all %}
+                                                <ul class="level-menu">
+                                                    {% for sc in c.subcategories.all %}
+                                                        <li><a href="{% url 'core:subcategory-product-list' sc.scid %}">{{ sc.title }}</a></li>
+                                                    {% endfor %}
+                                                </ul>
+                                                {% endif %}
+                                            </li>
+                                        {% endfor %}
+                                        <hr>
+                                        <li><a href="{% url 'core:category-list' %}">همه دسته‌بندی‌ها</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="{% url 'core:product-list' %}">فروشگاه</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'core:contact' %}">تماس با ما</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <!-- Hotline (desktop) -->
+                <div class="hotline d-none d-lg-flex">
+                    <img src="{% static 'assets/imgs/theme/icons/icon-headphone.svg' %}" alt="پشتیبانی" />
+                    <p>{{ store_profile.phone }}<span>پاسخ‌گویی در ساعات کاری</span></p>
+                </div>
+                <!-- Mobile burger -->
+                <div class="header-action-icon-2 d-block d-lg-none">
+                    <div class="burger-icon burger-icon-white">
+                        <span class="burger-icon-top"></span>
+                        <span class="burger-icon-mid"></span>
+                        <span class="burger-icon-bottom"></span>
+                    </div>
+                </div>
+                <!-- Mobile icons -->
+                <div class="header-action-right d-block d-lg-none">
+                    <div class="header-action-2">
+                        <div class="header-action-icon-2">
+                            <a href="{% url 'core:wishlist' %}">
+                                <img alt="" src="{% static 'assets/imgs/theme/icons/icon-heart.svg' %}" />
+                                {% if request.user.is_authenticated %}
+                                    <span class="pro-count blue">{{ wishlist.count }}</span>
+                                {% else %}
+                                    <span class="pro-count blue">0</span>
+                                {% endif %}
+                            </a>
+                        </div>
+                        <div class="header-action-icon-2">
+                            <a class="mini-cart-icon" href="{% url 'core:cart' %}">
+                                <img alt="" src="{% static 'assets/imgs/theme/icons/icon-cart.svg' %}" />
+                                <span class="pro-count white cart-items-count">{{ cart_item_count|default:0 }}</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Messages -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{message.tags}}">
+                        <strong>{{ message }}</strong>
+                    </div>
+                {% endfor %}
+                <script>
+                    setTimeout(() => { $(".alert").alert("close"); }, 3000)
+                </script>
+            {% endif %}
+        </div>
+    </div>
+</header>
+
+<!-- Mobile Header -->
+<div class="mobile-header-active mobile-header-wrapper-style">
+    <div class="mobile-header-wrapper-inner">
+        <div class="mobile-header-top">
+            <div class="mobile-header-logo">
+                <a href="/"><img class="store-brand-logo" src="{% static 'assets/imgs/theme/hejrmarket-logo.png' %}?v=3" alt="هژیر مارکت" /></a>
+            </div>
+            <div class="mobile-menu-close close-style-wrap">
+                <button class="close-style search-close">
+                    <i class="icon-top"></i>
+                    <i class="icon-bottom"></i>
+                </button>
+            </div>
+        </div>
+        <div class="mobile-header-content-area">
+            <!-- Mobile Search -->
+            <div class="mobile-search search-style-3 mobile-header-border">
+                <form action="{% url 'core:search' %}" method="GET" role="search">
+                    <input type="search" name="q" aria-label="جست‌وجوی محصولات" placeholder="جست‌وجوی محصولات مراقبت شخصی">
+                    <button type="submit" aria-label="جست‌وجو"><i class="fi-rs-search"></i></button>
+                </form>
+            </div>
+            <!-- Mobile Menu -->
+            <div class="mobile-menu-wrap mobile-header-border">
+                <nav>
+                    <ul class="mobile-menu font-heading">
+                        <li><a href="{% url 'core:index' %}">خانه</a></li>
+                        <li class="menu-item-has-children">
+                            <a href="#">دسته‌بندی‌ها</a>
+                            <ul class="dropdown">
+                                {% for c in categories %}
+                                    <li class="menu-item-has-children">
+                                        <a href="{% url 'core:category-product-list' c.cid %}">{{ c.title }}</a>
+                                        {% if c.subcategories.all %}
+                                        <ul class="dropdown level-menu">
+                                            {% for sc in c.subcategories.all %}
+                                                <li><a href="{% url 'core:subcategory-product-list' sc.scid %}">{{ sc.title }}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+                                <li><a href="{% url 'core:category-list' %}">همه دسته‌بندی‌ها</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="{% url 'core:product-list' %}">فروشگاه</a></li>
+                        <li><a href="{% url 'core:contact' %}">تماس با ما</a></li>
+                        <li><a href="{% url 'core:about_us' %}">درباره ما</a></li>
+                        {% if request.user.is_authenticated %}
+                            <li><a href="{% url 'core:dashboard' %}">حساب من</a></li>
+                            <li><a href="{% url 'userauths:sign-out' %}">خروج</a></li>
+                        {% else %}
+                            <li><a href="{% url 'userauths:sign-in' %}">ورود / ثبت‌نام</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+            <div class="site-copyright">© {% now "Y" %} هژیر مارکت — تمامی حقوق محفوظ است</div>
+        </div>
+    </div>
+</div>
+<!-- End mobile header -->
+
+{% block content %}{% endblock content %}
+
+<!-- ========== FOOTER ========== -->
+<footer class="main" dir="rtl">
+    <!-- Footer Mid -->
+    <section class="section-padding footer-mid">
+        <div class="container pt-15 pb-20">
+            <div class="row">
+                <!-- About / Contact -->
+                <div class="col">
+                    <div class="widget-about font-md mb-md-3 mb-lg-3 mb-xl-0">
+                        <div class="logo mb-30">
+                            <a href="/" class="mb-15"><img class="store-brand-logo" src="{% static 'assets/imgs/theme/hejrmarket-logo.png' %}?v=3" alt="هژیر مارکت"></a>
+                            <p class="font-lg text-heading">هژیر مارکت؛ همراه شما برای انتخاب ابزارهای زیبایی و مراقبت شخصی.</p>
+                        </div>
+                        <ul class="contact-infor">
+                            <li>
+                                <img src="{% static 'assets/imgs/theme/icons/icon-location.svg' %}?v=3" alt="">
+                                <strong>آدرس:</strong>
+                                <span>{{ store_profile.address }}<br>پلاک مغازه: <strong>۱۰۵A</strong></span>
+                            </li>
+                            <li>
+                                <img src="{% static 'assets/imgs/theme/icons/icon-contact.svg' %}?v=2" alt="">
+                                <strong>تلفن:</strong>
+                                <span><a href="tel:{{ store_profile.phone_link }}" style="color:#888;text-decoration:none;">{{ store_profile.phone }}</a></span>
+                            </li>
+                            <li>
+                                <img src="{% static 'assets/imgs/theme/icons/icon-email-2.svg' %}?v=2" alt="">
+                                <strong>ایمیل:</strong>
+                                <span><a href="mailto:{{ store_profile.email }}" style="color:#888;text-decoration:none;">{{ store_profile.email }}</a></span>
+                            </li>
+                            <li>
+                                <img src="{% static 'assets/imgs/theme/icons/icon-clock.svg' %}?v=2" alt="">
+                                <strong>ساعات کاری:</strong>
+                                <span>{{ store_profile.hours }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Quick Links -->
+                <div class="footer-link-widget col">
+                    <h4 class="widget-title">دسترسی سریع</h4>
+                    <ul class="footer-list mb-sm-5 mb-md-0">
+                        <li><a href="{% url 'core:index' %}">صفحه اصلی</a></li>
+                        <li><a href="{% url 'core:product-list' %}">فروشگاه</a></li>
+                        <li><a href="{% url 'core:about_us' %}">درباره ما</a></li>
+                        <li><a href="{% url 'core:contact' %}">تماس با ما</a></li>
+                        <li><a href="{% url 'core:purchase_guide' %}">راهنمای خرید</a></li>
+                        <li><a href="{% url 'core:privacy_policy' %}">حریم خصوصی</a></li>
+                        <li><a href="{% url 'core:terms_of_service' %}">شرایط خدمات</a></li>
+                    </ul>
+                </div>
+                <!-- Account -->
+                <div class="footer-link-widget col">
+                    <h4 class="widget-title">حساب کاربری</h4>
+                    <ul class="footer-list mb-sm-5 mb-md-0">
+                        <li><a href="{% url 'userauths:sign-in' %}">ورود / ثبت‌نام</a></li>
+                        <li><a href="{% url 'core:dashboard' %}">داشبورد</a></li>
+                        <li><a href="{% url 'core:cart' %}">سبد خرید</a></li>
+                        <li><a href="{% url 'core:wishlist' %}">علاقه‌مندی‌ها</a></li>
+                        <li><a href="{% url 'core:dashboard' %}">پیگیری سفارش</a></li>
+                    </ul>
+                </div>
+                <!-- Categories -->
+                <div class="footer-link-widget col">
+                    <h4 class="widget-title">دسته‌بندی‌ها</h4>
+                    <ul class="footer-list mb-sm-5 mb-md-0">
+                        {% for c in categories|slice:":5" %}
+                            <li><a href="{% url 'core:category-product-list' c.cid %}">{{ c.title }}</a></li>
+                        {% endfor %}
+                        <li><a href="{% url 'core:category-list' %}">همه دسته‌بندی‌ها</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Trust badges: e-Namad + Torob guarantee + payment gateway -->
+            <div class="footer-trust" aria-label="نمادها و درگاه پرداخت">
+                <!-- ۱) نماد اعتماد الکترونیکی (اینماد) -->
+                <a class="footer-trust__item" referrerpolicy="origin" target="_blank" rel="noopener" href="https://trustseal.enamad.ir/?id=296001&amp;Code=pV65zwy8Bb9E1XAlrykt" aria-label="نماد اعتماد الکترونیکی">
+                    <img referrerpolicy="origin" src="{% static 'assets/imgs/trust/enamad-symbol.png' %}" alt="نماد اعتماد الکترونیکی" width="125" height="136" code="pV65zwy8Bb9E1XAlrykt">
+                </a>
+                <!-- ۲) ضمانت خرید ترب (تصویر محلی در static/assets/imgs/trust/) -->
+                <a class="footer-trust__item" target="_blank" rel="nofollow noopener" href="https://torob.com/shop/33789">
+                    <img src="{% static 'assets/imgs/trust/torob-guarantee.png' %}" alt="ضمانت خرید ترب">
+                </a>
+                <!-- ۳) لوگوی درگاه پرداخت — کد درگاه را دقیقاً بین دو نشانهٔ زیر قرار دهید -->
+                <!-- ===== PAYMENT GATEWAY LOGO: START ===== -->
+                <a class="footer-trust__item footer-trust__item--gateway" target="_blank" rel="noopener" href="https://www.zarinpal.com/" aria-label="درگاه پرداخت امن زرین‌پال">
+                    <img class="footer-trust__mark" src="{% static 'assets/imgs/trust/zarinpal-mark.svg' %}" alt="" width="24" height="33" aria-hidden="true">
+                    <img class="footer-trust__wordmark" src="{% static 'assets/imgs/trust/zarinpal-logo.svg' %}" alt="زرین‌پال" width="84" height="24">
+                </a>
+                <!-- ===== PAYMENT GATEWAY LOGO: END ===== -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Bottom -->
+    <div class="container pb-30">
+        <div class="row align-items-center">
+            <div class="col-12 mb-30">
+                <div class="footer-bottom"></div>
+            </div>
+            <div class="col-xl-4 col-lg-6 col-md-6">
+                <p class="font-sm mb-0">
+                    تمامی حقوق <strong class="text-brand">هژیر مارکت</strong> محفوظ است. {% now "Y" %}
+                </p>
+            </div>
+            <div class="col-xl-4 col-lg-6 text-center d-none d-xl-block">
+                <div class="hotline d-lg-inline-flex mr-30">
+                    <img src="{% static 'assets/imgs/theme/icons/phone-call.svg' %}" alt="پشتیبانی">
+                    <p>{{ store_profile.phone }} <span>پاسخ‌گویی در ساعات کاری</span></p>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-6 col-md-6 text-end d-none d-md-block">
+                <div class="footer-email"><a href="mailto:{{ store_profile.email }}">برای ارتباط، به ما ایمیل بزنید: {{ store_profile.email }}</a></div>
+                <div class="footer-social mt-15">
+                    <a href="https://t.me/hazhir_markett" target="_blank" rel="noopener" aria-label="تلگرام هژیر مارکت" class="me-2"><i class="fab fa-telegram-plane"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<dialog class="store-image-zoom" data-image-zoom-dialog aria-label="نمایش بزرگ تصویر محصول">
+    <div class="store-image-zoom__panel">
+        <button class="store-image-zoom__close" type="button" data-image-zoom-close aria-label="بستن تصویر بزرگ">×</button>
+        <img class="store-image-zoom__image" data-image-zoom-view alt="">
+        <p class="store-image-zoom__caption" data-image-zoom-caption></p>
+    </div>
+</dialog>
+
+<!-- Vendor JS -->
+<script src="{% static 'assets/js/vendor/modernizr-3.6.0.min.js' %}"></script>
+<script src="{% static 'assets/js/vendor/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'assets/js/vendor/jquery-migrate-3.3.0.min.js' %}"></script>
+<script src="{% static 'assets/js/vendor/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/slick.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jquery.syotimer.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/wow.js' %}"></script>
+<script src="{% static 'assets/js/plugins/slider-range.js' %}"></script>
+<script src="{% static 'assets/js/plugins/perfect-scrollbar.js' %}"></script>
+<script src="{% static 'assets/js/plugins/magnific-popup.js' %}"></script>
+<script src="{% static 'assets/js/plugins/select2.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/waypoints.js' %}"></script>
+<script src="{% static 'assets/js/plugins/counterup.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jquery.countdown.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/images-loaded.js' %}"></script>
+<script src="{% static 'assets/js/plugins/isotope.js' %}"></script>
+<script src="{% static 'assets/js/plugins/scrollup.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jquery.vticker-min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jquery.theia.sticky.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jquery.elevatezoom.js' %}"></script>
+<!-- Template JS -->
+<script src="{% static 'assets/js/main.js' %}"></script>
+<script src="{% static 'assets/js/shop.js' %}"></script>
+<script src="{% static 'assets/js/function.js' %}?v=4"></script>
+<!-- Store Custom JS -->
+<script src="{% static 'js/store.js' %}?v=19"></script>
+<!-- Crisp Chat (تنظیم از صفر) -->
+<script type="text/javascript">
+  window.$crisp = [];
+  // CRISP_WEBSITE_ID را از پنل Crisp وارد کنید (مثال: d4a5...XXX)
+  window.CRISP_WEBSITE_ID = "YOUR_CRISP_WEBSITE_ID";
+  (function() {
+    var d = document;
+    var s = d.createElement("script");
+    s.src = "https://client.crisp.chat/l.js";
+    s.async = 1;
+    d.getElementsByTagName("head")[0].appendChild(s);
+  })();
+</script>
+<aside class="pwa-install" data-pwa-install hidden aria-label="نصب اپلیکیشن هژیر مارکت">
+    <div class="pwa-install__copy">
+        <strong>هژیر مارکت، همیشه همراه شما</strong>
+        <span>برای دسترسی سریع، اپ را به صفحهٔ اصلی اضافه کنید.</span>
+    </div>
+    <button class="pwa-install__button" type="button" data-pwa-install-button>نصب اپ</button>
+    <button class="pwa-install__close" type="button" data-pwa-install-close aria-label="بستن پیشنهاد نصب">×</button>
+</aside>
+<dialog class="pwa-install-help" data-pwa-ios-help aria-labelledby="pwa-help-title">
+    <div class="pwa-install-help__content">
+        <button class="pwa-install-help__close" type="button" data-pwa-ios-close aria-label="بستن">×</button>
+        <p class="store-eyebrow">نصب اپلیکیشن</p>
+        <h2 id="pwa-help-title">هژیر مارکت را به صفحهٔ اصلی اضافه کنید</h2>
+        <p>در مرورگر Safari روی دکمهٔ «اشتراک‌گذاری» بزنید و سپس «افزودن به صفحهٔ اصلی» را انتخاب کنید.</p>
+    </div>
+</dialog>
+<script src="{% static 'js/pwa.js' %}?v=1" defer></script>
+</body>
+</html>

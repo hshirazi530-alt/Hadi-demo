@@ -1,0 +1,29 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block title %}دسته‌بندی محصولات | هژیر مارکت{% endblock %}
+
+{% block content %}
+<main class="store-page" dir="rtl">
+    <header class="store-page-heading">
+        <p class="store-eyebrow">انتخاب ساده‌تر</p>
+        <h1>دسته‌بندی محصولات</h1>
+        <p>ابزار موردنیازت را پیدا کن و کالاهای هر گروه را ببین.</p>
+    </header>
+    <section class="store-category-grid" aria-label="دسته‌بندی‌های فروشگاه">
+        {% for category in categories %}
+        <a class="store-category-card" href="{% url 'core:category-product-list' category.cid %}">
+            <span class="store-category-card__image">
+                {% if category.image %}<img src="{{ category.image.url }}" alt="" loading="lazy">{% else %}<img src="{% static 'assets/imgs/beauty/barber-shop.jpg' %}" alt="" loading="lazy">{% endif %}
+            </span>
+            <span class="store-category-card__copy">
+                <strong>{{ category.title }}</strong>
+                <span>{{ category.category.count }} کالا</span>
+            </span>
+            <span class="store-category-card__arrow" aria-hidden="true">←</span>
+        </a>
+        {% empty %}
+        <div class="store-empty-state"><h2>دسته‌بندی‌ای ثبت نشده است</h2><p>به‌زودی دسته‌های محصولات فروشگاه در این بخش نمایش داده می‌شوند.</p><a class="beauty-button beauty-button--primary" href="{% url 'core:index' %}">بازگشت به صفحهٔ اصلی</a></div>
+        {% endfor %}
+    </section>
+</main>
+{% endblock %}

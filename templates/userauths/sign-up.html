@@ -1,0 +1,78 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block content %}
+
+    <main class="main pages" dir="rtl">
+        <div class="page-header breadcrumb-wrap">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="{% url 'core:index' %}" rel="nofollow">صفحه اصلی <i class="fi-rs-home mr-5"></i></a>
+                    <span></span> حساب کاربری <span></span> ثبت‌نام
+                </div>
+            </div>
+        </div>
+
+        <div class="page-content pt-150 pb-150">
+            <div class="container">
+                <div class="auth-shell auth-shell-register">
+                    <div class="auth-panel auth-panel-full">
+                        <div class="auth-card">
+                            {% if form.errors %}
+                            <div class="alert alert-danger">
+                                <strong>{{ form.errors }}</strong>
+                            </div>
+                            {% endif %}
+
+                            <div class="heading_s1">
+                                <h1 class="mb-5">ایجاد حساب جدید</h1>
+                                <p class="mb-30">قبلاً ثبت‌نام کرده‌اید؟ <a href="{% url 'userauths:sign-in' %}{% if next_url %}?next={{ next_url|urlencode }}{% endif %}">وارد شوید</a></p>
+                            </div>
+
+                            <form method="post">
+                                {% csrf_token %}
+                                {% if next_url %}<input type="hidden" name="next" value="{{ next_url }}">{% endif %}
+                                <div class="form-group">
+                                    <label for="id_username">نام کاربری</label>
+                                    {{ form.username }}
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_email">ایمیل</label>
+                                    {{ form.email }}
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_password1">رمز عبور</label>
+                                    {{ form.password1 }}
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_password2">تأیید رمز عبور</label>
+                                    {{ form.password2 }}
+                                </div>
+
+                                <div class="form-group mb-30">
+                                    <button type="submit" class="btn btn-fill-out btn-block hover-up font-weight-bold" name="login">ثبت‌نام</button>
+                                </div>
+
+                                <p class="font-xs text-muted">
+                                    <strong>نکته:</strong> اطلاعات شخصی شما فقط برای مدیریت حساب، سفارش‌گذاری و بهبود تجربه خرید شما استفاده می‌شود.
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="auth-visual auth-visual-alt d-none d-lg-block">
+                        <div class="auth-visual-inner">
+                            <span class="auth-badge">همین امروز شروع کنید</span>
+                            <h1>دسترسی سریع به بهترین محصولات</h1>
+                            <p>با ساخت حساب کاربری، اطلاعات حساب و سفارش‌هایت را در یک جا مدیریت کن و فرایند خرید را ساده‌تر انجام بده.</p>
+                            <ul>
+                                <li>عضویت سریع و ساده</li>
+                                <li>مدیریت اطلاعات حساب</li>
+                                <li>دسترسی به سفارش‌های ثبت‌شده</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock content %}

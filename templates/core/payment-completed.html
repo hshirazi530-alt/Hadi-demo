@@ -1,0 +1,16 @@
+
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="row justify-content-center pt-lg-4 text-center" style="margin-bottom: 200px; margin-top: 100px;" dir="rtl">
+    <div class="col-lg-5 col-md-7 col-sm-9">
+        <h1 class="display-404 py-lg-3">پرداخت تکمیل شد</h1>
+        <h2 class="h3 mb-4">سفارش شما با موفقیت ثبت شد. شناسه سفارش #{{order.oid}}</h2>
+        <p class="fs-md mb-4">
+        <a href="{% url 'core:contact' %}">اگر هرگونه مشکل یا سوالی دارید</a> با ما تماس بگیرید
+        </p>
+    </div>
+</div>
+
+{% endblock content %}

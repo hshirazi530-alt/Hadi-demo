@@ -1,0 +1,153 @@
+{% extends 'useradmin/base.html' %}
+
+{% block extra_head %}
+    {{ form.media }}
+{% endblock %}
+
+{% block page_class %}product-edit-page{% endblock %}
+
+{% block content %}
+<section class="content-main">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="content-header">
+            <div>
+                <h2 class="content-title">ویرایش محصول</h2>
+                <p>اطلاعات و وضعیت «{{ product.title }}» را به‌روزرسانی کنید.</p>
+            </div>
+            <button class="btn btn-primary" type="submit">ذخیره تغییرات</button>
+        </div>
+
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">{{ form.non_field_errors }}</div>
+        {% endif %}
+
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-header"><h4>اطلاعات محصول</h4></div>
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <label class="form-label" for="{{ form.title.id_for_label }}">نام محصول</label>
+                            {{ form.title }}
+                            {{ form.title.errors }}
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label" for="{{ form.description.id_for_label }}">توضیحات</label>
+                            {{ form.description }}
+                            {{ form.description.errors }}
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label" for="{{ form.specifications.id_for_label }}">مشخصات</label>
+                            {{ form.specifications }}
+                            {{ form.specifications.errors }}
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="{{ form.price.id_for_label }}">قیمت (تومان)</label>
+                                {{ form.price }}
+                                {{ form.price.errors }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="{{ form.sale_price.id_for_label }}">قیمت با تخفیف (تومان)</label>
+                                {{ form.sale_price }}
+                                {{ form.sale_price.errors }}
+                            </div>
+                        </div>
+                        <div class="form-check mb-4">
+                            {{ form.is_sale }}
+                            <label class="form-check-label" for="{{ form.is_sale.id_for_label }}">این محصول تخفیف دارد</label>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="{{ form.type.id_for_label }}">نوع محصول</label>
+                                {{ form.type }}
+                                {{ form.type.errors }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="{{ form.stock_count.id_for_label }}">تعداد موجودی</label>
+                                {{ form.stock_count }}
+                                {{ form.stock_count.errors }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="{{ form.life.id_for_label }}">گارانتی یا عمر محصول</label>
+                                {{ form.life }}
+                                {{ form.life.errors }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="{{ form.mfd.id_for_label }}">تاریخ ساخت</label>
+                                {{ form.mfd }}
+                                {{ form.mfd.errors }}
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ form.tags.id_for_label }}">برچسب‌ها</label>
+                            {{ form.tags }}
+                            <small class="text-muted">برچسب‌ها را با ویرگول جدا کنید.</small>
+                            {{ form.tags.errors }}
+                        </div>
+                        <div class="form-check mb-3">
+                            {{ form.digital }}
+                            <label class="form-check-label" for="{{ form.digital.id_for_label }}">محصول دیجیتال</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card mb-4">
+                    <div class="card-header"><h4>تصویر محصول</h4></div>
+                    <div class="card-body">
+                        {% if product.image %}
+                            <img
+                                src="{{ product.image.url }}"
+                                alt="تصویر فعلی {{ product.title }}"
+                                loading="lazy"
+                                style="display:block; width:100%; max-height:260px; object-fit:contain; margin-bottom:16px;"
+                            >
+                        {% endif %}
+                        <label class="form-label" for="{{ form.image.id_for_label }}">جایگزینی تصویر (اختیاری)</label>
+                        {{ form.image }}
+                        {{ form.image.errors }}
+                        <p class="text-muted mt-2">در صورت انتخاب تصویر جدید، تصویر فعلی جایگزین می‌شود.</p>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-header"><h4>دسته‌بندی و انتشار</h4></div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ form.category.id_for_label }}">دسته‌بندی</label>
+                            {{ form.category }}
+                            {{ form.category.errors }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ form.subcategory.id_for_label }}">زیرمجموعه</label>
+                            {{ form.subcategory }}
+                            {{ form.subcategory.errors }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ form.product_status.id_for_label }}">وضعیت انتشار</label>
+                            {{ form.product_status }}
+                            {{ form.product_status.errors }}
+                        </div>
+                        <div class="form-check mb-3">
+                            {{ form.status }}
+                            <label class="form-check-label" for="{{ form.status.id_for_label }}">محصول فعال باشد</label>
+                        </div>
+                        <div class="form-check mb-3">
+                            {{ form.in_stock }}
+                            <label class="form-check-label" for="{{ form.in_stock.id_for_label }}">موجود در انبار</label>
+                        </div>
+                        <div class="form-check mb-3">
+                            {{ form.featured }}
+                            <label class="form-check-label" for="{{ form.featured.id_for_label }}">محصول ویژه</label>
+                        </div>
+                        <button class="btn btn-primary w-100" type="submit">ذخیره تغییرات</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+{% endblock content %}

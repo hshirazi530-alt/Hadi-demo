@@ -1,0 +1,57 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Django local database
+*.sqlite3
+
+# Virtual environments
+.env
+.env.*
+.venv/
+venv/
+ENV/
+
+# Static and media
+staticfiles/
+staticfiles_collected/
+media/
+
+# Local deployment archive
+/pythonanywhere-deploy.zip
+*.zip
+
+# Local previews and temporary assets
+_preview/
+_gh_tmp/
+
+# Editor / IDE
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Archives and large files
+*.zip
+*.tar.gz
+*.rar
+
+# Test artifacts
+.coverage
+htmlcov/
+
+# Keep deployment instructions file tracked
+!DEPLOY_RENDER.md

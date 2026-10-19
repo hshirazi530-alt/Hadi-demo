@@ -1,0 +1,90 @@
+{% extends 'partials/base.html' %}
+{% load humanize %}
+
+{% block title %}بررسی سفارش | هژیر مارکت{% endblock %}
+
+{% block content %}
+<main class="store-page store-checkout-page" dir="rtl">
+    <nav class="store-breadcrumb" aria-label="مسیر صفحه">
+        <a href="{% url 'core:index' %}">خانه</a>
+        <span aria-hidden="true">/</span>
+        <a href="{% url 'core:cart' %}">سبد خرید</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">بررسی سفارش</span>
+    </nav>
+
+    <ol class="store-checkout-progress" aria-label="مراحل ثبت سفارش">
+        <li class="is-complete"><span>۱</span> سبد خرید</li>
+        <li class="is-current" aria-current="step"><span>۲</span> بررسی سفارش</li>
+        <li><span>۳</span> پرداخت</li>
+    </ol>
+
+    <header class="store-page-heading">
+        <p class="store-eyebrow">پیش از نهایی‌کردن، مرور کن</p>
+        <h1>بررسی سفارش</h1>
+        <p>اطلاعات سفارش را مرور کنید. پرداخت امن از مسیر زرین‌پال انجام می‌شود؛ شناسهٔ پذیرنده تا زمان دریافت از فروشگاه تنظیم نشده است.</p>
+    </header>
+
+    {% if messages %}
+    <div class="store-checkout-messages" role="status">
+        {% for message in messages %}<p>{{ message }}</p>{% endfor %}
+    </div>
+    {% endif %}
+    {% if has_demo_items %}
+    <div class="store-payment-notice" role="status">این سفارش شامل کالای نمونه است؛ قیمت‌ها فرضی‌اند، سفارش برای ارسال واقعی نیست و هیچ وجهی دریافت نمی‌شود.</div>
+    {% endif %}
+
+    <div class="store-checkout-layout">
+        <section class="store-checkout-items" aria-label="اقلام سفارش">
+            <h2>اقلام سفارش</h2>
+            {% for item in order_items %}
+            <article class="store-checkout-item">
+                <img src="{{ item.image }}" alt="{{ item.item }}" loading="lazy">
+                <div>
+                    <h3>{{ item.item }}</h3>
+                    <p>{% if "(نمونه)" in item.item %}قیمت نمایشی · {% endif %}{{ item.qty }} عدد × {{ item.price|floatformat:0|intcomma }} تومان</p>
+                </div>
+                <strong>{% if "(نمونه)" in item.item %}جمع نمایشی: {% endif %}{{ item.total|floatformat:0|intcomma }} تومان</strong>
+            </article>
+            {% empty %}
+            <p class="store-muted">برای این سفارش کالایی ثبت نشده است.</p>
+            {% endfor %}
+        </section>
+
+        <aside class="store-checkout-summary">
+            <h2>خلاصهٔ سفارش</h2>
+            <p><span>شناسهٔ سفارش</span><strong>{{ order.oid }}</strong></p>
+            <p><span>وضعیت پرداخت</span><strong>{% if order.paid_status %}پرداخت‌شده{% else %}پرداخت‌نشده{% endif %}</strong></p>
+            <p><span>تخفیف</span><strong>{{ order.saved|floatformat:0|intcomma }} تومان</strong></p>
+            <div class="store-checkout-total"><span>{% if has_demo_items %}مبلغ نمایشی سفارش{% else %}مبلغ سفارش{% endif %}</span><strong>{{ order.price|floatformat:0|intcomma }} تومان</strong></div>
+
+            <form class="store-coupon-form" method="post">
+                {% csrf_token %}
+                <label for="coupon-code">کد تخفیف</label>
+                <div>
+                    <input id="coupon-code" type="text" name="code" placeholder="کد تخفیف را وارد کنید">
+                    <button type="submit">اعمال</button>
+                </div>
+            </form>
+
+            {% if order.paid_status %}
+            <p class="store-payment-notice">پرداخت این سفارش قبلاً ثبت شده است.</p>
+            {% elif has_demo_items %}
+            <p class="store-payment-notice">این سفارش نمونه است؛ پرداخت واقعی برای آن انجام نمی‌شود.</p>
+            <a class="beauty-button beauty-button--primary" href="{% url 'core:payment-demo' order.oid %}">مشاهدهٔ پرداخت آزمایشی</a>
+            {% elif zarinpal_configured %}
+            <form method="post" action="{% url 'core:checkout' order.oid %}">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="pay">
+                <button class="beauty-button beauty-button--primary" type="submit">پرداخت امن با زرین‌پال</button>
+            </form>
+            <p class="store-payment-notice">مبلغ سفارش در درگاه به ریال ارسال می‌شود و فقط پس از تأیید سمت سرور، سفارش پرداخت‌شده ثبت خواهد شد.</p>
+            {% else %}
+            <p class="store-payment-notice">اتصال زرین‌پال آماده است، اما شناسهٔ پذیرنده عمداً خالی گذاشته شده. پس از دریافت شناسه، مقدار <code>ZARINPAL_MERCHANT_ID</code> را در فایل محیطی سرور تنظیم کنید. در حال حاضر هیچ وجهی دریافت نمی‌شود.</p>
+            <a class="beauty-button beauty-button--primary" href="{% url 'core:payment-demo' order.oid %}">مشاهدهٔ نتیجهٔ پرداخت آزمایشی</a>
+            {% endif %}
+            <a class="store-cart-summary__continue" href="{% url 'core:cart' %}">بازگشت به سبد خرید</a>
+        </aside>
+    </div>
+</main>
+{% endblock %}

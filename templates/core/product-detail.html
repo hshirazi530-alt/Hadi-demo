@@ -1,0 +1,643 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+<script>hljs.initHighlightingOnLoad();</script>
+<script src="cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+<script src="{% static 'assets/js/prism.js' %}"></script>
+<link rel="stylesheet" href="{% static 'assets/css/prism.css' %}">
+
+    <main class="main" >
+        <div class="page-header breadcrumb-wrap">
+            <div class="container" dir="rtl">
+                <div class="breadcrumb">
+                    <a href="{% url 'core:index' %}" rel="nofollow">صفحه اصلی<i class="fi-rs-home mr-5"></i></a>
+                    <span></span> فروشگاه <span></span>{{p.title|safe|truncatechars:30}}
+                </div>
+            </div>
+        </div>
+        <div class="container mb-30">
+            <div class="row">
+                <div class="col-xl-11 col-lg-12 m-auto">
+                    <div class="row">
+                        <div class="col-xl-9">
+                            <div class="product-detail accordion-detail">
+                                <div class="row mb-50 mt-30">
+                                    <div class="col-md-6 col-sm-12 col-xs-12 mb-md-0 mb-sm-5">
+                                        <div class="detail-gallery">
+                                            <span class="zoom-icon"><i class="fi-rs-search"></i></span>
+                                            <!-- MAIN SLIDES -->
+                                            <div class="product-image-slider">
+                                                <figure class="border-radius-10">
+                                                    <img src="{{p.image.url}}" alt="product image" />
+                                                </figure>
+                                                {% for p in p_image %}
+                                                <figure class="border-radius-10">
+                                                    <img src="{{ p.images.url }}" alt="product image" />
+                                                </figure>
+                                               {% endfor %}
+                                            </div>
+                                        </div>
+                                            <!-- THUMBNAILS -->
+                                            <div class="slider-nav-thumbnails">
+                                                <div><img style="width: 140px; height: 140px; object-fit: cover;"  src="{{p.image.url}}" alt="product image" /></div>
+                                                {% for p in p_image %}
+                                                <div><img style="width: 140px; height: 140px; object-fit: cover;" src="{{p.images.url}}" alt="product image" /></div>
+                                                {% endfor %}
+                                            </div>
+
+                                        <!-- End Gallery -->
+                                    </div>
+                                    <div class="col-md-6 col-sm-12 col-xs-12" dir="rtl">
+                                        <div class="detail-info pr-30 pl-30">
+                                            <span class="stock-status out-stock"> -{{p.get_precentage|floatformat:0}}% </span>
+                                            <h2 class="title-detail">{{p.title}}</h2>
+                                            <div class="product-detail-rating">
+                                                <div class="product-rate-cover text-end">
+                                                    <div class="product-rate d-inline-block">
+                                                        <div class="product-rating" style="width: 90%"></div>
+                                                    </div>
+                                                    <span class="font-small ml-5 text-muted"> (32 امتیاز)</span>
+                                                </div>
+                                            </div>
+                                            <div class="clearfix product-price-cover">
+                                                <div class="product-price primary-color float-left">
+                                                    <span class="current-price text-brand"></span><span class="current-price text-brand current-price current-product-price-{{ p.id }}" id="current-product-price">{{p.price}} ت</span>
+                                                    <span>
+                                                        <span class="save-price font-md color3 ml-15">{{p.get_precentage|floatformat:0}}-% تخفیف</span>
+                                                    <span class="old-price font-md ml-15">{{p.old_price}}ت</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="short-desc mb-30">
+                                                <p class="font-lg">{{p.description|safe|truncatechars:150}}</p>
+                                            </div>
+
+                                            <div class="detail-extralink mb-50">
+                                                    <br>
+                                                    <input type="number" value="1" name="" id="product-quantity" class="w-25 mb-10 product-quantity-{{ p.id }}">
+                                                    <br>
+                                                <div class="product-extra-link2">
+
+                                                        <input type="hidden" class="product-pid-{{ p.id }}" value="{{ p.pid }}">
+                                                        <input type="hidden" class="product-image-{{ p.id }}" value="{{ p.image.url }}">
+                                                        <input type="hidden" class="product-id-{{ p.id }}" value="{{ p.id }}">
+                                                        <input type="hidden" class="product-title-{{ p.id }}" value="{{ p.title }}">
+
+
+                                                    <button type="submit" class="button button-add-to-cart add-to-cart-btn" data-index="{{ p.id }}" id="add-to-cart-btn"><i class="fi-rs-shopping-cart"></i>افزودن به سبدخرید</button>
+                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up add-to-wishlist" data-product-item="{{p.id}}"><i class="fi-rs-heart"></i></a>
+                                                    <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="font-xs">
+                                                <ul class="mr-50 float-start">
+                                                    <li class="mb-5">نوع: <span class="text-brand">{{p.type}}</span></li>
+                                                    <li class="mb-5">تاریخ:<span class="text-brand"> {{p.mfd|date:"d M, Y"}}</span></li>
+                                                    <li>گارانتی: <span class="text-brand">{{ p.life }}</span></li>
+                                                </ul>
+                                                <ul class="float-start">
+                                                    <li class="mb-5">شناسه: <a href="#">{{p.sku}}</a></li>
+                                                    {% if p.tags %}
+                                                    <li class="mb-5">برچسب: {% for tag in p.tags.all %}<a href="{% url 'core:tags' tag.slug %}" rel="tag"> #{{tag.name}}</a>,{% endfor %} </li>
+                                                    {% endif %}
+                                                    <li>موجودی:<span class="in-stock text-brand ml-5">{{p.stock_count}} عدد موجود در انبار</span></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <!-- Detail Info -->
+                                    </div>
+                                </div>
+                                <div class="product-info"dir="rtl">
+                                    <div class="tab-style3" >
+                                        <ul class="nav nav-tabs text-uppercase">
+                                        <li class="nav-item">
+                                            <a class="nav-link فعال" id="Description-tab" data-bs-toggle="tab" href="#Description">شرح</a>
+                                         </li>
+                                         <li class="nav-item">
+                                             <a class="nav-link" id="Additional-info-tab" data-bs-toggle="tab" href="#Additional-info">اطلاعات اضافی</a>
+                                         </li>
+                                         <li class="nav-item">
+                                             <a class="nav-link" id="Vendor-info-tab" data-bs-toggle="tab" href="#Vendor-info">فروشنده</a>
+                                         </li>
+                                         <li class="nav-item">
+                                             <a class="nav-link" id="Reviews-tab" data-bs-toggle="tab" href="#Reviews">نظرات ({{ reviews.count }})</a>
+                                        </li>
+                                    </ul>
+                                        <div class="tab-content shop_info_tab entry-main-content">
+                                            <div class="tab-pane fade show active" id="Description">
+                                                <div class="">
+                                                    <p>
+                                                        {{p.description|safe}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="Additional-info">
+                                                <table class="font-md">
+                                                    <tbody>
+                                                        <tr class="stand-up">
+                                                            <th>ارتفاع ایستاده</th>
+                                                            <td>
+                                                                <p>35″L x 24″W x 37-45″H</p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="folded-wo-wheels">
+                                                            <th>تا شده (بدون چرخ)</th>
+                                                            <td>
+                                                                <p>32.5″L x 18.5″W x 16.5″H</p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="folded-w-wheels">
+                                                            <th>تا شده (با چرخ)</th>
+                                                            <td>
+                                                                <p>32.5″L x 24″W x 18.5″H</p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="door-pass-through">
+                                                            <th>عبور درز در</th>
+                                                            <td>
+                                                                <p>24</p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="frame">
+                                                            <th>فریم</th>
+                                                            <td>
+                                                                <p>آلومینیوم</p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="weight-wo-wheels">
+                                                            <th>وزن (بدون چرخ)</th>
+                                                            <td>
+                                                                <p>20 LBS</p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="weight-capacity">
+                                                            <th>ظرفیت وزنی</th>
+                                                            <td>
+                                                                <p>60 LBS</p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="width">
+                                                            <th>عرض</th>
+                                                            <td>
+                                                                <p>24″</p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="handle-height-ground-to-handle">
+                                                            <th>دور دست بغل</th>
+                                                            <td>
+                                                                <p>37-45″</p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="wheels">
+                                                            <th>چرخ</th>
+                                                            <td>
+                                                                <p>12″ فنر / لاستیک پهن</p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="seat-back-height">
+                                                            <th>پشت بالش</th>
+                                                            <td>
+                                                                <p>21.5″</p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="head-room-inside-canopy">
+                                                            <th>فاصله سر</th>
+                                                            <td>
+                                                                <p>25″</p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="pa_color">
+                                                            <th>رنگ</th>
+                                                            <td>
+                                                                <p>مشکی، آبی، قرمز، سفید</p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="pa_size">
+                                                            <th>سایز</th>
+                                                            <td>
+                                                                <p>M, S</p>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="tab-pane fade" id="Vendor-info">
+                                                <div class="vendor-logo d-flex mb-30">
+                                                    <img src="{{p.vendor.image.url}}" alt="" />
+                                                    <div class="vendor-name ml-15">
+                                                        <h6>
+                                                            <a href="vendor-detail.html">{{p.vendor.title}}</a>
+                                                        </h6>
+                                                        <div class="product-rate-cover text-end">
+                                                            <div class="product-rate d-inline-block">
+                                                                <div class="product-rating" style="width: 90%"></div>
+                                                            </div>
+                                                            <span class="font-small ml-5 text-muted"> (32 امتیاز)</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <ul class="contact-infor mb-50">
+                                                    <li><img src="{% static 'assets/imgs/theme/icons/icon-location.svg' %}?v=3" alt="" /><strong>آدرس: </strong> <span>{{p.vendor.address}}</span></li>
+                                                    <li><img src="{% static 'assets/imgs/theme/icons/icon-contact.svg' %}?v=2" alt="" /><strong>تلفن فروشنده:</strong><span>{{p.vendor.contact}}</span></li>
+                                                </ul>
+                                                <div class="d-flex mb-55">
+                                                    <div class="mr-30">
+                                                        <p class="text-brand font-xs">امتیاز</p>
+                                                        <h4 class="mb-0">92%</h4>
+                                                    </div>
+                                                    <div class="mr-30">
+                                                        <p class="text-brand font-xs">خرید در لحظه</p>
+                                                        <h4 class="mb-0">{{p.vendor.shipping_on_time}}%</h4>
+                                                    </div>
+                                                    <div>
+                                                        <p class="text-brand font-xs">پشتیبانی</p>
+                                                        <h4 class="mb-0">{{p.vendor.chat_resp_time}}%</h4>
+                                                    </div>
+                                                </div>
+                                                {{p.vendor.description}}
+                                            </div>
+                                            <div class="tab-pane fade" id="Reviews">
+                                                <!--Comments-->
+                                                <div class="comments-area">
+                                                    <div class="row">
+                                                        <div class="col-lg-8">
+                                                            <h4 class="mb-30">پرسش و پاسخ مشتری</h4>
+                                                            <div class="comment-list">
+                                                                {% for r in reviews %}
+                                                                <div class="single-comment justify-content-between d-flex mb-30">
+                                                                    <div class="user justify-content-between d-flex">
+                                                                        <div class="thumb text-center">
+                                                                            <img src="{{ r.user.profile.image.url }}" style="width: 100px; height: 100px; object-fit: cover;" alt="" />
+                                                                            <a href="#" class="font-heading text-brand">{{r.user.username|title}}</a>
+                                                                        </div>
+
+                                                                        <div class="desc">
+                                                                            <div class="d-flex justify-content-between mb-10">
+                                                                                <div class="d-flex align-items-center">
+                                                                                    <span class="font-xs text-muted">{{r.date|date:"d M, Y"}} </span>
+                                                                                </div>
+                                                                                <div>
+                                                                                    {% for star in r.rating|ljust:r.rating %}
+                                                                                     <i class="fas fa-star text-warning"></i>
+                                                                                    {% endfor %}
+                                                                                </div>
+                                                                            </div>
+                                                                            <p class="mb-10">{{ r.review}}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                {% endfor %}
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            <h4 class="mb-30">امتیاز خریداران</h4>
+                                                            <div class="d-fdlex mb-30">
+                                                                <!-- <div class="product-rate d-inline-block mr-15"> -->
+                                                                    <!-- <div class="product-rating" style="width: 90%"></div> -->
+                                                                <!-- </div> -->
+                                                                <!-- <div >
+                                                                    <p">★☆★☆★☆</p>
+                                                                </div>
+                                                                <br> -->
+                                                                <h6>{{ average_rating.rating|floatformat:1 }}5.0از</h6>
+                                                            </div>
+                                                          <div class="progress">
+                                                            <span>5 </span>
+                                                            <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>
+                                                        </div>
+                                                        <div class="progress">
+                                                            <span>4 </span>
+                                                            <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                                                        </div>
+                                                        <div class="progress">
+                                                            <span>3 </span>
+                                                            <div class="progress-bar" role="progressbar" style="width: 45%" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">45%</div>
+                                                        </div>
+                                                        <div class="progress">
+                                                            <span>2 </span>
+                                                            <div class="progress-bar" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">65%</div>
+                                                        </div>
+                                                        <div class="progress mb-30">
+                                                            <span>1 </span>
+                                                            <div class="progress-bar" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">85%</div>
+                                                        </div>
+                                                            <a href="#" class="font-xs text-muted">چگونه به این محصول امتیاز دهید ؟</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--comment form-->
+                                                {% if request.user.is_authenticated %}
+                                                {% if make_review %}
+                                                    <div class="comment-form">
+                                                        <h4 class="mb-15 add-review">ارسال نظر</h4>
+                                                        <strong class="text-success" id="review-res"> </strong>
+                                                        <!-- <div class="product-rate d-inline-block mb-30"></div> -->
+                                                        <div class="row">
+                                                            <div class="col-lg-8 col-md-12">
+                                                                <form class="form-contact comment_form hide-comment-form" action="{% url 'core:ajax-add-review' p.id %}" id="commentForm" method="POST">
+                                                                    {% csrf_token %}
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <div class="form-group">
+                                                                                {{review_form.review}}
+                                                                                <!-- <textarea class="form-control w-100" name="comment" id="comment" cols="30" rows="9" placeholder="Write Comment"></textarea> -->
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="col-12">
+                                                                            <div class="form-group">
+                                                                                {{review_form.rating}}
+                                                                                <!-- <textarea class="form-control w-100" name="comment" id="comment" cols="30" rows="9" placeholder="Write Comment"></textarea> -->
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- <div class="col-sm-6">
+                                                                            <div class="form-group">
+                                                                                <input class="form-control" name="name" id="name" type="text" placeholder="Name" />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-sm-6">
+                                                                            <div class="form-group">
+                                                                                <input class="form-control" name="email" id="email" type="email" placeholder="Email" />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-12">
+                                                                            <div class="form-group">
+                                                                                <input class="form-control" name="website" id="website" type="text" placeholder="Website" />
+                                                                            </div>
+                                                                        </div> -->
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <button type="submit" class="button button-contactForm">ارسال</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-60">
+                                    {% if products %}
+                                    <div class="col-12">
+                                        <h2 class="section-title style-1 mb-30">محصولات مرتبط</h2>
+                                    </div>
+                                    {% endif %}
+                                    <div class="col-12">
+                                        <div class="row related-products">
+                                            {% for p in products %}
+                                            <div class="col-lg-3 col-md-4 col-12 col-sm-6">
+                                                <div class="product-cart-wrap mb-30">
+                                                    <div class="product-img-action-wrap">
+                                                        <div class="product-img product-img-zoom">
+                                                            <a href="{% url 'core:product-detail' p.pid %}">
+                                                                <img class="default-img" src="{{ p.image.url }}" alt="" style="height: 280px; width: 280px; object-fit: cover;"   />
+                                                                <img class="hover-img" src="{{ p.image.url }}" alt=""  style="height: 280px; width: 280px; object-fit: cover;"  />
+
+                                                            </a>
+                                                        </div>
+                                                        <div class="product-action-1">
+                                                            <a aria-label="افزودن به علاقه‌مندی‌ها"  class="action-btn add-to-wishlist" data-product-item="{{p.id}}"><i class="fi-rs-heart"></i></a>
+                                                            <!-- <a aria-label="Compare" class="action-btn" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a> -->
+                                                            <a href="{% url 'core:product-detail' p.pid %}" class="action-btn"><i class="fi-rs-eye"></i></a>
+                                                        </div>
+                                                        <div class="product-badges product-badges-position product-badges-mrg">
+                                                            <span class="hot">-{{p.get_precentage|floatformat:0}}%</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-content-wrap">
+                                                        <div class="product-category">
+                                                            <a href="{% url 'core:product-detail' p.pid %}">{{ p.category.title }}</a>
+                                                        </div>
+                                                        <h2><a href="shop-product-right.html">{{ p.title }}</a></h2>
+                                                        <div class="product-rate-cover">
+                                                            <i class="fas fa-star text-warning"></i>
+                                                            <span class="font-small ml-5 text-muted"> ({{ p.reviews.all.count }})</span>
+
+                                                        </div>
+                                                        <div>
+                                                            {% if p.vendor %}
+                                                            <span class="font-small text-muted">توسط <a href="{% url 'core:vendor-detail' p.vendor.vid %}">{{p.vendor.title}}</a></span>
+                                                            {% else %}
+                                                            <span class="font-small text-muted">توسط <a href="">Destiny Franks</a></span>
+                                                            {% endif %}
+                                                        </div>
+                                                        <div class="product-card-bottom">
+                                                            <div class="product-price">
+                                                                <span>$</span> <span class="current-product-price-{{ p.id }}">{{p.price}}</span>
+                                                                <span class="old-price">${{p.old_price}}</span>
+                                                            </div>
+                                                            <div class="add-cart">
+                                                                <input type="hidden" value="1" id="product-quantity" class="product-quantity-{{ p.id }}">
+                                                                <input type="hidden" class="product-pid-{{ p.id }}" value="{{ p.pid }}">
+                                                                <input type="hidden" class="product-image-{{ p.id }}" value="{{ p.image.url }}">
+                                                                <input type="hidden" class="product-id-{{ p.id }}" value="{{ p.id }}">
+                                                                <input type="hidden" class="product-title-{{ p.id }}" value="{{ p.title }}">
+                                                                <div class="d-flex">
+                                                                    <button class="add add-to-cart-btn" data-index="{{ p.id }}" style="border: none;" id="add-to-cart-btn"><i class="fi-rs-shopping-cart mr-5"></i>افزودن</button>
+                                                                    <button style="border: none; background: none;" class="add-to-wishlist" data-product-item="{{p.id}}"><i class="fi-rs-heart" style="fill: aqua;"></i></button>
+                                                                </div>
+                                                                <!-- <button class="add add-to-cart-btn" data-index="{{ p.id }}" style="border: none;" id="add-to-cart-btn"><i class="fi-rs-shopping-cart mr-5"></i>Add</button> -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 primary-sidebar sticky-sidebar mt-30" dir="rtl">
+                            <div class="sidebar-widget widget-delivery mb-30 bg-grey-9 box-shadow-none">
+                                <h5 class="section-title style-3 mb-20">تحویل</h5>
+                                <ul>
+                                    <li>
+                                        <i class="fi fi-rs-marker mr-10 text-brand"></i>
+                                        <span>
+                                            {{ address.address }} <br />
+                                             <br />
+                                             {% if address.status == True  %}
+                                             <span class="text-success">آدرس تایید شده </span>
+                                             {% else %}
+                                             <span class="text-danger">آدرس تایید نشده </span>
+                                             {% endif %}
+                                        </span>
+                                        <a href="{% url 'core:dashboard' %}" class="change float-end">تغییر</a>
+                                    </li>
+                                    <li class="hr"><span></span></li>
+                                </ul>
+                                <h5 class="section-title style-3 mb-20">بازگشت و گارانتی</h5>
+                                <ul>
+                                    <li>
+
+                                        <span>%{{p.vendor.authentic_rating}}</span> اصلی
+                                         <i class="fi fi-rs-shield-check mr-10 text-brand"></i>
+                                    </li>
+                                    <li>
+
+                                        <span> {{p.vendor.days_return}}</span>روزبازگشت
+                                        <i class="fi fi-rs-time-forward-ten mr-10 text-brand"></i>
+                                    </li>
+                                    <li>
+
+                                        <span> {{p.vendor.warranty_period}}</span>ماه گارانتی
+                                        <i class="fi fi-rs-diploma mr-10 text-brand"></i>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="sidebar-widget widget-vendor mb-30 bg-grey-9 box-shadow-none">
+                                <h5 class="section-title style-3 mb-20">فروشنده</h5>
+                                <div class="vendor-logo d-flex mb-30">
+                                    <img src="{{p.vendor.image.url}}" alt="" />
+                                    <div class="vendor-name ml-15">
+                                        <h6>
+                                            <a href="vendor-detail.html">{{p.vendor.title}}</a>
+                                        </h6>
+                                        <div class="product-rate-cover text-end">
+                                            <div class="product-rate d-inline-block">
+                                                <div class="product-rating" style="width: 90%"></div>
+                                            </div>
+                                            <span class="font-small ml-5 text-muted"> (32 امتیاز)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <ul class="contact-infor">
+                                    <li><img src="{% static 'assets/imgs/theme/icons/icon-location.svg' %}?v=3" alt="" /><strong>آدرس: </strong> <span>{{p.vendor.address}}</span></li>
+                                    <li><img src="{% static 'assets/imgs/theme/icons/icon-contact.svg' %}?v=2" alt="" /><strong>تلفن فروشنده:</strong><span>{{p.vendor.contact}}</span></li>
+                                    <li class="hr"><span></span></li>
+                                </ul>
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <p class="text-brand font-xs">امتیاز</p>
+                                        <h4 class="mb-0">92%</h4>
+                                    </div>
+                                    <div>
+                                        <p class="text-brand font-xs">خرید در لحظه</p>
+                                        <h4 class="mb-0">{{p.vendor.shipping_on_time}}%</h4>
+                                    </div>
+                                    <div>
+                                        <p class="text-brand font-xs">پشتیبانی</p>
+                                        <h4 class="mb-0">{{p.vendor.chat_resp_time}}%</h4>
+                                    </div>
+                                </div>
+                                <ul>
+                                    <li class="hr"><span></span></li>
+                                </ul>
+                                <p>تبدیل شدن به یک فروشنده؟ <a href="page-register.html"> ثبت‌نام کنید</a></p>
+                            </div>
+                            <div class="sidebar-widget widget-category-2 mb-30">
+                                <h5 class="section-title style-1 mb-30">دسته بندی</h5>
+                        <ul>
+
+                            {% for c in categories %}
+                            <li>
+                                <a href="{% url 'core:category-product-list' c.cid %}"> <img src="{{ c.image.url }}" alt="" style="width: 30px; height: 30px; object-fit: cover; border-radius: 10px;" />{{c.title}}</a><span class="count">{{c.product_count}}</span>
+                            </li>
+                            {% endfor %}
+
+                        </ul>
+                            </div>
+                            <!-- Fillter By Price -->
+                            <div class="sidebar-widget price_range range mb-30">
+                                <h5 class="section-title style-1 mb-30">فیلتر با قیمت</h5>
+                                <div class="price-filter">
+                                    <div class="price-filter-inner">
+                                         <div id="slider-range" class="mb-20"></div>
+                                    <div class="d-flex justify-content-between">
+                                        <div class="caption">از: <strong id="slider-range-value1" class="text-brand"></strong></div>
+                                        <div class="caption">تا: <strong id="slider-range-value2" class="text-brand"></strong></div>
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="list-group">
+                                <div class="list-group-item mb-10 mt-10">
+                                    <label class="fw-900">رنگ</label>
+                                    <div class="custome-checkbox">
+                                        <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox1" value="">
+                                        <label class="form-check-label" for="exampleCheckbox1"><span>قرمز (56)</span></label>
+                                        <br>
+                                        <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox2" value="">
+                                        <label class="form-check-label" for="exampleCheckbox2"><span>سبز (78)</span></label>
+                                        <br>
+                                        <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox3" value="">
+                                        <label class="form-check-label" for="exampleCheckbox3"><span>آبی (54)</span></label>
+                                    </div>
+                                    <label class="fw-900 mt-15">آیتم ها</label>
+                                    <div class="custome-checkbox">
+                                        <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox11" value="">
+                                        <label class="form-check-label" for="exampleCheckbox11"><span>جدید (1506)</span></label>
+                                        <br>
+                                        <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox21" value="">
+                                        <label class="form-check-label" for="exampleCheckbox21"><span>تعمیر شده (27)</span></label>
+                                        <br>
+                                        <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox31" value="">
+                                        <label class="form-check-label" for="exampleCheckbox31"><span>استفاده شده (45)</span></label>
+                                    </div>
+                                </div>
+                            </div>
+                                <a href="shop-grid-right.html" class="btn btn-sm btn-default"><i class="fi-rs-filter mr-5"></i> فیلتر</a>
+                            </div>
+                             <!-- Product sidebar Widget -->
+                                    <div class="sidebar-widget product-sidebar mb-30 p-30 bg-grey border-radius-10">
+                                        <h5 class="section-title style-1 mb-30">محصولات جدید</h5>
+                                        <div class="single-post clearfix">
+                                            <div class="image">
+                                                <img src="{% static 'assets/imgs/shop/thumbnail-3.jpg' %}" alt="#">
+                                            </div>
+                                            <div class="content pt-10">
+                                                <h5><a href="shop-product-detail.html">آب پرتقال</a></h5>
+                                                <p class="price mb-0 mt-5">99.000 تومان</p>
+                                                <div class="product-rate">
+                                                    <div class="product-rating" style="width: 90%"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="single-post clearfix">
+                                            <div class="image">
+                                                <img src="{% static 'assets/imgs/shop/thumbnail-4.jpg' %}" alt="#">
+                                            </div>
+                                            <div class="content pt-10">
+                                                <h6><a href="shop-product-detail.html">موز</a></h6>
+                                                <p class="price mb-0 mt-5">89.000 تومان</p>
+                                                <div class="product-rate">
+                                                    <div class="product-rating" style="width: 80%"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="single-post clearfix">
+                                            <div class="image">
+                                                <img src="{% static 'assets/imgs/shop/thumbnail-5.jpg' %}" alt="#">
+                                            </div>
+                                            <div class="content pt-10">
+                                                <h6><a href="shop-product-detail.html">هندوانه</a></h6>
+                                                <p class="price mb-0 mt-5">25.000 تومان</p>
+                                                <div class="product-rate">
+                                                    <div class="product-rating" style="width: 60%"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="banner-img wow fadeIn mb-lg-0 animated d-lg-block d-none">
+                                        <img src="assets/imgs/banner/banner-11.png" alt="">
+                                        <div class="banner-text">
+                                            <span>ارگانیک</span>
+                                            <h4>
+                                                تخفیف 17 % <br>
+                                                برای <span class="text-brand">محصولات</span><br>
+                                                ارگانیک
+                                            </h4>
+                                        </div>
+                                    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock content %}

@@ -1,0 +1,451 @@
+/*
+ * admin-rtl.css — چیدمان راست برای پنل ادمین (AdminLTE / Jazzmin)
+ * بارگذاری: JAZZMIN_SETTINGS['custom_css']  ->  {% static 'css/admin-rtl.css' %}
+ *
+ * توضیح: زبان fa-IR باعث می‌شود جزمن <html dir="rtl"> تولید کند، یعنی راست‌چینیِ
+ * متن از قبل فعال است؛ این فایل فقط «چیدمان فیزیکی» را که با ویژگی‌های
+ * left/right نوشته شده آینه می‌کند: جای پنل سایدبار، حاشیهٔ محتوای اصلی،
+ * حالت جمع‌شدن و فاصلهٔ آیکن‌ها.
+ */
+
+/* ============================================================
+   1) پنل سایدبار به لبهٔ راست صفحه منتقل می‌شود
+   ============================================================ */
+.main-sidebar,
+.main-sidebar::before {
+  left: auto !important;
+  right: 0 !important;
+}
+
+/* ============================================================
+   2) حاشیهٔ هدر / محتوای اصلی / فوتر (باید از سمت راست باز شود)
+   ============================================================ */
+@media (min-width: 768px) {
+
+  /* حالت عادی: محتوا کنار سایدبار 250px جابه‌جا می‌شود */
+  body:not(.layout-top-nav) .content-wrapper,
+  body:not(.layout-top-nav) .main-header,
+  body:not(.layout-top-nav) .main-footer {
+    margin-right: 250px !important;
+    margin-left: 0 !important;
+  }
+
+  /* سایدبار جمع‌شده (حالت معمولی): محتوا تمام‌عرض می‌شود */
+  body.sidebar-collapse:not(.sidebar-mini) .content-wrapper,
+  body.sidebar-collapse:not(.sidebar-mini) .main-header,
+  body.sidebar-collapse:not(.sidebar-mini) .main-footer {
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+  }
+
+  /* سایدبار جمع‌شده در حالت mini: فقط 4.6rem باقی می‌ماند */
+  body.sidebar-collapse.sidebar-mini .content-wrapper,
+  body.sidebar-collapse.sidebar-mini .main-header,
+  body.sidebar-collapse.sidebar-mini .main-footer {
+    margin-right: 4.6rem !important;
+    margin-left: 0 !important;
+  }
+}
+
+/* ============================================================
+   3) جابه‌جایی خودِ سایدبار در حالت جمع‌شده / موبایل
+   ============================================================ */
+@media (min-width: 768px) {
+
+  /* حالت معمولی: پنل به بیرون (راست) می‌لغزد */
+  .sidebar-collapse .main-sidebar,
+  .sidebar-collapse .main-sidebar::before {
+    margin-right: -250px !important;
+    margin-left: 0 !important;
+  }
+
+  /* حالت mini: پنل جمع می‌شود ولی جای آن باقی می‌ماند */
+  .sidebar-collapse.sidebar-mini .main-sidebar,
+  .sidebar-collapse.sidebar-mini .main-sidebar::before {
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+  }
+}
+
+@media (max-width: 767.98px) {
+
+  /* موبایل: پنل خارج از صفحه (سمت راست) */
+  .main-sidebar,
+  .main-sidebar::before {
+    margin-right: -250px !important;
+    margin-left: 0 !important;
+  }
+
+  .sidebar-open .main-sidebar,
+  .sidebar-open .main-sidebar::before {
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+  }
+}
+
+/* ============================================================
+   4) آیکنِ آیتم‌های منوی سایدبار (فاصله باید سمت چپِ آیکن باشد)
+   ============================================================ */
+.nav-sidebar > .nav-item .nav-icon {
+  margin-left: 0.2rem !important;
+  margin-right: 0.05rem !important;
+}
+
+/* فلش باز/بسته شدن زیرمجموعه‌ها به لبهٔ چپ می‌رود (آینهٔ حالت LTR) */
+.nav-sidebar .nav-link > .right,
+.nav-sidebar .nav-link > p > .right {
+  right: auto !important;
+  left: 1rem !important;
+}
+
+/* ============================================================
+   5) نوار بالای ادمین: ابزارهای Bootstrap باید آینه شوند
+   ============================================================ */
+.main-header .ml-auto {
+  margin-right: auto !important;
+  margin-left: 0 !important;
+}
+
+.main-header .mr-auto {
+  margin-right: 0 !important;
+  margin-left: auto !important;
+}
+
+/* ============================================================
+   6) ensure RTL text alignment on sidebar links
+   ============================================================ */
+.nav-sidebar .nav-link,
+.nav-sidebar .nav-link > p {
+  text-align: right !important;
+}
+
+/* ============================================================
+   7) پیش‌لودر پنل ادمین با نشان واقعی هژیر مارکت
+   ============================================================ */
+.brand-link .brand-image {
+  width: auto !important;
+  height: auto !important;
+  max-width: 130px !important;
+  max-height: 32px !important;
+  margin: 0 0 0 8px !important;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  box-shadow: none !important;
+  animation: none !important;
+}
+
+.login-page .login-logo img {
+  width: auto !important;
+  height: auto !important;
+  max-width: min(180px, 54vw) !important;
+  max-height: 90px !important;
+  object-fit: contain !important;
+}
+
+#hjm-admin-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(201, 169, 110, 0.2), transparent 38%),
+    linear-gradient(180deg, #fdfcf9 0%, #f7f5ef 62%, #f1ece1 100%);
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 240ms ease, visibility 240ms ease;
+}
+
+#hjm-admin-loader.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.hjm-admin-loader__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(100%, 300px);
+  padding: 28px 24px 24px;
+  text-align: center;
+  border: 1px solid rgba(201, 169, 110, 0.2);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 18px 52px rgba(53, 45, 31, 0.1);
+}
+
+.hjm-admin-loader__mark {
+  position: relative;
+  display: grid;
+  width: clamp(76px, 22vw, 96px);
+  aspect-ratio: 1;
+  place-items: center;
+  margin-bottom: 18px;
+}
+
+.hjm-admin-loader__mark::before {
+  position: absolute;
+  inset: 0;
+  border: 2px solid rgba(201, 169, 110, 0.2);
+  border-top-color: #c9a96e;
+  border-right-color: #e8d3a1;
+  border-radius: 50%;
+  content: "";
+  animation: hjm-admin-loader-rotate 1.4s linear infinite;
+}
+
+.hjm-admin-loader__mark img {
+  display: block;
+  width: 72%;
+  height: 72%;
+  object-fit: contain;
+  filter: drop-shadow(0 5px 12px rgba(120, 96, 52, 0.16));
+}
+
+.hjm-admin-loader__brand {
+  margin: 0;
+  color: #2b2620;
+  font-family: "Kalameh", "Vazirmatn", "Vazir", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.hjm-admin-loader__message {
+  margin: 5px 0 15px;
+  color: #786f60;
+  font-size: 13px;
+}
+
+.hjm-admin-loader__progress {
+  position: relative;
+  width: min(100%, 172px);
+  height: 3px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(201, 169, 110, 0.2);
+}
+
+.hjm-admin-loader__progress::after {
+  position: absolute;
+  inset-block: 0;
+  right: 0;
+  width: 42%;
+  border-radius: inherit;
+  background: linear-gradient(270deg, #e8d3a1, #c9a96e, #a34857);
+  content: "";
+  animation: hjm-admin-loader-progress 1.5s ease-in-out infinite;
+}
+
+@keyframes hjm-admin-loader-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes hjm-admin-loader-progress {
+  0% {
+    transform: translateX(130%);
+  }
+  100% {
+    transform: translateX(-250%);
+  }
+}
+
+@media (max-width: 575.98px) {
+  .hjm-admin-loader__content {
+    padding: 24px 20px 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #hjm-admin-loader,
+  .hjm-admin-loader__mark::before,
+  .hjm-admin-loader__progress::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================================
+   Admin Panel — Gold Theme (larkon-inspired, RTL)
+   ============================================================ */
+
+/* Sidebar: dark with gold accent */
+.main-sidebar {
+  background: linear-gradient(180deg, #2b2620 0%, #1a1614 100%) !important;
+}
+
+.main-sidebar .brand-link {
+  background: rgba(201, 169, 110, 0.08) !important;
+  border-bottom: 1px solid rgba(201, 169, 110, 0.15) !important;
+}
+
+.main-sidebar .brand-text {
+  color: #e8d3a1 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em;
+}
+
+/* Sidebar nav items */
+.nav-sidebar .nav-link {
+  color: rgba(253, 252, 249, 0.75) !important;
+  border-radius: 10px !important;
+  margin: 2px 8px !important;
+  transition: background 150ms ease, color 150ms ease !important;
+}
+
+.nav-sidebar .nav-link:hover {
+  background: rgba(201, 169, 110, 0.12) !important;
+  color: #e8d3a1 !important;
+}
+
+.nav-sidebar .nav-link.active {
+  background: linear-gradient(135deg, rgba(201, 169, 110, 0.25), rgba(201, 169, 110, 0.1)) !important;
+  color: #e8d3a1 !important;
+  border-right: 3px solid #c9a96e !important;
+}
+
+.nav-sidebar .nav-icon {
+  color: #c9a96e !important;
+}
+
+/* Menu titles */
+.nav-sidebar .nav-header {
+  color: rgba(201, 169, 110, 0.6) !important;
+  font-size: 11px !important;
+  letter-spacing: 0.15em !important;
+  text-transform: uppercase !important;
+  padding: 12px 16px 6px !important;
+}
+
+/* Navbar */
+.main-header {
+  background: linear-gradient(135deg, #fdfcf9 0%, #f5f0e6 100%) !important;
+  border-bottom: 1px solid rgba(201, 169, 110, 0.2) !important;
+  box-shadow: 0 2px 12px rgba(53, 45, 31, 0.06) !important;
+}
+
+.main-header .nav-link {
+  color: #2b2620 !important;
+}
+
+/* Content wrapper */
+.content-wrapper {
+  background: #f8f6f3 !important;
+}
+
+/* Cards */
+.card {
+  border: 1px solid rgba(201, 169, 110, 0.15) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 16px rgba(53, 45, 31, 0.04) !important;
+  transition: box-shadow 200ms ease !important;
+}
+
+.card:hover {
+  box-shadow: 0 8px 24px rgba(53, 45, 31, 0.08) !important;
+}
+
+.card-header {
+  background: linear-gradient(135deg, #fdfcf9 0%, #f5f0e6 100%) !important;
+  border-bottom: 1px solid rgba(201, 169, 110, 0.15) !important;
+  border-radius: 16px 16px 0 0 !important;
+}
+
+/* Buttons */
+.btn-primary, .btn-warning {
+  background: linear-gradient(135deg, #c9a96e 0%, #e8d3a1 100%) !important;
+  border: none !important;
+  color: #2b2620 !important;
+  font-weight: 600 !important;
+  border-radius: 10px !important;
+  transition: transform 150ms ease, box-shadow 150ms ease !important;
+}
+
+.btn-primary:hover, .btn-warning:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 16px rgba(201, 169, 110, 0.35) !important;
+}
+
+/* Badges */
+.badge-soft-primary, .badge-soft-warning {
+  background: rgba(201, 169, 110, 0.15) !important;
+  color: #8b6914 !important;
+  border-radius: 8px !important;
+}
+
+.badge-soft-success {
+  background: rgba(120, 96, 52, 0.12) !important;
+  color: #5a4a2a !important;
+  border-radius: 8px !important;
+}
+
+.badge-soft-danger {
+  background: rgba(163, 72, 87, 0.12) !important;
+  color: #813541 !important;
+  border-radius: 8px !important;
+}
+
+/* Footer */
+.main-footer {
+  background: linear-gradient(135deg, #fdfcf9 0%, #f5f0e6 100%) !important;
+  border-top: 1px solid rgba(201, 169, 110, 0.2) !important;
+  color: #68635c !important;
+}
+
+/* Form controls */
+.form-control, .form-select {
+  border: 1px solid rgba(201, 169, 110, 0.3) !important;
+  border-radius: 10px !important;
+  transition: border-color 150ms ease, box-shadow 150ms ease !important;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: #c9a96e !important;
+  box-shadow: 0 0 0 3px rgba(201, 169, 110, 0.15) !important;
+}
+
+/* Tables */
+.table thead th {
+  background: rgba(201, 169, 110, 0.08) !important;
+  color: #2b2620 !important;
+  font-weight: 600 !important;
+  border-bottom: 2px solid rgba(201, 169, 110, 0.2) !important;
+}
+
+.table tbody tr:hover {
+  background: rgba(201, 169, 110, 0.04) !important;
+}
+
+/* Login page */
+.login-page {
+  background: linear-gradient(135deg, #f5f0e6 0%, #ede6d8 100%) !important;
+}
+
+.login-box .card {
+  border: 1px solid rgba(201, 169, 110, 0.25) !important;
+  box-shadow: 0 12px 40px rgba(53, 45, 31, 0.1) !important;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f5f0e6;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(201, 169, 110, 0.4);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(201, 169, 110, 0.6);
+}

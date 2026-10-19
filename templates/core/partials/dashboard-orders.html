@@ -1,0 +1,42 @@
+{% load humanize %}
+{% if orders_list %}
+<div class="customer-dashboard__table-wrap">
+    <table class="customer-dashboard__table">
+        <thead>
+            <tr>
+                <th scope="col">شناسهٔ سفارش</th>
+                <th scope="col">تاریخ</th>
+                <th scope="col">وضعیت سفارش</th>
+                <th scope="col">پرداخت</th>
+                <th scope="col">مبلغ</th>
+                <th scope="col">جزئیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders_list %}
+            {% if not compact or forloop.counter <= 5 %}
+            <tr>
+                <td data-label="شناسهٔ سفارش"><span dir="ltr">{{ order.oid|default:order.id }}</span></td>
+                <td data-label="تاریخ">{{ order.order_date|date:"Y/m/d" }}</td>
+                <td data-label="وضعیت سفارش">{{ order.get_product_status_display }}</td>
+                <td data-label="پرداخت">
+                    <span class="customer-dashboard__payment{% if order.paid_status %} is-paid{% endif %}">
+                        {% if order.paid_status %}پرداخت‌شده{% else %}در انتظار پرداخت{% endif %}
+                    </span>
+                </td>
+                <td data-label="مبلغ">{{ order.price|intcomma }} تومان</td>
+                <td data-label="جزئیات"><a class="account-text-link" href="{% url 'core:order-detail' order.id %}">مشاهده</a></td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="customer-dashboard__empty">
+    <span aria-hidden="true">▤</span>
+    <h3>هنوز سفارشی ثبت نکرده‌اید</h3>
+    <p>پس از ثبت سفارش، وضعیت و جزئیات آن در همین بخش نمایش داده می‌شود.</p>
+    <a class="beauty-button beauty-button--primary" href="{% url 'core:product-list' %}">دیدن محصولات</a>
+</div>
+{% endif %}

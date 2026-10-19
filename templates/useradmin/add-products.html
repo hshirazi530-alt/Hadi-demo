@@ -1,0 +1,249 @@
+{% extends 'useradmin/base.html' %}
+{% load static %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/product-upload.css' %}">
+    {{ form.media }}
+{% endblock %}
+
+{% block page_class %}product-create-page{% endblock %}
+
+{% block content %}
+<section class="content-main">
+    <form id="product-create-form" method="post" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+        <div class="content-header">
+            <div>
+                <h2 class="content-title">افزودن محصول جدید</h2>
+                <p>اطلاعات محصول و تصاویر آن را ثبت کنید.</p>
+            </div>
+            <button class="btn btn-primary" type="submit">ثبت محصول</button>
+        </div>
+
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">{{ form.non_field_errors }}</div>
+        {% endif %}
+
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-header"><h4>اطلاعات محصول</h4></div>
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <label class="form-label" for="{{ form.title.id_for_label }}">نام محصول</label>
+                            {{ form.title }}
+                            {{ form.title.errors }}
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label" for="{{ form.description.id_for_label }}">توضیحات</label>
+                            {{ form.description }}
+                            <small class="product-upload__help">یک معرفی کوتاه و شرح کامل بنویسید؛ ویژگی‌ها و مزایا را فقط بر پایهٔ اطلاعات تأییدشده وارد کنید.</small>
+                            {{ form.description.errors }}
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label" for="{{ form.specifications.id_for_label }}">مشخصات</label>
+                            {{ form.specifications }}
+                            {{ form.specifications.errors }}
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="{{ form.price.id_for_label }}">قیمت (تومان)</label>
+                                {{ form.price }}
+                                {{ form.price.errors }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="{{ form.sale_price.id_for_label }}">قیمت با تخفیف (تومان)</label>
+                                {{ form.sale_price }}
+                                {{ form.sale_price.errors }}
+                            </div>
+                        </div>
+                        <div class="form-check mb-4">
+                            {{ form.is_sale }}
+                            <label class="form-check-label" for="{{ form.is_sale.id_for_label }}">این محصول تخفیف دارد</label>
+                            {{ form.is_sale.errors }}
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="{{ form.type.id_for_label }}">نوع محصول</label>
+                                {{ form.type }}
+                                {{ form.type.errors }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="{{ form.stock_count.id_for_label }}">تعداد موجودی</label>
+                                {{ form.stock_count }}
+                                {{ form.stock_count.errors }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="{{ form.life.id_for_label }}">گارانتی / عمر محصول</label>
+                                {{ form.life }}
+                                {{ form.life.errors }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="{{ form.mfd.id_for_label }}">تاریخ ساخت</label>
+                                {{ form.mfd }}
+                                {{ form.mfd.errors }}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ form.tags.id_for_label }}">برچسب‌ها</label>
+                            {{ form.tags }}
+                            <small class="text-muted">برچسب‌ها را با ویرگول جدا کنید.</small>
+                            {{ form.tags.errors }}
+                        </div>
+
+                        <div class="form-check mb-3">
+                            {{ form.digital }}
+                            <label class="form-check-label" for="{{ form.digital.id_for_label }}">محصول دیجیتال</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card mb-4">
+                    <div class="card-header"><h4>تصاویر محصول</h4></div>
+                    <div class="card-body">
+                        <label class="product-upload__picker" for="product-images-input">
+                            <span class="material-icons" aria-hidden="true">add_photo_alternate</span>
+                            <span>انتخاب پوشه یا چند تصویر از دستگاه</span>
+                            <small>در مرورگرهای پشتیبان، پنجرهٔ انتخاب‌گر پوشه باز می‌شود؛ در غیر این صورت چند تصویر را هم‌زمان انتخاب کنید.</small>
+                        </label>
+                        <p class="product-upload__help">
+                            مسیر محلی فقط از طریق سرور قابل خواندن است؛ مرورگر به‌تنهایی به پوشه‌های رایانه دسترسی ندارد.
+                            پوشهٔ منبع تنظیم‌شده: <code dir="ltr">{{ source_image_directory }}</code>
+                        </p>
+                        <section class="product-source" aria-labelledby="product-source-title">
+                            <h5 id="product-source-title">انتخاب از پوشهٔ تصاویر سرور</h5>
+                            <p class="product-upload__help">تصاویر را برای همین محصول انتخاب کنید و تصویر اصلی را مشخص کنید؛ تطبیق خودکار انجام نمی‌شود. تصویر اصلی و گالری پس از تبدیل به WebP به همین محصول پیوند می‌خورند. برای جلوگیری از ابهام، از پوشه یا بارگذاری دستگاه یکی را انتخاب کنید.</p>
+                            {% if source_image_errors %}
+                                <p class="product-source__error" role="alert">{{ source_image_errors }}</p>
+                            {% elif source_images %}
+                                <div class="product-source__grid">
+                                    {% for image in source_images %}
+                                        <article class="product-source__item">
+                                            {% if image.selectable %}
+                                                <img src="{{ image.preview_url }}" alt="پیش‌نمایش {{ image.name }}" loading="lazy">
+                                            {% endif %}
+                                            <p class="product-source__name" title="{{ image.name }}">{{ image.name }}</p>
+                                            <small>{{ image.size_kb }} کیلوبایت</small>
+                                            {% if image.error %}
+                                                <p class="product-source__error" role="alert">{{ image.error }}</p>
+                                            {% endif %}
+                                            <label class="product-source__choice">
+                                                <input
+                                                    type="checkbox"
+                                                    name="source_product_images"
+                                                    value="{{ image.name }}"
+                                                    data-source-check
+                                                    data-size="{{ image.size }}"
+                                                    {% if not image.selectable %}disabled{% endif %}
+                                                    {% if image.selected %}checked{% endif %}
+                                                >
+                                                انتخاب تصویر
+                                            </label>
+                                            <label class="product-source__choice">
+                                                <input
+                                                    type="radio"
+                                                    name="source_cover_image"
+                                                    value="{{ image.name }}"
+                                                    data-source-cover
+                                                    {% if image.is_cover %}checked{% endif %}
+                                                    {% if not image.selectable or not image.selected %}disabled{% endif %}
+                                                >
+                                                تصویر اصلی
+                                            </label>
+                                        </article>
+                                    {% endfor %}
+                                </div>
+                                <p id="product-source-status" class="product-upload__status" role="status" aria-live="polite"></p>
+                            {% else %}
+                                <p class="product-upload__help">در پوشهٔ تنظیم‌شده تصویر پشتیبانی‌شده‌ای پیدا نشد؛ می‌توانید از بارگذاری دستگاه استفاده کنید.</p>
+                            {% endif %}
+                        </section>
+                        <input
+                            id="product-images-input"
+                            class="product-upload__input"
+                            type="file"
+                            name="product_images"
+                            accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                            multiple
+                            webkitdirectory
+                            directory
+                            aria-describedby="product-image-help product-image-errors"
+                            data-max-count="{{ image_limits.count }}"
+                            data-max-file-bytes="{{ image_limits.file_bytes }}"
+                            data-max-total-bytes="{{ image_limits.total_bytes }}"
+                        >
+                        <p id="product-image-help" class="product-upload__help">
+                            JPEG، PNG و WebP؛ حداکثر {{ image_limits.count }} تصویر، هرکدام {{ image_limits.file_mb }} مگابایت و مجموعاً {{ image_limits.total_mb }} مگابایت.
+                            تصاویر معتبر در سرور به WebP تبدیل می‌شوند. برای تصاویر دستگاه، تصویر اصلی را در پیش‌نمایش انتخاب کنید.
+                        </p>
+                        {% if form.image.errors %}
+                            <div class="text-danger">{{ form.image.errors }}</div>
+                        {% endif %}
+                        <ul id="product-image-errors" class="product-upload__errors" role="alert">
+                            {% for error in image_errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                        <div id="product-image-list" class="product-upload__list" aria-live="polite"></div>
+                        <p id="product-upload-status" class="product-upload__status" role="status" aria-live="polite"></p>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-header"><h4>دسته‌بندی و انتشار</h4></div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ form.category.id_for_label }}">دسته‌بندی</label>
+                            {{ form.category }}
+                            {{ form.category.errors }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ form.subcategory.id_for_label }}">زیرمجموعه</label>
+                            {{ form.subcategory }}
+                            {{ form.subcategory.errors }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ form.product_status.id_for_label }}">وضعیت انتشار</label>
+                            {{ form.product_status }}
+                            {{ form.product_status.errors }}
+                        </div>
+                        <div class="form-check mb-3">
+                            {{ form.status }}
+                            <label class="form-check-label" for="{{ form.status.id_for_label }}">محصول فعال باشد</label>
+                        </div>
+                        <div class="form-check mb-3">
+                            {{ form.in_stock }}
+                            <label class="form-check-label" for="{{ form.in_stock.id_for_label }}">موجود در انبار</label>
+                        </div>
+                        <div class="form-check">
+                            {{ form.featured }}
+                            <label class="form-check-label" for="{{ form.featured.id_for_label }}">محصول ویژه</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="form-check">
+                            {{ form.approval }}
+                            <label class="form-check-label" for="{{ form.approval.id_for_label }}">{{ form.approval.label }}</label>
+                            {{ form.approval.errors }}
+                        </div>
+                        <p class="product-upload__help">پیش از ذخیره، نام، قیمت واقعی، توضیحات و تطبیق تصویر اصلی/گالری را بازبینی کنید. برای انتشار می‌توانید «در حال بررسی» را نگه دارید تا تأیید نهایی انجام شود.</p>
+                        <p class="product-upload__help">در مدل فعلی فیلدهای جداگانهٔ توضیح کوتاه، عنوان/توضیح SEO یا نشانی slug وجود ندارد؛ عنوان، توضیحات و برچسب‌های موجود استفاده می‌شوند.</p>
+                    </div>
+                </div>
+                <button class="btn btn-primary w-100" type="submit">ثبت محصول</button>
+            </div>
+        </div>
+    </form>
+</section>
+{% endblock content %}
+
+{% block extra_js %}
+    <script src="{% static 'js/product-upload.js' %}" defer></script>
+{% endblock %}

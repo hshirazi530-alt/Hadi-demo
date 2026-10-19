@@ -1,0 +1,41 @@
+{% extends 'partials/base.html' %}
+
+{% block title %}پرداخت نمایشی | هژیر مارکت{% endblock %}
+
+{% block content %}
+<main class="store-page store-demo-payment" dir="rtl">
+    <nav class="store-breadcrumb" aria-label="مسیر صفحه">
+        <a href="{% url 'core:index' %}">خانه</a>
+        <span aria-hidden="true">/</span>
+        <a href="{% url 'core:checkout' order.oid %}">بررسی سفارش</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">پرداخت نمایشی</span>
+    </nav>
+
+    <section class="store-demo-payment__card">
+        <span class="store-demo-payment__icon" aria-hidden="true">◎</span>
+        <p class="store-eyebrow">محیط آزمایشی</p>
+        {% if order.paid_status %}
+        <h1>این سفارش پیش‌تر پرداخت شده است</h1>
+        <p>شناسهٔ سفارش: <strong>{{ order.oid }}</strong></p>
+        <a class="beauty-button beauty-button--primary" href="{% url 'core:payment-completed' order.oid %}">مشاهدهٔ سفارش</a>
+        {% elif demo_confirmed %}
+        <h1>آزمون پرداخت انجام شد</h1>
+        <p>این فقط یک نمایش آزمایشی است؛ هیچ مبلغی دریافت نمی‌شود و سفارش <strong>پرداخت‌نشده</strong> باقی مانده است.</p>
+        {% if has_demo_items %}<p>قیمت کالاهای نمونه فرضی است و این سفارش برای ارسال واقعی ثبت نشده است.</p>{% endif %}
+        <p>شناسهٔ سفارش: <strong>{{ order.oid }}</strong></p>
+        <a class="beauty-button beauty-button--primary" href="{% url 'core:checkout' order.oid %}">بازگشت به سفارش</a>
+        {% else %}
+        <h1>پرداخت نمایشی سفارش</h1>
+        <p>این مرحله به درگاه بانکی متصل نیست و هیچ مبلغی از شما دریافت نمی‌کند.</p>
+        <p class="store-demo-payment__amount">{% if has_demo_items %}جمع فرضی سفارش: {% else %}مبلغ نمایشی: {% endif %}{{ order.price|floatformat:0 }} تومان</p>
+        {% if has_demo_items %}<p>کالاهای نمونه موجودی واقعی ندارند و برای نمایش فرایند فروشگاه هستند.</p>{% endif %}
+        <p class="store-demo-payment__warning">با ادامه فقط نتیجهٔ آزمایشی نمایش داده می‌شود؛ وضعیت سفارش در پرداخت‌نشده باقی خواهد ماند.</p>
+        <form method="post">
+            {% csrf_token %}
+            <button class="beauty-button beauty-button--primary" type="submit">نمایش نتیجهٔ آزمایشی</button>
+        </form>
+        {% endif %}
+    </section>
+</main>
+{% endblock %}

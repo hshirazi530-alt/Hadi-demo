@@ -1,0 +1,76 @@
+{% extends 'partials/base.html' %}
+{% load static humanize %}
+
+{% block title %}فروشگاه | هژیر مارکت{% endblock %}
+
+{% block content %}
+<main class="store-page" dir="rtl">
+    <nav class="store-breadcrumb" aria-label="مسیر صفحه">
+        <a href="{% url 'core:index' %}">خانه</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">فروشگاه</span>
+    </nav>
+
+    <header class="store-page-heading store-page-heading--inline">
+        <div>
+            <p class="store-eyebrow">محصولات فروشگاه</p>
+            <h1>همهٔ محصولات</h1>
+            <p>ابزارهای مراقبت شخصی را ببین و مشخصات هر کالا را بررسی کن.</p>
+        </div>
+        <p>{{ products.count }} کالا</p>
+    </header>
+    <p class="catalog-sample-note">کالاهای «نمونه» را می‌توانید به سبد دمو اضافه کنید و روند سفارش را ببینید؛ قیمت و موجودی فرضی‌اند و هیچ پرداخت واقعی انجام نمی‌شود.</p>
+
+    <form class="store-search-form" action="{% url 'core:search' %}" method="get" role="search">
+        <label for="catalog-search">جست‌وجو در محصولات</label>
+        <div>
+            <input id="catalog-search" type="search" name="q" placeholder="مثلاً ریش‌تراش یا سشوار" aria-label="جست‌وجو در محصولات">
+            <button class="beauty-button beauty-button--primary" type="submit">جست‌وجو</button>
+        </div>
+    </form>
+
+    <section class="store-product-grid" aria-label="فهرست محصولات">
+        {% for product in products %}
+        <article class="store-product-card product-cart-wrap"
+                 data-product-id="{{ product.id }}"
+                 data-product-pid="{{ product.pid }}"
+                 data-product-title="{{ product.title }}"
+                 data-product-price="{% if product.is_sale and product.sale_price %}{{ product.sale_price }}{% else %}{{ product.price }}{% endif %}"
+                 data-product-image="{% if product.image %}{{ product.image.url }}{% endif %}"
+                 data-cart-url="{% url 'core:add-to-cart' %}">
+            <a class="store-product-card__image" href="{% url 'core:product-detail' product.pid %}" aria-label="مشاهدهٔ {{ product.title }}">
+                {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.title }}" loading="lazy">
+                {% else %}
+                <img src="{% static 'assets/imgs/beauty/barber-shop.jpg' %}" alt="" loading="lazy">
+                {% endif %}
+                {% if "(نمونه)" in product.title %}<span class="store-badge">نمونهٔ نمایشی</span>{% elif product.is_sale and product.sale_price %}<span class="store-badge">تخفیف ویژه</span>{% endif %}
+            </a>
+            <div class="store-product-card__body">
+                {% if product.category %}<p>{{ product.category.title }}</p>{% endif %}
+                <h2><a href="{% url 'core:product-detail' product.pid %}">{{ product.title }}</a></h2>
+                <span class="store-product-card__reviews">★ {{ product.reviews.count }} نظر</span>
+                <div class="store-product-card__price">
+                    {% if product.is_sale and product.sale_price %}
+                    <del>{{ product.price|intcomma }} تومان</del>
+                    <strong>{{ product.sale_price|intcomma }} تومان</strong>
+                    {% else %}
+                    <strong>{{ product.price|intcomma }} تومان</strong>
+                    {% endif %}
+                </div>
+                <button class="beauty-button beauty-button--primary product-cart-btn" type="button"{% if not product.in_stock and "(نمونه)" not in product.title %} disabled{% endif %}>
+                    {% if "(نمونه)" in product.title %}افزودن به سبد دمو{% elif product.in_stock %}افزودن به سبد خرید{% else %}ناموجود{% endif %}
+                </button>
+            </div>
+        </article>
+        {% empty %}
+        <div class="store-empty-state">
+            <h2>هنوز محصولی در فروشگاه ثبت نشده است</h2>
+            <p>برای راهنمایی در انتخاب محصول با ما در تماس باش.</p>
+            <a class="beauty-button beauty-button--primary" href="{% url 'core:index' %}#consultation">درخواست راهنمایی</a>
+        </div>
+        {% endfor %}
+    </section>
+</main>
+<div class="store-cart-status" id="store-cart-status" role="status" aria-live="polite"></div>
+{% endblock %}

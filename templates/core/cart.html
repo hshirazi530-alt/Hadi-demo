@@ -1,0 +1,144 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block content %}
+    <main class="main" id="cart-list" dir="rtl" >
+        <div class="page-header breadcrumb-wrap">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="{% url 'core:index' %}" rel="nofollow">صفحه اصلی<i class="fi-rs-home mr-5"></i></a>
+                    <span></span> فروشگاه
+                    <span></span> سبد خرید
+                </div>
+            </div>
+{#            <div class="container">#}
+{#                <div class="breadcrumb">#}
+{#                    <a href="/" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>#}
+{#                    <span></span> Shop#}
+{#                    <span></span> Cart#}
+{#                </div>#}
+{#            </div>#}
+        </div>
+        <div class="container mb-80 mt-50">
+            <div class="row">
+                <div class="col-lg-8 mb-40">
+                    <h1 class="heading-2 mb-10">سبد خرید</h1>
+                    <div class="d-flex justify-content-between">
+                        <h6 class="text-body">در سبد خرید شما<span class="text-brand">{{ totalcartitems }}</span> محصول وجود دارد</h6>
+                    </div>
+                </div>
+            </div>
+            <form action="{% url 'core:save_checkout_info' %}" method="POST">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="table-responsive shopping-summery">
+                            <table class="table table-wishlist">
+                                <thead>
+                                    <tr class="main-heading">
+
+                                        <th scope="col">محصولات</th>
+                                        <th scope="col">عنوان</th>
+                                        <th scope="col">قیمت واحد</th>
+                                        <th scope="col" class="text-center">تعداد</th>
+                                        <th scope="col">مجموع</th>
+                                        <th scope="col" class="">تازه کردن</th>
+                                        <th scope="col" class="end">حذف</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for product_id, item in cart_data.items %}
+                                    <tr class="pt-30">
+                                        <td class="image product-thumbnail pt-40"><img src="{{ item.image }}" alt="#"></td>
+                                        <td class="product-des product-name">
+                                            <h6 class="mb-5"><a class="product-name mb-10 text-heading" href="{% url 'core:product-detail' item.pid %}">{{ item.title }}</a></h6>
+                                        
+                                        </td>
+                                        <td class="price" data-title="Price">
+                                            <h4 class="text-body">{{item.price|floatformat:3}}ت</h4>
+                                        </td>
+                                        <td class="text-center detail-info" data-title="Stock">
+                                            <div class="mr-15">
+                                                <input type="number" placeholder="Qty" class="w-25 product-qty-{{ product_id }}"  name="" value="{{ item.qty }}" id="">
+                                            </div>
+                                        </td>
+                                        <td class="price" data-title="Price">
+                                            <h4 class="text-brand">{% widthratio item.price 1 item.qty %}ت</h4>
+                                        </td>
+                                        <td class="action text-center" data-title="Remove"><a style="border: none; background: none;"  class="text-body update-product" data-product="{{ product_id }}"><i class="fi-rs-refresh"></i></a></td>
+                                        <td class="action text-center" data-title="Remove"><a style="border: none; background: none;"  class="text-body delete-product" data-product="{{ product_id }}"><i class="fi-rs-trash"></i></a></td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                            <div class="row mt-4">
+                                <h4 class="mb-30">اطلاعات مشتری</h4>
+                                <div class="row">
+                                    <div class="form-group col-lg-12">
+                                        <label for="">نام و نام خوانوادگی</label>
+                                        <input type="text" required="" name="full_name" value="{{request.user.username|title}}" placeholder="نام و نام خوانوادگی">
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="">ایمیل </label>
+                                        <input type="text" required="" name="email"  placeholder="ایمیل  *" value="{{request.user.email}}">
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="">موبایل</label>
+                                        <input type="text" name="mobile" value="{{request.user.profile.phone}}" required="" placeholder="موبایل*">
+                                    </div>
+                                </div>
+                                <h4 class="mb-30">جزئیات ارسال</h4>
+                                <div class="row">
+                                    <div class="form-group col-lg-6">
+                                        <label for="">آدرس</label>
+                                        <input type="text" name="address" value="" placeholder="آدرس">
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="">شهر</label>
+                                        <input type="text" name="city"  placeholder="شهر *" value="">
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="">استان</label>
+                                        <input type="text" name="state" value="" placeholder="استان *">
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="">کشور</label>
+                                        <input type="text" name="country" value="" placeholder="کشور *">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="border p-md-4 cart-totals ml-30">
+                            <div class="table-responsive">
+                                <div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <p class="fw-bold">مالیات</p>
+                                        <p>0ت</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <p class="fw-bold">حمل و نقل</p>
+                                        <p>0ت</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <p class="fw-bold">تخفیف</p>
+                                        <p>0ت</p>
+                                    </div>
+                                    
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <p class="fw-bold">جمع کل</p>
+                                        <p>{{cart_total_amount}}ت</p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% if totalcartitems %}
+                                <button type=submit" class="btn mb-20 w-100">تسویه نهایی<i class="fi-rs-sign-out ml-15"></i></button>
+                            {% endif %}                    
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+{% endblock content %}

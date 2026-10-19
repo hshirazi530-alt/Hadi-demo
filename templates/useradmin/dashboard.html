@@ -1,0 +1,160 @@
+{% extends 'useradmin/base.html' %}
+{% load humanize %}
+
+{% block title %}داشبورد{% endblock %}
+{% block breadcrumb %}داشبورد{% endblock %}
+{% block page_heading %}داشبورد{% endblock %}
+
+{% block content %}
+<section aria-labelledby="dashboard-title">
+    <div class="admin-content-heading">
+        <div>
+            <h2 id="dashboard-title">نمای کلی فروشگاه</h2>
+            <p>آمار بر پایهٔ سفارش‌ها و اطلاعات ثبت‌شده در سامانه است.</p>
+        </div>
+        <a href="{% url 'useradmin:dashboard-add-products' %}" class="admin-button">
+            <span class="material-icons-round" aria-hidden="true">add</span>
+            افزودن محصول
+        </a>
+    </div>
+
+    <div class="admin-stats" aria-label="آمار فروشگاه">
+        <article class="admin-card admin-stat">
+            <div>
+                <p class="admin-stat__label">فروش پرداخت‌شده</p>
+                <strong class="admin-stat__value"><span data-fa-number="{{ revenue.price|default:0|floatformat:0 }}">{{ revenue.price|default:0|floatformat:0|intcomma }}</span><small> تومان</small></strong>
+                <span class="admin-stat__note">بر اساس سفارش‌های پرداخت‌شده</span>
+            </div>
+            <span class="admin-stat__icon admin-stat__icon--gold"><span class="material-icons-round" aria-hidden="true">payments</span></span>
+        </article>
+        <article class="admin-card admin-stat">
+            <div>
+                <p class="admin-stat__label">کل سفارش‌ها</p>
+                <strong class="admin-stat__value" data-fa-number="{{ orders_count }}">{{ orders_count|intcomma }}</strong>
+                <span class="admin-stat__note"><span data-fa-number="{{ paid_orders_count }}">{{ paid_orders_count|intcomma }}</span> پرداخت‌شده</span>
+            </div>
+            <span class="admin-stat__icon"><span class="material-icons-round" aria-hidden="true">receipt_long</span></span>
+        </article>
+        <article class="admin-card admin-stat">
+            <div>
+                <p class="admin-stat__label">محصولات</p>
+                <strong class="admin-stat__value" data-fa-number="{{ product_count }}">{{ product_count|intcomma }}</strong>
+                <span class="admin-stat__note"><span data-fa-number="{{ pending_products_count }}">{{ pending_products_count|intcomma }}</span> در انتظار بررسی</span>
+            </div>
+            <span class="admin-stat__icon admin-stat__icon--blue"><span class="material-icons-round" aria-hidden="true">inventory_2</span></span>
+        </article>
+        <article class="admin-card admin-stat">
+            <div>
+                <p class="admin-stat__label">مشتریان</p>
+                <strong class="admin-stat__value" data-fa-number="{{ customer_count }}">{{ customer_count|intcomma }}</strong>
+                <span class="admin-stat__note">حساب‌های مشتریان ثبت‌شده</span>
+            </div>
+            <span class="admin-stat__icon admin-stat__icon--rose"><span class="material-icons-round" aria-hidden="true">group</span></span>
+        </article>
+    </div>
+
+    <div class="admin-overview">
+        <section class="admin-card" aria-labelledby="sales-chart-title">
+            <header class="admin-panel__header">
+                <div>
+                    <h3 id="sales-chart-title">روند فروش ماهانه</h3>
+                    <p>مبالغ واقعی سفارش‌های پرداخت‌شده در شش ماه اخیر</p>
+                </div>
+                <span class="admin-status admin-status--paid">پرداخت‌شده</span>
+            </header>
+            {% if paid_orders_count %}
+                <div class="admin-sales-chart" role="img" aria-label="نمودار فروش ماهانه؛ مقادیر برای هر ماه در زیر نمودار آمده است.">
+                    {% for month in monthly_sales %}
+                        <div class="admin-sales-chart__item">
+                            <span class="admin-sales-chart__amount" data-fa-number="{{ month.amount|floatformat:0 }}">{{ month.amount|floatformat:0|intcomma }}</span>
+                            <span class="admin-sales-chart__track" aria-hidden="true">
+                                <span class="admin-sales-chart__bar" style="height: {{ month.width }}%"></span>
+                            </span>
+                            <span>{{ month.label }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="admin-empty">
+                    <span class="admin-empty__icon"><span class="material-icons-round" aria-hidden="true">monitoring</span></span>
+                    <h3>هنوز فروش پرداخت‌شده‌ای ثبت نشده است</h3>
+                    <p>پس از ثبت سفارش‌های پرداخت‌شده، روند ماهانه در این بخش نمایش داده می‌شود.</p>
+                </div>
+            {% endif %}
+        </section>
+
+        <section class="admin-card" aria-labelledby="store-summary-title">
+            <header class="admin-panel__header">
+                <div>
+                    <h3 id="store-summary-title">وضعیت فروشگاه</h3>
+                    <p>خلاصهٔ کارهای قابل پیگیری</p>
+                </div>
+            </header>
+            <div class="admin-overview__summary">
+                <a class="admin-summary-row" href="{% url 'useradmin:dashboard-products' %}?status=in_review">
+                    <span>محصولات در انتظار بررسی</span>
+                    <strong data-fa-number="{{ pending_products_count }}">{{ pending_products_count|intcomma }}</strong>
+                </a>
+                <a class="admin-summary-row" href="{% url 'useradmin:orders' %}">
+                    <span>سفارش‌های پرداخت‌نشده</span>
+                    <strong data-fa-number="{{ unpaid_orders_count }}">{{ unpaid_orders_count|intcomma }}</strong>
+                </a>
+                <a class="admin-summary-row" href="{% url 'admin:core_category_changelist' %}">
+                    <span>مدیریت دسته‌بندی‌ها</span>
+                    <span class="material-icons-round" aria-hidden="true">arrow_back</span>
+                </a>
+                <a class="admin-summary-row" href="{% url 'useradmin:settings' %}">
+                    <span>تنظیمات حساب مدیر</span>
+                    <span class="material-icons-round" aria-hidden="true">arrow_back</span>
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <section class="admin-card" aria-labelledby="latest-orders-title">
+        <header class="admin-panel__header">
+            <div>
+                <h3 id="latest-orders-title">آخرین سفارش‌ها</h3>
+                <p>آخرین هفت سفارش ثبت‌شده در سامانه</p>
+            </div>
+            <a class="admin-text-link" href="{% url 'useradmin:orders' %}">همهٔ سفارش‌ها</a>
+        </header>
+        <div class="admin-table-wrap">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th scope="col">شناسه</th>
+                        <th scope="col">مشتری</th>
+                        <th scope="col">تاریخ</th>
+                        <th scope="col">مبلغ</th>
+                        <th scope="col">پرداخت</th>
+                        <th scope="col">وضعیت سفارش</th>
+                        <th scope="col">جزئیات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in latest_orders %}
+                        <tr>
+                            <td><span class="admin-product-id">#{{ order.oid|default:order.pk }}</span></td>
+                            <td>{{ order.full_name|default:order.user.get_username|default:"—" }}</td>
+                            <td>{{ order.order_date|date:"Y/m/d"|default:"—" }}</td>
+                            <td><span data-fa-number="{{ order.price|floatformat:0 }}">{{ order.price|floatformat:0|intcomma }}</span> تومان</td>
+                            <td>
+                                {% if order.paid_status %}
+                                    <span class="admin-status admin-status--paid">پرداخت‌شده</span>
+                                {% else %}
+                                    <span class="admin-status admin-status--unpaid">پرداخت‌نشده</span>
+                                {% endif %}
+                            </td>
+                            <td><span class="admin-status admin-status--{{ order.product_status }}">{{ order.get_product_status_display }}</span></td>
+                            <td><a class="admin-action-link" href="{% url 'useradmin:order_detail' order.id %}" aria-label="جزئیات سفارش {{ order.oid }}"><span class="material-icons-round" aria-hidden="true">open_in_new</span><span>مشاهده</span></a></td>
+                        </tr>
+                    {% empty %}
+                        <tr><td class="admin-table__empty" colspan="7">هنوز سفارشی ثبت نشده است.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</section>
+{% endblock %}

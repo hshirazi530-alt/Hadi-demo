@@ -1,0 +1,71 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block content %}
+
+    <main class="main pages" dir="rtl">
+        <div class="page-header breadcrumb-wrap">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="{% url 'core:index' %}" rel="nofollow">صفحه اصلی <i class="fi-rs-home mr-5"></i></a>
+                    <span></span> حساب کاربری <span></span> ورود
+                </div>
+            </div>
+        </div>
+
+        <div class="page-content pt-150 pb-150">
+            <div class="container">
+                <div class="auth-shell">
+                    <div class="auth-visual d-none d-lg-block">
+                        <div class="auth-visual-inner">
+                            <span class="auth-badge">خرید امن و سریع</span>
+                            <h1>به خانواده هژیر مارکت خوش آمدید</h1>
+                            <p>با ورود به حساب کاربری، سفارش‌های خود را پیگیری کنید، محصولات مورد علاقه‌تان را ذخیره کنید و از پیشنهادهای ویژه بهره‌مند شوید.</p>
+                            <ul>
+                                <li>مشاهدهٔ سفارش‌های ثبت‌شده</li>
+                                <li>تخفیف‌های اختصاصی مشتریان</li>
+                                <li>پاسخ‌گویی در ساعات کاری فروشگاه</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="auth-panel">
+                        <div class="auth-card">
+                            <div class="heading_s1">
+                                <h1 class="mb-5">ورود به حساب</h1>
+                                <p class="mb-30">حساب کاربری ندارید؟ <a href="{% url 'userauths:sign-up' %}{% if next_url %}?next={{ next_url|urlencode }}{% endif %}">ثبت‌نام کنید</a></p>
+                            </div>
+
+                            <form method="POST">
+                                {% csrf_token %}
+                                {% if next_url %}<input type="hidden" name="next" value="{{ next_url }}">{% endif %}
+                                <div class="form-group">
+                                    <label for="email">نام کاربری یا ایمیل</label>
+                                    <input type="text" required name="email" id="email" placeholder="نام کاربری یا ایمیل *" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">رمز عبور</label>
+                                    <input required type="password" name="password" id="password" placeholder="رمز عبور *" />
+                                </div>
+
+                                <div class="login_footer form-group mb-30">
+                                    <div class="chek-form">
+                                        <div class="custome-checkbox">
+                                            <input class="form-check-input" type="checkbox" name="checkbox" id="remember-me" value="" />
+                                            <label class="form-check-label" for="remember-me"><span>به خاطر بسپار</span></label>
+                                        </div>
+                                    </div>
+                                    <span class="text-muted">برای بازیابی حساب با پشتیبانی تماس بگیرید.</span>
+                                </div>
+
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-heading btn-block hover-up" name="login">ورود</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+{% endblock content %}

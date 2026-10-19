@@ -1,0 +1,150 @@
+{% extends 'useradmin/base.html' %}
+{% load static humanize %}
+
+{% block title %}محصولات{% endblock %}
+{% block breadcrumb %}محصولات{% endblock %}
+{% block page_heading %}محصولات{% endblock %}
+
+{% block content %}
+<section aria-labelledby="products-page-title">
+    <div class="admin-content-heading">
+        <div>
+            <h2 id="products-page-title">مدیریت محصولات</h2>
+            <p><span data-fa-number="{{ total_products }}">{{ total_products|intcomma }}</span> محصول در سامانه</p>
+        </div>
+        <a href="{% url 'useradmin:dashboard-add-products' %}" class="admin-button">
+            <span class="material-icons-round" aria-hidden="true">add</span>
+            افزودن محصول
+        </a>
+    </div>
+
+    <section class="admin-card admin-products-card" aria-label="فهرست محصولات">
+        <form class="admin-product-toolbar" method="get" action="{% url 'useradmin:dashboard-products' %}">
+            <div class="admin-product-filters">
+                <label class="visually-hidden" for="products-search">جست‌وجوی محصول</label>
+                <input class="admin-control admin-control--search" id="products-search" type="search" name="q" value="{{ query }}" placeholder="نام، شناسه یا کد پیگیری…" />
+                <label class="visually-hidden" for="products-category">فیلتر دسته‌بندی</label>
+                <select class="admin-control" id="products-category" name="category">
+                    <option value="">همهٔ دسته‌بندی‌ها</option>
+                    {% for category in categories %}
+                        <option value="{{ category.pk }}"{% if category_filter == category.pk|stringformat:"s" %} selected{% endif %}>{{ category.title }}</option>
+                    {% endfor %}
+                </select>
+                <label class="visually-hidden" for="products-status">فیلتر وضعیت محصول</label>
+                <select class="admin-control" id="products-status" name="status">
+                    <option value="">همهٔ وضعیت‌ها</option>
+                    {% for value, label in status_choices %}
+                        <option value="{{ value }}"{% if status_filter == value %} selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+                <label class="visually-hidden" for="products-sort">مرتب‌سازی</label>
+                <select class="admin-control" id="products-sort" name="sort">
+                    <option value="-date"{% if sort == "-date" %} selected{% endif %}>جدیدترین</option>
+                    <option value="date"{% if sort == "date" %} selected{% endif %}>قدیمی‌ترین</option>
+                    <option value="title"{% if sort == "title" %} selected{% endif %}>نام: الف تا ی</option>
+                    <option value="-title"{% if sort == "-title" %} selected{% endif %}>نام: ی تا الف</option>
+                    <option value="price"{% if sort == "price" %} selected{% endif %}>قیمت: کم به زیاد</option>
+                    <option value="-price"{% if sort == "-price" %} selected{% endif %}>قیمت: زیاد به کم</option>
+                    <option value="stock"{% if sort == "stock" %} selected{% endif %}>موجودی: کم به زیاد</option>
+                    <option value="-stock"{% if sort == "-stock" %} selected{% endif %}>موجودی: زیاد به کم</option>
+                </select>
+            </div>
+            <div class="admin-product-filters">
+                <button class="admin-button" type="submit"><span class="material-icons-round" aria-hidden="true">filter_list</span>اعمال فیلتر</button>
+                {% if query or status_filter or category_filter %}
+                    <a class="admin-button admin-button--light" href="{% url 'useradmin:dashboard-products' %}">پاک‌کردن فیلتر</a>
+                {% endif %}
+            </div>
+        </form>
+
+        <form id="bulk-delete-form" method="post" action="{% url 'useradmin:bulk-delete-products' %}" data-confirm-delete data-confirm-message="محصولات انتخاب‌شده حذف شوند؟ این کار قابل بازگشت نیست.">
+            {% csrf_token %}
+            <div class="admin-bulk-bar" data-bulk-bar>
+                <span><strong data-selected-count>۰</strong> محصول انتخاب شده است.</span>
+                <button class="admin-button admin-button--danger" type="submit"><span class="material-icons-round" aria-hidden="true">delete</span>حذف انتخاب‌شده‌ها</button>
+            </div>
+            <div class="admin-table-wrap">
+                <table class="admin-table admin-products-table">
+                    <thead>
+                        <tr>
+                            <th class="admin-select-cell" scope="col"><input type="checkbox" data-select-all aria-label="انتخاب همهٔ محصولات این صفحه" /></th>
+                            <th scope="col">محصول</th>
+                            <th scope="col">شناسه</th>
+                            <th scope="col">دسته‌بندی</th>
+                            <th scope="col">قیمت</th>
+                            <th scope="col">موجودی</th>
+                            <th scope="col">وضعیت</th>
+                            <th scope="col">تاریخ ثبت</th>
+                            <th scope="col">عملیات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in products %}
+                            <tr>
+                                <td class="admin-select-cell"><input type="checkbox" data-product-select value="{{ product.pid }}" aria-label="انتخاب {{ product.title }}" /></td>
+                                <td>
+                                    <div class="admin-product-name">
+                                        {% if product.image %}<img class="admin-product-image" src="{{ product.image.url }}" alt="" loading="lazy" />{% else %}<span class="admin-product-image admin-product-image--empty" aria-hidden="true"><span class="material-icons-round">image</span></span>{% endif %}
+                                        <div><a class="admin-product-title" href="{% url 'useradmin:dashboard-edit-products' product.pid %}">{{ product.title }}</a><span class="admin-table__muted">{{ product.sku }}</span></div>
+                                    </div>
+                                </td>
+                                <td><span class="admin-product-id">{{ product.pid }}</span></td>
+                                <td>{{ product.category.title|default:"بدون دسته‌بندی" }}</td>
+                                <td><strong data-fa-number="{{ product.price|floatformat:0 }}">{{ product.price|floatformat:0|intcomma }}</strong><span class="admin-table__muted">تومان</span></td>
+                                <td>
+                                    {% if product.in_stock and product.dashboard_stock > 0 %}
+                                        <span data-fa-number="{{ product.dashboard_stock }}">{{ product.dashboard_stock|intcomma }}</span>
+                                    {% else %}
+                                        <span class="admin-status admin-status--out">ناموجود</span>
+                                    {% endif %}
+                                </td>
+                                <td><span class="admin-status admin-status--{{ product.product_status }}">{{ product.get_product_status_display }}</span></td>
+                                <td>{{ product.date|date:"Y/m/d" }}</td>
+                                <td>
+                                    <div class="admin-product-actions">
+                                        <a class="admin-action-link" href="{% url 'core:product-detail' product.pid %}" target="_blank" rel="noopener" aria-label="مشاهدهٔ {{ product.title }}"><span class="material-icons-round" aria-hidden="true">visibility</span></a>
+                                        <a class="admin-action-link" href="{% url 'useradmin:dashboard-edit-products' product.pid %}" aria-label="ویرایش {{ product.title }}"><span class="material-icons-round" aria-hidden="true">edit</span></a>
+                                        <button class="admin-action-button admin-action-button--danger" type="submit" formmethod="post" formaction="{% url 'useradmin:dashboard-delete-products' product.pid %}" formnovalidate data-confirm-delete data-confirm-message="«{{ product.title }}» حذف شود؟ این کار قابل بازگشت نیست." aria-label="حذف {{ product.title }}"><span class="material-icons-round" aria-hidden="true">delete_outline</span></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr><td class="admin-table__empty" colspan="9">{% if query or status_filter or category_filter %}محصولی با این فیلترها پیدا نشد. فیلترها را تغییر دهید یا پاک کنید.{% else %}هنوز محصولی ثبت نشده است. برای شروع، محصول جدیدی اضافه کنید.{% endif %}</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div data-selected-inputs></div>
+        </form>
+
+        {% if page_obj.paginator.num_pages > 1 %}
+            <nav class="admin-pagination" aria-label="صفحه‌بندی محصولات">
+                <span>صفحهٔ <span data-fa-number="{{ page_obj.number }}">{{ page_obj.number }}</span> از <span data-fa-number="{{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</span> · <span data-fa-number="{{ page_obj.paginator.count }}">{{ page_obj.paginator.count|intcomma }}</span> محصول</span>
+                <div class="admin-pagination__actions">
+                    {% if page_obj.has_previous %}
+                        <a class="admin-pagination__link" href="?page={{ page_obj.previous_page_number }}&q={{ query|urlencode }}&category={{ category_filter|urlencode }}&status={{ status_filter|urlencode }}&sort={{ sort|urlencode }}" aria-label="صفحهٔ قبلی">قبلی</a>
+                    {% else %}
+                        <span class="admin-pagination__link" aria-disabled="true">قبلی</span>
+                    {% endif %}
+                    {% if page_obj.has_next %}
+                        <a class="admin-pagination__link" href="?page={{ page_obj.next_page_number }}&q={{ query|urlencode }}&category={{ category_filter|urlencode }}&status={{ status_filter|urlencode }}&sort={{ sort|urlencode }}" aria-label="صفحهٔ بعدی">بعدی</a>
+                    {% else %}
+                        <span class="admin-pagination__link" aria-disabled="true">بعدی</span>
+                    {% endif %}
+                </div>
+            </nav>
+        {% endif %}
+    </section>
+</section>
+
+<dialog class="admin-confirm-dialog" data-confirm-dialog aria-labelledby="confirm-title" aria-describedby="confirm-description">
+    <div class="admin-confirm-dialog__body">
+        <h2 id="confirm-title">تأیید حذف</h2>
+        <p id="confirm-description">این عملیات قابل بازگشت نیست.</p>
+        <div class="admin-confirm-dialog__actions">
+            <button class="admin-button admin-button--danger" type="button" data-confirm-submit>حذف</button>
+            <button class="admin-button admin-button--light" type="button" data-confirm-cancel>انصراف</button>
+        </div>
+    </div>
+</dialog>
+{% endblock %}
