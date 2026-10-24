@@ -15,6 +15,7 @@
 .main-sidebar::before {
   left: auto !important;
   right: 0 !important;
+  margin-left: 0 !important;
 }
 
 /* ============================================================
@@ -120,7 +121,7 @@
 }
 
 /* ============================================================
-   7) پیش‌لودر پنل ادمین با نشان واقعی هژیر مارکت
+   7) پیش‌لودر پنل ادمین با نشان واقعی Hazhirmarket
    ============================================================ */
 .brand-link .brand-image {
   width: auto !important;
@@ -136,7 +137,8 @@
   animation: none !important;
 }
 
-.login-page .login-logo img {
+.login-page .login-logo img,
+.jazzmin-login-page .login-logo img {
   width: auto !important;
   height: auto !important;
   max-width: min(180px, 54vw) !important;
@@ -271,181 +273,3121 @@
 }
 
 /* ============================================================
-   Admin Panel — Gold Theme (larkon-inspired, RTL)
+   Larkon-inspired Admin Product List (RTL)
    ============================================================ */
 
-/* Sidebar: dark with gold accent */
-.main-sidebar {
-  background: linear-gradient(180deg, #2b2620 0%, #1a1614 100%) !important;
+:root {
+  --larkon-bg: #f5f5f4;
+  --larkon-surface: #ffffff;
+  --larkon-panel: #f1f0ee;
+  --larkon-sidebar: #202a35;
+  --larkon-sidebar-2: #1b252f;
+  --larkon-border: #e7e9ed;
+  --larkon-text: #252d3b;
+  --larkon-muted: #7d8795;
+  --larkon-accent: #f47b45;
+  --larkon-accent-soft: #fff0e8;
+  --larkon-gold: #d6b77c;
+  --larkon-header-height: 72px;
+  --larkon-sidebar-width: 246px;
 }
 
-.main-sidebar .brand-link {
-  background: rgba(201, 169, 110, 0.08) !important;
-  border-bottom: 1px solid rgba(201, 169, 110, 0.15) !important;
+body.larkon-admin {
+  background: #1e2a36;
+  color: var(--larkon-text);
+  font-family: "Vazir", "Tahoma", sans-serif;
 }
 
-.main-sidebar .brand-text {
-  color: #e8d3a1 !important;
+body.larkon-admin {
+  direction: rtl !important;
+  background: #1d2b39 !important;
+  color: #edf3f7 !important;
+  font-family: "Vazirmatn", "Tahoma", sans-serif !important;
+}
+
+body.larkon-admin #jazzy-sidebar,
+body.larkon-admin .main-sidebar {
+  position: fixed !important;
+  right: 0 !important;
+  left: auto !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  width: 330px !important;
+  background: linear-gradient(180deg, #1d2b39 0%, #1a2834 100%) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  overflow-y: auto !important;
+}
+
+body.larkon-admin .main-sidebar .brand-link {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 16px !important;
+  min-height: 112px !important;
+  padding: 20px 18px 16px !important;
+  background: transparent !important;
+  border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+  text-decoration: none !important;
+}
+
+body.larkon-admin .brand-link .brand-image {
+  width: 52px !important;
+  height: 52px !important;
+  min-width: 52px !important;
+  border-radius: 14px !important;
+  background: linear-gradient(180deg, #f49a65 0%, #ee7f44 100%) !important;
+  box-shadow: none !important;
+  object-fit: contain !important;
+  opacity: 1 !important;
+}
+
+body.larkon-admin .brand-link .brand-text {
+  color: #edf3f7 !important;
+  font-size: 28px !important;
   font-weight: 700 !important;
-  letter-spacing: 0.05em;
+  letter-spacing: 0 !important;
+  white-space: nowrap !important;
 }
 
-/* Sidebar nav items */
-.nav-sidebar .nav-link {
-  color: rgba(253, 252, 249, 0.75) !important;
+body.larkon-admin .main-sidebar .sidebar {
+  padding: 18px 16px 12px !important;
+}
+
+body.larkon-admin .main-sidebar .nav-sidebar {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  padding: 0 !important;
+}
+
+body.larkon-admin .nav-sidebar .nav-item {
+  margin: 0 !important;
+}
+
+body.larkon-admin .nav-sidebar .nav-link {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 16px !important;
+  min-height: 56px !important;
+  padding: 10px 18px 10px 12px !important;
+  border-radius: 12px !important;
+  color: rgba(255,255,255,0.8) !important;
+  font-size: 22px !important;
+  font-weight: 500 !important;
+  text-align: right !important;
+  line-height: 1.3 !important;
+  background: transparent !important;
+}
+
+body.larkon-admin .nav-sidebar .nav-link:hover {
+  background: rgba(255,255,255,0.03) !important;
+  color: #fff !important;
+}
+
+body.larkon-admin .nav-sidebar .nav-link.active,
+body.larkon-admin .nav-sidebar .nav-item > .nav-link.active {
+  background: rgba(255,255,255,0.06) !important;
+  color: #fff !important;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05) !important;
+  border-right: 3px solid #f49a65 !important;
   border-radius: 10px !important;
-  margin: 2px 8px !important;
-  transition: background 150ms ease, color 150ms ease !important;
 }
 
-.nav-sidebar .nav-link:hover {
-  background: rgba(201, 169, 110, 0.12) !important;
-  color: #e8d3a1 !important;
+body.larkon-admin .nav-sidebar .nav-link.active .nav-icon,
+body.larkon-admin .nav-sidebar .nav-link.active p {
+  color: #fff !important;
 }
 
-.nav-sidebar .nav-link.active {
-  background: linear-gradient(135deg, rgba(201, 169, 110, 0.25), rgba(201, 169, 110, 0.1)) !important;
-  color: #e8d3a1 !important;
-  border-right: 3px solid #c9a96e !important;
+body.larkon-admin .nav-sidebar .nav-icon {
+  width: 28px !important;
+  min-width: 28px !important;
+  margin: 0 !important;
+  color: rgba(255,255,255,0.72) !important;
+  font-size: 24px !important;
+  text-align: center !important;
 }
 
-.nav-sidebar .nav-icon {
-  color: #c9a96e !important;
+body.larkon-admin .nav-sidebar .nav-header {
+  padding: 18px 10px 8px !important;
+  color: rgba(255,255,255,0.40) !important;
+  font-size: 13px !important;
+  letter-spacing: 0.05em !important;
+  text-transform: none !important;
 }
 
-/* Menu titles */
-.nav-sidebar .nav-header {
-  color: rgba(201, 169, 110, 0.6) !important;
-  font-size: 11px !important;
-  letter-spacing: 0.15em !important;
-  text-transform: uppercase !important;
-  padding: 12px 16px 6px !important;
+body.larkon-admin .main-sidebar .user-panel {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 12px !important;
+  margin: 16px 0 0 !important;
+  padding: 20px 10px 0 !important;
+  border-top: 1px solid rgba(255,255,255,0.08) !important;
 }
 
-/* Navbar */
-.main-header {
-  background: linear-gradient(135deg, #fdfcf9 0%, #f5f0e6 100%) !important;
-  border-bottom: 1px solid rgba(201, 169, 110, 0.2) !important;
-  box-shadow: 0 2px 12px rgba(53, 45, 31, 0.06) !important;
+body.larkon-admin .main-sidebar .user-panel .image {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50% !important;
+  background: rgba(255,255,255,0.18) !important;
+  display: grid !important;
+  place-items: center !important;
+  color: #e6edf2 !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
 }
 
-.main-header .nav-link {
-  color: #2b2620 !important;
+body.larkon-admin .main-sidebar .user-panel .info a,
+body.larkon-admin .main-sidebar .user-panel .info span {
+  color: #f3f7fb !important;
+  font-size: 17px !important;
+  font-weight: 500 !important;
 }
 
-/* Content wrapper */
-.content-wrapper {
-  background: #f8f6f3 !important;
+body.larkon-admin .main-header {
+  display: none !important;
 }
 
-/* Cards */
-.card {
-  border: 1px solid rgba(201, 169, 110, 0.15) !important;
+body.larkon-admin .content-wrapper {
+  margin-right: 330px !important;
+  margin-left: 0 !important;
+  min-height: 100vh !important;
+  background: #f5f5f4 !important;
+}
+
+body.larkon-admin .content-header,
+body.larkon-admin .main-footer {
+  display: none !important;
+}
+
+body.larkon-admin .card,
+body.larkon-admin .card-body,
+body.larkon-admin .table,
+body.larkon-admin .form-control,
+body.larkon-admin .btn,
+body.larkon-admin .input-group-text {
+  border-radius: 12px !important;
+}
+
+body.larkon-admin .content {
+  padding: 18px 20px 40px !important;
+}
+
+body.larkon-admin #content .row {
+  margin: 0 !important;
+}
+
+@media (max-width: 991.98px) {
+  body.larkon-admin #jazzy-sidebar,
+  body.larkon-admin .main-sidebar {
+    width: min(78vw, 330px) !important;
+    transform: translateX(110%) !important;
+    transition: transform 0.2s ease;
+    z-index: 1040 !important;
+  }
+
+  body.larkon-admin.sidebar-open #jazzy-sidebar,
+  body.larkon-admin.sidebar-open .main-sidebar {
+    transform: translateX(0) !important;
+  }
+
+  body.larkon-admin .content-wrapper {
+    margin-right: 0 !important;
+  }
+}
+
+body.larkon-admin .main-header {
+  background: rgba(255,255,255,0.92) !important;
+  border-bottom: 1px solid var(--larkon-border) !important;
+  box-shadow: none !important;
+  min-height: var(--larkon-header-height) !important;
+  margin: 0 !important;
+}
+
+body.larkon-admin .content-wrapper {
+  background: var(--larkon-bg) !important;
+  margin-right: var(--larkon-sidebar-width) !important;
+  margin-left: 0 !important;
+  min-height: calc(100vh - var(--larkon-header-height)) !important;
+}
+
+body.larkon-admin .content-header {
+  display: none !important;
+}
+
+body.larkon-admin .card {
+  border: 1px solid var(--larkon-border) !important;
   border-radius: 16px !important;
-  box-shadow: 0 4px 16px rgba(53, 45, 31, 0.04) !important;
-  transition: box-shadow 200ms ease !important;
+  box-shadow: none !important;
 }
 
-.card:hover {
-  box-shadow: 0 8px 24px rgba(53, 45, 31, 0.08) !important;
+body.larkon-admin .card-header {
+  background: transparent !important;
+  border-bottom: 1px solid var(--larkon-border) !important;
+  padding: 18px 22px !important;
 }
 
-.card-header {
-  background: linear-gradient(135deg, #fdfcf9 0%, #f5f0e6 100%) !important;
-  border-bottom: 1px solid rgba(201, 169, 110, 0.15) !important;
-  border-radius: 16px 16px 0 0 !important;
+body.larkon-admin .table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  background: var(--larkon-surface) !important;
 }
 
-/* Buttons */
-.btn-primary, .btn-warning {
-  background: linear-gradient(135deg, #c9a96e 0%, #e8d3a1 100%) !important;
-  border: none !important;
-  color: #2b2620 !important;
-  font-weight: 600 !important;
+body.larkon-admin .table thead th {
+  background: #f9f8f5 !important;
+  color: #5d5c5a !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em !important;
+  border-bottom: 1px solid var(--larkon-border) !important;
+  padding: 18px 14px !important;
+  text-transform: none !important;
+}
+
+body.larkon-admin .table tbody td {
+  border-bottom: 1px solid var(--larkon-border) !important;
+  padding: 18px 14px !important;
+  color: #2a2b2e !important;
+  font-size: 14px !important;
+  vertical-align: middle !important;
+}
+
+body.larkon-admin .table tbody tr:hover {
+  background: #faf9f8 !important;
+}
+
+body.larkon-admin .btn,
+body.larkon-admin .btn-primary,
+body.larkon-admin .btn-warning,
+body.larkon-admin .btn-danger,
+body.larkon-admin .btn-default {
   border-radius: 10px !important;
-  transition: transform 150ms ease, box-shadow 150ms ease !important;
-}
-
-.btn-primary:hover, .btn-warning:hover {
-  transform: translateY(-1px) !important;
-  box-shadow: 0 6px 16px rgba(201, 169, 110, 0.35) !important;
-}
-
-/* Badges */
-.badge-soft-primary, .badge-soft-warning {
-  background: rgba(201, 169, 110, 0.15) !important;
-  color: #8b6914 !important;
-  border-radius: 8px !important;
-}
-
-.badge-soft-success {
-  background: rgba(120, 96, 52, 0.12) !important;
-  color: #5a4a2a !important;
-  border-radius: 8px !important;
-}
-
-.badge-soft-danger {
-  background: rgba(163, 72, 87, 0.12) !important;
-  color: #813541 !important;
-  border-radius: 8px !important;
-}
-
-/* Footer */
-.main-footer {
-  background: linear-gradient(135deg, #fdfcf9 0%, #f5f0e6 100%) !important;
-  border-top: 1px solid rgba(201, 169, 110, 0.2) !important;
-  color: #68635c !important;
-}
-
-/* Form controls */
-.form-control, .form-select {
-  border: 1px solid rgba(201, 169, 110, 0.3) !important;
-  border-radius: 10px !important;
-  transition: border-color 150ms ease, box-shadow 150ms ease !important;
-}
-
-.form-control:focus, .form-select:focus {
-  border-color: #c9a96e !important;
-  box-shadow: 0 0 0 3px rgba(201, 169, 110, 0.15) !important;
-}
-
-/* Tables */
-.table thead th {
-  background: rgba(201, 169, 110, 0.08) !important;
-  color: #2b2620 !important;
+  border: 1px solid transparent !important;
   font-weight: 600 !important;
-  border-bottom: 2px solid rgba(201, 169, 110, 0.2) !important;
 }
 
-.table tbody tr:hover {
-  background: rgba(201, 169, 110, 0.04) !important;
+body.larkon-admin .btn-primary,
+body.larkon-admin .btn-warning {
+  background: linear-gradient(135deg, #ef8a5d 0%, #f1a05a 100%) !important;
+  color: #fff !important;
+  box-shadow: none !important;
 }
 
-/* Login page */
-.login-page {
-  background: linear-gradient(135deg, #f5f0e6 0%, #ede6d8 100%) !important;
+body.larkon-admin .table .btn,
+body.larkon-admin .table .btn-secondary,
+body.larkon-admin .table .btn-default {
+  border: 1px solid #ebded1 !important;
+  background: #fff !important;
+  color: #7b5942 !important;
 }
 
-.login-box .card {
-  border: 1px solid rgba(201, 169, 110, 0.25) !important;
-  box-shadow: 0 12px 40px rgba(53, 45, 31, 0.1) !important;
+body.larkon-admin .main-header .nav-link,
+body.larkon-admin .main-header .brand-link {
+  color: var(--larkon-text) !important;
 }
 
-/* Scrollbar */
-::-webkit-scrollbar {
+body.larkon-admin .navbar-nav .nav-item {
+  margin-left: 8px !important;
+}
+
+body.larkon-admin .navbar-nav .nav-link {
+  border-radius: 10px !important;
+  padding: 8px 10px !important;
+}
+
+body.larkon-admin .form-control,
+body.larkon-admin .form-select,
+body.larkon-admin .input-group .form-control {
+  border: 1px solid var(--larkon-border) !important;
+  border-radius: 10px !important;
+  min-height: 38px !important;
+  background: #fafaf9 !important;
+  color: var(--larkon-text) !important;
+}
+
+body.larkon-admin .form-control:focus,
+body.larkon-admin .form-select:focus {
+  border-color: rgba(240,139,93,0.6) !important;
+  box-shadow: 0 0 0 3px rgba(240,139,93,0.12) !important;
+}
+
+body.larkon-admin .main-footer {
+  display: none !important;
+}
+
+body.larkon-admin .row > .col-md-9,
+body.larkon-admin .row > .col-md-12 {
+  padding-left: 22px !important;
+  padding-right: 22px !important;
+}
+
+body.larkon-admin .card .card-body {
+  padding: 0 !important;
+}
+
+body.larkon-admin .dataTables_wrapper,
+body.larkon-admin .changelist-form {
+  background: transparent !important;
+}
+
+body.larkon-admin #content {
+  padding: 0 !important;
+}
+
+body.larkon-admin #content section.content {
+  padding: 0 24px 40px !important;
+}
+
+body.larkon-admin #change-list-filters {
+  padding: 0 0 18px !important;
+  margin: 0 !important;
+}
+
+body.larkon-admin #changelist-search {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 16px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+body.larkon-admin #changelist-search .form-group {
+  margin: 0 !important;
+}
+
+body.larkon-admin #searchbar {
+  min-width: 220px !important;
+  max-width: 360px !important;
+  border: 1px solid var(--larkon-border) !important;
+  border-radius: 10px !important;
+  height: 40px !important;
+  background: #f8f8f7 !important;
+  color: var(--larkon-text) !important;
+  direction: rtl !important;
+  text-align: right !important;
+  padding: 0 14px !important;
+}
+
+body.larkon-admin #changelist-search button[type="submit"] {
+  border-radius: 10px !important;
+  border: 1px solid rgba(240,139,93,0.4) !important;
+  background: #fff !important;
+  color: #eb8c66 !important;
+  min-width: 100px !important;
+  height: 40px !important;
+  font-weight: 600 !important;
+}
+
+body.larkon-admin .change-list-actions {
+  margin: 0 0 12px !important;
+}
+
+body.larkon-admin .change-list-actions .actions {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 12px !important;
+  padding: 0 !important;
+}
+
+body.larkon-admin .change-list-actions .actions select,
+body.larkon-admin .change-list-actions .actions label {
+  margin: 0 !important;
+}
+
+body.larkon-admin .change-list-actions .actions select {
+  min-height: 40px !important;
+  border: 1px solid var(--larkon-border) !important;
+  border-radius: 10px !important;
+  background: #fff !important;
+  color: var(--larkon-text) !important;
+}
+
+body.larkon-admin .change-list-actions .actions .btn {
+  border-radius: 10px !important;
+  border: 1px solid rgba(240,139,93,0.4) !important;
+  background: linear-gradient(135deg, #ef8a5d 0%, #f1a05a 100%) !important;
+  color: #fff !important;
+  min-height: 40px !important;
+  padding: 0 18px !important;
+  font-weight: 700 !important;
+}
+
+body.larkon-admin .module#changelist {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+body.larkon-admin #result_list {
+  width: 100% !important;
+  table-layout: auto !important;
+  background: #ffffff !important;
+  border: 1px solid var(--larkon-border) !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  box-shadow: none !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+}
+
+body.larkon-admin #result_list thead th {
+  background: #f7f6f4 !important;
+  border-bottom: 1px solid var(--larkon-border) !important;
+  color: #6d6b69 !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+  padding: 15px 14px !important;
+  text-align: right !important;
+  vertical-align: middle !important;
+}
+
+body.larkon-admin #result_list tbody td {
+  border-bottom: 1px solid var(--larkon-border) !important;
+  border-left: 0 !important;
+  border-right: 0 !important;
+  padding: 18px 14px !important;
+  font-size: 14px !important;
+  color: #2a2b2d !important;
+  background: #fff !important;
+  vertical-align: middle !important;
+}
+
+body.larkon-admin #result_list tbody tr:hover td {
+  background: #faf9f7 !important;
+}
+
+body.larkon-admin #result_list .field-title,
+body.larkon-admin #result_list .field-price,
+body.larkon-admin #result_list .field-stock_count,
+body.larkon-admin #result_list .field-category,
+body.larkon-admin #result_list .field-product_status,
+body.larkon-admin #result_list .field-action,
+body.larkon-admin #result_list .field-product_image {
+  white-space: nowrap !important;
+}
+
+body.larkon-admin #result_list .field-product_image img {
+  width: 52px !important;
+  height: 52px !important;
+  border-radius: 10px !important;
+  object-fit: cover !important;
+  border: 1px solid #ece6df !important;
+  background: #f6f0ec !important;
+}
+
+body.larkon-admin #result_list .admin-product-thumbnail {
+  display: block;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--larkon-border);
+  border-radius: 9px;
+  background: #f8f8f7;
+  object-fit: cover;
+}
+
+body.larkon-admin #result_list .admin-status-badge {
+  display: inline-flex;
+  min-height: 25px;
+  align-items: center;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+body.larkon-admin #result_list .admin-status-badge--published {
+  color: #16824b;
+  background: #e8f6ef;
+}
+
+body.larkon-admin #result_list .admin-status-badge--draft,
+body.larkon-admin #result_list .admin-status-badge--review {
+  color: #9a6b08;
+  background: #fff4d6;
+}
+
+body.larkon-admin #result_list .admin-status-badge--disabled,
+body.larkon-admin #result_list .admin-status-badge--rejected {
+  color: #b33a3a;
+  background: #ffeded;
+}
+
+body.larkon-admin #result_list .field-product_status {
+  min-width: 110px !important;
+}
+
+body.larkon-admin #result_list .field-product_status span,
+body.larkon-admin #result_list .field-product_status strong,
+body.larkon-admin #result_list .field-product_status .text {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 6px 10px !important;
+  border-radius: 999px !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+}
+
+body.larkon-admin #result_list .field-product_status .text-success,
+body.larkon-admin #result_list .field-product_status .status-active,
+body.larkon-admin #result_list .field-product_status .badge-success {
+  background: rgba(22, 163, 74, 0.12) !important;
+  color: #1d8b4a !important;
+}
+
+body.larkon-admin #result_list .field-product_status .text-warning,
+body.larkon-admin #result_list .field-product_status .status-draft,
+body.larkon-admin #result_list .field-product_status .badge-warning {
+  background: rgba(245, 158, 11, 0.12) !important;
+  color: #b77a00 !important;
+}
+
+body.larkon-admin #result_list .field-product_status .text-danger,
+body.larkon-admin #result_list .field-product_status .status-out,
+body.larkon-admin #result_list .field-product_status .badge-danger {
+  background: rgba(220, 38, 38, 0.12) !important;
+  color: #b12929 !important;
+}
+
+body.larkon-admin #result_list .field-product_status a,
+body.larkon-admin #result_list a[href*="change"] {
+  color: #4d6ad6 !important;
+}
+
+body.larkon-admin #result_list .action-button,
+body.larkon-admin #result_list .p-0 a,
+body.larkon-admin #result_list td a.btn {
+  border: 1px solid rgba(240,139,93,0.3) !important;
+  background: #fff !important;
+  color: #a86747 !important;
+  border-radius: 8px !important;
+  padding: 5px 8px !important;
+  min-width: 28px !important;
+}
+
+body.larkon-admin .main-header {
+  height: 74px !important;
+}
+
+body.larkon-admin .main-header .navbar-nav {
+  min-height: 74px !important;
+  align-items: center !important;
+}
+
+body.larkon-admin #jazzy-navbar .nav-link {
+  color: #2a2a2a !important;
+  opacity: 1 !important;
+}
+
+body.larkon-admin #jazzy-navbar .nav-link i {
+  font-size: 18px !important;
+}
+
+body.larkon-admin .brand-link {
+  min-height: 74px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+body.larkon-admin .sidebar .user-panel {
+  display: none !important;
+}
+
+body.larkon-admin .main-sidebar .nav-sidebar {
+  padding-top: 6px !important;
+}
+
+body.larkon-admin .nav-sidebar .nav-header {
+  padding-top: 12px !important;
+  margin-top: 6px !important;
+}
+
+body.larkon-admin .pagination {
+  margin-top: 18px !important;
+  justify-content: flex-start !important;
+}
+
+body.larkon-admin .pagination .page-item.active .page-link {
+  background: rgba(240,139,93,0.15) !important;
+  border-color: rgba(240,139,93,0.3) !important;
+  color: #ca5f35 !important;
+}
+
+body.larkon-admin #result_list thead th,
+body.larkon-admin #result_list tbody td {
+  line-height: 1.5 !important;
+}
+
+body.larkon-admin #result_list tbody td:last-child,
+body.larkon-admin #result_list thead th:last-child {
+  text-align: center !important;
+}
+
+body.larkon-admin #result_list .field-product_image_preview {
+  width: 76px;
+}
+
+body.larkon-admin #result_list .field-title {
+  min-width: 220px;
+  font-weight: 600;
+}
+
+body.larkon-admin #result_list .field-pid {
+  min-width: 110px;
+  direction: ltr;
+  text-align: right;
+}
+
+body.larkon-admin #result_list .field-stock_count,
+body.larkon-admin #result_list .field-price {
+  white-space: nowrap;
+}
+
+@media (max-width: 991.98px) {
+  body.larkon-admin .content-wrapper {
+    margin-right: 0 !important;
+  }
+
+  body.larkon-admin #jazzy-sidebar,
+  body.larkon-admin .main-sidebar {
+    transform: translateX(100%) !important;
+    width: min(84vw, 280px) !important;
+  }
+
+  body.larkon-admin .sidebar-open .main-sidebar,
+  body.larkon-admin .sidebar-open #jazzy-sidebar {
+    transform: translateX(0) !important;
+  }
+}
+
+/* Product dashboard based on the supplied compact RTL reference. */
+body.admin-product-dashboard {
+  min-width: 320px;
+  background: #f7f8fa !important;
+  color: #242b38 !important;
+  font-family: "Vazirmatn", "Vazir", Tahoma, sans-serif !important;
+  font-size: 13px !important;
+}
+
+body.admin-product-dashboard .main-header,
+body.admin-product-dashboard .main-footer {
+  display: none !important;
+}
+
+body.admin-product-dashboard .content-wrapper {
+  min-height: 100vh !important;
+  margin: 0 !important;
+  background: #f7f8fa !important;
+}
+
+body.admin-product-dashboard .admin-product-shell {
+  min-height: 100vh;
+}
+
+body.admin-product-dashboard .product-sidebar {
+  position: fixed;
+  z-index: 1035;
+  inset: 0 auto 0 0;
+  display: flex;
+  width: 190px;
+  flex-direction: column;
+  padding: 18px 12px;
+  color: #aeb6c4;
+  background: #202a35;
+  transition: width 180ms ease, transform 180ms ease;
+}
+
+body.admin-product-dashboard .product-brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 7px 27px;
+  color: #fff !important;
+  font-size: 17px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+body.admin-product-dashboard .product-brand-mark {
+  display: grid;
+  width: 27px;
+  height: 27px;
+  flex: 0 0 27px;
+  place-items: center;
+  border-radius: 8px;
+  color: #fff;
+  background: #f47b45;
+}
+
+body.admin-product-dashboard .product-navigation {
+  overflow-y: auto;
+}
+
+body.admin-product-dashboard .product-nav-label {
+  display: block;
+  margin: 12px 10px 7px;
+  color: #778392;
+  font-size: 10px;
+}
+
+body.admin-product-dashboard .product-nav-label-secondary {
+  margin-top: 22px;
+}
+
+body.admin-product-dashboard .product-nav-link {
+  display: flex;
+  min-height: 36px;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  border-radius: 5px;
+  color: #b9c1cb !important;
+  font-size: 12px;
+  text-decoration: none;
+}
+
+body.admin-product-dashboard .product-nav-link i {
+  width: 17px;
+  color: #aeb6c4 !important;
+  text-align: center;
+}
+
+body.admin-product-dashboard .product-nav-link:hover,
+body.admin-product-dashboard .product-nav-link.active {
+  color: #fff !important;
+  background: #303c49;
+}
+
+body.admin-product-dashboard .product-nav-link.active {
+  border-right: 3px solid #f47b45;
+}
+
+body.admin-product-dashboard .product-sidebar-user {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: auto;
+  padding: 12px 5px 0;
+  border-top: 1px solid rgb(255 255 255 / 9%);
+  color: #e7ebf0;
+  font-size: 12px;
+}
+
+body.admin-product-dashboard .product-main {
+  min-height: 100vh;
+  margin-left: 190px;
+}
+
+body.admin-product-dashboard .product-topbar {
+  position: sticky;
+  z-index: 10;
+  top: 0;
+  display: flex;
+  min-height: 58px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 25px;
+  border-bottom: 1px solid #eceef1;
+  background: #fff;
+}
+
+body.admin-product-dashboard .product-page-name {
+  margin: 0;
+  color: #424a56;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+body.admin-product-dashboard .product-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+body.admin-product-dashboard .product-icon-button,
+body.admin-product-dashboard .product-menu-toggle {
+  display: inline-grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  color: #707987 !important;
+  background: transparent;
+  text-decoration: none;
+}
+
+body.admin-product-dashboard .product-icon-button:hover,
+body.admin-product-dashboard .product-menu-toggle:hover {
+  background: #f1f3f6;
+  color: #f47b45 !important;
+}
+
+body.admin-product-dashboard .product-menu-toggle {
+  display: none;
+}
+
+body.admin-product-dashboard .product-avatar {
+  display: inline-grid;
+  width: 29px;
+  height: 29px;
+  flex: 0 0 29px;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  background: #727e91;
+  font-size: 11px;
+}
+
+body.admin-product-dashboard .product-global-search {
+  position: relative;
+  width: 180px;
+}
+
+body.admin-product-dashboard .product-global-search i {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  color: #929aa5;
+  transform: translateY(-50%);
+}
+
+body.admin-product-dashboard .product-global-search input {
+  width: 100%;
+  height: 32px;
+  padding: 0 30px 0 10px;
+  border: 1px solid #eceef1;
+  border-radius: 4px;
+  outline: none;
+  background: #f7f8fa;
+  font: inherit;
+  font-size: 11px;
+}
+
+body.admin-product-dashboard .product-global-search input:focus,
+body.admin-product-dashboard .product-control:focus,
+body.admin-product-dashboard .product-select:focus {
+  border-color: #f47b45;
+  box-shadow: 0 0 0 3px rgb(244 123 69 / 14%);
+}
+
+body.admin-product-dashboard .product-content {
+  padding: 22px 25px 35px;
+}
+
+body.admin-product-dashboard .product-breadcrumb {
+  margin-bottom: 16px;
+  color: #8c95a2;
+  font-size: 10px;
+}
+
+body.admin-product-dashboard .product-breadcrumb span {
+  margin: 0 5px;
+}
+
+body.admin-product-dashboard .product-panel {
+  overflow: hidden;
+  border: 1px solid #eceef1;
+  border-radius: 7px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgb(29 39 52 / 3%);
+}
+
+body.admin-product-dashboard .product-panel-head {
+  display: flex;
+  min-height: 66px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 12px 16px;
+  border-bottom: 1px solid #eff0f2;
+}
+
+body.admin-product-dashboard .product-panel-title {
+  margin: 0;
+  color: #343c47;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+body.admin-product-dashboard .product-panel-subtitle {
+  margin: 4px 0 0;
+  color: #929aa5;
+  font-size: 10px;
+}
+
+body.admin-product-dashboard .product-toolbar,
+body.admin-product-dashboard .product-filter-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+}
+
+body.admin-product-dashboard .product-control,
+body.admin-product-dashboard .product-select,
+body.admin-product-dashboard .product-search-button,
+body.admin-product-dashboard .product-add-button {
+  min-height: 32px;
+  padding: 0 10px;
+  border: 1px solid #e5e8ec;
+  border-radius: 4px;
+  color: #535d6a;
+  background: #fff;
+  font: inherit;
+  font-size: 11px;
+}
+
+body.admin-product-dashboard .product-control {
+  width: 150px;
+}
+
+body.admin-product-dashboard .product-select {
+  max-width: 155px;
+}
+
+body.admin-product-dashboard .product-search-button {
+  color: #626c79;
+  background: #f7f8fa;
+}
+
+body.admin-product-dashboard .product-search-button:hover {
+  border-color: #f5b497;
+  color: #df6836;
+  background: #fff8f4;
+}
+
+body.admin-product-dashboard .product-add-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-color: #f47b45;
+  color: #fff !important;
+  background: #f47b45;
+  text-decoration: none;
+}
+
+body.admin-product-dashboard .product-add-button:hover {
+  border-color: #e76d38;
+  color: #fff !important;
+  background: #e76d38;
+}
+
+body.admin-product-dashboard .product-messages {
+  padding: 10px 15px 0;
+}
+
+body.admin-product-dashboard .product-message {
+  margin: 0;
+  padding: 8px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+body.admin-product-dashboard .product-message.success {
+  color: #25845b;
+  background: #e8f6ef;
+}
+
+body.admin-product-dashboard .product-message.error {
+  color: #b83d42;
+  background: #ffeded;
+}
+
+body.admin-product-dashboard .product-message.warning {
+  color: #8f6b14;
+  background: #fff5d9;
+}
+
+body.admin-product-dashboard .product-bulk-toolbar {
+  display: flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 14px;
+  color: #818a96;
+  font-size: 10px;
+}
+
+body.admin-product-dashboard .product-bulk-delete {
+  min-height: 27px;
+  padding: 0 9px;
+  border: 1px solid #f3b7b9;
+  border-radius: 4px;
+  color: #b83d42;
+  background: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+
+body.admin-product-dashboard .product-bulk-delete:disabled {
+  opacity: .48;
+  cursor: not-allowed;
+}
+
+body.admin-product-dashboard .product-table-wrap {
+  overflow-x: auto;
+}
+
+body.admin-product-dashboard .product-table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+  table-layout: fixed;
+  text-align: right;
+}
+
+body.admin-product-dashboard .product-table th:nth-child(1),
+body.admin-product-dashboard .product-table td:nth-child(1) { width: 38px; }
+body.admin-product-dashboard .product-table th:nth-child(2),
+body.admin-product-dashboard .product-table td:nth-child(2) { width: 22%; }
+body.admin-product-dashboard .product-table th:nth-child(3),
+body.admin-product-dashboard .product-table td:nth-child(3) { width: 13%; }
+body.admin-product-dashboard .product-table th:nth-child(4),
+body.admin-product-dashboard .product-table td:nth-child(4) { width: 11%; }
+body.admin-product-dashboard .product-table th:nth-child(5),
+body.admin-product-dashboard .product-table td:nth-child(5) { width: 13%; }
+body.admin-product-dashboard .product-table th:nth-child(6),
+body.admin-product-dashboard .product-table td:nth-child(6) { width: 12%; }
+body.admin-product-dashboard .product-table th:nth-child(7),
+body.admin-product-dashboard .product-table td:nth-child(7) { width: 11%; }
+body.admin-product-dashboard .product-table th:nth-child(8),
+body.admin-product-dashboard .product-table td:nth-child(8) { width: 100px; }
+
+body.admin-product-dashboard .product-table th {
+  height: 39px;
+  padding: 0 11px;
+  color: #7e8794;
+  background: #fbfbfc;
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+body.admin-product-dashboard .product-table td {
+  height: 57px;
+  padding: 6px 11px;
+  border-top: 1px solid #f0f1f3;
+  color: #535d6a;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+body.admin-product-dashboard .product-table tbody tr:hover {
+  background: #fcfcfd;
+}
+
+body.admin-product-dashboard .product-check-cell {
+  width: 38px;
+  text-align: center !important;
+}
+
+body.admin-product-dashboard .product-check-cell input {
+  accent-color: #f47b45;
+  cursor: pointer;
+}
+
+body.admin-product-dashboard .product-item {
+  display: flex;
+  min-width: 170px;
+  align-items: center;
+  gap: 9px;
+  color: #343c47;
+  font-weight: 500;
+}
+
+body.admin-product-dashboard .product-thumb {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  place-items: center;
+  border: 1px solid #f0f1f3;
+  border-radius: 5px;
+  background: #f7f8fa;
+  object-fit: cover;
+}
+
+body.admin-product-dashboard .product-thumb-placeholder {
+  color: #aeb6c4;
+  font-size: 15px;
+}
+
+body.admin-product-dashboard .product-item-name {
+  overflow: hidden;
+  max-width: 220px;
+  text-overflow: ellipsis;
+}
+
+body.admin-product-dashboard .product-price {
+  color: #343c47 !important;
+  font-weight: 600;
+}
+
+body.admin-product-dashboard .product-price span,
+body.admin-product-dashboard .product-muted {
+  color: #929aa5;
+  font-size: 10px;
+  font-weight: 400;
+}
+
+body.admin-product-dashboard .product-id {
+  color: #727e91;
+  font-size: 10px;
+}
+
+body.admin-product-dashboard .product-badge {
+  display: inline-block;
+  padding: 4px 7px;
+  border-radius: 4px;
+  font-size: 10px;
+}
+
+body.admin-product-dashboard .product-badge.active {
+  color: #25845b;
+  background: #e8f6ef;
+}
+
+body.admin-product-dashboard .product-badge.draft {
+  color: #a57917;
+  background: #fff5d9;
+}
+
+body.admin-product-dashboard .product-badge.out {
+  color: #d44b50;
+  background: #ffeded;
+}
+
+body.admin-product-dashboard .product-actions {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+body.admin-product-dashboard .product-action-button {
+  display: inline-grid;
+  width: 27px;
+  height: 27px;
+  place-items: center;
+  border: 1px solid #eceef1;
+  border-radius: 4px;
+  color: #6b7480;
+  background: #fff;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+body.admin-product-dashboard .product-action-button:hover {
+  border-color: #f5b497;
+  color: #f47b45;
+}
+
+body.admin-product-dashboard .product-action-button.delete:hover {
+  border-color: #f3b7b9;
+  color: #d44b50;
+}
+
+body.admin-product-dashboard .product-empty {
+  height: 100px !important;
+  color: #8b94a0 !important;
+  text-align: center;
+}
+
+body.admin-product-dashboard .product-panel-foot {
+  display: flex;
+  min-height: 45px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 14px;
+  border-top: 1px solid #eff0f2;
+  color: #818a96;
+  font-size: 10px;
+}
+
+body.admin-product-dashboard .product-pagination {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+body.admin-product-dashboard .product-page-button {
+  display: inline-grid;
+  min-width: 27px;
+  height: 26px;
+  place-items: center;
+  padding: 0 6px;
+  border: 1px solid #e8eaed;
+  border-radius: 4px;
+  color: #626c79;
+  background: #fff;
+  text-decoration: none;
+}
+
+body.admin-product-dashboard .product-page-button.current {
+  border-color: #f47b45;
+  color: #fff;
+  background: #f47b45;
+}
+
+body.admin-product-dashboard .product-page-button.disabled {
+  color: #b9c1cb;
+}
+
+body.admin-product-dashboard .product-page-ellipsis {
+  padding: 0 3px;
+}
+
+body.admin-product-dashboard .product-delete-form {
+  display: none;
+}
+
+body.admin-product-dashboard .product-detail-dialog {
+  width: min(420px, calc(100% - 28px));
+  padding: 0;
+  border: 1px solid #eceef1;
+  border-radius: 8px;
+  color: #343c47;
+  box-shadow: 0 15px 45px rgb(29 39 52 / 20%);
+}
+
+body.admin-product-dashboard .product-detail-dialog::backdrop {
+  background: rgb(25 34 44 / 45%);
+}
+
+body.admin-product-dashboard .product-detail-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid #eff0f2;
+}
+
+body.admin-product-dashboard .product-detail-head h2 {
+  margin: 0;
+  font-size: 14px;
+}
+
+body.admin-product-dashboard .product-detail-close {
+  width: 28px;
+  height: 28px;
+  border: 0;
+  color: #707987;
+  background: transparent;
+  font-size: 21px;
+  cursor: pointer;
+}
+
+body.admin-product-dashboard .product-detail-list {
+  margin: 0;
+  padding: 8px 16px 14px;
+}
+
+body.admin-product-dashboard .product-detail-list > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f1f3;
+  font-size: 12px;
+}
+
+body.admin-product-dashboard .product-detail-list > div:last-child {
+  border-bottom: 0;
+}
+
+body.admin-product-dashboard .product-detail-list dt {
+  color: #818a96;
+  font-weight: 500;
+}
+
+body.admin-product-dashboard .product-detail-list dd {
+  margin: 0;
+  color: #343c47;
+  text-align: left;
+}
+
+body.admin-product-dashboard .product-notification {
+  position: fixed;
+  z-index: 1100;
+  right: 22px;
+  bottom: 20px;
+  padding: 10px 14px;
+  border-radius: 5px;
+  color: #fff;
+  background: #273342;
+  box-shadow: 0 5px 18px rgb(0 0 0 / 13%);
+  font-size: 12px;
+}
+
+body.admin-product-dashboard .product-notification[hidden] {
+  display: none;
+}
+
+body.admin-product-dashboard :focus-visible {
+  outline: 2px solid #f47b45;
+  outline-offset: 2px;
+}
+
+@media (max-width: 760px) {
+  body.admin-product-dashboard .product-sidebar {
+    width: 58px;
+    padding: 15px 7px;
+  }
+
+  body.admin-product-dashboard .product-brand {
+    justify-content: center;
+    margin: 0 0 24px;
+  }
+
+  body.admin-product-dashboard .product-brand-name,
+  body.admin-product-dashboard .product-nav-label,
+  body.admin-product-dashboard .product-nav-link span,
+  body.admin-product-dashboard .product-user-name {
+    display: none;
+  }
+
+  body.admin-product-dashboard .product-nav-link {
+    justify-content: center;
+    padding: 8px 2px;
+  }
+
+  body.admin-product-dashboard .product-nav-link i {
+    width: auto;
+  }
+
+  body.admin-product-dashboard .product-sidebar-user {
+    justify-content: center;
+    padding-inline: 0;
+  }
+
+  body.admin-product-dashboard .product-main {
+    margin-left: 58px;
+  }
+
+  body.admin-product-dashboard.product-sidebar-open .product-sidebar {
+    width: 190px;
+    box-shadow: 4px 0 18px rgb(17 25 35 / 18%);
+  }
+
+  body.admin-product-dashboard.product-sidebar-open .product-brand {
+    justify-content: flex-start;
+    margin-inline: 7px;
+  }
+
+  body.admin-product-dashboard.product-sidebar-open .product-brand-name,
+  body.admin-product-dashboard.product-sidebar-open .product-nav-label,
+  body.admin-product-dashboard.product-sidebar-open .product-nav-link span,
+  body.admin-product-dashboard.product-sidebar-open .product-user-name {
+    display: initial;
+  }
+
+  body.admin-product-dashboard.product-sidebar-open .product-nav-link {
+    justify-content: flex-start;
+    padding-inline: 10px;
+  }
+
+  body.admin-product-dashboard.product-sidebar-open .product-nav-link i {
+    width: 17px;
+  }
+
+  body.admin-product-dashboard.product-sidebar-open .product-sidebar-user {
+    justify-content: flex-start;
+    padding-inline: 5px;
+  }
+
+  body.admin-product-dashboard .product-menu-toggle {
+    display: inline-grid;
+    flex: 0 0 30px;
+  }
+
+  body.admin-product-dashboard .product-topbar {
+    gap: 8px;
+    padding: 0 13px;
+  }
+
+  body.admin-product-dashboard .product-content {
+    padding: 16px 12px;
+  }
+
+  body.admin-product-dashboard .product-global-search {
+    width: 125px;
+  }
+
+  body.admin-product-dashboard .product-panel-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  body.admin-product-dashboard .product-toolbar,
+  body.admin-product-dashboard .product-filter-form {
+    width: 100%;
+  }
+
+  body.admin-product-dashboard .product-control {
+    flex: 1 1 140px;
+  }
+}
+
+@media (max-width: 430px) {
+  body.admin-product-dashboard .product-top-actions {
+    gap: 4px;
+  }
+
+  body.admin-product-dashboard .product-top-actions > .product-icon-button:nth-child(2) {
+    display: none;
+  }
+
+  body.admin-product-dashboard .product-global-search {
+    width: 92px;
+  }
+
+  body.admin-product-dashboard .product-content {
+    padding: 12px 8px;
+  }
+
+  body.admin-product-dashboard .product-filter-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  body.admin-product-dashboard .product-control {
+    width: 100%;
+    grid-column: 1 / -1;
+  }
+
+  body.admin-product-dashboard .product-select {
+    max-width: none;
+    min-width: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.admin-product-dashboard *,
+  body.admin-product-dashboard *::before,
+  body.admin-product-dashboard *::after {
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+@font-face {
+  font-family: "VazirAdmin";
+  src: url("../assets/css/fonts/Vazir-Medium-FD.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+}
+
+body.admin-product-dashboard {
+  font-family: "VazirAdmin", Tahoma, sans-serif !important;
+  font-size: 13px !important;
+}
+
+body.admin-product-dashboard .product-sidebar {
+  right: 0 !important;
+  left: auto !important;
+  width: 220px !important;
+  transform: none !important;
+}
+
+body.admin-product-dashboard .product-main {
+  margin-right: 220px !important;
+  margin-left: 0 !important;
+}
+
+body.admin-product-dashboard .product-menu-toggle {
+  display: none !important;
+}
+
+body.admin-product-dashboard .product-brand,
+body.admin-product-dashboard .product-nav-link,
+body.admin-product-dashboard .product-sidebar-user {
+  font-family: "VazirAdmin", Tahoma, sans-serif !important;
+}
+
+body.admin-product-dashboard .product-brand {
+  font-size: 16px;
+}
+
+body.admin-product-dashboard .product-nav-link {
+  justify-content: flex-start;
+  min-height: 39px;
+  font-size: 13px;
+}
+
+body.admin-product-dashboard .product-nav-link.active {
+  border-right: 0 !important;
+  border-left: 3px solid #f47b45 !important;
+}
+
+body.admin-product-dashboard .product-sidebar-user {
+  font-size: 12px;
+}
+
+@media (max-width: 760px) {
+  body.admin-product-dashboard .product-sidebar {
+    width: 190px !important;
+    padding: 15px 10px;
+  }
+
+  body.admin-product-dashboard .product-brand {
+    justify-content: flex-start;
+    margin: 0 7px 24px;
+  }
+
+  body.admin-product-dashboard .product-brand-name,
+  body.admin-product-dashboard .product-nav-label,
+  body.admin-product-dashboard .product-nav-link span,
+  body.admin-product-dashboard .product-user-name {
+    display: initial !important;
+  }
+
+  body.admin-product-dashboard .product-nav-link {
+    justify-content: flex-start;
+    padding: 8px 10px;
+  }
+
+  body.admin-product-dashboard .product-nav-link i {
+    width: 17px;
+  }
+
+  body.admin-product-dashboard .product-sidebar-user {
+    justify-content: flex-start;
+    padding-inline: 5px;
+  }
+
+  body.admin-product-dashboard .product-main {
+    margin-right: 190px !important;
+    margin-left: 0 !important;
+  }
+
+  body.admin-product-dashboard .product-sidebar-open .product-sidebar {
+    width: 190px !important;
+  }
+
+  body.admin-product-dashboard .product-menu-toggle {
+    display: none !important;
+  }
+}
+
+@media (max-width: 430px) {
+  body.admin-product-dashboard .product-sidebar {
+    width: 160px !important;
+  }
+
+  body.admin-product-dashboard .product-main {
+    margin-right: 160px !important;
+    margin-left: 0 !important;
+  }
+
+  body.admin-product-dashboard .product-nav-link {
+    gap: 7px;
+    padding-inline: 7px;
+    font-size: 12px;
+  }
+}
+
+/* Persian Larkon-style store overview on the existing admin index. */
+body.admin-product-dashboard {
+  background: #f7f7fa !important;
+  color: #343b4a !important;
+}
+
+body.admin-product-dashboard .product-main {
+  background: #f7f7fa;
+}
+
+body.admin-product-dashboard .dashboard-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+body.admin-product-dashboard .product-content.dashboard-content {
+  padding: 22px 25px 18px;
+}
+
+body.admin-product-dashboard .dashboard-welcome {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+body.admin-product-dashboard .dashboard-welcome .product-breadcrumb {
+  margin: 0 0 11px;
+}
+
+body.admin-product-dashboard .dashboard-welcome h2 {
+  margin: 0;
+  color: #343b4a;
+  font-size: 21px;
+  font-weight: 700;
+}
+
+body.admin-product-dashboard .dashboard-welcome p:not(.product-breadcrumb) {
+  margin: 6px 0 0;
+  color: #818a98;
+  font-size: 12px;
+}
+
+body.admin-product-dashboard .dashboard-welcome time {
+  flex: 0 0 auto;
+  padding-bottom: 4px;
+  color: #788292;
+  font-size: 11px;
+}
+
+body.admin-product-dashboard .dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+body.admin-product-dashboard .dashboard-stat-card {
+  display: grid;
+  min-width: 0;
+  min-height: 147px;
+  grid-template-columns: 54px minmax(0, 1fr);
+  grid-template-rows: 1fr auto;
+  column-gap: 14px;
+  padding: 18px 17px 0;
+  overflow: hidden;
+  border: 1px solid #f0f0f3;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 4px 15px rgb(28 36 54 / 3%);
+}
+
+body.admin-product-dashboard .dashboard-stat-icon {
+  display: grid;
+  width: 54px;
+  height: 54px;
+  place-items: center;
+  border-radius: 9px;
+  color: #f47b45;
+  background: #ffebe1;
+  font-size: 20px;
+}
+
+body.admin-product-dashboard .dashboard-stat-icon.products {
+  color: #55a58b;
+  background: #e6f4ee;
+}
+
+body.admin-product-dashboard .dashboard-stat-icon.customers {
+  color: #6a80c2;
+  background: #e9edfa;
+}
+
+body.admin-product-dashboard .dashboard-stat-icon.revenue {
+  color: #a877b3;
+  background: #f4eafa;
+}
+
+body.admin-product-dashboard .dashboard-stat-copy {
+  min-width: 0;
+  align-self: center;
+  text-align: left;
+}
+
+body.admin-product-dashboard .dashboard-stat-copy p {
+  margin: 0 0 5px;
+  color: #788292;
+  font-size: 12px;
+}
+
+body.admin-product-dashboard .dashboard-stat-copy strong {
+  display: block;
+  overflow: hidden;
+  color: #303a58;
+  font-size: 24px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+body.admin-product-dashboard .dashboard-stat-copy .dashboard-revenue {
+  font-size: 18px;
+}
+
+body.admin-product-dashboard .dashboard-revenue small {
+  color: #818a98;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+body.admin-product-dashboard .dashboard-stat-foot {
+  display: flex;
+  min-width: 0;
+  grid-column: 1 / -1;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 16px -17px 0;
+  padding: 10px 17px;
+  border-top: 1px solid #f3f3f6;
+  color: #7d8795;
+  background: #fafafd;
+  font-size: 10px;
+}
+
+body.admin-product-dashboard .dashboard-stat-foot b {
+  color: #4e596c;
+  font-weight: 600;
+}
+
+body.admin-product-dashboard .dashboard-stat-foot i {
+  color: #52ae83;
+}
+
+body.admin-product-dashboard .dashboard-panel {
+  margin-bottom: 18px;
+  overflow: hidden;
+  border: 1px solid #f0f0f3;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 4px 15px rgb(28 36 54 / 3%);
+}
+
+body.admin-product-dashboard .dashboard-panel-head {
+  display: flex;
+  min-height: 72px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 15px 18px;
+  border-bottom: 1px solid #f0f0f3;
+}
+
+body.admin-product-dashboard .dashboard-panel-head h2 {
+  margin: 0;
+  color: #343b4a;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+body.admin-product-dashboard .dashboard-panel-head p {
+  margin: 5px 0 0;
+  color: #858e9b;
+  font-size: 10px;
+}
+
+body.admin-product-dashboard .dashboard-chart-period {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 5px;
+}
+
+body.admin-product-dashboard .dashboard-chart-period button {
+  min-width: 54px;
+  height: 31px;
+  padding: 0 9px;
+  border: 1px solid #eceef2;
+  border-radius: 5px;
+  color: #697383;
+  background: #fff;
+  font: inherit;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+body.admin-product-dashboard .dashboard-chart-period button:hover,
+body.admin-product-dashboard .dashboard-chart-period button[aria-pressed="true"] {
+  border-color: #eef0f5;
+  color: #424c61;
+  background: #f0f2f7;
+}
+
+body.admin-product-dashboard .dashboard-chart-wrap {
+  position: relative;
+  min-height: 260px;
+  padding: 22px 22px 12px;
+}
+
+body.admin-product-dashboard .dashboard-chart-legend {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  color: #737d8c;
+  font-size: 10px;
+}
+
+body.admin-product-dashboard .dashboard-chart-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+body.admin-product-dashboard .dashboard-chart-legend i {
   width: 8px;
   height: 8px;
+  border-radius: 50%;
+  background: #f47b45;
 }
 
-::-webkit-scrollbar-track {
-  background: #f5f0e6;
+body.admin-product-dashboard .dashboard-chart-legend i.revenue {
+  background: #58b897;
 }
 
-::-webkit-scrollbar-thumb {
-  background: rgba(201, 169, 110, 0.4);
+body.admin-product-dashboard .dashboard-chart {
+  display: block;
+  width: 100%;
+  height: 205px;
+  margin-top: 10px;
+  overflow: visible;
+}
+
+body.admin-product-dashboard .dashboard-chart-grid line {
+  stroke: #eff0f4;
+  stroke-dasharray: 4 5;
+  stroke-width: 1;
+}
+
+body.admin-product-dashboard .dashboard-chart-line {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 3;
+  vector-effect: non-scaling-stroke;
+}
+
+body.admin-product-dashboard .dashboard-chart-line.orders {
+  stroke: #f47b45;
+}
+
+body.admin-product-dashboard .dashboard-chart-line.revenue {
+  stroke: #58b897;
+}
+
+body.admin-product-dashboard .dashboard-chart-points circle {
+  fill: #fff;
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+body.admin-product-dashboard .dashboard-chart-points.orders circle {
+  stroke: #f47b45;
+}
+
+body.admin-product-dashboard .dashboard-chart-points.revenue circle {
+  stroke: #58b897;
+}
+
+body.admin-product-dashboard .dashboard-chart-labels {
+  display: flex;
+  justify-content: space-between;
+  gap: 3px;
+  margin: -2px 3px 0;
+  color: #8992a0;
+  font-size: 9px;
+  text-align: center;
+}
+
+body.admin-product-dashboard .dashboard-chart-labels span {
+  min-width: 0;
+  flex: 1 1 0;
+}
+
+body.admin-product-dashboard .dashboard-chart-empty {
+  position: absolute;
+  inset: 45% 12px auto;
+  margin: 0;
+  color: #8b94a1;
+  font-size: 12px;
+  text-align: center;
+}
+
+body.admin-product-dashboard .dashboard-view-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #687384;
+  font-size: 10px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+body.admin-product-dashboard .dashboard-view-all:hover {
+  color: #f47b45;
+}
+
+body.admin-product-dashboard .dashboard-orders-wrap {
+  overflow-x: auto;
+}
+
+body.admin-product-dashboard .dashboard-orders-table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+  color: #515c6c;
+  font-size: 11px;
+}
+
+body.admin-product-dashboard .dashboard-orders-table th,
+body.admin-product-dashboard .dashboard-orders-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #f0f1f4;
+  text-align: right;
+  vertical-align: middle;
+}
+
+body.admin-product-dashboard .dashboard-orders-table th {
+  color: #737e8e;
+  background: #fbfbfd;
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+body.admin-product-dashboard .dashboard-orders-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+body.admin-product-dashboard .dashboard-orders-table tbody tr:hover {
+  background: #fdfdfd;
+}
+
+body.admin-product-dashboard .dashboard-orders-table td small {
+  display: block;
+  margin-top: 3px;
+  color: #969eaa;
+  font-size: 9px;
+}
+
+body.admin-product-dashboard .dashboard-order-id {
+  color: #53627b;
+  font-weight: 600;
+}
+
+body.admin-product-dashboard .dashboard-order-product {
+  display: block;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+body.admin-product-dashboard .dashboard-order-amount {
+  white-space: nowrap;
+}
+
+body.admin-product-dashboard .dashboard-order-amount small {
+  display: inline !important;
+}
+
+body.admin-product-dashboard .dashboard-order-status {
+  display: inline-block;
+  padding: 4px 7px;
   border-radius: 4px;
+  color: #a57917;
+  background: #fff5d9;
+  font-size: 9px;
+  white-space: nowrap;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(201, 169, 110, 0.6);
+body.admin-product-dashboard .dashboard-order-status.shipped {
+  color: #267ba2;
+  background: #e8f5fb;
+}
+
+body.admin-product-dashboard .dashboard-order-status.delivered {
+  color: #25845b;
+  background: #e8f6ef;
+}
+
+body.admin-product-dashboard .dashboard-order-open {
+  display: inline-grid;
+  width: 27px;
+  height: 27px;
+  place-items: center;
+  border-radius: 5px;
+  color: #727e91;
+  background: #f1f3f7;
+  text-decoration: none;
+}
+
+body.admin-product-dashboard .dashboard-order-open:hover {
+  color: #f47b45;
+  background: #fff0e8;
+}
+
+body.admin-product-dashboard .dashboard-orders-empty {
+  height: 94px;
+  color: #8992a0;
+  text-align: center !important;
+}
+
+body.admin-product-dashboard .dashboard-orders-foot {
+  padding: 11px 15px;
+  border-top: 1px solid #f0f1f4;
+  color: #828c99;
+  font-size: 10px;
+}
+
+body.admin-product-dashboard .dashboard-footer {
+  padding: 0 2px 4px;
+  color: #929aa6;
+  font-size: 10px;
+  text-align: center;
+}
+
+body.admin-product-dashboard .dashboard-footer span {
+  margin: 0 4px;
+}
+
+body.admin-product-dashboard .dashboard-notifications {
+  position: relative;
+}
+
+body.admin-product-dashboard .dashboard-notification-count {
+  position: absolute;
+  top: -3px;
+  right: -4px;
+  min-width: 15px;
+  height: 15px;
+  padding: 0 3px;
+  border-radius: 8px;
+  color: #fff;
+  background: #e85d65;
+  font-size: 9px;
+  line-height: 15px;
+  text-align: center;
+}
+
+@media (max-width: 1100px) {
+  body.admin-product-dashboard .dashboard-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  body.admin-product-dashboard .wrapper {
+    overflow-x: hidden;
+  }
+
+  body.admin-product-dashboard .product-sidebar {
+    width: 58px !important;
+    padding: 15px 7px;
+    box-shadow: 3px 0 14px rgb(17 25 35 / 9%);
+  }
+
+  body.admin-product-dashboard .product-brand {
+    justify-content: center;
+    margin: 0 0 22px;
+  }
+
+  body.admin-product-dashboard .product-brand-name,
+  body.admin-product-dashboard .product-nav-label,
+  body.admin-product-dashboard .product-nav-link span,
+  body.admin-product-dashboard .product-user-name {
+    display: none !important;
+  }
+
+  body.admin-product-dashboard .product-nav-link {
+    justify-content: center;
+    padding: 8px 2px;
+  }
+
+  body.admin-product-dashboard .product-nav-link i {
+    width: auto;
+  }
+
+  body.admin-product-dashboard .product-sidebar-user {
+    justify-content: center;
+    padding-inline: 0;
+  }
+
+  body.admin-product-dashboard .product-main {
+    margin-right: 58px !important;
+    margin-left: 0 !important;
+  }
+
+  body.admin-product-dashboard.product-sidebar-open .product-sidebar {
+    width: min(78vw, 220px) !important;
+    box-shadow: 4px 0 22px rgb(17 25 35 / 23%);
+  }
+
+  body.admin-product-dashboard.product-sidebar-open .product-brand {
+    justify-content: flex-start;
+    margin-inline: 7px;
+  }
+
+  body.admin-product-dashboard.product-sidebar-open .product-brand-name,
+  body.admin-product-dashboard.product-sidebar-open .product-nav-label,
+  body.admin-product-dashboard.product-sidebar-open .product-nav-link span,
+  body.admin-product-dashboard.product-sidebar-open .product-user-name {
+    display: initial !important;
+  }
+
+  body.admin-product-dashboard.product-sidebar-open .product-nav-link {
+    justify-content: flex-start;
+    padding-inline: 10px;
+  }
+
+  body.admin-product-dashboard.product-sidebar-open .product-nav-link i {
+    width: 17px;
+  }
+
+  body.admin-product-dashboard.product-sidebar-open .product-sidebar-user {
+    justify-content: flex-start;
+    padding-inline: 5px;
+  }
+
+  body.admin-product-dashboard .product-menu-toggle {
+    display: inline-grid !important;
+    flex: 0 0 30px;
+  }
+
+  body.admin-product-dashboard .product-topbar {
+    padding-inline: 14px;
+  }
+
+  body.admin-product-dashboard .product-content.dashboard-content {
+    padding: 17px 14px;
+  }
+
+  body.admin-product-dashboard .dashboard-chart-wrap {
+    padding-inline: 14px;
+  }
+}
+
+@media (max-width: 560px) {
+  body.admin-product-dashboard .dashboard-welcome {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  body.admin-product-dashboard .dashboard-welcome h2 {
+    font-size: 18px;
+  }
+
+  body.admin-product-dashboard .dashboard-stats {
+    grid-template-columns: 1fr;
+    gap: 11px;
+  }
+
+  body.admin-product-dashboard .dashboard-stat-card {
+    min-height: 126px;
+  }
+
+  body.admin-product-dashboard .dashboard-panel-head {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  body.admin-product-dashboard .dashboard-chart-period {
+    align-self: stretch;
+  }
+
+  body.admin-product-dashboard .dashboard-chart-period button {
+    flex: 1 1 0;
+  }
+
+  body.admin-product-dashboard .dashboard-chart {
+    height: 165px;
+  }
+
+  body.admin-product-dashboard .dashboard-chart-labels {
+    font-size: 8px;
+  }
+
+  body.admin-product-dashboard .product-top-actions {
+    gap: 5px;
+  }
+
+  body.admin-product-dashboard .product-top-actions > .product-icon-button:nth-child(2) {
+    display: none;
+  }
+
+  body.admin-product-dashboard .product-global-search {
+    width: 110px;
+  }
+}
+
+@media (max-width: 390px) {
+  body.admin-product-dashboard .product-global-search {
+    width: 82px;
+  }
+
+  body.admin-product-dashboard .product-topbar {
+    gap: 6px;
+    padding-inline: 8px;
+  }
+
+  body.admin-product-dashboard .product-content.dashboard-content {
+    padding-inline: 10px;
+  }
+
+  body.admin-product-dashboard .dashboard-chart-labels span:nth-child(even) {
+    display: none;
+  }
+}
+
+/* Shared Persian admin shell: the dashboard and model pages use one navigation. */
+:root {
+  --larkon-bg: #f4f6f8;
+  --larkon-surface: #fff;
+  --larkon-border: #e5e9ef;
+  --larkon-text: #243247;
+  --larkon-muted: #6d7888;
+  --larkon-accent: #b84c20;
+  --larkon-accent-soft: #fff0e8;
+  --larkon-sidebar: #17283a;
+  --larkon-sidebar-2: #1d3044;
+  --larkon-sidebar-width: 264px;
+  --larkon-header-height: 68px;
+}
+
+html {
+  min-height: 100%;
+  background: var(--larkon-bg);
+}
+
+body.larkon-admin {
+  min-width: 320px;
+  min-height: 100vh;
+  direction: rtl !important;
+  background: var(--larkon-bg) !important;
+  color: var(--larkon-text) !important;
+  font-family: "Vazir", "Vazirmatn", Tahoma, sans-serif !important;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+body.larkon-admin *,
+body.larkon-admin *::before,
+body.larkon-admin *::after {
+  box-sizing: border-box;
+}
+
+body.larkon-admin :focus-visible {
+  outline: 3px solid rgb(184 76 32 / 48%);
+  outline-offset: 2px;
+}
+
+body.larkon-admin .main-sidebar,
+body.larkon-admin #jazzy-sidebar,
+body.larkon-admin .main-sidebar::before {
+  position: fixed !important;
+  inset-block: 0 !important;
+  inset-inline-start: 0 !important;
+  inset-inline-end: auto !important;
+  width: var(--larkon-sidebar-width) !important;
+  overflow: hidden !important;
+  z-index: 1041 !important;
+  border: 0 !important;
+  border-inline-start: 1px solid rgb(255 255 255 / 7%) !important;
+  background: var(--larkon-sidebar) !important;
+  box-shadow: none !important;
+  transition: transform 180ms ease, width 180ms ease;
+}
+
+body.larkon-admin .main-sidebar::before {
+  content: "";
+  z-index: -1;
+}
+
+body.larkon-admin .main-sidebar .brand-link {
+  display: flex !important;
+  min-height: 72px !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 11px !important;
+  padding: 12px 20px !important;
+  border-bottom: 1px solid rgb(255 255 255 / 9%) !important;
+  background: transparent !important;
+}
+
+body.larkon-admin .brand-link .brand-image {
+  float: none !important;
+  width: 38px !important;
+  height: 38px !important;
+  max-width: 38px !important;
+  max-height: 38px !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 9px !important;
+  background: #fff !important;
+  box-shadow: none !important;
+  object-fit: contain !important;
+  opacity: 1 !important;
+}
+
+body.larkon-admin .brand-link .brand-text {
+  overflow: hidden;
+  color: #f6f8fb !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  text-overflow: ellipsis;
+}
+
+body.larkon-admin .main-sidebar .sidebar {
+  display: flex;
+  height: calc(100vh - 72px);
+  flex-direction: column;
+  padding: 10px 12px 12px !important;
+  overflow: hidden auto !important;
+  direction: rtl;
+}
+
+body.larkon-admin .main-sidebar .user-panel {
+  order: 2;
+  flex: 0 0 auto;
+  align-items: center !important;
+  gap: 10px;
+  margin: auto 0 0 !important;
+  padding: 14px 7px 4px !important;
+  border-top: 1px solid rgb(255 255 255 / 11%) !important;
+}
+
+body.larkon-admin .main-sidebar .user-panel .image {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  background: #40556d;
+}
+
+body.larkon-admin .main-sidebar .user-panel .image img {
+  width: 36px;
+  height: 36px;
+  object-fit: cover;
+}
+
+body.larkon-admin .main-sidebar .user-panel .info {
+  min-width: 0;
+  padding: 0 !important;
+}
+
+body.larkon-admin .main-sidebar .user-panel .info a,
+body.larkon-admin .main-sidebar .user-panel .info span {
+  overflow: hidden;
+  color: #edf2f8 !important;
+  font-size: 12px !important;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+body.larkon-admin .main-sidebar .sidebar > nav {
+  order: 1;
+  min-height: 0;
+  flex: 1 1 auto;
+  margin: 0 !important;
+  overflow-y: auto;
+  scrollbar-color: #526377 transparent;
+  scrollbar-width: thin;
+}
+
+body.larkon-admin .main-sidebar .nav-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 0 !important;
+}
+
+body.larkon-admin .main-sidebar .nav-header {
+  margin: 12px 0 3px !important;
+  padding: 9px 11px 5px !important;
+  color: #a2b0bf !important;
+  font-size: 11px !important;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+body.larkon-admin .main-sidebar .nav-item {
+  margin: 0 !important;
+}
+
+body.larkon-admin .main-sidebar .nav-link {
+  display: flex !important;
+  min-height: 40px;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px !important;
+  border: 0;
+  border-inline-start: 3px solid transparent;
+  border-radius: 7px !important;
+  color: #c7d0db !important;
+  background: transparent !important;
+  font-size: 13px !important;
+  text-align: start !important;
+  transition: color 150ms ease, background-color 150ms ease;
+}
+
+body.larkon-admin .main-sidebar .nav-link .nav-icon {
+  width: 19px !important;
+  margin: 0 !important;
+  color: #a9b7c6 !important;
+  font-size: 15px !important;
+  text-align: center;
+}
+
+body.larkon-admin .main-sidebar .nav-link p {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: 8px;
+  margin: 0 !important;
+}
+
+body.larkon-admin .main-sidebar .nav-link:hover {
+  color: #fff !important;
+  background: rgb(255 255 255 / 7%) !important;
+}
+
+body.larkon-admin .main-sidebar .nav-link.active,
+body.larkon-admin .main-sidebar .nav-item > .nav-link.active {
+  border-inline-start-color: var(--larkon-accent) !important;
+  color: #fff !important;
+  background: var(--larkon-sidebar-2) !important;
+  box-shadow: none !important;
+  font-weight: 700;
+}
+
+body.larkon-admin .main-sidebar .nav-link.active .nav-icon {
+  color: #ffad7e !important;
+}
+
+body.larkon-admin .main-sidebar .nav-treeview {
+  padding-inline-start: 12px;
+  padding-inline-end: 0;
+}
+
+body.larkon-admin .main-sidebar .nav-treeview .nav-link {
+  min-height: 36px;
+  padding-block: 6px !important;
+  color: #b5c2cf !important;
+  font-size: 12px !important;
+}
+
+body.larkon-admin .main-header {
+  display: flex !important;
+  position: sticky;
+  z-index: 1020;
+  top: 0;
+  min-height: var(--larkon-header-height) !important;
+  margin-block: 0 !important;
+  margin-inline-start: var(--larkon-sidebar-width) !important;
+  margin-inline-end: 0 !important;
+  padding: 0 14px;
+  border: 0 !important;
+  border-bottom: 1px solid var(--larkon-border) !important;
+  background: var(--larkon-surface) !important;
+  box-shadow: 0 2px 8px rgb(29 43 62 / 3%) !important;
+  direction: rtl;
+}
+
+body.larkon-admin .main-header .navbar-nav {
+  min-height: var(--larkon-header-height);
+  align-items: center;
+}
+
+body.larkon-admin .main-header .nav-link,
+body.larkon-admin .main-header .nav-link.btn {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 8px 11px !important;
+  border-radius: 8px;
+  color: #566276 !important;
+  font-family: inherit;
+}
+
+body.larkon-admin .main-header .nav-link:hover {
+  color: var(--larkon-accent) !important;
+  background: #f6f7f9;
+}
+
+body.larkon-admin .main-header .form-inline {
+  margin-inline-start: 8px !important;
+  margin-inline-end: 0 !important;
+  margin-left: 0 !important;
+}
+
+body.larkon-admin .main-header .form-control-navbar {
+  min-width: 200px;
+  height: 38px;
+  border: 1px solid var(--larkon-border);
+  border-radius: 0 8px 8px 0;
+  background: #f8f9fb;
+  color: var(--larkon-text);
+  font-family: inherit;
+  text-align: start;
+}
+
+body.larkon-admin .main-header .btn-navbar {
+  height: 38px;
+  border: 1px solid var(--larkon-border);
+  border-inline-start: 0;
+  border-radius: 8px 0 0 8px;
+  color: var(--larkon-muted);
+  background: #f8f9fb;
+}
+
+body.larkon-admin .main-header .dropdown-menu {
+  border: 1px solid var(--larkon-border);
+  border-radius: 10px;
+  box-shadow: 0 12px 30px rgb(29 43 62 / 12%);
+  direction: rtl;
+  text-align: start;
+}
+
+body.larkon-admin .main-header .dropdown-item,
+body.larkon-admin #logout-form .dropdown-item {
+  min-height: 40px;
+  font-family: inherit;
+  text-align: start;
+}
+
+body.larkon-admin .main-header #logout-form {
+  margin: 0;
+}
+
+body.larkon-admin .main-header #logout-form button {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: inherit;
+}
+
+body.larkon-admin .content-wrapper {
+  position: relative;
+  min-height: calc(100vh - var(--larkon-header-height)) !important;
+  margin-block: 0 !important;
+  margin-inline-start: var(--larkon-sidebar-width) !important;
+  margin-inline-end: 0 !important;
+  background: var(--larkon-bg) !important;
+  color: var(--larkon-text);
+}
+
+@media (max-width: 991.98px) {
+  body.larkon-admin.sidebar-open .content-wrapper::before {
+    position: fixed;
+    z-index: 1040;
+    inset: 0;
+    background: rgb(12 23 35 / 48%);
+    content: "";
+  }
+}
+
+body.larkon-admin .content-wrapper > .content,
+body.larkon-admin #content section.content {
+  padding: 22px 24px 34px !important;
+}
+
+body.larkon-admin .content-header,
+body.larkon-admin .main-footer {
+  display: none !important;
+}
+
+body.larkon-admin .content-wrapper h1,
+body.larkon-admin .content-wrapper h2,
+body.larkon-admin .content-wrapper h3,
+body.larkon-admin .content-wrapper h4 {
+  color: var(--larkon-text);
+}
+
+body.larkon-admin .card,
+body.larkon-admin .module,
+body.larkon-admin .change-list-actions {
+  border-color: var(--larkon-border) !important;
+  border-radius: 10px !important;
+  background-color: var(--larkon-surface);
+  box-shadow: 0 3px 14px rgb(26 42 62 / 4%);
+}
+
+body.larkon-admin .card-header {
+  border-color: var(--larkon-border) !important;
+  background: #fff !important;
+}
+
+body.larkon-admin .table-responsive,
+body.larkon-admin .results,
+body.larkon-admin .changelist-form {
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+}
+
+body.larkon-admin #result_list {
+  min-width: 700px;
+  border-color: var(--larkon-border) !important;
+  border-radius: 9px;
+  background: #fff;
+}
+
+body.larkon-admin #result_list thead th {
+  color: #5c687a !important;
+  background: #f6f8fa !important;
+}
+
+body.larkon-admin #result_list tbody td {
+  color: #334155 !important;
+}
+
+body.larkon-admin .btn,
+body.larkon-admin .form-control,
+body.larkon-admin .form-select,
+body.larkon-admin .custom-select,
+body.larkon-admin .input-group-text {
+  font-family: inherit;
+}
+
+body.larkon-admin .btn-primary,
+body.larkon-admin .btn-warning,
+body.larkon-admin .submit-row input.default,
+body.larkon-admin input[type="submit"].default {
+  border-color: var(--larkon-accent) !important;
+  color: #fff !important;
+  background: var(--larkon-accent) !important;
+}
+
+body.larkon-admin .btn-primary:hover,
+body.larkon-admin .btn-warning:hover,
+body.larkon-admin .submit-row input.default:hover,
+body.larkon-admin input[type="submit"].default:hover {
+  border-color: #9e4018 !important;
+  background: #9e4018 !important;
+}
+
+body.larkon-admin .form-control,
+body.larkon-admin .form-select,
+body.larkon-admin .custom-select,
+body.larkon-admin select,
+body.larkon-admin textarea {
+  max-width: 100%;
+  border-color: #dce2e9 !important;
+  border-radius: 7px !important;
+  color: var(--larkon-text);
+  background-color: #fff;
+  text-align: start;
+}
+
+body.larkon-admin input[type="email"],
+body.larkon-admin input[type="url"],
+body.larkon-admin input[type="tel"] {
+  direction: ltr;
+  text-align: left;
+}
+
+body.larkon-admin .form-control:focus,
+body.larkon-admin .form-select:focus,
+body.larkon-admin select:focus,
+body.larkon-admin textarea:focus {
+  border-color: var(--larkon-accent) !important;
+  box-shadow: 0 0 0 3px rgb(184 76 32 / 15%) !important;
+}
+
+body.larkon-admin .errorlist,
+body.larkon-admin .invalid-feedback {
+  color: #b42318;
+}
+
+body.larkon-admin .alert,
+body.larkon-admin ul.messagelist {
+  border-radius: 8px;
+  font-family: inherit;
+}
+
+body.larkon-admin .pagination .page-item.active .page-link {
+  border-color: var(--larkon-accent) !important;
+  color: #fff !important;
+  background: var(--larkon-accent) !important;
+}
+
+body.admin-product-dashboard {
+  background: var(--larkon-bg) !important;
+  color: var(--larkon-text) !important;
+}
+
+body.admin-product-dashboard .main-header {
+  display: flex !important;
+}
+
+body.admin-product-dashboard #jazzy-sidebar,
+body.admin-product-dashboard .main-sidebar {
+  display: block !important;
+}
+
+body.admin-product-dashboard .content-wrapper {
+  min-height: calc(100vh - var(--larkon-header-height)) !important;
+  margin-block: 0 !important;
+  margin-inline-start: var(--larkon-sidebar-width) !important;
+  margin-inline-end: 0 !important;
+  background: var(--larkon-bg) !important;
+}
+
+body.admin-product-dashboard .dashboard-content {
+  width: 100%;
+  max-width: 1600px;
+  margin-inline: auto;
+  padding: 23px 24px 18px;
+}
+
+body.admin-product-dashboard .dashboard-welcome h1 {
+  margin: 0;
+  color: var(--larkon-text);
+  font-size: 22px;
+  font-weight: 700;
+}
+
+body.admin-product-dashboard .dashboard-welcome time {
+  direction: rtl;
+}
+
+body.admin-product-dashboard .dashboard-stat-copy {
+  text-align: start;
+}
+
+body.admin-product-dashboard .dashboard-stat-card,
+body.admin-product-dashboard .dashboard-panel {
+  border-color: var(--larkon-border);
+  border-radius: 10px;
+  box-shadow: 0 3px 14px rgb(26 42 62 / 4%);
+}
+
+body.admin-product-dashboard .dashboard-chart-period button:focus-visible {
+  outline-color: var(--larkon-accent);
+}
+
+body.admin-product-dashboard .dashboard-orders-wrap {
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+}
+
+body.admin-product-dashboard .dashboard-orders-table {
+  min-width: 760px;
+}
+
+body.admin-product-dashboard .dashboard-footer {
+  color: var(--larkon-muted);
+}
+
+@media (min-width: 768px) {
+  body.larkon-admin.sidebar-collapse.sidebar-mini .content-wrapper,
+  body.larkon-admin.sidebar-collapse.sidebar-mini .main-header {
+    margin-inline-start: 4.6rem !important;
+    margin-inline-end: 0 !important;
+  }
+
+  body.larkon-admin.sidebar-collapse.sidebar-mini .main-sidebar,
+  body.larkon-admin.sidebar-collapse.sidebar-mini #jazzy-sidebar,
+  body.larkon-admin.sidebar-collapse.sidebar-mini .main-sidebar::before {
+    width: 4.6rem !important;
+  }
+
+  body.larkon-admin.sidebar-collapse:not(.sidebar-mini) .content-wrapper,
+  body.larkon-admin.sidebar-collapse:not(.sidebar-mini) .main-header {
+    margin-inline: 0 !important;
+  }
+
+  body.larkon-admin.sidebar-collapse:not(.sidebar-mini) .main-sidebar,
+  body.larkon-admin.sidebar-collapse:not(.sidebar-mini) #jazzy-sidebar,
+  body.larkon-admin.sidebar-collapse:not(.sidebar-mini) .main-sidebar::before {
+    transform: translateX(105%) !important;
+  }
+}
+
+@media (max-width: 991.98px) {
+  body.larkon-admin .main-sidebar,
+  body.larkon-admin #jazzy-sidebar,
+  body.larkon-admin .main-sidebar::before {
+    width: min(82vw, 286px) !important;
+    transform: translateX(105%) !important;
+  }
+
+  body.larkon-admin.sidebar-open .main-sidebar,
+  body.larkon-admin.sidebar-open #jazzy-sidebar,
+  body.larkon-admin.sidebar-open .main-sidebar::before {
+    transform: translateX(0) !important;
+  }
+
+  body.larkon-admin .main-header,
+  body.larkon-admin .content-wrapper,
+  body.admin-product-dashboard .main-header,
+  body.admin-product-dashboard .content-wrapper {
+    margin-inline: 0 !important;
+  }
+
+  body.larkon-admin .content-wrapper > .content,
+  body.larkon-admin #content section.content {
+    padding: 18px 16px 28px !important;
+  }
+
+  body.admin-product-dashboard .dashboard-content {
+    padding: 19px 16px 16px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  body.larkon-admin .main-header {
+    min-height: 58px !important;
+    padding-inline: 7px;
+  }
+
+  body.larkon-admin .main-header .navbar-nav {
+    min-height: 58px;
+  }
+
+  body.larkon-admin .main-header .form-inline {
+    max-width: min(42vw, 190px);
+  }
+
+  body.larkon-admin .main-header .form-control-navbar {
+    min-width: 0;
+    width: 100%;
+  }
+
+  body.larkon-admin .content-wrapper > .content,
+  body.larkon-admin #content section.content {
+    padding: 14px 10px 24px !important;
+  }
+
+  body.admin-product-dashboard .dashboard-content {
+    padding: 15px 10px 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.larkon-admin *,
+  body.larkon-admin *::before,
+  body.larkon-admin *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Refined sidebar navigation inspired by Larkon's compact admin menu. */
+body.larkon-admin .main-sidebar .brand-link {
+  position: relative;
+  min-height: 76px !important;
+  padding-inline: 19px !important;
+}
+
+body.larkon-admin .main-sidebar .brand-link::after {
+  position: absolute;
+  inset-block: 18px;
+  inset-inline-end: 0;
+  width: 3px;
+  border-radius: 3px 0 0 3px;
+  background: var(--larkon-accent);
+  content: "";
+}
+
+body.larkon-admin .brand-link .brand-image {
+  width: 40px !important;
+  height: 40px !important;
+  max-width: 40px !important;
+  max-height: 40px !important;
+  padding: 4px;
+  border: 1px solid rgb(255 255 255 / 13%) !important;
+  border-radius: 11px !important;
+  background: #fff !important;
+}
+
+body.larkon-admin .main-sidebar .sidebar {
+  height: calc(100vh - 76px);
+  padding: 13px 12px 12px !important;
+}
+
+body.larkon-admin .main-sidebar .sidebar > nav {
+  scrollbar-width: thin;
+}
+
+body.larkon-admin .main-sidebar .nav-sidebar {
+  gap: 4px;
+  padding-block: 0 8px !important;
+}
+
+body.larkon-admin .main-sidebar .nav-header {
+  position: relative;
+  margin: 14px 0 4px !important;
+  padding: 10px 12px 6px !important;
+  color: #9baabc !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+}
+
+body.larkon-admin .main-sidebar .nav-header:first-child {
+  margin-top: 0 !important;
+}
+
+body.larkon-admin .main-sidebar .nav-link {
+  position: relative;
+  min-height: 42px;
+  gap: 11px;
+  padding: 8px 12px !important;
+  border-inline-start-width: 3px;
+  border-radius: 8px !important;
+  color: #c3cddd !important;
+  font-size: 12px !important;
+  font-weight: 500;
+}
+
+body.larkon-admin #jazzy-sidebar .nav-sidebar,
+body.larkon-admin #jazzy-sidebar .nav-sidebar > .nav-item,
+body.larkon-admin #jazzy-sidebar .nav-sidebar > .nav-header {
+  visibility: visible !important;
+}
+
+body.larkon-admin #jazzy-sidebar .nav-sidebar > .nav-item {
+  display: block !important;
+}
+
+body.larkon-admin #jazzy-sidebar .nav-sidebar .nav-link p {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  color: inherit !important;
+}
+
+body.larkon-admin .main-sidebar .nav-link .nav-icon {
+  width: 20px !important;
+  color: #9facbc !important;
+  font-size: 15px !important;
+  transition: color 140ms ease, transform 140ms ease;
+}
+
+body.larkon-admin .main-sidebar .nav-link:hover {
+  color: #fff !important;
+  background: rgb(255 255 255 / 7%) !important;
+}
+
+body.larkon-admin .main-sidebar .nav-link:hover .nav-icon {
+  color: #f3a47d !important;
+  transform: translateX(-1px);
+}
+
+body.larkon-admin .main-sidebar .nav-link.active,
+body.larkon-admin .main-sidebar .nav-item > .nav-link.active {
+  border-inline-start-color: var(--larkon-accent) !important;
+  color: #fff !important;
+  background: rgb(237 130 73 / 14%) !important;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 3%) !important;
+  font-weight: 700 !important;
+}
+
+body.larkon-admin .main-sidebar .nav-link.active .nav-icon {
+  color: #ffad7e !important;
+}
+
+body.larkon-admin .main-sidebar .nav-link .right,
+body.larkon-admin .main-sidebar .nav-link > p > .right {
+  position: static !important;
+  margin-inline-start: auto !important;
+  color: #8e9bad;
+  font-size: 11px;
+  transition: transform 150ms ease, color 150ms ease;
+}
+
+body.larkon-admin .main-sidebar .menu-open > .nav-link .right {
+  color: #ffad7e;
+  transform: rotate(-90deg);
+}
+
+body.larkon-admin .main-sidebar .nav-treeview {
+  position: relative;
+  margin-block: 3px 6px;
+  padding-inline-start: 13px !important;
+  padding-inline-end: 0 !important;
+}
+
+body.larkon-admin .main-sidebar .nav-treeview::before {
+  position: absolute;
+  inset-block: 4px;
+  inset-inline-start: 10px;
+  width: 1px;
+  background: rgb(255 255 255 / 10%);
+  content: "";
+}
+
+body.larkon-admin .main-sidebar .nav-treeview .nav-link {
+  min-height: 36px;
+  padding-block: 6px !important;
+  padding-inline: 11px !important;
+  border-radius: 7px !important;
+  color: #afbdcc !important;
+  font-size: 11px !important;
+}
+
+body.larkon-admin .main-sidebar .nav-treeview .nav-link .nav-icon {
+  width: 17px !important;
+  font-size: 12px !important;
+}
+
+body.larkon-admin .main-sidebar .nav-treeview .nav-link.active {
+  color: #fff !important;
+  background: rgb(255 255 255 / 8%) !important;
+}
+
+body.larkon-admin .main-sidebar .user-panel {
+  min-height: 59px;
+  gap: 10px;
+  margin-block-start: 9px !important;
+  padding: 12px 8px 3px !important;
+  border-top-color: rgb(255 255 255 / 12%) !important;
+}
+
+body.larkon-admin .main-sidebar .user-panel .image {
+  width: 35px;
+  height: 35px;
+  flex-basis: 35px;
+  border: 1px solid rgb(255 255 255 / 12%);
+  color: #fff;
+  background: #31465d;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+body.larkon-admin .main-sidebar .user-panel .info a,
+body.larkon-admin .main-sidebar .user-panel .info span {
+  color: #f2f5f9 !important;
+  font-size: 12px !important;
+  font-weight: 600;
+}
+
+body.larkon-admin.sidebar-collapse.sidebar-mini .main-sidebar .brand-link {
+  justify-content: center !important;
+  padding-inline: 5px !important;
+}
+
+body.larkon-admin.sidebar-collapse.sidebar-mini .main-sidebar .brand-link::after {
+  display: none;
+}
+
+body.larkon-admin.sidebar-collapse.sidebar-mini .main-sidebar .user-panel {
+  justify-content: center !important;
+  padding-inline: 0 !important;
+}
+
+@media (max-width: 991.98px) {
+  body.larkon-admin .main-sidebar .brand-link {
+    justify-content: flex-start !important;
+    padding-inline: 19px !important;
+  }
+
+  body.larkon-admin .main-sidebar .brand-link::after {
+    display: block;
+  }
 }

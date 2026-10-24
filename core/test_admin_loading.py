@@ -17,11 +17,23 @@ class AdminLoadingTemplateTests(TestCase):
         response = self.client.get(reverse("admin:index"))
 
         self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "larkon-admin")
+        self.assertContains(response, 'class="main-sidebar')
         self.assertContains(response, 'id="hjm-admin-loader"')
-        self.assertContains(response, "assets/imgs/theme/hejrmarket-logo.png")
+        self.assertContains(response, "assets/imgs/theme/hejrmarket-logo.webp")
         self.assertContains(response, "در حال بارگذاری پنل مدیریت")
         self.assertContains(response, "/static/css/admin-rtl.css")
+        self.assertEqual(response.content.count(b"/static/css/admin-rtl.css"), 1)
         self.assertContains(response, "/static/js/admin-loading.js")
+
+    def test_admin_login_loads_shared_persian_assets(self):
+        response = self.client.get(reverse("admin:login"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Hazhirmarket")
+        self.assertContains(response, "/static/css/admin-rtl.css")
+        self.assertContains(response, "/static/js/admin-loading.js")
+        self.assertNotContains(response, "fonts.googleapis.com")
 
     def test_storefront_does_not_render_admin_loader(self):
         response = self.client.get(reverse("core:index"))

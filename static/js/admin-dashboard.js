@@ -6,10 +6,20 @@
   var openButton = document.querySelector('[data-sidebar-open]');
   var closeButton = document.querySelector('[data-sidebar-close]');
   var collapseButton = document.querySelector('[data-sidebar-collapse]');
+  var sidebarGroups = Array.prototype.slice.call(
+    document.querySelectorAll('[data-sidebar-group]')
+  );
 
   function setSidebarOpen(isOpen) {
+    var wasOpen = body.classList.contains('admin-sidebar-open');
     body.classList.toggle('admin-sidebar-open', isOpen);
     if (openButton) openButton.setAttribute('aria-expanded', String(isOpen));
+    if (isOpen && sidebar) {
+      var firstLink = sidebar.querySelector('a');
+      if (firstLink) firstLink.focus();
+    } else if (wasOpen && openButton) {
+      openButton.focus();
+    }
   }
 
   if (openButton) {
@@ -25,7 +35,46 @@
   }
 
   document.addEventListener('keydown', function (event) {
-    if (event.key === 'Escape') setSidebarOpen(false);
+    if (event.key === 'Escape') {
+      setSidebarOpen(false);
+      sidebarGroups.forEach(function (group) {
+        group.removeAttribute('open');
+      });
+    }
+  });
+
+  function placeCollapsedSubmenu(group) {
+    if (!group.open || !body.classList.contains('admin-sidebar-collapsed')) return;
+    var summary = group.querySelector(':scope > summary');
+    var submenu = group.querySelector(':scope > .admin-subnav');
+    if (!summary || !submenu) return;
+    submenu.style.top = Math.max(
+      8,
+      Math.min(summary.getBoundingClientRect().top, window.innerHeight - submenu.offsetHeight - 8)
+    ) + 'px';
+  }
+
+  sidebarGroups.forEach(function (group) {
+    var summary = group.querySelector(':scope > summary');
+    if (!summary) return;
+    summary.addEventListener('click', function () {
+      window.setTimeout(function () {
+        placeCollapsedSubmenu(group);
+      }, 0);
+    });
+    group.addEventListener('toggle', function () {
+      placeCollapsedSubmenu(group);
+    });
+  });
+
+  document.addEventListener('click', function (event) {
+    sidebarGroups.forEach(function (group) {
+      if (!group.contains(event.target)) group.removeAttribute('open');
+    });
+  });
+
+  window.addEventListener('resize', function () {
+    sidebarGroups.forEach(placeCollapsedSubmenu);
   });
 
   if (sidebar) {
@@ -37,10 +86,35 @@
   }
 
   if (collapseButton) {
+    var isCollapsed = false;
+    try {
+      isCollapsed = localStorage.getItem('hjm-admin-sidebar-collapsed') === 'true';
+    } catch (error) {
+      console.warn('خواندن وضعیت منوی کناری از این مرورگر ممکن نیست.', error);
+    }
+    body.classList.toggle('admin-sidebar-collapsed', isCollapsed);
+    collapseButton.setAttribute('aria-pressed', String(isCollapsed));
+    collapseButton.setAttribute(
+      'aria-label',
+      isCollapsed ? 'بازکردن نوار کناری' : 'جمع‌کردن نوار کناری'
+    );
+    collapseButton.setAttribute(
+      'title',
+      isCollapsed ? 'بازکردن نوار کناری' : 'جمع‌کردن نوار کناری'
+    );
     collapseButton.addEventListener('click', function () {
       var collapsed = body.classList.toggle('admin-sidebar-collapsed');
+      isCollapsed = collapsed;
+      body.classList.toggle('sidebar-mini', collapsed);
       collapseButton.setAttribute('aria-label', collapsed ? 'بازکردن نوار کناری' : 'جمع‌کردن نوار کناری');
       collapseButton.setAttribute('title', collapsed ? 'بازکردن نوار کناری' : 'جمع‌کردن نوار کناری');
+      collapseButton.setAttribute('aria-pressed', String(collapsed));
+      try {
+        localStorage.setItem('hjm-admin-sidebar-collapsed', String(collapsed));
+      } catch (error) {
+        console.warn('ذخیره‌سازی وضعیت منوی کناری در این مرورگر ممکن نیست.', error);
+      }
+      sidebarGroups.forEach(placeCollapsedSubmenu);
     });
   }
 

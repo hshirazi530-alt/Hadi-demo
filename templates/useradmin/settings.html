@@ -1,71 +1,369 @@
 {% extends 'useradmin/base.html' %}
 {% load static %}
-{% load humanize %}
-{% block content %}  
 
-<section class="content-main">
-    <div class="content-header">
-        <h2 class="content-title">تنظیمات پروفایل</h2>
-    </div>
-    <div class="card">
-        <div class="card-body">
-            <div class="row gx-5">
-                <div class="col-lg-12">
-                    <section class="content-body p-xl-4">
-                        <form method="POST" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <div class="row">
-                                <div class="col-lg-8">
-                                    <div class="row gx-3">
-                                        <div class="col-12 mb-3">
-                                            <label class="form-label">نام و نام خوانوادگی </label>
-                                            <input class="form-control" name="full_name" type="text" value="{{request.user.profile.full_name}}" placeholder="نام و نام خوانوادگی را وارد کنید" />
-                                        </div>
-                                        <div class="col-6 mb-3">
-                                            <label class="form-label">ایمیل</label>
-                                            <input class="form-control bg-light" name="email" value="{{request.user.email}}" readonly type="text" placeholder="ایمیل رااینجا تایپ کنید" />
-                                        </div>
-                                        <div class="col-lg-6 mb-3">
-                                            <label class="form-label">موبایل</label>
-                                            <input class="form-control" name="phone" value="{{request.user.profile.phone}}" type="text" placeholder="09917797419" />
-                                        </div>
-                                         <div class="col-lg-12 mb-3">
-                                            <label class="form-label">بیوگرافی</label>
-                                            <input class="form-control" name="bio" value="{{request.user.profile.bio}}" type="text" placeholder="بیوگرافی رااینجا تایپ کنید" />
-                                        </div>
-                                        <div class="col-lg-6 mb-3">
-                                            <label class="form-label">آدرس</label>
-                                            <input class="form-control" name="address" value="{{request.user.profile.address}}" type="text" placeholder="آدرس رااینجا تایپ کنید" />
-                                        </div>
-                                        <div class="col-lg-6 mb-3">
-                                            <label class="form-label">کشور</label>
-                                            <input class="form-control" name="country" value="{{request.user.profile.country}}" type="text" placeholder="کشور رااینجا تایپ کنید" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <aside class="col-lg-4">
-                                    <figure class="text-lg-center">
-                                        
-                                        {% if profile.image %}
-                                            <img class="img-lg mb-3 img-avatar" src="{{profile.image.url}}" alt="User Photo" />
-                                        {% else %}
-                                            <img class="img-lg mb-3 img-avatar" src="https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2281862025.jpg" alt="User Photo" />
-                                        {% endif %}
-                                            
-                                        <figcaption>
-                                            <input type="file" class="form-control-file" name="image">
-                                        </figcaption>
-                                    </figure>
-                                </aside>
-                            </div>
-                            <br />
-                            <button class="btn btn-primary" type="submit">ذخیره تغییرات</button>
-                        </form>
-                    </section>
+{% block title %}تنظیمات فروشگاه{% endblock %}
+{% block breadcrumb %}فروشگاه <span aria-hidden="true">/</span> تنظیمات{% endblock %}
+{% block page_heading %}تنظیمات فروشگاه{% endblock %}
+{% block page_class %}admin-settings-page{% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/admin-settings.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="settings-page" aria-labelledby="settings-page-title">
+    <header class="settings-page-heading">
+        <div>
+            <p class="settings-eyebrow">پیکربندی فروشگاه</p>
+            <h2 id="settings-page-title">تنظیمات فروشگاه</h2>
+            <p>اطلاعات و ترجیحات پنل را مطابق نیاز فروشگاه تنظیم کنید.</p>
+        </div>
+        <span class="settings-save-scope"><i class="fas fa-laptop" aria-hidden="true"></i> تنظیمات عمومی در همین مرورگر ذخیره می‌شوند</span>
+    </header>
+
+    {% if messages %}
+        <div class="settings-flashes" aria-live="polite">
+            {% for message in messages %}
+                <p class="settings-flash settings-flash--{{ message.tags|default:'info' }}" role="{% if message.tags == 'error' %}alert{% else %}status{% endif %}">{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="settings-layout">
+        <nav class="settings-section-nav" aria-label="بخش‌های تنظیمات" data-settings-nav>
+            <p>بخش‌های تنظیمات</p>
+            <a href="#settings-general" aria-current="location"><i class="fas fa-sliders-h" aria-hidden="true"></i> عمومی</a>
+            <a href="#settings-business"><i class="fas fa-store" aria-hidden="true"></i> اطلاعات فروشگاه</a>
+            <a href="#settings-region"><i class="fas fa-globe-asia" aria-hidden="true"></i> منطقه و واحدها</a>
+            <a href="#settings-catalog"><i class="fas fa-th-large" aria-hidden="true"></i> نمایش و دسته‌بندی</a>
+            <a href="#settings-reviews"><i class="far fa-comment-dots" aria-hidden="true"></i> دیدگاه‌ها</a>
+            <a href="#settings-finance"><i class="fas fa-money-bill-wave" aria-hidden="true"></i> تخفیف و مالیات</a>
+            <a href="#settings-customers"><i class="fas fa-users-cog" aria-hidden="true"></i> مشتریان</a>
+            <a href="#settings-appearance"><i class="fas fa-palette" aria-hidden="true"></i> ظاهر پنل</a>
+            <a href="#settings-profile"><i class="fas fa-user" aria-hidden="true"></i> پروفایل مدیر</a>
+        </nav>
+
+        <div class="settings-content">
+            <form
+                class="settings-form"
+                data-settings-form
+                data-storage-key="hjm-store-settings-v1-{{ request.user.pk }}"
+                novalidate
+            >
+                {% csrf_token %}
+                <div class="settings-browser-note">
+                    <i class="fas fa-info-circle" aria-hidden="true"></i>
+                    <p><strong>حالت نمایشی:</strong> تنظیمات این بخش هنوز به سرور فروشگاه متصل نیستند؛ فقط در مرورگر و دستگاه فعلی شما ذخیره می‌شوند.</p>
                 </div>
-            </div>
+
+                <section class="settings-card" id="settings-general" aria-labelledby="settings-general-title">
+                    <header class="settings-card-heading">
+                        <span class="settings-card-icon"><i class="fas fa-sliders-h" aria-hidden="true"></i></span>
+                        <div><h3 id="settings-general-title">تنظیمات عمومی</h3><p>نام و وضعیت نمایشی فروشگاه را مشخص کنید.</p></div>
+                    </header>
+                    <div class="settings-fields">
+                        <div class="settings-field">
+                            <label for="setting-site-name">نام سامانه <span>*</span></label>
+                            <input id="setting-site-name" type="text" maxlength="80" value="Hazhirmarket" data-setting="site_name" data-default-value="Hazhirmarket" required>
+                            <small>عنوان پنل مدیریت و بخش‌های عمومی فروشگاه</small>
+                            <span class="settings-field-error" data-error-for="site_name"></span>
+                        </div>
+                        <div class="settings-field">
+                            <label for="setting-store-name">نام فروشگاه <span>*</span></label>
+                            <input id="setting-store-name" type="text" maxlength="120" value="Hazhirmarket" data-setting="store_name" data-default-value="Hazhirmarket" required>
+                            <span class="settings-field-error" data-error-for="store_name"></span>
+                        </div>
+                        <div class="settings-field settings-field--wide">
+                            <label for="setting-store-description">معرفی کوتاه</label>
+                            <textarea id="setting-store-description" rows="3" maxlength="300" data-setting="store_description" data-default-value="فروشگاه ابزارهای زیبایی و مراقبت شخصی">فروشگاه ابزارهای زیبایی و مراقبت شخصی</textarea>
+                            <small>این متن نمایشی است و به‌صورت خودکار در سایت منتشر نمی‌شود.</small>
+                        </div>
+                        <div class="settings-field">
+                            <label for="setting-store-state">وضعیت نمایشی فروشگاه</label>
+                            <select id="setting-store-state" data-setting="store_state" data-default-value="open">
+                                <option value="open">فعال و در دسترس</option>
+                                <option value="maintenance">در حال به‌روزرسانی</option>
+                            </select>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="settings-card" id="settings-business" aria-labelledby="settings-business-title">
+                    <header class="settings-card-heading">
+                        <span class="settings-card-icon"><i class="fas fa-store" aria-hidden="true"></i></span>
+                        <div><h3 id="settings-business-title">اطلاعات فروشگاه</h3><p>اطلاعات تماس و نشانی کسب‌وکار را وارد کنید.</p></div>
+                    </header>
+                    <div class="settings-fields">
+                        <div class="settings-field">
+                            <label for="setting-contact-name">نام مسئول فروشگاه <span>*</span></label>
+                            <input id="setting-contact-name" type="text" maxlength="100" value="{{ profile.full_name|default:'' }}" data-setting="contact_name" data-default-value="{{ profile.full_name|default:'' }}" autocomplete="name" required>
+                            <span class="settings-field-error" data-error-for="contact_name"></span>
+                        </div>
+                        <div class="settings-field">
+                            <label for="setting-contact-phone">شمارهٔ تماس <span>*</span></label>
+                            <input id="setting-contact-phone" type="tel" maxlength="20" value="{{ profile.phone|default:'' }}" data-setting="contact_phone" data-default-value="{{ profile.phone|default:'' }}" autocomplete="tel" inputmode="tel" required>
+                            <span class="settings-field-error" data-error-for="contact_phone"></span>
+                        </div>
+                        <div class="settings-field">
+                            <label for="setting-contact-email">ایمیل فروشگاه <span>*</span></label>
+                            <input id="setting-contact-email" type="email" maxlength="254" value="{{ request.user.email }}" data-setting="contact_email" data-default-value="{{ request.user.email }}" autocomplete="email" required>
+                            <span class="settings-field-error" data-error-for="contact_email"></span>
+                        </div>
+                        <div class="settings-field">
+                            <label for="setting-store-city">شهر <span>*</span></label>
+                            <input id="setting-store-city" type="text" maxlength="80" value="" data-setting="store_city" data-default-value="" autocomplete="address-level2" required>
+                            <span class="settings-field-error" data-error-for="store_city"></span>
+                        </div>
+                        <div class="settings-field settings-field--wide">
+                            <label for="setting-store-address">نشانی پستی <span>*</span></label>
+                            <input id="setting-store-address" type="text" maxlength="240" value="{{ profile.address|default:'' }}" data-setting="store_address" data-default-value="{{ profile.address|default:'' }}" autocomplete="street-address" required>
+                            <span class="settings-field-error" data-error-for="store_address"></span>
+                        </div>
+                        <div class="settings-field">
+                            <label for="setting-postal-code">کد پستی</label>
+                            <input id="setting-postal-code" type="text" maxlength="20" inputmode="numeric" value="" data-setting="postal_code" data-default-value="" autocomplete="postal-code">
+                        </div>
+                    </div>
+                </section>
+
+                <section class="settings-card" id="settings-region" aria-labelledby="settings-region-title">
+                    <header class="settings-card-heading">
+                        <span class="settings-card-icon"><i class="fas fa-globe-asia" aria-hidden="true"></i></span>
+                        <div><h3 id="settings-region-title">منطقه و واحدها</h3><p>زبان و قالب‌های نمایش داده را انتخاب کنید.</p></div>
+                    </header>
+                    <div class="settings-fields">
+                        <div class="settings-field">
+                            <label for="setting-country">کشور</label>
+                            <select id="setting-country" data-setting="country" data-default-value="IR">
+                                <option value="IR">ایران</option>
+                                <option value="AF">افغانستان</option>
+                                <option value="other">سایر</option>
+                            </select>
+                        </div>
+                        <div class="settings-field">
+                            <label for="setting-language">زبان پیش‌فرض</label>
+                            <select id="setting-language" data-setting="language" data-default-value="fa">
+                                <option value="fa">فارسی</option>
+                                <option value="en">انگلیسی</option>
+                            </select>
+                        </div>
+                        <div class="settings-field">
+                            <label for="setting-currency">واحد پول</label>
+                            <select id="setting-currency" data-setting="currency" data-default-value="toman">
+                                <option value="toman">تومان</option>
+                                <option value="rial">ریال</option>
+                            </select>
+                        </div>
+                        <div class="settings-field">
+                            <label for="setting-length-unit">واحد طول</label>
+                            <select id="setting-length-unit" data-setting="length_unit" data-default-value="cm">
+                                <option value="cm">سانتی‌متر</option>
+                                <option value="m">متر</option>
+                            </select>
+                        </div>
+                        <div class="settings-field">
+                            <label for="setting-weight-unit">واحد وزن</label>
+                            <select id="setting-weight-unit" data-setting="weight_unit" data-default-value="g">
+                                <option value="g">گرم</option>
+                                <option value="kg">کیلوگرم</option>
+                            </select>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="settings-card" id="settings-catalog" aria-labelledby="settings-catalog-title">
+                    <header class="settings-card-heading">
+                        <span class="settings-card-icon"><i class="fas fa-th-large" aria-hidden="true"></i></span>
+                        <div><h3 id="settings-catalog-title">نمایش و دسته‌بندی</h3><p>چیدمان نمایشی فهرست محصولات را تنظیم کنید.</p></div>
+                    </header>
+                    <div class="settings-fields">
+                        <div class="settings-field">
+                            <label for="setting-items-per-page">محصول در هر صفحه</label>
+                            <select id="setting-items-per-page" data-setting="items_per_page" data-default-value="12">
+                                <option value="8">۸ محصول</option>
+                                <option value="12">۱۲ محصول</option>
+                                <option value="24">۲۴ محصول</option>
+                                <option value="36">۳۶ محصول</option>
+                            </select>
+                        </div>
+                        <div class="settings-field">
+                            <label for="setting-category-layout">نمایش دسته‌بندی‌ها</label>
+                            <select id="setting-category-layout" data-setting="category_layout" data-default-value="grid">
+                                <option value="grid">شبکه‌ای</option>
+                                <option value="list">فهرستی</option>
+                            </select>
+                        </div>
+                        <div class="settings-toggle-row settings-field--wide">
+                            <div><strong>نمایش تعداد موجودی</strong><small>موجودی محصول در صفحهٔ جزئیات به مشتری نمایش داده شود.</small></div>
+                            <label class="settings-switch" for="setting-stock-visibility"><input id="setting-stock-visibility" type="checkbox" data-setting="show_stock" data-default-checked="true"><span aria-hidden="true"></span><b class="sr-only">نمایش تعداد موجودی</b></label>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="settings-card" id="settings-reviews" aria-labelledby="settings-reviews-title">
+                    <header class="settings-card-heading">
+                        <span class="settings-card-icon"><i class="far fa-comment-dots" aria-hidden="true"></i></span>
+                        <div><h3 id="settings-reviews-title">دیدگاه‌ها و امتیازها</h3><p>نحوهٔ ثبت نظر مشتریان را مشخص کنید.</p></div>
+                    </header>
+                    <div class="settings-toggle-list">
+                        <div class="settings-toggle-row">
+                            <div><strong>فعال‌بودن دیدگاه محصولات</strong><small>مشتریان بتوانند برای محصولات دیدگاه ثبت کنند.</small></div>
+                            <label class="settings-switch" for="setting-reviews-enabled"><input id="setting-reviews-enabled" type="checkbox" data-setting="reviews_enabled" data-default-checked="true"><span aria-hidden="true"></span><b class="sr-only">فعال‌بودن دیدگاه محصولات</b></label>
+                        </div>
+                        <div class="settings-toggle-row">
+                            <div><strong>ثبت دیدگاه توسط مهمان</strong><small>ثبت نظر بدون ورود به حساب کاربری مجاز باشد.</small></div>
+                            <label class="settings-switch" for="setting-guest-reviews"><input id="setting-guest-reviews" type="checkbox" data-setting="guest_reviews" data-default-checked="false"><span aria-hidden="true"></span><b class="sr-only">ثبت دیدگاه توسط مهمان</b></label>
+                        </div>
+                        <div class="settings-toggle-row">
+                            <div><strong>تأیید دیدگاه پیش از انتشار</strong><small>نظرها پیش از نمایش عمومی نیازمند تأیید مدیر باشند.</small></div>
+                            <label class="settings-switch" for="setting-review-approval"><input id="setting-review-approval" type="checkbox" data-setting="review_approval" data-default-checked="true"><span aria-hidden="true"></span><b class="sr-only">تأیید دیدگاه پیش از انتشار</b></label>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="settings-card" id="settings-finance" aria-labelledby="settings-finance-title">
+                    <header class="settings-card-heading">
+                        <span class="settings-card-icon"><i class="fas fa-money-bill-wave" aria-hidden="true"></i></span>
+                        <div><h3 id="settings-finance-title">تخفیف و مالیات</h3><p>مقادیر زیر نمایشی‌اند و در محاسبهٔ سفارش‌ها دخالتی ندارند.</p></div>
+                    </header>
+                    <div class="settings-fields">
+                        <div class="settings-field">
+                            <label for="setting-coupon-min">حداقل تخفیف کوپن (تومان)</label>
+                            <input id="setting-coupon-min" type="number" min="0" max="100000000" step="1000" value="0" data-setting="coupon_min" data-default-value="0" data-min="0" data-max="100000000">
+                            <span class="settings-field-error" data-error-for="coupon_min"></span>
+                        </div>
+                        <div class="settings-field">
+                            <label for="setting-coupon-max">حداکثر تخفیف کوپن (تومان)</label>
+                            <input id="setting-coupon-max" type="number" min="0" max="100000000" step="1000" value="500000" data-setting="coupon_max" data-default-value="500000" data-min="0" data-max="100000000">
+                            <span class="settings-field-error" data-error-for="coupon_max"></span>
+                        </div>
+                        <div class="settings-field">
+                            <label for="setting-tax-rate">نرخ مالیات پیش‌فرض (درصد)</label>
+                            <input id="setting-tax-rate" type="number" min="0" max="100" step="0.1" value="0" data-setting="tax_rate" data-default-value="0" data-min="0" data-max="100">
+                            <span class="settings-field-error" data-error-for="tax_rate"></span>
+                        </div>
+                        <div class="settings-toggle-row settings-field--wide">
+                            <div><strong>نمایش قیمت همراه مالیات</strong><small>گزینهٔ نمایشی است؛ محاسبهٔ مالیات به درگاه سفارش متصل نیست.</small></div>
+                            <label class="settings-switch" for="setting-tax-included"><input id="setting-tax-included" type="checkbox" data-setting="prices_include_tax" data-default-checked="false"><span aria-hidden="true"></span><b class="sr-only">نمایش قیمت همراه مالیات</b></label>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="settings-card" id="settings-customers" aria-labelledby="settings-customers-title">
+                    <header class="settings-card-heading">
+                        <span class="settings-card-icon"><i class="fas fa-users-cog" aria-hidden="true"></i></span>
+                        <div><h3 id="settings-customers-title">مشتریان و دسترسی</h3><p>ترجیحات نمایشی مربوط به حساب و خرید مشتریان.</p></div>
+                    </header>
+                    <div class="settings-fields">
+                        <div class="settings-toggle-row settings-field--wide">
+                            <div><strong>نمایش وضعیت آنلاین مشتری</strong><small>وضعیت آنلاین در پنل نمایش داده شود.</small></div>
+                            <label class="settings-switch" for="setting-online-status"><input id="setting-online-status" type="checkbox" data-setting="customer_online_status" data-default-checked="false"><span aria-hidden="true"></span><b class="sr-only">نمایش وضعیت آنلاین مشتری</b></label>
+                        </div>
+                        <div class="settings-toggle-row settings-field--wide">
+                            <div><strong>جست‌وجوی فعالیت مشتری</strong><small>جست‌وجوی سفارش‌ها و فعالیت حساب در پنل فعال باشد.</small></div>
+                            <label class="settings-switch" for="setting-customer-search"><input id="setting-customer-search" type="checkbox" data-setting="customer_search" data-default-checked="true"><span aria-hidden="true"></span><b class="sr-only">جست‌وجوی فعالیت مشتری</b></label>
+                        </div>
+                        <div class="settings-toggle-row settings-field--wide">
+                            <div><strong>خرید بدون ساخت حساب</strong><small>خرید مهمان در نسخهٔ فعلی فروشگاه پیاده‌سازی نشده است.</small></div>
+                            <label class="settings-switch settings-switch--disabled" for="setting-guest-checkout"><input id="setting-guest-checkout" type="checkbox" data-setting="guest_checkout" data-default-checked="false" disabled><span aria-hidden="true"></span><b class="sr-only">خرید بدون ساخت حساب، در دسترس نیست</b></label>
+                        </div>
+                        <div class="settings-toggle-row settings-field--wide">
+                            <div><strong>نمایش قیمت برای همه</strong><small>قیمت‌های فروشگاه عمومی هستند و این گزینه فعلاً نمایشی است.</small></div>
+                            <label class="settings-switch" for="setting-price-visibility"><input id="setting-price-visibility" type="checkbox" data-setting="price_visibility" data-default-checked="true"><span aria-hidden="true"></span><b class="sr-only">نمایش قیمت برای همه</b></label>
+                        </div>
+                        <div class="settings-field">
+                            <label for="setting-login-attempts">حداکثر تلاش ورود</label>
+                            <input id="setting-login-attempts" type="number" min="1" max="20" step="1" value="5" data-setting="login_attempts" data-default-value="5" data-min="1" data-max="20">
+                            <small>این مقدار در سیاست احراز هویت سرور اعمال نمی‌شود.</small>
+                            <span class="settings-field-error" data-error-for="login_attempts"></span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="settings-card" id="settings-appearance" aria-labelledby="settings-appearance-title">
+                    <header class="settings-card-heading">
+                        <span class="settings-card-icon"><i class="fas fa-palette" aria-hidden="true"></i></span>
+                        <div><h3 id="settings-appearance-title">ظاهر پنل</h3><p>رنگ نمایشی ترجیحی خود را انتخاب کنید.</p></div>
+                    </header>
+                    <fieldset class="settings-appearance-options">
+                        <legend>رنگ تأکیدی پنل</legend>
+                        <label class="settings-appearance-choice settings-appearance-choice--forest">
+                            <input type="radio" name="appearance" value="forest" data-setting="appearance" data-default-checked="true">
+                            <span aria-hidden="true"></span><b>سبز جنگلی</b>
+                        </label>
+                        <label class="settings-appearance-choice settings-appearance-choice--navy">
+                            <input type="radio" name="appearance" value="navy" data-setting="appearance">
+                            <span aria-hidden="true"></span><b>سرمه‌ای</b>
+                        </label>
+                        <label class="settings-appearance-choice settings-appearance-choice--sand">
+                            <input type="radio" name="appearance" value="sand" data-setting="appearance">
+                            <span aria-hidden="true"></span><b>کرم گرم</b>
+                        </label>
+                    </fieldset>
+                </section>
+
+                <div class="settings-actions">
+                    <p class="settings-form-feedback" data-settings-feedback role="status" aria-live="polite"></p>
+                    <div>
+                        <button class="settings-button settings-button--quiet" type="button" data-settings-reset>لغو تغییرات</button>
+                        <button class="settings-button settings-button--primary" type="submit"><i class="fas fa-save" aria-hidden="true"></i> ذخیرهٔ تغییرات</button>
+                    </div>
+                </div>
+            </form>
+
+            <section class="settings-card settings-profile-card" id="settings-profile" aria-labelledby="settings-profile-title">
+                <header class="settings-card-heading">
+                    <span class="settings-card-icon"><i class="fas fa-user" aria-hidden="true"></i></span>
+                    <div><h3 id="settings-profile-title">پروفایل مدیر</h3><p>این اطلاعات روی حساب کاربری شما در سرور ذخیره می‌شود.</p></div>
+                </header>
+                <form method="post" enctype="multipart/form-data" class="settings-profile-form">
+                    {% csrf_token %}
+                    <div class="settings-profile-avatar">
+                        {% if profile.image %}
+                            <img src="{{ profile.image.url }}" alt="تصویر پروفایل مدیر">
+                        {% else %}
+                            <span aria-hidden="true">{{ request.user.username|slice:":1"|upper }}</span>
+                        {% endif %}
+                        <label for="profile-image">تصویر پروفایل</label>
+                        <input id="profile-image" type="file" name="image" accept="image/*">
+                    </div>
+                    <div class="settings-fields">
+                        <div class="settings-field">
+                            <label for="profile-full-name">نام و نام خانوادگی</label>
+                            <input id="profile-full-name" type="text" name="full_name" maxlength="200" value="{{ profile.full_name|default:'' }}" autocomplete="name">
+                        </div>
+                        <div class="settings-field">
+                            <label for="profile-email">ایمیل</label>
+                            <input id="profile-email" type="email" value="{{ request.user.email }}" readonly>
+                            <small>برای تغییر ایمیل با مدیر سامانه تماس بگیرید.</small>
+                        </div>
+                        <div class="settings-field">
+                            <label for="profile-phone">موبایل</label>
+                            <input id="profile-phone" type="tel" name="phone" maxlength="200" value="{{ profile.phone|default:'' }}" autocomplete="tel">
+                        </div>
+                        <div class="settings-field">
+                            <label for="profile-country">شهر یا استان</label>
+                            <input id="profile-country" type="text" name="country" maxlength="200" value="{{ profile.country|default:'' }}">
+                        </div>
+                        <div class="settings-field settings-field--wide">
+                            <label for="profile-address">نشانی</label>
+                            <input id="profile-address" type="text" name="address" maxlength="200" value="{{ profile.address|default:'' }}" autocomplete="street-address">
+                        </div>
+                        <div class="settings-field settings-field--wide">
+                            <label for="profile-bio">معرفی کوتاه</label>
+                            <textarea id="profile-bio" name="bio" maxlength="200" rows="2">{{ profile.bio|default:'' }}</textarea>
+                        </div>
+                    </div>
+                    <div class="settings-profile-actions">
+                        <button class="settings-button settings-button--primary" type="submit"><i class="fas fa-save" aria-hidden="true"></i> ذخیرهٔ پروفایل</button>
+                    </div>
+                </form>
+            </section>
         </div>
     </div>
 </section>
+{% endblock content %}
 
-{% endblock content %}  
+{% block extra_js %}
+    <script src="{% static 'js/admin-settings.js' %}" defer></script>
+{% endblock %}

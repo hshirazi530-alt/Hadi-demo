@@ -90,7 +90,13 @@
                                 </td>
                                 <td><span class="admin-product-id">{{ product.pid }}</span></td>
                                 <td>{{ product.category.title|default:"بدون دسته‌بندی" }}</td>
-                                <td><strong data-fa-number="{{ product.price|floatformat:0 }}">{{ product.price|floatformat:0|intcomma }}</strong><span class="admin-table__muted">تومان</span></td>
+                                <td>
+                                    {% if product.price_pending_confirmation %}
+                                        <span class="admin-status admin-status--draft">قیمت نامشخص · نیازمند تأیید</span>
+                                    {% else %}
+                                        <strong data-fa-number="{{ product.price|floatformat:0 }}">{{ product.price|floatformat:0|intcomma }}</strong><span class="admin-table__muted">تومان</span>
+                                    {% endif %}
+                                </td>
                                 <td>
                                     {% if product.in_stock and product.dashboard_stock > 0 %}
                                         <span data-fa-number="{{ product.dashboard_stock }}">{{ product.dashboard_stock|intcomma }}</span>

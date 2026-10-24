@@ -1,5 +1,5 @@
 /* ============================================================
-   هژیر مارکت - Luxe Light Cosmetics Store
+   Hazhirmarket - Luxe Light Cosmetics Store
    Custom theme overlay for Comercio base
    ============================================================ */
 
@@ -396,8 +396,65 @@
    HEADER — minimal light strip
    ============================================================ */
 .store-css .header-area {
-  background: #ffffff !important;
-  border-bottom: 1px solid rgba(201, 169, 110, 0.15);
+  background: #f8f6f3 !important;
+  border-bottom: 0;
+}
+
+.store-css .store-header-meta {
+  background: #f8f6f3;
+  border-bottom: 0;
+  position: relative;
+}
+
+.store-css .store-header-meta__inner {
+  display: flex;
+  align-items: center;
+  min-height: 42px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.store-css .store-header-meta::after,
+.store-css .header-middle::after {
+  position: absolute;
+  right: 4%;
+  bottom: 0;
+  left: 4%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(177, 140, 80, 0.42) 18%,
+    rgba(177, 140, 80, 0.42) 82%,
+    transparent
+  );
+  content: "";
+  pointer-events: none;
+}
+
+.store-css .store-header-meta__notice {
+  width: 100%;
+  margin: 0;
+  color: #66615a;
+  font-size: 14px;
+  line-height: 1.8;
+  text-align: right;
+}
+
+.store-css .store-header-meta__link {
+  display: inline;
+  color: #765c34;
+  font-size: inherit;
+  font-weight: 600;
+  line-height: inherit;
+  text-decoration: none;
+}
+
+.store-css .store-header-meta__link:hover,
+.store-css .store-header-meta__link:focus-visible {
+  color: #5f4826;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .store-css .header-top {
@@ -422,11 +479,12 @@
 }
 
 /* ============================================================
-   HEADER MIDDLE — logo left, search center, icons right
+   HEADER MIDDLE — search + icons
    ============================================================ */
 .store-css .header-middle {
-  background: #ffffff !important;
-  padding: 14px 0;
+  position: relative;
+  background: #f8f6f3 !important;
+  padding: 12px 0;
 }
 
 .store-css .logo a img {
@@ -490,8 +548,8 @@
    HEADER BOTTOM — clean nav strip
    ============================================================ */
 .store-css .header-bottom {
-  background: #ffffff !important;
-  border-top: 1px solid rgba(201, 169, 110, 0.1);
+  background: #f8f6f3 !important;
+  border-top: 0;
 }
 
 /* Hide mega-menu clutter */
@@ -520,6 +578,22 @@
 .store-css .main-menu ul li a.active {
   color: #c9a96e !important;
 }
+
+.store-css .main-menu ul li.store-nav-logo > a {
+  display: flex;
+  align-items: center;
+  padding: 4px 12px !important;
+  vertical-align: middle;
+  transform: translateY(23px);
+}
+
+.store-css .main-menu ul li.store-nav-logo img {
+  display: block;
+  width: 54px;
+  height: 54px;
+  object-fit: contain;
+}
+
 .store-css .main-menu ul li.hot-deals img {
   width: 14px;
   height: 14px;
@@ -632,9 +706,73 @@
 .store-css .mobile-header-active .mobile-header-top {
   background: #ffffff;
 }
+
+.store-css .store-mobile-controls {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.store-css .store-mobile-controls .burger-icon {
+  cursor: pointer;
+}
+
+.store-css .store-mobile-controls .header-action-2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .store-css .mobile-header-active .mobile-header-wrapper-inner {
   background: #f8f6f3;
 }
+
+.store-css .mobile-header-wrapper-style.sidebar-visible .mobile-header-wrapper-inner {
+  direction: rtl;
+}
+
+.store-css .mobile-header-wrapper-style.sidebar-visible .mobile-header-top,
+.store-css .mobile-header-wrapper-style.sidebar-visible .mobile-header-content-area,
+.store-css .mobile-header-wrapper-style.sidebar-visible .mobile-menu-wrap nav,
+.store-css .mobile-header-wrapper-style.sidebar-visible .mobile-menu-wrap .mobile-menu {
+  direction: rtl;
+  text-align: right;
+}
+
+.store-css .mobile-header-wrapper-style.sidebar-visible .mobile-header-top {
+  flex-direction: row;
+}
+
+.store-css .mobile-header-wrapper-style .mobile-header-top {
+  min-height: 108px;
+}
+
+.store-css .mobile-header-wrapper-style .mobile-header-logo {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.store-css .mobile-header-wrapper-style .mobile-menu-close {
+  position: relative;
+  top: auto;
+  right: auto;
+  flex: 0 0 26px;
+  margin-inline-start: auto;
+}
+
+.store-css .mobile-header-wrapper-style {
+  right: 0;
+  left: auto;
+  width: min(360px, 100vw);
+  -webkit-transform: translateX(200px);
+  transform: translateX(200px);
+}
+
+.store-css .mobile-header-wrapper-style.sidebar-visible {
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+}
+
 .store-css .mobile-header-content-area {
   background: #f8f6f3;
 }
@@ -660,6 +798,11 @@
 .store-css .mobile-menu-wrap nav .mobile-menu {
   direction: rtl;
   text-align: right;
+}
+.store-css .mobile-menu-wrap nav .mobile-menu ul {
+  direction: rtl;
+  text-align: right;
+  padding: 10px 10px 0 0;
 }
 .store-css .mobile-menu-wrap nav .mobile-menu li a {
   direction: rtl;
@@ -1691,6 +1834,42 @@
   display: none !important;
 }
 
+.store-chat-launcher {
+  position: fixed;
+  z-index: 1090;
+  right: 24px;
+  left: auto;
+  bottom: max(24px, env(safe-area-inset-bottom));
+  display: grid;
+  width: 60px;
+  height: 60px;
+  place-items: center;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  background: #1478e8;
+  box-shadow: 0 6px 20px rgba(20, 74, 132, 0.28);
+  color: #fff !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.store-chat-launcher:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 9px 24px rgba(20, 74, 132, 0.34);
+  color: #fff !important;
+}
+
+.store-chat-launcher:focus-visible {
+  outline: 3px solid #c9a96e;
+  outline-offset: 3px;
+}
+
+.store-chat-launcher svg {
+  display: block;
+  width: 30px;
+  height: 30px;
+  fill: currentColor;
+}
+
 .store-css .pwa-install {
   position: fixed;
   z-index: 1100;
@@ -1797,6 +1976,19 @@
 }
 
 @media (max-width: 480px) {
+  .store-chat-launcher {
+    right: auto;
+    left: 16px;
+    bottom: max(82px, calc(env(safe-area-inset-bottom) + 82px));
+    width: 52px;
+    height: 52px;
+  }
+
+  .store-chat-launcher svg {
+    width: 26px;
+    height: 26px;
+  }
+
   .store-css .pwa-install {
     inset-inline: 10px;
     bottom: max(10px, env(safe-area-inset-bottom));
@@ -1933,7 +2125,28 @@
   animation: heroSlideIn 0.8s ease forwards;
 }
 
-@media (max-width: 991px) {
+@media (max-width: 991.98px) {
+  .store-css .store-mobile-header-row {
+    position: relative;
+    min-height: 88px;
+    justify-content: flex-start;
+    direction: rtl;
+  }
+
+  .store-css .header-bottom .store-mobile-header-row > .store-mobile-logo {
+    position: absolute !important;
+    top: 50%;
+    left: 50%;
+    right: auto !important;
+    margin: 0 !important;
+    transform: translate(-50%, -50%);
+  }
+
+  .store-css .store-mobile-controls {
+    margin-left: auto;
+    margin-right: 0;
+  }
+
   .store-css .logo.logo-width-1 a img,
   .store-css .mobile-header-logo a img {
     width: 92px;
@@ -1962,6 +2175,29 @@
   }
 }
 
+@media (max-width: 360px) {
+  .store-css .store-mobile-controls {
+    gap: 8px;
+  }
+
+  .store-css .store-mobile-controls .header-action-2 {
+    gap: 0;
+  }
+
+  .store-css .store-mobile-controls .header-action-icon-2 > a {
+    margin: 0;
+    padding: 0;
+  }
+
+  .store-css .store-mobile-logo.logo.logo-width-1 a img {
+    width: 64px;
+    min-width: 64px;
+    max-width: 64px;
+    height: 64px;
+    max-height: 64px;
+  }
+}
+
 /* ============================================================
    Persian personal-care storefront
    ============================================================ */
@@ -1982,23 +2218,61 @@
 .store-css {
   --beauty-ink: #292526;
   --beauty-muted: #736a6a;
-  --beauty-rose: #a34857;
-  --beauty-rose-dark: #813541;
-  --beauty-rose-soft: #f4e7e6;
+  --beauty-rose: #c9a96e;
+  --beauty-rose-dark: #9d8058;
+  --beauty-rose-soft: #f5f0e9;
   --beauty-lilac-soft: #eeeaf4;
   --beauty-peach-soft: #f7e9df;
   --beauty-paper: #fffdfa;
   --beauty-line: #eee7e3;
+  /* ---- Hajir Market design tokens: cream & gold ------------------- */
+  /* Cream is a hierarchy, not one colour: canvas / raised / recessed. */
+  --hm-canvas: #faf6ec;
+  --hm-surface: #fffdf7;
+  --hm-sand: #efe7d6;
+  --hm-sand-deep: #e7dcc6;
+  --hm-line: #e4d9c3;
+  /* Warm near-black: a neutral #111 reads cold and cheap on cream. */
+  --hm-ink: #241e15;
+  --hm-ink-soft: #6b6152;
+  /* Gold is a metal, not a flat colour. --hm-gold is decoration only;
+     text that must pass WCAG uses --hm-bronze (5.9:1 on --hm-canvas). */
+  --hm-bronze: #7a5a1e;
+  --hm-bronze-deep: #5f4616;
+  --hm-gold: #c8a253;
+  --hm-gold-bright: #e8ce94;
+  --hm-gold-wash: rgba(200, 162, 83, 0.12);
+  --hm-gold-hairline: rgba(200, 162, 83, 0.38);
+  --hm-radius-sm: 8px;
+  --hm-radius-md: 12px;
+  --hm-radius-pill: 999px;
+  --hm-utility-h: 28px;
+  --hm-bar-h: 52px;
+  --hm-nav-h: 42px;
+  --hm-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
   font-family: "Kalameh", "Vazirmatn", "Vazir", sans-serif;
   color: var(--beauty-ink);
 }
 
 .store-css .home-page {
-  width: min(1200px, calc(100% - 40px));
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
   color: var(--beauty-ink);
   font-family: "Kalameh", "Vazirmatn", "Vazir", sans-serif;
   line-height: 1.8;
+}
+
+.store-css .home-page {
+  /* full-width layout, no fixed container */
+  margin: 0;
+  padding: 0;
+}
+
+.store-css .home-page > :not(.beauty-slider) {
+  /* other sections still centered if needed */
+  width: min(1200px, calc(100% - 40px));
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .store-css .home-page *,
@@ -2034,21 +2308,110 @@
   outline-offset: 3px;
 }
 
-.store-css .beauty-hero {
-  position: relative;
-  display: grid;
-  grid-template-columns: 1.04fr 0.96fr;
-  align-items: center;
-  min-height: 500px;
-  margin: 34px 0 76px;
-  padding: clamp(30px, 5vw, 68px);
+/* Full-width beauty slider - starts here */
+.store-css .beauty-slider {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
   overflow: hidden;
-  border: 1px solid #eee2db;
-  border-radius: 30px;
-  background:
-    radial-gradient(ellipse at 18% 95%, rgba(219, 173, 158, 0.2), transparent 36%),
-    linear-gradient(118deg, #fbf1ea 0%, #fffaf5 53%, #f5ece9 100%);
 }
+
+.store-css .beauty-hero {
+  /* full-width hero slide, edge-to-edge */
+  position: relative;
+  display: block;
+  /* fallback: remove grid if you want pure block */
+  min-height: 380px;
+  margin: 10px 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: var(--beauty-hero-bg, radial-gradient(ellipse at 20% 100%, #ffe4c5 0%, #f9e9d7 30%, #fff 100%));
+  overflow: hidden;
+}
+
+/* Optional: if you want a subtle accent bar at top */
+.store-css .beauty-hero::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #ff6b35, #fdcb6e);
+  content: "";
+}
+
+.store-css .beauty-hero__content,
+.store-css .beauty-hero__visual {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  padding: 0;
+}
+
+.store-css .beauty-hero__content {
+  /* content on left for larger screens, stacked on mobile */
+  padding: clamp(20px, 3vw, 40px);
+}
+
+.store-css .beauty-hero__visual {
+  /* visual takes remaining space, responsive img */
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 460px;
+  background-size: cover;
+  background-position: center;
+}
+
+.store-css .beauty-hero__visual > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: drop-shadow(0 20px 24px rgba(0,0,0,.1));
+}
+
+/* Caption text adjustments */
+
+/* Arrows navigation - make them more visible */
+.store-css .beauty-slider__arrow {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--beauty-rose);
+  color: #fff !important;
+  border: none;
+  font-size: 20px;
+}
+
+.store-css .beauty-slider__arrow:hover {
+  background: var(--beauty-rose-dark);
+}
+
+/* Indicator dots */
+.store-css .beauty-slider__indicator {
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--beauty-rose);
+  background: transparent;
+  margin: 0 4px;
+}
+
+.store-css .beauty-slider__indicator.is-active {
+  background: var(--beauty-rose);
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .store-css .beauty-slider__arrow,
+  .store-css .beauty-slider__indicator {
+    display: none;
+  }
+}
+/* Full-width beauty slider - ends here */
 
 .store-css .beauty-hero::before,
 .store-css .beauty-hero::after {
@@ -2148,9 +2511,9 @@
 
 .store-css .beauty-button:disabled,
 .store-css .beauty-button:disabled:hover {
-  border-color: #d6ccca;
-  background: #e7e1df;
-  color: #655c5b !important;
+  border-color: var(--hm-gold-hairline);
+  background: var(--hm-gold-wash);
+  color: var(--hm-bronze-deep) !important;
   cursor: not-allowed;
   opacity: 0.85;
   transform: none;
@@ -2195,28 +2558,6 @@
   max-height: 385px;
   object-fit: contain;
   filter: drop-shadow(0 24px 28px rgba(105, 67, 63, 0.12));
-}
-
-.store-css .beauty-hero__stamp {
-  position: absolute;
-  right: 5%;
-  bottom: 7%;
-  display: flex;
-  width: 92px;
-  height: 92px;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(163, 72, 87, 0.23);
-  border-radius: 50%;
-  background: rgba(255, 253, 250, 0.86);
-  color: var(--beauty-rose);
-  font-size: 12px;
-  transform: rotate(-10deg);
-}
-
-.store-css .beauty-hero__stamp strong {
-  font-size: 16px;
 }
 
 .store-css .beauty-section {
@@ -2377,25 +2718,27 @@
 .store-css .category-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
+  gap: 20px;
 }
 
 .store-css .category-card {
+  position: relative;
   display: flex;
-  min-height: 215px;
-  align-items: center;
-  gap: 12px;
-  padding: 22px 18px;
+  min-height: 300px;
+  flex-direction: column;
   overflow: hidden;
   border: 1px solid transparent;
-  border-radius: 20px;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(28, 25, 23, 0.04), 0 8px 24px rgba(28, 25, 23, 0.06);
   text-decoration: none;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease, border-color 0.35s ease;
 }
 
 .store-css .category-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 14px 28px rgba(55, 38, 43, 0.09);
+  transform: translateY(-6px);
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 4px 8px rgba(28, 25, 23, 0.06), 0 22px 44px rgba(28, 25, 23, 0.14);
 }
 
 .store-css .category-card--rose {
@@ -2428,43 +2771,72 @@
   background: linear-gradient(135deg, #eaf2f9, #f7fbfd);
 }
 
-.store-css .category-card__image {
-  display: grid;
-  width: 48%;
-  min-width: 120px;
-  height: 200px;
-  place-items: center;
+.store-css .category-card--gold {
+  border-color: #eee2c4;
+  background: linear-gradient(135deg, #faf3e3, #fdfaf3);
 }
 
-.store-css .category-card__image img {
+.store-css .category-card__media {
+  position: relative;
   display: block;
   width: 100%;
-  max-height: 190px;
-  object-fit: contain;
+  height: 168px;
+  overflow: hidden;
+  background: #f3eeea;
 }
 
-.store-css .category-card__copy {
+.store-css .category-card__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(28, 25, 23, 0.30), rgba(28, 25, 23, 0) 58%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+.store-css .category-card__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.01);
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.store-css .category-card:hover .category-card__media img {
+  transform: scale(1.07);
+}
+
+.store-css .category-card:hover .category-card__media::after {
+  opacity: 1;
+}
+
+.store-css .category-card__body {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex: 1;
   flex-direction: column;
   align-items: flex-start;
+  padding: 18px 20px 20px;
 }
 
 .store-css .category-card__eyebrow {
-  margin-bottom: 5px;
+  margin-bottom: 6px;
   color: var(--beauty-rose);
-  font-size: 10px;
+  font-size:  10px;
   font-weight: 700;
 }
 
-.store-css .category-card__copy strong {
+.store-css .category-card__body strong {
   margin-bottom: 6px;
   color: var(--beauty-ink);
   font-size: 18px;
   line-height: 1.6;
 }
 
-.store-css .category-card__copy > span:not(.category-card__eyebrow):not(.category-card__link) {
+.store-css .category-card__body > span:not(.category-card__eyebrow):not(.category-card__link) {
   color: #6f6565;
   font-size: 12px;
   line-height: 1.8;
@@ -2503,15 +2875,16 @@
   flex-direction: column;
   overflow: hidden;
   border: 1px solid var(--beauty-line);
-  border-radius: 18px;
+  border-radius: 20px;
   background: #fff;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  box-shadow: 0 1px 2px rgba(28, 25, 23, 0.04), 0 6px 18px rgba(28, 25, 23, 0.05);
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease, border-color 0.35s ease;
 }
 
 .store-css .beauty-product-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-6px);
   border-color: #e4c8c4;
-  box-shadow: 0 14px 30px rgba(49, 38, 40, 0.08);
+  box-shadow: 0 4px 8px rgba(28, 25, 23, 0.05), 0 20px 40px rgba(28, 25, 23, 0.12);
 }
 
 .store-css .beauty-product-card__image {
@@ -2525,36 +2898,53 @@
   text-decoration: none;
 }
 
+.store-css .beauty-product-card__image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(28, 25, 23, 0.22), rgba(28, 25, 23, 0) 60%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+.store-css .beauty-product-card:hover .beauty-product-card__image::after,
+.store-css .beauty-product-card__image:focus-visible::after {
+  opacity: 1;
+}
+
 .store-css .beauty-product-card__image img {
   width: 100%;
   height: 100%;
   object-fit: contain;
   transform-origin: var(--image-zoom-origin, center);
-  transition: transform 0.22s ease;
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .store-css .beauty-product-card__image:hover img,
   .store-css .store-product-card__image:hover img {
-    transform: scale(1.16);
+    transform: scale(1.10);
   }
 }
 
 .store-css .beauty-product-card__image:focus-visible img,
 .store-css .store-product-card__image:focus-visible img {
-  transform: scale(1.12);
+  transform: scale(1.08);
 }
 
 .store-css .beauty-product-card__discount {
   position: absolute;
   top: 13px;
   right: 13px;
-  padding: 5px 10px;
+  padding: 5px 11px;
+  border: 1px solid var(--hm-gold-hairline, #eee2c4);
   border-radius: 20px;
-  background: #f2e3e5;
-  color: var(--beauty-rose-dark);
+  background: linear-gradient(135deg, #fbf3df, #f3e2ba);
+  color: #7c5f2e;
   font-size: 11px;
   font-weight: 700;
+  box-shadow: 0 2px 8px rgba(140, 115, 82, 0.18);
 }
 
 .store-css .beauty-product-card__body {
@@ -2562,13 +2952,14 @@
   flex: 1;
   flex-direction: column;
   align-items: flex-start;
-  padding: 17px;
+  padding: 18px 17px 17px;
 }
 
 .store-css .beauty-product-card__category {
-  margin-bottom: 3px;
+  margin-bottom: 4px;
   color: var(--beauty-muted);
   font-size: 11px;
+  font-weight: 600;
 }
 
 .store-css .beauty-product-card h3 {
@@ -2581,6 +2972,11 @@
 .store-css .beauty-product-card h3 a {
   color: var(--beauty-ink);
   text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.store-css .beauty-product-card h3 a:hover {
+  color: var(--beauty-rose-dark);
 }
 
 .store-css .beauty-product-card__rating {
@@ -2608,7 +3004,8 @@
 }
 
 .store-css .beauty-product-card__price strong {
-  font-size: 16px;
+  font-size: 17px;
+  letter-spacing: -0.01em;
 }
 
 .store-css .beauty-product-card__price strong span {
@@ -2618,23 +3015,652 @@
 
 .store-css .beauty-button--add {
   width: 100%;
-  min-height: 43px;
+  min-height: 44px;
   margin-top: auto;
-  border-color: #e5c9c4;
+  border: 1px solid #e5c9c4;
+  border-radius: 12px;
   background: #fff;
   color: var(--beauty-rose-dark);
+  font-weight: 700;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.store-css .beauty-button--add:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(140, 115, 82, 0.22);
 }
 
 .store-css .beauty-button--add:hover,
 .store-css .beauty-button--add:disabled {
-  border-color: var(--beauty-rose);
-  background: var(--beauty-rose);
-  color: #fff;
+  border-color: var(--hm-gold);
+  background: linear-gradient(135deg, var(--hm-gold-bright), var(--hm-gold));
+  color: var(--hm-ink);
 }
 
 .store-css .beauty-button--add:disabled {
-  cursor: wait;
+  cursor: not-allowed;
   opacity: 0.75;
+}
+
+/* ============================================================
+   HAJIR MARKET — Main products slider (full-width Swiper)
+   Cream/Gold identity. Cards keep a fixed width so
+   slidesPerView:"auto" preserves proportions at every breakpoint.
+   ============================================================ */
+.store-css .featured-products {
+  /* Full-width: override the centered 1200px container rule. */
+  width: 100% !important;
+  padding: 0 clamp(16px, 4vw, 64px);
+}
+
+.store-css .featured-products .beauty-section__heading {
+  width: min(1200px, 100%);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.store-css .hm-product-slider {
+  width: 100%;
+  margin: 0;
+  padding: 0 2px;
+  overflow: hidden;
+}
+
+.store-css .hm-product-slider__wrapper {
+  /* stretch + Swiper's `.swiper-slide{height:100%}` creates a circular
+     reference that inflates cards to the wrapper height. Cards size
+     themselves; the wrapper follows. */
+  align-items: flex-start;
+  height: auto;
+}
+
+.store-css .hm-product-slider__wrapper .swiper-slide {
+  height: auto;
+}
+
+.store-css .hm-product-card {
+  /* 4 per view on desktop, 3 on tablet, 1 on mobile (see breakpoints). */
+  width: calc((100% - 54px) / 4);
+  min-width: 0;
+  height: auto;
+}
+
+.store-css .hm-product-card .beauty-product-card__image {
+  height: 220px;
+  background: var(--hm-surface);
+  border-bottom: 1px solid var(--hm-line);
+}
+
+.store-css .hm-product-card .beauty-product-card__discount {
+  top: 12px;
+  right: 12px;
+  border: 1px solid var(--hm-gold-hairline);
+  background: linear-gradient(135deg, var(--hm-gold-bright), var(--hm-gold));
+  color: var(--hm-bronze-deep);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.store-css .hm-product-card .beauty-product-card__category {
+  color: var(--hm-bronze);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.store-css .hm-product-card .beauty-product-card__rating {
+  color: var(--hm-gold);
+}
+
+.store-css .hm-product-card .beauty-product-card__price strong {
+  color: var(--hm-bronze-deep);
+}
+
+/* ---- Controls: gold circular arrows + cream dots ---- */
+.store-css .hm-product-slider__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 26px;
+}
+
+.store-css .hm-product-slider__arrow {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  border: 1px solid var(--hm-gold-hairline);
+  border-radius: 50%;
+  background: var(--hm-surface);
+  color: var(--hm-bronze);
+  cursor: pointer;
+  transition: transform 0.2s var(--hm-ease), background 0.2s var(--hm-ease), color 0.2s var(--hm-ease);
+}
+
+.store-css .hm-product-slider__arrow svg {
+  width: 19px;
+  height: 19px;
+}
+
+.store-css .hm-product-slider__arrow:hover,
+.store-css .hm-product-slider__arrow:focus-visible {
+  border-color: var(--hm-gold);
+  background: linear-gradient(135deg, var(--hm-gold-bright), var(--hm-gold));
+  color: var(--hm-bronze-deep);
+  transform: translateY(-2px);
+}
+
+.store-css .hm-product-slider__arrow.is-disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.store-css .hm-product-slider__dots {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.store-css .hm-product-slider__dot {
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  border: 1px solid var(--hm-gold-hairline);
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  transition: width 0.25s var(--hm-ease), background 0.25s var(--hm-ease);
+}
+
+.store-css .hm-product-slider__dot.is-active {
+  width: 26px;
+  border-radius: var(--hm-radius-pill);
+  background: linear-gradient(90deg, var(--hm-gold), var(--hm-bronze));
+}
+
+/* ---- Responsive: 4 → 3 → 1 ---- */
+@media (max-width: 1100px) {
+  .store-css .hm-product-card {
+    width: calc((100% - 36px) / 3);
+  }
+}
+
+@media (max-width: 768px) {
+  .store-css .hm-product-card {
+    /* Single card per view, swipeable; ~80% width shows a peek of the next. */
+    width: min(340px, 84%);
+  }
+
+  .store-css .hm-product-slider__controls {
+    margin-top: 20px;
+  }
+}
+
+/* ============================================================
+   HAJIR MARKET — Amazing Offers (شگفت‌انگیزها)
+   Cream/Gold re-interpretation of the classic red flash-sale
+   band: gold gradient panel, gold discount chips, cream cards.
+   ============================================================ */
+.store-css .hm-amazing {
+  /* Full-width like the main product slider. */
+  width: 100% !important;
+  padding: 0 clamp(16px, 4vw, 64px);
+}
+
+.store-css .hm-amazing__panel {
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px;
+  background:
+    linear-gradient(135deg, rgba(232, 206, 148, 0.28), rgba(200, 162, 83, 0.12)),
+    var(--hm-surface);
+  border: 1px solid var(--hm-gold-hairline);
+  box-shadow: 0 4px 8px rgba(122, 90, 30, 0.06), 0 24px 56px rgba(122, 90, 30, 0.14);
+}
+
+.store-css .hm-amazing__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 22px clamp(18px, 3vw, 30px);
+  border-bottom: 1px solid var(--hm-gold-hairline);
+  background: linear-gradient(90deg, rgba(200, 162, 83, 0.20), transparent);
+}
+
+.store-css .hm-amazing__brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.store-css .hm-amazing__icon {
+  display: grid;
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border-radius: 13px;
+  background: linear-gradient(135deg, var(--hm-gold-bright), var(--hm-gold));
+  color: var(--hm-bronze-deep);
+  box-shadow: 0 4px 12px rgba(122, 90, 30, 0.22);
+}
+
+.store-css .hm-amazing__icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.store-css .hm-amazing__brand h2 {
+  margin: 0;
+  font-size: clamp(17px, 2.2vw, 22px);
+  line-height: 1.4;
+  color: var(--hm-bronze-deep);
+  white-space: nowrap;
+}
+
+/* ---- Countdown timer ---- */
+.store-css .hm-amazing__timer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.store-css .hm-amazing__timer-label {
+  color: var(--hm-ink-soft);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.store-css .hm-amazing__timer-digits {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  direction: ltr;
+}
+
+.store-css .hm-amazing__timer-digits b {
+  display: inline-grid;
+  min-width: 36px;
+  height: 36px;
+  place-items: center;
+  border-radius: 9px;
+  background: var(--hm-surface);
+  border: 1px solid var(--hm-gold-hairline);
+  color: var(--hm-bronze-deep);
+  font-size: 15px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  box-shadow: 0 2px 6px rgba(122, 90, 30, 0.10);
+}
+
+.store-css .hm-amazing__timer-digits i {
+  color: var(--hm-gold);
+  font-style: normal;
+  font-weight: 700;
+}
+
+.store-css .hm-amazing__timer-ended {
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--hm-sand);
+  color: var(--hm-ink-soft);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.store-css .hm-amazing__all {
+  flex: 0 0 auto;
+  padding: 9px 16px;
+  border-radius: 999px;
+  background: var(--hm-surface);
+  border: 1px solid var(--hm-gold-hairline);
+  color: var(--hm-bronze-deep);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s var(--hm-ease), transform 0.2s var(--hm-ease);
+}
+
+.store-css .hm-amazing__all:hover,
+.store-css .hm-amazing__all:focus-visible {
+  background: linear-gradient(135deg, var(--hm-gold-bright), var(--hm-gold));
+  transform: translateY(-1px);
+}
+
+/* ---- Slider ---- */
+.store-css .hm-amazing__slider {
+  width: 100%;
+  padding: 18px clamp(18px, 3vw, 30px) 22px;
+  overflow: hidden;
+}
+
+.store-css .hm-amazing__wrapper {
+  /* flex-start avoids the circular stretch reference created by
+     Swiper's `.swiper-slide{height:100%}` rule. */
+  align-items: flex-start;
+  /* Swiper's built-in `.swiper-wrapper{height:100%}` stretches the
+     wrapper to the container and pulls slides with it. Slides size
+     themselves; the wrapper follows. */
+  height: auto;
+}
+
+/* Swiper's built-in `.swiper-slide{height:100%}` creates a circular
+   height reference inside this slider. Slides size themselves. */
+.store-css .hm-amazing__wrapper .swiper-slide {
+  height: auto;
+}
+
+.store-css .hm-amazing__wrapper .hm-amazing-banner {
+  /* Match the product card height (see .hm-amazing-card). */
+  height: 371px;
+}
+
+.store-css .hm-amazing-card {
+  width: 218px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: auto;
+  border: 1px solid var(--hm-line);
+  border-radius: 18px;
+  background: var(--hm-surface);
+  box-shadow: 0 1px 2px rgba(28, 25, 23, 0.04), 0 6px 16px rgba(28, 25, 23, 0.05);
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+}
+
+.store-css .hm-amazing-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--hm-gold-hairline);
+  box-shadow: 0 4px 8px rgba(28, 25, 23, 0.05), 0 20px 40px rgba(122, 90, 30, 0.16);
+}
+
+.store-css .hm-amazing-card__image {
+  position: relative;
+  display: grid;
+  height: 168px;
+  place-items: center;
+  overflow: hidden;
+  background: var(--hm-canvas);
+  border-bottom: 1px solid var(--hm-line);
+}
+
+.store-css .hm-amazing-card__image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(28, 25, 23, 0.20), rgba(28, 25, 23, 0) 60%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+.store-css .hm-amazing-card:hover .beauty-product-card__image::after,
+.store-css .hm-amazing-card:hover .hm-amazing-card__image::after {
+  opacity: 1;
+}
+
+.store-css .hm-amazing-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 12px;
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.store-css .hm-amazing-card:hover .hm-amazing-card__image img {
+  transform: scale(1.08);
+}
+
+.store-css .hm-amazing-card__off {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 4px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--hm-gold-bright), var(--hm-gold));
+  color: var(--hm-bronze-deep);
+  font-size: 12px;
+  font-weight: 800;
+  box-shadow: 0 3px 10px rgba(122, 90, 30, 0.26);
+}
+
+.store-css .hm-amazing-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 13px 14px 15px;
+}
+
+.store-css .hm-amazing-card__body h3 {
+  min-height: 66px;
+  margin-bottom: 8px;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.store-css .hm-amazing-card__body h3 a {
+  color: var(--hm-ink);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.store-css .hm-amazing-card__body h3 a:hover {
+  color: var(--hm-bronze-deep);
+}
+
+.store-css .hm-amazing-card__price {
+  display: flex;
+  min-height: 44px;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 11px;
+}
+
+.store-css .hm-amazing-card__price del {
+  color: var(--hm-ink-soft);
+  font-size: 11px;
+  text-decoration: line-through;
+}
+
+.store-css .hm-amazing-card__price strong {
+  color: var(--hm-bronze-deep);
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+.store-css .hm-amazing-card__price strong span {
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.store-css .hm-amazing-card .product-cart-btn {
+  width: 100%;
+  min-height: 40px;
+  margin-top: auto;
+  border: 1px solid var(--hm-gold-hairline);
+  border-radius: 11px;
+  background: var(--hm-surface);
+  color: var(--hm-bronze-deep);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s var(--hm-ease), color 0.2s var(--hm-ease);
+}
+
+.store-css .hm-amazing-card .product-cart-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(122, 90, 30, 0.22);
+  background: linear-gradient(135deg, var(--hm-gold-bright), var(--hm-gold));
+}
+
+.store-css .hm-amazing-card .product-cart-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* ---- Mini-banner slides ---- */
+.store-css .hm-amazing-banner {
+  position: relative;
+  display: grid;
+  width: 218px;
+  min-width: 0;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--hm-bronze), var(--hm-gold));
+  box-shadow: 0 6px 18px rgba(122, 90, 30, 0.20);
+  text-decoration: none;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease;
+}
+
+.store-css .hm-amazing-banner:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 4px 8px rgba(28, 25, 23, 0.06), 0 20px 40px rgba(122, 90, 30, 0.28);
+}
+
+.store-css .hm-amazing-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.store-css .hm-amazing-banner__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px;
+  color: #fffdf7;
+  text-align: center;
+}
+
+.store-css .hm-amazing-banner__copy strong {
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.store-css .hm-amazing-banner__copy span {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.store-css .hm-amazing-banner__copy i {
+  margin-top: 4px;
+  padding: 6px 12px;
+  border: 1px solid rgba(255, 253, 247, 0.5);
+  border-radius: 999px;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 600;
+}
+
+/* ---- Controls: floating arrows inside the slider ---- */
+.store-css .hm-amazing__controls {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* RTL: prev (visually right) sits at the right edge of the slider,
+   vertically centred on the cards. */
+.store-css .hm-amazing__controls [data-amazing-prev],
+.store-css .hm-amazing__controls [data-amazing-next] {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: auto;
+}
+
+.store-css .hm-amazing__controls [data-amazing-prev] {
+  right: 8px;
+}
+
+.store-css .hm-amazing__controls [data-amazing-next] {
+  left: 8px;
+}
+
+.store-css .hm-amazing__arrow {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border: 1px solid var(--hm-gold-hairline);
+  border-radius: 50%;
+  background: var(--hm-surface);
+  color: var(--hm-bronze);
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: 0 4px 14px rgba(122, 90, 30, 0.16);
+  transition: background 0.2s var(--hm-ease), transform 0.2s var(--hm-ease), box-shadow 0.2s var(--hm-ease);
+}
+
+.store-css .hm-amazing__arrow svg {
+  width: 16px;
+  height: 16px;
+}
+
+.store-css .hm-amazing__arrow:hover,
+.store-css .hm-amazing__arrow:focus-visible {
+  background: linear-gradient(135deg, var(--hm-gold-bright), var(--hm-gold));
+  color: var(--hm-bronze-deep);
+  transform: translateY(-1px);
+}
+
+.store-css .hm-amazing__arrow.is-disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 992px) {
+  .store-css .hm-amazing__header {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .store-css .hm-amazing__controls {
+    position: static;
+    width: auto;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    padding: 0 0 16px;
+    pointer-events: auto;
+  }
+
+  .store-css .hm-amazing__controls [data-amazing-prev],
+  .store-css .hm-amazing__controls [data-amazing-next] {
+    position: static;
+    transform: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .store-css .hm-amazing__brand h2 {
+    font-size: 15px;
+    white-space: normal;
+  }
+
+  .store-css .hm-amazing__timer-label {
+    display: none;
+  }
+
+  .store-css .hm-amazing-card,
+  .store-css .hm-amazing-banner {
+    width: min(200px, 76%);
+  }
 }
 
 .store-css .catalog-empty {
@@ -2743,11 +3769,9 @@
   text-align: center;
 }
 
-/* درگاه پرداخت زرین‌پال: نشان + لوگوتایپ */
+/* درگاه پرداخت زرین‌پال */
 .store-css .footer-trust__item--gateway {
-  flex-direction: row;
-  gap: 10px;
-  padding: 10px 16px;
+  padding: 8px;
   transition: box-shadow 180ms ease, transform 180ms ease;
 }
 
@@ -2756,18 +3780,12 @@
   box-shadow: 0 10px 24px rgba(53, 45, 31, 0.12);
 }
 
-.store-css .footer-trust__item--gateway .footer-trust__mark {
-  width: 26px;
-  height: auto;
-  max-width: none;
-  max-height: none;
-}
-
 .store-css .footer-trust__item--gateway .footer-trust__wordmark {
-  width: 112px;
-  height: auto;
+  width: 80px;
+  height: 80px;
   max-width: none;
   max-height: none;
+  object-fit: contain;
 }
 
 @media (max-width: 575px) {
@@ -3229,7 +4247,7 @@
 }
 
 @media (max-width: 991px) {
-  .store-css .home-page {
+  .store-css .home-page > :not(.beauty-slider) {
     width: min(760px, calc(100% - 32px));
   }
 
@@ -3244,16 +4262,15 @@
   }
 
   .store-css .category-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .store-css .category-card {
-    min-height: 185px;
+    min-height: 260px;
   }
 
-  .store-css .category-card__image {
-    width: 40%;
-    height: 175px;
+  .store-css .category-card__media {
+    height: 150px;
   }
 
   .store-css .product-grid {
@@ -3268,7 +4285,7 @@
 }
 
 @media (max-width: 640px) {
-  .store-css .home-page {
+  .store-css .home-page > :not(.beauty-slider) {
     width: calc(100% - 28px);
   }
 
@@ -3309,17 +4326,9 @@
     max-height: 240px;
   }
 
-  .store-css .beauty-hero__stamp {
-    right: 2%;
-    bottom: 0;
-    width: 72px;
-    height: 72px;
-    font-size: 10px;
-  }
+  
 
-  .store-css .beauty-hero__stamp strong {
-    font-size: 13px;
-  }
+  
 
   .store-css .beauty-section {
     margin-bottom: 55px;
@@ -3367,21 +4376,23 @@
   }
 
   .store-css .category-card {
-    min-height: 158px;
-    padding: 15px 13px;
-    border-radius: 16px;
+    min-height: 230px;
+    border-radius: 18px;
   }
 
-  .store-css .category-card__image {
-    min-width: 96px;
-    height: 125px;
+  .store-css .category-card__media {
+    height: 132px;
   }
 
-  .store-css .category-card__copy strong {
+  .store-css .category-card__body {
+    padding: 15px 15px 16px;
+  }
+
+  .store-css .category-card__body strong {
     font-size: 16px;
   }
 
-  .store-css .category-card__copy > span:not(.category-card__eyebrow):not(.category-card__link) {
+  .store-css .category-card__body > span:not(.category-card__eyebrow):not(.category-card__link) {
     font-size: 11px;
   }
 
@@ -5645,6 +6656,17 @@
   transition: background-color 160ms ease, color 160ms ease;
 }
 
+.store-css .customer-dashboard__nav a.customer-dashboard__tracking-link {
+  align-items: flex-start;
+}
+
+.store-css .customer-dashboard__tracking-link .customer-dashboard__tracking-label {
+  min-width: 0;
+  font-size: 11px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
 .store-css .customer-dashboard__nav a > span:first-child,
 .store-css .customer-dashboard__logout > span {
   display: grid;
@@ -6048,19 +7070,26 @@
   line-height: 1.9;
 }
 
-.store-css .tracking-result {
-  display: grid;
-  gap: 9px;
-  margin-top: 24px;
+.store-css .tracking-contact-note {
+  margin: 0;
   padding: 19px;
   border-right: 3px solid var(--account-gold);
   background: #f8f4eb;
-}
-
-.store-css .tracking-result p {
-  margin: 0;
   color: #5f584c;
   font-size: 13px;
+  font-weight: 400;
+  line-height: 2;
+}
+
+.store-css .tracking-contact-note a {
+  color: #87662f;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.store-css .tracking-contact-note a:hover {
+  color: #5f451f;
 }
 
 .store-css .customer-dashboard__messages .alert {
@@ -7085,7 +8114,7 @@
 }
 
 .store-css .trust-immersive__badge::after {
-  content: "هژیر مارکت";
+  content: "Hazhirmarket";
   color: #2b2620;
   font-size: 13px;
   font-weight: 600;
@@ -7511,5 +8540,1310 @@
 @media (max-width: 560px) {
   .store-css .purchase-guide-summary__steps {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Full-bleed Hazhirmarket campaign slider */
+.store-css .beauty-slider {
+  position: relative;
+  width: 100%;
+  max-width: none;
+  margin: 0 0 76px;
+  overflow: hidden;
+  isolation: isolate;
+  transform: none;
+  background:
+    radial-gradient(ellipse at 78% 4%, rgba(255, 221, 177, 0.13), transparent 34%),
+    linear-gradient(112deg, #4b101e 0%, #781c31 52%, #571323 100%);
+  color: #fffaf4;
+}
+
+.store-css .beauty-slider::before,
+.store-css .beauty-slider::after {
+  position: absolute;
+  z-index: 0;
+  border: 1px solid rgba(255, 230, 203, 0.12);
+  border-radius: 50%;
+  content: "";
+  pointer-events: none;
+}
+
+.store-css .beauty-slider::before {
+  top: -350px;
+  left: 44%;
+  width: 710px;
+  height: 710px;
+}
+
+.store-css .beauty-slider::after {
+  top: -285px;
+  left: calc(44% + 66px);
+  width: 580px;
+  height: 580px;
+}
+
+.store-css .beauty-slider .beauty-hero {
+  position: relative;
+  z-index: 1;
+  width: min(1280px, 100%);
+  min-height: 500px;
+  margin: 0 auto;
+  padding: clamp(38px, 5.8vw, 76px) clamp(28px, 5.6vw, 88px);
+  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #fffaf4;
+}
+
+.store-css .beauty-slider .beauty-hero::before,
+.store-css .beauty-slider .beauty-hero::after {
+  display: none;
+}
+
+.store-css .beauty-slider .beauty-hero__content,
+.store-css .beauty-slider .beauty-hero__visual {
+  z-index: 1;
+}
+
+.store-css .beauty-slider .beauty-hero .eyebrow {
+  margin-bottom: 14px;
+  color: #f0ca91;
+}
+
+.store-css .beauty-slider .beauty-hero h1 {
+  max-width: 600px;
+  margin-bottom: 19px;
+  color: #fffaf4;
+  font-size: clamp(40px, 5vw, 66px);
+  line-height: 1.28;
+}
+
+.store-css .beauty-slider .beauty-hero h1 span {
+  color: #f1c88e;
+}
+
+.store-css .beauty-slider .beauty-hero__description {
+  max-width: 520px;
+  margin-bottom: 26px;
+  color: rgba(255, 250, 244, 0.82);
+}
+
+.store-css .beauty-slider .beauty-hero__notes {
+  color: rgba(255, 250, 244, 0.74);
+}
+
+.store-css .beauty-slider .beauty-hero__notes li::before {
+  color: #f0ca91;
+}
+
+.store-css .beauty-slider .beauty-button--primary {
+  background: #f0ca91;
+  color: #46101d !important;
+  box-shadow: 0 10px 24px rgba(29, 5, 12, 0.2);
+}
+
+.store-css .beauty-slider .beauty-button--primary:hover {
+  background: #ffdfad;
+  color: #46101d !important;
+}
+
+.store-css .beauty-slider .beauty-button--quiet {
+  border-color: rgba(255, 239, 221, 0.38);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fffaf4 !important;
+}
+
+.store-css .beauty-slider .beauty-button--quiet:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.store-css .beauty-slider .beauty-hero__visual {
+  min-height: 350px;
+}
+
+.store-css .beauty-slider .beauty-hero__visual::before,
+.store-css .beauty-slider .beauty-hero__visual::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  content: "";
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+.store-css .beauty-slider .beauty-hero__visual::before {
+  width: min(82%, 360px);
+  aspect-ratio: 1;
+  background: radial-gradient(circle, rgba(246, 212, 173, 0.28), rgba(246, 212, 173, 0.05) 66%, transparent 68%);
+  box-shadow: 0 0 70px rgba(255, 209, 154, 0.11);
+}
+
+.store-css .beauty-slider .beauty-hero__visual::after {
+  width: min(91%, 400px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(255, 231, 205, 0.2);
+}
+
+.store-css .beauty-slider .beauty-hero__visual > img {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 450px);
+  max-height: 390px;
+  filter: drop-shadow(0 28px 30px rgba(22, 3, 9, 0.4));
+}
+
+.store-css .beauty-slide[hidden] {
+  display: none !important;
+}
+
+.store-css .beauty-slide.is-active {
+  animation: beautySlideIn 0.45s ease both;
+}
+
+.store-css .beauty-slider__controls {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  width: min(1280px, 100%);
+  min-height: 62px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin: 0 auto;
+  padding: 0 clamp(28px, 5.6vw, 88px) 20px;
+}
+
+.store-css .beauty-slider__arrows,
+.store-css .beauty-slider__indicators {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.store-css .beauty-slider__arrow,
+.store-css .beauty-slider__toggle {
+  display: inline-flex;
+  min-width: 42px;
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 7px 11px;
+  border: 1px solid rgba(255, 238, 221, 0.22);
+  border-radius: 10px;
+  background: rgba(39, 5, 14, 0.2);
+  color: #fff8ef;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.store-css .beauty-slider__arrow {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.store-css .beauty-slider__arrow:hover,
+.store-css .beauty-slider__toggle:hover {
+  border-color: rgba(255, 238, 221, 0.56);
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.store-css .beauty-slider__indicator {
+  display: grid;
+  width: 27px;
+  height: 40px;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.store-css .beauty-slider__indicator span {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 8px;
+  background: rgba(255, 245, 233, 0.42);
+  transition: width 0.25s ease, background-color 0.25s ease;
+}
+
+.store-css .beauty-slider__indicator.is-active span {
+  width: 25px;
+  background: #f0ca91;
+}
+
+.store-css .beauty-slider__toggle {
+  color: rgba(255, 248, 239, 0.82);
+  font-size: 11px;
+}
+
+.store-css .beauty-slider__toggle > span {
+  color: #f0ca91;
+  font-size: 14px;
+}
+
+@media (max-width: 991px) {
+  .store-css .beauty-slider {
+    margin-bottom: 58px;
+  }
+
+  .store-css .beauty-slider .beauty-hero {
+    min-height: 430px;
+    padding-inline: 38px;
+  }
+
+  .store-css .beauty-slider .beauty-hero__visual {
+    min-height: 300px;
+  }
+
+  .store-css .beauty-slider__controls {
+    padding-inline: 38px;
+  }
+}
+
+@media (max-width: 640px) {
+  .store-css .beauty-slider {
+    margin-bottom: 48px;
+  }
+
+  .store-css .beauty-slider .beauty-hero {
+    grid-template-columns: 1fr;
+    gap: 0;
+    min-height: 0;
+    padding: 20px 22px 24px;
+  }
+
+  .store-css .beauty-slider .beauty-hero__visual {
+    grid-row: 1;
+    min-height: 210px;
+    margin-bottom: 10px;
+  }
+
+  .store-css .beauty-slider .beauty-hero__visual > img {
+    width: min(100%, 280px);
+    max-height: 245px;
+  }
+
+  
+
+  
+
+  .store-css .beauty-slider .beauty-hero h1 {
+    margin-bottom: 12px;
+    font-size: clamp(34px, 9vw, 46px);
+  }
+
+  .store-css .beauty-slider .beauty-hero__description {
+    margin-bottom: 18px;
+    font-size: 14px;
+  }
+
+  .store-css .beauty-slider .beauty-hero__actions {
+    align-items: stretch;
+  }
+
+  .store-css .beauty-slider .beauty-hero__actions .beauty-button {
+    flex: 1 1 100%;
+  }
+
+  .store-css .beauty-slider .beauty-hero__notes {
+    gap: 6px 12px;
+    margin-top: 17px;
+    font-size: 10px;
+  }
+
+  .store-css .beauty-slider__controls {
+    min-height: 52px;
+    gap: 6px;
+    padding: 0 20px 16px;
+  }
+
+  .store-css .beauty-slider__arrows,
+  .store-css .beauty-slider__indicators {
+    gap: 3px;
+  }
+
+  .store-css .beauty-slider__arrow {
+    min-width: 36px;
+    min-height: 36px;
+    padding: 5px;
+  }
+
+  .store-css .beauty-slider__indicator {
+    width: 20px;
+    height: 36px;
+  }
+
+  .store-css .beauty-slider__indicator.is-active span {
+    width: 19px;
+  }
+
+  .store-css .beauty-slider__toggle {
+    min-width: 36px;
+    min-height: 36px;
+    padding: 5px 7px;
+    font-size: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .store-css .beauty-slide.is-active {
+    animation: none;
+  }
+}
+
+/* ============================================================
+   HEADER V2 — Hajir Market (cream & gold)
+   A new component layer on top of the legacy header rules.
+   Selectors are scoped under .hm-header / .hm-nav so the older
+   declarations (and the sticky/drawdown JS hooks) keep working.
+   ============================================================ */
+
+.store-css .hm-header {
+  background: var(--hm-canvas) !important;
+}
+.store-css .hm-header a {
+  text-decoration: none;
+}
+
+/* ---------- Tier 1: utility strip ---------- */
+.store-css .hm-utility {
+  background: var(--hm-sand);
+  border-bottom: 0;
+  position: relative;
+  z-index: 3;
+}
+.store-css .hm-utility .hm-utility__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: var(--hm-utility-h);
+  padding-block: 4px;
+}
+.store-css .hm-utility__zone {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+.store-css .hm-utility__zone--end {
+  justify-content: flex-end;
+}
+.store-css .hm-utility__sep {
+  flex: 0 0 auto;
+  width: 1px;
+  height: 14px;
+  background: var(--hm-sand-deep);
+}
+.store-css .hm-utility__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--hm-ink-soft);
+  font-size: 12.5px;
+  line-height: 1.7;
+  white-space: nowrap;
+  transition: color 0.18s var(--hm-ease);
+}
+.store-css .hm-utility__link:hover,
+.store-css .hm-utility__link:focus-visible {
+  color: var(--hm-bronze);
+}
+.store-css .hm-utility__link svg {
+  flex: 0 0 auto;
+  width: 15px;
+  height: 15px;
+  opacity: 0.75;
+}
+.store-css .hm-utility__number {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Wholesale channel — gold outline, never a filled block:
+   the only saturated element in the header stays the wordmark. */
+.store-css .hm-wholesale {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px;
+  border: 1px solid var(--hm-gold-hairline);
+  border-radius: var(--hm-radius-pill);
+  background: var(--hm-gold-wash);
+  color: var(--hm-bronze);
+  font-size: 12.5px;
+  line-height: 1.7;
+  white-space: nowrap;
+  transition: background 0.2s var(--hm-ease), border-color 0.2s var(--hm-ease);
+}
+.store-css .hm-wholesale:hover,
+.store-css .hm-wholesale:focus-visible {
+  background: rgba(200, 162, 83, 0.22);
+  border-color: var(--hm-gold);
+}
+.store-css .hm-wholesale__icon {
+  flex: 0 0 auto;
+  width: 15px;
+  height: 15px;
+}
+.store-css .hm-wholesale__tag {
+  padding-inline: 7px;
+  border-radius: var(--hm-radius-pill);
+  background: var(--hm-gold);
+  /* Ink on gold passes contrast; white on gold would not. */
+  color: var(--hm-ink);
+  font-size: 10.5px;
+  line-height: 17px;
+}
+
+/* ---------- Tier 2: brand + search + actions ---------- */
+.store-css .hm-bar {
+  background: var(--hm-canvas) !important;
+  padding: 0;
+}
+.store-css .hm-bar .hm-bar__inner {
+  background: transparent;
+}
+.store-css .hm-bar__inner {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(16px, 3vw, 40px);
+  min-height: var(--hm-bar-h);
+}
+.store-css .hm-search {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  overflow: hidden;
+  background: var(--hm-surface);
+  border: 1px solid var(--hm-line);
+  border-radius: var(--hm-radius-md);
+  transition: border-color 0.2s var(--hm-ease), box-shadow 0.2s var(--hm-ease);
+}
+.store-css .hm-search:focus-within {
+  border-color: var(--hm-gold);
+  box-shadow: 0 0 0 3px var(--hm-gold-wash);
+}
+.store-css .hm-search__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 40px;
+  padding-inline: 14px;
+  border: 0;
+  background: transparent;
+  color: var(--hm-ink);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.7;
+}
+.store-css .hm-search__input::placeholder {
+  color: #8d8474;
+  font-weight: 400;
+}
+.store-css .hm-search__submit {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 40px;
+  border: 0;
+  border-inline-start: 1px solid var(--hm-line);
+  background: transparent;
+  color: var(--hm-ink-soft);
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.18s var(--hm-ease), color 0.18s var(--hm-ease);
+}
+.store-css .hm-search__submit:hover {
+  background: var(--hm-gold-wash);
+  color: var(--hm-bronze);
+}
+
+/* Actions keep the legacy .header-action-icon-2 markup so the account
+drawdown and the cart/wishlist counters behave exactly as before. */
+.store-css .hm-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+}
+.store-css .hm-actions .header-action-icon-2 {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 58px;
+  padding: 5px 6px;
+  border-radius: var(--hm-radius-sm);
+  transition: background 0.18s var(--hm-ease);
+}
+.store-css .hm-actions .header-action-icon-2:hover,
+.store-css .hm-actions .header-action-icon-2:focus-within {
+  background: var(--hm-gold-wash);
+}
+.store-css .hm-actions .header-action-icon-2 img,
+.store-css .hm-actions .header-action-icon-2 svg {
+  display: block;
+  width: 21px;
+  height: 21px;
+  /* The legacy rules recoloured these icons with a sepia filter; the
+     gold accent now lives in the hover surface instead. */
+  filter: none !important;
+  opacity: 0.85;
+}
+.store-css .hm-actions .header-action-icon-2 .lable {
+  margin: 0 !important;
+  color: var(--hm-ink-soft) !important;
+  font-size: 11px;
+  line-height: 1.5;
+  transition: color 0.18s var(--hm-ease);
+}
+.store-css .hm-actions .header-action-icon-2:hover .lable {
+  color: var(--hm-bronze) !important;
+}
+.store-css .hm-actions .pro-count,
+.store-css .hm-actions .pro-count.blue {
+  min-width: 16px;
+  height: 16px;
+  padding-inline: 4px;
+  border-radius: var(--hm-radius-pill);
+  background: var(--hm-gold) !important;
+  color: var(--hm-ink) !important;
+  font-size: 10px;
+  line-height: 16px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Tier 3: navigation ---------- */
+.store-css .hm-nav {
+  background: var(--hm-canvas) !important;
+  border-top: 1px solid var(--hm-line);
+  /* The legacy row carried 20px of vertical padding; height now comes
+     from --hm-nav-h / the mobile row so the strip stays tight. */
+  padding: 0;
+}
+.store-css .hm-nav__inner {
+  display: flex;
+  align-items: center;
+  min-height: var(--hm-nav-h);
+}
+.store-css .hm-nav .main-menu ul.hm-nav__list {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.store-css .hm-nav__item {
+  position: relative;
+}
+.store-css .hm-nav .main-menu .hm-nav__link {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding-inline: 14px;
+  border-radius: var(--hm-radius-sm);
+  color: var(--hm-ink-soft) !important;
+  font-size: 13.5px;
+  letter-spacing: 0;
+  transition: color 0.18s var(--hm-ease), background 0.18s var(--hm-ease);
+}
+.store-css .hm-nav .main-menu .hm-nav__link:hover,
+.store-css .hm-nav .main-menu .hm-nav__link.is-active {
+  color: var(--hm-bronze) !important;
+  background: var(--hm-gold-wash);
+}
+.store-css .hm-nav .main-menu .hm-nav__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding-inline: 14px;
+  border: 1px solid var(--hm-gold-hairline);
+  border-radius: var(--hm-radius-sm);
+  color: var(--hm-bronze) !important;
+  font-size: 13.5px;
+  transition: background 0.18s var(--hm-ease), border-color 0.18s var(--hm-ease);
+}
+.store-css .hm-nav .main-menu .hm-nav__trigger:hover {
+  background: var(--hm-gold-wash);
+  border-color: var(--hm-gold);
+}
+.store-css .hm-nav__caret {
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+/* Category dropdown — same keys as the legacy .sub-menu, retuned. */
+.store-css .hm-nav .sub-menu,
+.store-css .hm-nav .sub-menu li ul.level-menu {
+  min-width: 228px;
+  padding: 6px !important;
+  background: var(--hm-surface) !important;
+  border: 1px solid var(--hm-line) !important;
+  border-radius: var(--hm-radius-md);
+  box-shadow: 0 12px 32px rgba(43, 33, 20, 0.1);
+}
+.store-css .hm-nav .main-menu .sub-menu > li > a {
+  padding: 9px 14px 9px 34px !important;
+  border-radius: var(--hm-radius-sm);
+  color: var(--hm-ink-soft) !important;
+  font-size: 13px;
+  transition: color 0.16s var(--hm-ease), background 0.16s var(--hm-ease);
+}
+.store-css .hm-nav .main-menu .sub-menu > li > a:hover {
+  color: var(--hm-bronze) !important;
+  background: var(--hm-gold-wash);
+}
+.store-css .hm-nav .sub-menu li ul.level-menu li a {
+  padding: 8px 14px !important;
+  border-radius: var(--hm-radius-sm);
+  color: var(--hm-ink-soft) !important;
+  font-size: 12.5px;
+}
+.store-css .hm-nav .sub-menu li ul.level-menu li a:hover {
+  color: var(--hm-bronze) !important;
+  background: var(--hm-gold-wash);
+}
+.store-css .hm-nav .sub-menu hr {
+  margin: 4px 10px;
+  border-color: var(--hm-line);
+}
+
+/* ---------- Focus ---------- */
+.store-css .hm-header a:focus-visible,
+.store-css .hm-header button:focus-visible,
+.store-css .hm-header input:focus-visible {
+  outline: 2px solid var(--hm-bronze);
+  outline-offset: 2px;
+}
+
+/* ---------- Mobile drawer ---------- */
+.store-css .mobile-header-active .mobile-header-top,
+.store-css .mobile-header-active .mobile-header-wrapper-inner,
+.store-css .mobile-header-content-area {
+  background: var(--hm-canvas);
+}
+.store-css .mobile-search input {
+  border: 1px solid var(--hm-line) !important;
+  border-radius: var(--hm-radius-md) !important;
+  background: var(--hm-surface) !important;
+  color: var(--hm-ink) !important;
+}
+.store-css .mobile-menu li a {
+  color: var(--hm-ink) !important;
+  font-size: 14px;
+}
+.store-css .mobile-menu li a:hover,
+.store-css .mobile-menu .menu-item-has-children > a:hover {
+  color: var(--hm-bronze) !important;
+}
+.store-css .hm-drawer-wholesale {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 16px 10px 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--hm-gold-hairline);
+  border-radius: var(--hm-radius-md);
+  background: var(--hm-gold-wash);
+  color: var(--hm-bronze);
+  font-size: 13px;
+  line-height: 1.7;
+}
+.store-css .hm-drawer-wholesale svg {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+}
+.store-css .hm-drawer-wholesale small {
+  display: block;
+  color: var(--hm-ink-soft);
+  font-size: 11px;
+}
+.store-css .mobile-header-content-area .site-copyright {
+  color: var(--hm-ink-soft);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 991px) {
+  .store-css .hm-nav__inner {
+    display: none;
+  }
+  .store-css .hm-utility__zone--end {
+    display: none;
+  }
+  .store-css .hm-nav .store-mobile-header-row {
+    min-height: 56px;
+  }
+}
+
+@media (max-width: 575px) {
+  .store-css .hm-wholesale__tag {
+    display: none;
+  }
+  .store-css .hm-utility__sep {
+    display: none;
+  }
+  .store-css .hm-utility__link--tracking {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .store-css .hm-header * {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================================
+   HERO V3 — Hajir Market (full-bleed photographic banner)
+   A single full-width photograph carries the slide; the text sits
+   on a gradient scrim over the left side, gold used as line-work.
+   ============================================================ */
+
+.store-css .beauty-slider.hm-hero {
+  position: relative;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  background: var(--hm-sand);
+  border-bottom: 1px solid var(--hm-line);
+  overflow: hidden;
+}
+
+.store-css .hm-hero__slides {
+  position: relative;
+}
+
+/* The legacy burgundy campaign layer paints concentric circles on the
+   section; they belong to the old palette and are removed here. */
+.store-css .beauty-slider.hm-hero::before,
+.store-css .beauty-slider.hm-hero::after {
+  content: none;
+}
+
+.store-css .hm-hero__slide {
+  position: relative;
+  display: block;
+  min-height: clamp(460px, 34vw, 560px);
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  overflow: hidden;
+}
+
+/* ---------- Full-bleed photograph ---------- */
+.store-css .hm-hero__media {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--hm-sand);
+}
+.store-css .hm-hero__media > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 62% center;
+  filter: saturate(0.96) contrast(1.02);
+}
+/* The scrim keeps the text legible over any photograph without
+   dimming the whole image: it falls off toward the right. */
+.store-css .hm-hero__media::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(24, 19, 12, 0.82) 0%,
+    rgba(24, 19, 12, 0.68) 26%,
+    rgba(24, 19, 12, 0.34) 52%,
+    rgba(24, 19, 12, 0.05) 78%,
+    rgba(24, 19, 12, 0) 100%
+  );
+  content: "";
+  pointer-events: none;
+}
+
+/* ---------- Text column (RTL start = right, over the scrim) ---------- */
+.store-css .hm-hero__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 20px;
+  min-height: inherit;
+  padding: clamp(48px, 6vw, 96px) clamp(24px, 8vw, 120px);
+}
+
+.store-css .hm-hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  color: var(--hm-gold-bright);
+  font-size: 13px;
+  line-height: 1.8;
+}
+.store-css .hm-hero__eyebrow::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 28px;
+  height: 1px;
+  background: var(--hm-gold);
+}
+
+.store-css .hm-hero__title {
+  max-width: 22ch;
+  margin: 0;
+  color: #fffdf7;
+  font-size: clamp(28px, 3.4vw, 50px);
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.store-css .hm-hero__title span {
+  color: var(--hm-gold-bright);
+}
+
+.store-css .hm-hero__description {
+  max-width: 46ch;
+  margin: 0;
+  color: rgba(255, 253, 247, 0.86);
+  font-size: 15px;
+  line-height: 1.95;
+}
+
+.store-css .hm-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+/* .store-css .home-page a { color: inherit } is (0,2,1) and would win
+   here, so the CTA rules are scoped one level deeper. */
+.store-css .hm-hero .hm-hero__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding-inline: 26px;
+  border: 1px solid var(--hm-gold);
+  border-radius: var(--hm-radius-sm);
+  background: linear-gradient(135deg, var(--hm-gold-bright), var(--hm-gold));
+  /* Ink on gold is the only pairing here that clears contrast. */
+  color: var(--hm-ink);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.6;
+  transition: background 0.2s var(--hm-ease), border-color 0.2s var(--hm-ease);
+}
+.store-css .hm-hero .hm-hero__cta:hover,
+.store-css .hm-hero .hm-hero__cta:focus-visible {
+  background: linear-gradient(135deg, var(--hm-gold-bright), var(--hm-gold-bright));
+  border-color: var(--hm-bronze);
+  color: var(--hm-ink);
+}
+.store-css .hm-hero .hm-hero__cta--quiet {
+  background: rgba(255, 253, 247, 0.08);
+  border-color: rgba(232, 206, 148, 0.55);
+  color: #fffdf7;
+  backdrop-filter: blur(4px);
+}
+.store-css .hm-hero .hm-hero__cta--quiet:hover,
+.store-css .hm-hero .hm-hero__cta--quiet:focus-visible {
+  background: rgba(232, 206, 148, 0.2);
+  border-color: var(--hm-gold-bright);
+  color: #fffdf7;
+}
+
+/* ---------- Controls rail ---------- */
+.store-css .hm-hero .hm-hero__controls {
+  position: absolute;
+  z-index: 3;
+  inset-block-end: 0;
+  inset-inline: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 58px;
+  padding: 12px clamp(16px, 8vw, 120px);
+  background: linear-gradient(
+    to top,
+    rgba(24, 19, 12, 0.72) 0%,
+    rgba(24, 19, 12, 0.34) 62%,
+    rgba(24, 19, 12, 0) 100%
+  );
+}
+
+.store-css .hm-hero__indicators {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.store-css .hm-hero .hm-hero__indicator {
+  display: flex;
+  align-items: center;
+  width: 34px;
+  height: 18px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.store-css .hm-hero__indicator span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(255, 253, 247, 0.34);
+  transition: background-color 0.25s var(--hm-ease), height 0.25s var(--hm-ease);
+}
+.store-css .hm-hero .hm-hero__indicator:hover span {
+  background: rgba(255, 253, 247, 0.6);
+}
+.store-css .hm-hero .hm-hero__indicator.is-active span {
+  height: 3px;
+  background: var(--hm-gold-bright);
+}
+
+.store-css .hm-hero__arrows {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.store-css .hm-hero .hm-hero__arrow,
+.store-css .hm-hero .hm-hero__toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 38px;
+  min-height: 38px;
+  border: 1px solid rgba(232, 206, 148, 0.45);
+  border-radius: 50%;
+  background: rgba(24, 19, 12, 0.42);
+  color: #fffdf7;
+  font: inherit;
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition: color 0.18s var(--hm-ease), border-color 0.18s var(--hm-ease),
+    background-color 0.18s var(--hm-ease);
+}
+.store-css .hm-hero .hm-hero__arrow {
+  font-size: 17px;
+}
+.store-css .hm-hero .hm-hero__toggle {
+  gap: 7px;
+  width: auto;
+  padding-inline: 14px;
+  border-radius: var(--hm-radius-pill);
+  font-size: 12px;
+}
+.store-css .hm-hero .hm-hero__arrow:hover,
+.store-css .hm-hero .hm-hero__toggle:hover {
+  border-color: var(--hm-gold-bright);
+  background: rgba(232, 206, 148, 0.24);
+  color: #fffdf7;
+}
+.store-css .hm-hero .hm-hero__toggle > span {
+  color: var(--hm-gold-bright);
+  font-size: 13px;
+}
+
+.store-css .hm-hero a:focus-visible,
+.store-css .hm-hero button:focus-visible {
+  outline: 2px solid var(--hm-gold-bright);
+  outline-offset: 3px;
+}
+
+/* ---------- Responsive ---------- */
+/* On narrow screens the scrim runs over the whole photograph so the
+   text stays readable without a separate image column. */
+@media (max-width: 991px) {
+  .store-css .hm-hero__slide {
+    min-height: clamp(420px, 86vw, 520px);
+  }
+  .store-css .hm-hero__media > img {
+    object-position: center 30%;
+  }
+  .store-css .hm-hero__media::after {
+    background: linear-gradient(
+      to top,
+      rgba(24, 19, 12, 0.86) 0%,
+      rgba(24, 19, 12, 0.6) 46%,
+      rgba(24, 19, 12, 0.12) 82%,
+      rgba(24, 19, 12, 0) 100%
+    );
+  }
+  .store-css .hm-hero__content {
+    gap: 16px;
+    min-height: 100%;
+    padding: 96px 20px 96px;
+  }
+  .store-css .hm-hero__title {
+    max-width: 20ch;
+    font-size: clamp(24px, 5.4vw, 32px);
+  }
+  .store-css .hm-hero .hm-hero__controls {
+    padding: 10px 20px;
+  }
+}
+
+@media (max-width: 575px) {
+  .store-css .hm-hero__description {
+    font-size: 14px;
+    line-height: 1.9;
+  }
+  .store-css .hm-hero__cta {
+    flex: 1 1 auto;
+    min-height: 46px;
+    padding-inline: 18px;
+    font-size: 13px;
+  }
+  .store-css .hm-hero .hm-hero__controls {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+}
+
+/* ============================================================
+   STICKY HEADER + CATEGORY MENU (Swiper-era)
+   ============================================================ */
+
+/* Compact header height, used for anchor offsets so a jumped-to
+   heading never hides behind the sticky bar. Derived from the same
+   tokens that size the three header tiers, so it stays true when
+   the utility strip collapses on scroll. */
+.store-css {
+  --hm-header-h: calc(var(--hm-utility-h) + var(--hm-bar-h) + var(--hm-nav-h));
+}
+
+.store-css .hm-scroll-sentinel {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  width: 1px;
+  height: 10px;
+  pointer-events: none;
+}
+
+.store-css .hm-header {
+  position: sticky;
+  top: 0;
+  z-index: 90;
+}
+
+.store-css .hm-header.is-scrolled {
+  --hm-bar-h: 54px;
+  box-shadow: 0 6px 24px rgba(43, 33, 20, 0.1);
+}
+
+.store-css .hm-header.is-scrolled .hm-utility,
+.store-css .hm-header.is-scrolled .hm-nav {
+  display: none;
+}
+
+/* When the header collapses to the middle bar, the sticky header height
+   must follow, otherwise the reserved space keeps the old footprint. */
+.store-css .hm-header.is-scrolled {
+  --hm-nav-h: 0px;
+}
+
+.store-css [id] {
+  scroll-margin-top: calc(var(--hm-header-h) + 16px);
+}
+
+/* ---------- Category menu (replaces the logo mark) ---------- */
+.store-css .hm-cats {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.store-css .hm-brand-text {
+  flex: 0 0 auto;
+  padding-inline-end: 14px;
+  border-inline-end: 1px solid var(--hm-line);
+  color: var(--hm-bronze) !important;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.store-css .hm-cats__list {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-snap-type: x proximity;
+}
+.store-css .hm-cats__list::-webkit-scrollbar {
+  display: none;
+}
+
+.store-css .hm-cats__item {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+}
+
+.store-css .hm-cats__link {
+  display: inline-flex;
+  align-items: center;
+  height: 34px;
+  padding-inline: 12px;
+  border-radius: var(--hm-radius-sm);
+  color: var(--hm-ink-soft) !important;
+  font-size: 13px;
+  line-height: 1.6;
+  white-space: nowrap;
+  transition: color 0.18s var(--hm-ease), background-color 0.18s var(--hm-ease);
+}
+.store-css .hm-cats__link:hover,
+.store-css .hm-cats__link:focus-visible {
+  color: var(--hm-bronze) !important;
+  background: var(--hm-gold-wash);
+}
+
+/* The middle bar now leads with categories, so the grid gives them a
+   bounded share and lets the list scroll instead of squeezing search. */
+.store-css .hm-bar__inner {
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1fr) auto;
+}
+
+/* ---------- Swiper hero integration ---------- */
+.store-css .beauty-slider.hm-hero {
+  width: 100%;
+  max-width: none;
+  /* The photograph fills the slide, so the hero is image-driven and the
+     section height comes from the slide's min-height. */
+  color: #fffdf7;
+}
+
+.store-css .hm-hero .swiper-wrapper {
+  align-items: stretch;
+  /* Swiper core assumes the container has an explicit height and sets
+     100% on the wrapper/slides. This hero is content-driven, so the
+     height must stay auto or the slide resolves against the viewport. */
+  height: auto;
+}
+
+.store-css .hm-hero.swiper {
+  height: auto;
+}
+
+.store-css .hm-hero__slide.swiper-slide {
+  height: auto;
+}
+
+.store-css .hm-hero__dots {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.store-css .hm-hero__dot {
+  display: flex;
+  align-items: center;
+  width: 34px;
+  height: 18px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.store-css .hm-hero__dot::after {
+  display: block;
+  width: 100%;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(255, 253, 247, 0.34);
+  content: "";
+  transition: background-color 0.25s var(--hm-ease), height 0.25s var(--hm-ease);
+}
+.store-css .hm-hero__dot:hover::after {
+  background: rgba(255, 253, 247, 0.6);
+}
+.store-css .hm-hero__dot.is-active::after {
+  height: 3px;
+  background: var(--hm-gold-bright);
+}
+.store-css .hm-hero__dot:focus-visible {
+  outline: 2px solid var(--hm-gold-bright);
+  outline-offset: 3px;
+}
+
+.store-css .hm-hero__arrow.is-disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 991px) {
+  /* One header markup for every breakpoint: the middle bar keeps only
+     the category strip, which scrolls horizontally instead of overflowing. */
+  .store-css .hm-bar__inner {
+    display: block;
+    min-height: 46px;
+  }
+
+  .store-css .hm-bar .hm-search,
+  .store-css .hm-bar .hm-actions {
+    display: none;
+  }
+
+  .store-css .hm-cats {
+    gap: 10px;
+    padding-inline: 12px;
+  }
+
+  .store-css .hm-cats__link {
+    height: 36px;
+    padding-inline: 10px;
+    font-size: 13px;
+  }
+
+  .store-css .hm-brand-text {
+    font-size: 14px;
+    padding-inline-end: 10px;
+  }
+
+  .store-css .hm-header.is-scrolled {
+    --hm-bar-h: 42px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .store-css .hm-hero__dot::after,
+  .store-css .hm-cats__link {
+    transition-duration: 0.01ms;
   }
 }

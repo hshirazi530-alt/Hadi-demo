@@ -1,31 +1,223 @@
 {% extends 'partials/base.html' %}
 {% load static humanize %}
-{% block title %}{{ p.title }} | هژیر مارکت{% endblock %}
+{% block title %}{{ p.title }} | Hazhirmarket{% endblock %}
 {% block meta_description %}{{ meta_product_description|default:p.title }}{% endblock %}
-{% block og_title %}{{ p.title }} | هژیر مارکت{% endblock %}
+{% block og_title %}{{ p.title }} | Hazhirmarket{% endblock %}
 {% block og_description %}{{ meta_product_description|default:p.title }}{% endblock %}
 {% block og_type %}product{% endblock %}
 {% block extra_head %}<script type="application/ld+json">{{ product_schema_json }}</script>{% endblock %}
+
 {% block content %}
-<style>
-:root{--navy:#172331;--blue:#2350a5;--gold:#e8ad2d;--paper:#f8f7f3;--line:#e8e4dc;--muted:#707782}.nava-detail{direction:rtl;width:100%;background:var(--paper);color:var(--navy);font-family:Vazirmatn,Arial,sans-serif;padding:0 5vw 80px}.nava-detail *{box-sizing:border-box}.nava-detail a{text-decoration:none;color:inherit}.nava-breadcrumb{display:flex;align-items:center;gap:8px;color:#858b93;font-size:11px;padding:23px 0}.nava-breadcrumb a{color:var(--blue)}.nava-product-detail{display:grid;grid-template-columns:1.1fr .9fr;gap:7vw;align-items:center;min-height:560px}.nava-gallery{height:510px;border-radius:25px;background:#f5e6c8;position:relative;display:grid;place-items:center;overflow:hidden}.nava-gallery:before{content:"";position:absolute;width:70%;aspect-ratio:1;border-radius:50%;background:#ffffff35;box-shadow:0 0 0 55px #ffffff18}.nava-gallery img{position:relative;z-index:1;width:82%;height:82%;object-fit:contain;mix-blend-mode:multiply;filter:drop-shadow(12px 18px 16px #6b501f22)}.nava-badge{position:absolute;z-index:2;top:22px;right:22px;background:#fff;border-radius:18px;padding:7px 13px;color:var(--blue);font-size:10px}.nava-zoom{position:absolute;z-index:2;bottom:20px;left:20px;border:1px solid #2350a53d;border-radius:9px;background:#fff;padding:10px 14px;color:var(--blue);font-size:11px}.nava-thumbs{display:flex;gap:9px;margin-top:12px;overflow:auto}.nava-thumbs button{width:70px;height:70px;flex:0 0 auto;border:1px solid var(--line);border-radius:11px;background:#fff;padding:5px}.nava-thumbs img{width:100%;height:100%;object-fit:contain}.nava-info{max-width:480px}.nava-eyebrow{color:var(--blue);font-size:12px;font-weight:700;margin:0 0 10px}.nava-info h1{font-size:clamp(29px,4vw,43px);line-height:1.25;letter-spacing:-1.5px;margin:0 0 14px}.nava-rating{display:flex;align-items:center;gap:10px;font-size:11px;margin-bottom:22px}.nava-stars{color:var(--gold);letter-spacing:2px}.nava-description{color:#777e87;font-size:13px;line-height:2.1;margin:0 0 22px}.nava-price{display:flex;align-items:center;gap:14px;margin:22px 0 8px}.nava-price strong{color:var(--blue);font-size:27px}.nava-price small{font-size:10px;font-weight:400}.nava-price del{color:#a5a9ae;font-size:11px}.nava-off{background:#fae3a6;color:#865e0a;border-radius:5px;padding:5px 8px;font-size:10px}.nava-stock{color:#4d7c49;font-size:11px;margin:0 0 18px}.nava-stock i{display:inline-block;width:7px;height:7px;border-radius:50%;background:#64a15a;margin-left:6px}.nava-sample{background:#fbf0de;border-right:3px solid var(--gold);color:#6c604f;padding:10px 12px;font-size:11px;line-height:1.9}.nava-actions{display:flex;gap:10px;margin-top:20px}.nava-btn{display:inline-flex;align-items:center;justify-content:center;gap:22px;border:0;border-radius:9px;background:var(--blue);color:#fff!important;padding:14px 20px;font-size:13px;font-weight:700;box-shadow:0 10px 23px #2350a52e}.nava-actions .nava-btn{flex:1}.nava-quantity{width:68px;border:1px solid var(--line);border-radius:9px;background:#fff;text-align:center;font:inherit}.nava-wish{width:50px;border:1px solid var(--line);border-radius:9px;color:var(--blue);font-size:22px;background:#fff}.nava-facts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:22px 0 0;padding:20px 0;border-top:1px solid var(--line)}.nava-facts div{padding:10px 12px;background:#f1f4fb;border-right:2px solid #aabce4}.nava-facts span,.nava-facts strong{display:block}.nava-facts span{color:#838b96;font-size:10px}.nava-facts strong{font-size:12px;margin-top:4px}.nava-specs{border-top:1px solid var(--line);padding:60px 0 15px;display:grid;grid-template-columns:1fr 1.6fr;gap:6vw}.nava-specs h2{font-size:28px;margin:0}.nava-specs .nava-eyebrow{margin-bottom:9px}.nava-rich{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px;color:#616973;font-size:13px;line-height:2}.nava-rich ul{margin:0;padding-right:20px}.nava-reviews{padding-top:55px}.nava-reviews h2{font-size:25px;margin:0 0 22px}.nava-review{border-right:3px solid var(--gold);background:#fff;padding:17px 19px;margin-bottom:10px;font-size:13px}.nava-review-meta{display:flex;justify-content:space-between;color:#7f8790;font-size:11px}.nava-review-stars{color:var(--gold);margin:7px 0}.nava-related{padding-top:55px}.nava-related h2{font-size:25px;margin:0 0 22px}.nava-related-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.nava-related-card{background:#fff;border:1px solid var(--line);border-radius:17px;overflow:hidden;padding-bottom:14px}.nava-related-card img{display:block;width:100%;height:190px;object-fit:contain;background:#faf8f5;padding:12px}.nava-related-card div{padding:10px 13px}.nava-related-card small{color:#818891}.nava-related-card h3{font-size:13px;line-height:1.7;min-height:45px;margin:5px 0}.nava-related-card strong{color:var(--blue);font-size:13px}.nava-related-card .nava-btn{width:100%;padding:10px;margin-top:10px;font-size:11px}
-+@media(max-width:850px){.nava-product-detail{grid-template-columns:1fr;gap:30px}.nava-gallery{height:390px}.nava-info{max-width:none}.nava-specs{grid-template-columns:1fr;gap:25px}.nava-related-grid{grid-template-columns:repeat(2,1fr)}}
-+@media(max-width:600px){.nava-detail{padding:0 18px 55px}.nava-breadcrumb{white-space:nowrap;overflow:hidden}.nava-gallery{height:330px;border-radius:21px}.nava-info h1{font-size:29px}.nava-description{font-size:12px}.nava-price strong{font-size:23px}.nava-actions{flex-wrap:wrap}.nava-actions .nava-btn{order:1;flex-basis:calc(100% - 60px)}.nava-quantity{order:0}.nava-wish{order:0}.nava-facts{gap:7px}.nava-facts div{padding:9px}.nava-specs{padding-top:45px}.nava-specs h2{font-size:23px}.nava-rich{font-size:12px}.nava-related-grid{gap:9px}.nava-related-card img{height:145px;padding:8px}.nava-related-card div{padding:9px}.nava-related-card h3{font-size:12px}}
-+</style>
-+<main class="nava-detail">
-+  <nav class="nava-breadcrumb" aria-label="مسیر صفحه"><a href="{% url 'core:index' %}">خانه</a><span>/</span><a href="{% url 'core:product-list' %}">فروشگاه</a><span>/</span>{% if p.category %}<a href="{% url 'core:category-product-list' p.category.cid %}">{{ p.category.title }}</a><span>/</span>{% endif %}<span aria-current="page">{{ p.title }}</span></nav>
-+  <section class="nava-product-detail">
-+    <div><figure class="nava-gallery" data-product-3d tabindex="0" role="group" aria-label="تصویر محصول">{% if p.image %}<img data-gallery-main data-gallery-original-src="{{ p.image.url }}" data-gallery-original-alt="{{ p.title }}" src="{{ p.image.url }}" alt="{{ p.title }}" fetchpriority="high" draggable="false">{% else %}<img data-gallery-main src="{% static 'assets/imgs/beauty/barber-shop.jpg' %}" alt="تصویر محصول">{% endif %}{% if "(نمونه)" in p.title %}<span class="nava-badge">تصویر نمونه</span>{% elif p.is_sale %}<span class="nava-badge">تخفیف ویژه</span>{% endif %}<button class="nava-zoom" type="button" data-zoom-toggle aria-pressed="false">⌕ بزرگ‌نمایی</button></figure>{% if p_image and not spin_frames %}<div class="nava-thumbs">{% for image in p_image %}<button type="button" data-gallery-thumb data-gallery-image="{{ image.images.url }}" data-gallery-alt="نمای دیگر {{ p.title }}"><img src="{{ image.images.url }}" alt="" loading="lazy"></button>{% endfor %}</div>{% endif %}</div>
-+    <div class="nava-info product-cart-wrap" data-product-id="{{ p.id }}" data-product-pid="{{ p.pid }}" data-product-title="{{ p.title }}" data-product-price="{% if p.is_sale and p.sale_price %}{{ p.sale_price }}{% else %}{{ p.price }}{% endif %}" data-product-image="{% if p.image %}{{ p.image.url }}{% endif %}" data-cart-url="{% url 'core:add-to-cart' %}">
-+      <p class="nava-eyebrow">{% if p.category %}{{ p.category.title }}{% else %}ابزار مراقبت شخصی{% endif %}</p><h1>{{ p.title }}</h1><div class="nava-rating"><span>۴.۸</span><span class="nava-stars">★★★★★</span><a href="#reviews">{{ reviews.count }} نظر</a></div>
-+      {% if p.description %}<div class="nava-description">{{ p.description|safe|truncatechars:280 }}</div>{% endif %}<div class="nava-price">{% if p.is_sale and p.sale_price %}<strong>{{ p.sale_price|intcomma }} <small>تومان</small></strong><del>{{ p.price|intcomma }}</del><span class="nava-off">تخفیف ویژه</span>{% else %}<strong>{{ p.price|intcomma }} <small>تومان</small></strong>{% endif %}</div>
-+      <p class="nava-stock">{% if "(نمونه)" in p.title or p.in_stock %}<i></i>{% if "(نمونه)" in p.title %}آمادهٔ افزودن به سبد آزمایشی{% else %}موجود برای ثبت سفارش{% endif %}{% else %}ناموجود{% endif %}</p>{% if "(نمونه)" in p.title %}<p class="nava-sample">این کالا نمونهٔ نمایشی است؛ قیمت فرضی است و پرداخت واقعی انجام نمی‌شود.</p>{% endif %}
-+      <div class="nava-actions">{% if p.in_stock or "(نمونه)" in p.title %}<input class="nava-quantity product-quantity-{{ p.id }}" type="number" min="1" max="99" value="1" aria-label="تعداد">{% endif %}<button class="nava-btn product-cart-btn" type="button"{% if not p.in_stock and "(نمونه)" not in p.title %} disabled{% endif %}>{% if "(نمونه)" in p.title %}افزودن به سبد دمو{% else %}افزودن به سبد خرید{% endif %} ←</button><button class="nava-wish add-to-wishlist" type="button" data-product-item="{{ p.id }}" aria-label="افزودن به علاقه‌مندی">♡</button></div>
-+      <div class="nava-facts">{% if p.type %}<div><span>نوع کالا</span><strong>{{ p.type }}</strong></div>{% endif %}{% if p.life %}<div><span>گارانتی یا مهلت</span><strong>{{ p.life }}</strong></div>{% endif %}{% if p.sku %}<div><span>شناسه کالا</span><strong>{{ p.sku }}</strong></div>{% endif %}<div><span>ارسال</span><strong>۱ تا ۳ روز کاری</strong></div></div>
-+    </div>
-+  </section>
-+  <section class="nava-specs"><div><p class="nava-eyebrow">جزئیات محصول</p><h2>همه‌چیز، شفاف و ساده</h2></div><div class="nava-rich">{% if p.specifications %}{{ p.specifications|safe }}{% elif p.description %}{{ p.description|safe }}{% else %}برای این کالا هنوز توضیحات تکمیلی ثبت نشده است.{% endif %}</div></section>
-+  <section class="nava-reviews" id="reviews"><p class="nava-eyebrow">تجربه خریداران</p><h2>نظرهای این محصول ({{ reviews.count }})</h2>{% for review in reviews %}<article class="nava-review"><div class="nava-review-meta"><strong>{{ review.user.username }}</strong><span>{{ review.date|date:"Y/m/d" }}</span></div><div class="nava-review-stars">★★★★★</div><p>{{ review.review }}</p></article>{% empty %}<p style="color:var(--muted);font-size:13px">هنوز نظری برای این کالا ثبت نشده است.</p>{% endfor %}</section>
-+  {% if products %}<section class="nava-related"><p class="nava-eyebrow">شاید بپسندید</p><h2>محصولات مرتبط</h2><div class="nava-related-grid">{% for product in products|slice:":4" %}<article class="nava-related-card"><a href="{% url 'core:product-detail' product.pid %}">{% if product.image %}<img src="{{ product.image.url }}" alt="{{ product.title }}" loading="lazy">{% endif %}</a><div>{% if product.category %}<small>{{ product.category.title }}</small>{% endif %}<h3><a href="{% url 'core:product-detail' product.pid %}">{{ product.title }}</a></h3><strong>{% if product.is_sale and product.sale_price %}{{ product.sale_price|intcomma }}{% else %}{{ product.price|intcomma }}{% endif %} تومان</strong><button class="nava-btn product-cart-btn" type="button">افزودن به سبد</button></div></article>{% endfor %}</div></section>{% endif %}
-+</main><div class="store-cart-status" id="store-cart-status" role="status" aria-live="polite"></div>
-+{% endblock %}
+<main class="store-page" dir="rtl">
+    <nav class="store-breadcrumb" aria-label="مسیر صفحه">
+        <a href="{% url 'core:index' %}">خانه</a><span aria-hidden="true">/</span>
+        <a href="{% url 'core:product-list' %}">فروشگاه</a><span aria-hidden="true">/</span>
+        {% if p.category %}<a href="{% url 'core:category-product-list' p.category.cid %}">{{ p.category.title }}</a><span aria-hidden="true">/</span>{% endif %}
+        <span aria-current="page">{{ p.title }}</span>
+    </nav>
+
+    <section class="store-product-detail">
+        <div class="store-product-gallery">
+            <figure class="store-product-gallery__main store-product-gallery__main--3d{% if spin_frames %} store-product-gallery__main--spin{% endif %}" data-product-3d{% if spin_frames %} data-spin-viewer data-spin-frames="{{ spin_frames|join:'|' }}"{% endif %} tabindex="0" role="group" aria-label="{% if spin_frames %}نمایش چرخش واقعی ۳۶۰ درجهٔ محصول؛ برای چرخاندن بکشید یا از کلیدهای چپ و راست استفاده کنید{% else %}تصویر محصول با افکت پرسپکتیو؛ برای تغییر زاویهٔ افکت از کلیدهای جهت استفاده کنید{% endif %}" aria-keyshortcuts="ArrowLeft ArrowRight Home">
+                {% if p.image %}<img data-gallery-main data-gallery-original-src="{{ p.image.url }}" data-gallery-original-alt="{{ p.title }}" src="{{ p.image.url }}" alt="{{ p.title }}" fetchpriority="high" loading="eager" draggable="false">{% else %}<img data-gallery-main src="{% static 'assets/imgs/beauty/barber-shop.jpg' %}" alt="فضای آرایشگاه مردانه" fetchpriority="high" loading="eager" draggable="false">{% endif %}
+                <button class="store-product-gallery__zoom-toggle" type="button" data-zoom-toggle aria-pressed="false" aria-label="بزرگ‌نمایی تصویر محصول">
+                    <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                    <span>بزرگ‌نمایی</span>
+                </button>
+                {% if spin_frames %}
+                <button class="store-product-gallery__spin-reset" type="button" data-spin-reset aria-label="بازگشت به نمای نخست">بازگشت به نمای نخست</button>
+                <span class="store-product-gallery__spin-badge" aria-hidden="true">چرخش واقعی ۳۶۰°</span>
+                {% endif %}
+                {% if "(نمونه)" in p.title %}<span class="store-badge store-badge--sample">تصویر نمونه</span>{% elif p.is_sale %}<span class="store-badge">تخفیف ویژه</span>{% endif %}
+            </figure>
+            <p class="store-product-gallery__hint">{% if spin_frames %}برای چرخاندن محصول، تصویر را با ماوس یا انگشت به چپ و راست بکشید؛ با کلیدهای جهت یا Home هم می‌توانید زاویه را تغییر دهید. برای دیدن عکس با وضوح اصلی، روی تصویر بزنید.{% else %}برای دیدن عکس با وضوح اصلی، روی تصویر بزنید یا نشانگر را روی آن ببرید تا جزئیات را بررسی کنید.{% endif %}</p>
+            {% if p_image and not spin_frames %}
+            <div class="store-product-gallery__thumbs" role="group" aria-label="انتخاب تصویر محصول">
+                {% for image in p_image %}
+                <button type="button" data-gallery-thumb data-gallery-image="{{ image.images.url }}" data-gallery-alt="نمای دیگر {{ p.title }}" aria-label="نمایش تصویر {{ forloop.counter }} از {{ p.title }}" aria-pressed="false">
+                    <img src="{{ image.images.url }}" alt="" loading="lazy">
+                </button>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="store-product-info product-cart-wrap"
+             data-product-id="{{ p.id }}"
+             data-product-pid="{{ p.pid }}"
+             data-product-title="{{ p.title }}"
+             data-product-price="{% if p.is_sale and p.sale_price %}{{ p.sale_price }}{% else %}{{ p.price }}{% endif %}"
+             data-product-image="{{ p.image.url }}"
+             data-cart-url="{% url 'core:add-to-cart' %}">
+            <p class="store-eyebrow">{% if p.category %}{{ p.category.title }}{% else %}ابزار مراقبت شخصی{% endif %}</p>
+            <h1 class="store-product-info__title">{{ p.title }}</h1>
+            {% if p.vendor %}<p class="store-product-info__vendor">فروشنده: {{ p.vendor.title }}</p>{% endif %}
+            <a class="store-product-info__rating" href="#panel-reviews" data-tabs-goto="panel-reviews" aria-label="رفتن به نظرهای محصول">
+                <span aria-hidden="true">★</span>
+                {% if average_rating.rating %}{{ average_rating.rating|floatformat:1 }} از ۵ · {% endif %}{{ reviews.count }} نظر
+            </a>
+
+            <div class="store-product-info__price">
+                {% if "(نمونه)" in p.title %}<span class="store-product-info__price-label">قیمت نمایشی</span>{% endif %}
+                {% if p.is_sale and p.sale_price %}
+                <del>{{ p.price|intcomma }} تومان</del>
+                <strong>{{ p.sale_price|intcomma }} <small>تومان</small></strong>
+                {% else %}
+                <strong>{{ p.price|intcomma }} <small>تومان</small></strong>
+                {% endif %}
+            </div>
+            <p class="store-product-info__availability{% if "(نمونه)" not in p.title and not p.in_stock %} store-product-info__availability--off{% endif %}">
+                {% if "(نمونه)" in p.title %}<span class="availability-dot"></span> آمادهٔ افزودن به سبد آزمایشی
+                {% elif p.in_stock %}<span class="availability-dot"></span> موجود برای ثبت سفارش
+                {% else %}<span class="availability-dot availability-dot--off"></span> ناموجود{% endif %}
+            </p>
+
+            {% if "(نمونه)" in p.title %}
+            <p class="store-product-sample-note">این کالا نمونهٔ نمایشی است. می‌توانید روند سبد و ثبت سفارش آزمایشی را بررسی کنید؛ قیمت فرضی است، هیچ وجهی دریافت نمی‌شود و سفارش برای ارسال واقعی نیست.</p>
+            {% endif %}
+            {% if p.description %}<div class="store-product-info__description">{{ p.description|safe|truncatechars:280 }}</div>{% endif %}
+
+            <div class="store-product-info__actions">
+                {% if p.in_stock or "(نمونه)" in p.title %}
+                <label for="product-quantity-{{ p.id }}">{% if "(نمونه)" in p.title %}تعداد آزمایشی{% else %}تعداد{% endif %}</label>
+                <input id="product-quantity-{{ p.id }}" class="product-quantity-{{ p.id }}" type="number" min="1" max="99" value="1" inputmode="numeric">
+                {% endif %}
+                <button class="beauty-button beauty-button--primary product-cart-btn" type="button"{% if not p.in_stock and "(نمونه)" not in p.title %} disabled{% endif %}>
+                    {% if "(نمونه)" in p.title %}افزودن به سبد دمو{% else %}افزودن به سبد خرید{% endif %}
+                </button>
+                <button class="beauty-button store-wishlist-button add-to-wishlist" type="button" data-product-item="{{ p.id }}" aria-label="افزودن {{ p.title }} به علاقه‌مندی‌ها">♡</button>
+            </div>
+            <ul class="store-product-facts" aria-label="اطلاعات محصول">
+                {% if p.type %}<li><span>نوع کالا</span><strong>{{ p.type }}</strong></li>{% endif %}
+                {% if p.life %}<li><span>گارانتی یا مهلت</span><strong>{{ p.life }}</strong></li>{% endif %}
+                {% if p.sku %}<li><span>شناسهٔ کالا</span><strong>{{ p.sku }}</strong></li>{% endif %}
+            </ul>
+            {% if "(نمونه)" not in p.title %}
+            <p class="store-product-note">اطلاعات و قیمت این کالا بر اساس مشخصات ثبت‌شده در فروشگاه نمایش داده می‌شود.</p>
+            {% endif %}
+
+            <aside class="hm-order-channel" aria-labelledby="hm-order-channel-title">
+                <div class="hm-order-channel__body">
+                    <p class="hm-order-channel__title" id="hm-order-channel-title">این محصول فقط از طریق تلگرام قابل ثبت سفارش می‌باشد</p>
+                    <p class="hm-order-channel__hint">برای استعلام قیمت و ثبت سفارش، روی تلگرام بزنید یا با ما تماس بگیرید.</p>
+                </div>
+                <div class="hm-order-channel__actions">
+                    <a class="hm-order-channel__btn hm-order-channel__btn--primary" href="{{ store_profile.wholesale_channel }}" target="_blank" rel="noopener noreferrer">
+                        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+                        <span>ثبت سفارش تلگرام</span>
+                    </a>
+                    <a class="hm-order-channel__btn hm-order-channel__btn--ghost" href="tel:{{ store_profile.phone_link }}">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <span>تماس تلفنی</span>
+                    </a>
+                </div>
+            </aside>
+        </div>
+    </section>
+
+    <section class="hm-product-tabs" data-product-tabs aria-labelledby="hm-product-tabs-title">
+        <h2 id="hm-product-tabs-title" class="hm-product-tabs__heading">جزئیات و مشخصات {{ p.title }}</h2>
+        <div class="hm-product-tabs__tablist-wrap">
+            <div class="hm-product-tabs__tablist" role="tablist" aria-label="جزئیات محصول" data-tabs-tablist>
+                <button class="hm-product-tabs__tab" role="tab" id="tab-intro" aria-controls="panel-intro" aria-selected="true" data-tabs-tab data-tabs-target="panel-intro" type="button">معرفی</button>
+                <button class="hm-product-tabs__tab" role="tab" id="tab-specs" aria-controls="panel-specs" aria-selected="false" data-tabs-tab data-tabs-target="panel-specs" type="button" tabindex="-1">مشخصات</button>
+                <button class="hm-product-tabs__tab" role="tab" id="tab-reviews" aria-controls="panel-reviews" aria-selected="false" data-tabs-tab data-tabs-target="panel-reviews" type="button" tabindex="-1">نظرها ({{ reviews.count }})</button>
+                <button class="hm-product-tabs__tab" role="tab" id="tab-qa" aria-controls="panel-qa" aria-selected="false" data-tabs-tab data-tabs-target="panel-qa" type="button" tabindex="-1">پرسش و پاسخ</button>
+            </div>
+        </div>
+
+        <div class="hm-product-tabs__panel" role="tabpanel" id="panel-intro" aria-labelledby="tab-intro" data-tabs-panel tabindex="0">
+            {% if p.description %}
+            <div class="store-rich-content">{{ p.description|safe }}</div>
+            {% else %}
+            <p class="store-muted">برای این کالا هنوز توضیحاتی ثبت نشده است.</p>
+            {% endif %}
+        </div>
+
+        <div class="hm-product-tabs__panel" role="tabpanel" id="panel-specs" aria-labelledby="tab-specs" data-tabs-panel tabindex="0" hidden>
+            {% if p.specifications %}
+            <div class="store-rich-content">{{ p.specifications|safe }}</div>
+            {% else %}
+            <p class="store-muted">برای این کالا هنوز مشخصات فنی ثبت نشده است.</p>
+            {% endif %}
+            <ul class="store-product-facts store-product-facts--panel" aria-label="اطلاعات محصول">
+                {% if p.type %}<li><span>نوع کالا</span><strong>{{ p.type }}</strong></li>{% endif %}
+                {% if p.life %}<li><span>گارانتی یا مهلت</span><strong>{{ p.life }}</strong></li>{% endif %}
+                {% if p.sku %}<li><span>شناسهٔ کالا</span><strong>{{ p.sku }}</strong></li>{% endif %}
+            </ul>
+        </div>
+
+        <div class="hm-product-tabs__panel" role="tabpanel" id="panel-reviews" aria-labelledby="tab-reviews" data-tabs-panel tabindex="0" hidden>
+            <div class="store-review-list comment-list">
+                {% for review in reviews %}
+                <article class="store-review">
+                    <div class="store-review__meta"><strong>{{ review.user.username }}</strong><span>{{ review.date|date:"Y/m/d" }}</span></div>
+                    <p class="store-review__rating" aria-label="امتیاز {{ review.rating }} از ۵">{% for star in "12345" %}{% if forloop.counter <= review.rating %}★{% else %}☆{% endif %}{% endfor %}</p>
+                    <p>{{ review.review }}</p>
+                </article>
+                {% empty %}
+                <p class="store-muted">هنوز نظری برای این کالا ثبت نشده است.</p>
+                {% endfor %}
+            </div>
+            {% if request.user.is_authenticated and make_review %}
+            <div class="store-review-form">
+                <h3 class="add-review">نظر خود را بنویسید</h3>
+                <p id="review-res" role="status" aria-live="polite"></p>
+                <form class="hide-comment-form" action="{% url 'core:ajax-add-review' p.id %}" id="commentForm" method="post">
+                    {% csrf_token %}
+                    <label for="{{ review_form.review.id_for_label }}">نظر شما</label>
+                    {{ review_form.review }}
+                    <label for="{{ review_form.rating.id_for_label }}">امتیاز</label>
+                    {{ review_form.rating }}
+                    <button class="beauty-button beauty-button--primary" type="submit">ثبت نظر</button>
+                </form>
+            </div>
+            {% elif not request.user.is_authenticated %}
+            <p class="store-muted"><a href="{% url 'userauths:sign-in' %}?next={{ request.path|urlencode }}">برای ثبت نظر وارد حساب کاربری شوید.</a></p>
+            {% else %}
+            <p class="store-muted">شما پیش‌تر برای این محصول نظر ثبت کرده‌اید.</p>
+            {% endif %}
+        </div>
+
+        <div class="hm-product-tabs__panel" role="tabpanel" id="panel-qa" aria-labelledby="tab-qa" data-tabs-panel tabindex="0" hidden>
+            {% if faqs %}
+            <div class="hm-product-tabs__qa">
+                {% for faq in faqs %}
+                <details class="hm-product-tabs__qa-item">
+                    <summary>{{ faq.question }}</summary>
+                    <p>{{ faq.answer }}</p>
+                </details>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="store-muted">در حال حاضر پرسشی برای این محصول ثبت نشده است.</p>
+            {% endif %}
+        </div>
+    </section>
+
+    {% if products %}
+    <section class="store-related-products" aria-labelledby="related-title">
+        <div class="store-section-heading"><p class="store-eyebrow">شاید بپسندید</p><h2 id="related-title">محصولات مرتبط</h2></div>
+        <div class="store-product-grid">
+            {% for product in products %}
+            <article class="store-product-card product-cart-wrap"
+                     data-product-id="{{ product.id }}" data-product-pid="{{ product.pid }}"
+                     data-product-title="{{ product.title }}"
+                     data-product-price="{% if product.is_sale and product.sale_price %}{{ product.sale_price }}{% else %}{{ product.price }}{% endif %}"
+                     data-product-image="{% if product.image %}{{ product.image.url }}{% endif %}" data-cart-url="{% url 'core:add-to-cart' %}">
+                <a class="store-product-card__image" href="{% url 'core:product-detail' product.pid %}"><img src="{{ product.image.url }}" alt="{{ product.title }}" loading="lazy"></a>
+                <div class="store-product-card__body">
+                    {% if product.category %}<p>{{ product.category.title }}</p>{% endif %}
+                    <h3><a href="{% url 'core:product-detail' product.pid %}">{{ product.title }}</a></h3>
+                    <strong>{% if product.is_sale and product.sale_price %}{{ product.sale_price|intcomma }}{% else %}{{ product.price|intcomma }}{% endif %} تومان</strong>
+                    <button class="beauty-button beauty-button--primary product-cart-btn" type="button"{% if not product.in_stock and "(نمونه)" not in product.title %} disabled{% endif %}>{% if "(نمونه)" in product.title %}افزودن به سبد دمو{% else %}افزودن به سبد خرید{% endif %}</button>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+</main>
+<div class="store-cart-status" id="store-cart-status" role="status" aria-live="polite"></div>
+<script src="{% static 'js/product-detail.js' %}" defer></script>
+{% endblock %}

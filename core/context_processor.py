@@ -3,6 +3,7 @@ from core.models import Product, Category, Vendor, CartOrder, ProductImages, Pro
 from django.db.models import Min, Max, Q
 from django.contrib import messages
 from core.storefront import HOME_CATEGORIES, HOME_PRODUCT_TERMS, STORE_PROFILE
+from core.navigation import build_category_filter, get_nav_categories
 
 def default(request):
     cart_data = request.session.get("cart_data_obj", {})
@@ -17,9 +18,10 @@ def default(request):
                 if quantity > 0:
                     cart_item_count += quantity
 
-    category_filter = Q(title__in=[item["name"] for item in HOME_CATEGORIES])
-    for term in HOME_PRODUCT_TERMS:
-        category_filter |= Q(title__icontains=term)
+    # ``categories`` is kept as a queryset for the existing templates that
+    # walk ``c.subcategories``; the header uses the cached ``nav_categories``
+    # payload instead so it does not pay for this query on every request.
+    category_filter = build_category_filter()
     categories = Category.objects.filter(category_filter).prefetch_related("subcategories").distinct()
     vendors = Vendor.objects.all()
 
@@ -43,6 +45,7 @@ def default(request):
 
     return {
         'categories':categories,
+        'nav_categories': get_nav_categories(),
         'wishlist':wishlist,
         'address':address,
         'vendors':vendors,

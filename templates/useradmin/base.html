@@ -4,11 +4,12 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#173d35" />
-        <title>{% block title %}مدیریت فروشگاه{% endblock %} | هژیر مارکت</title>
+        <meta name="theme-color" content="#14243a" />
+        <title>{% block title %}مدیریت فروشگاه{% endblock %} | Hazhirmarket</title>
         <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets2/imgs/theme/favicon.png' %}" />
         <link href="{% static 'assets2/css/main.css' %}" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="{% static 'assets2/css/vendors/material-icon-round.css' %}" />
+        <link rel="stylesheet" href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" />
         <link rel="stylesheet" href="{% static 'css/admin-dashboard.css' %}" />
         {% block extra_head %}{% endblock %}
     </head>
@@ -16,31 +17,82 @@
         <div class="admin-scrim" data-sidebar-close></div>
         <aside class="admin-sidebar" id="admin-sidebar" aria-label="ناوبری مدیریت">
             <div class="admin-brand">
-                <a href="{% url 'useradmin:dashboard' %}" class="admin-brand__link" aria-label="هژیر مارکت، صفحهٔ داشبورد">
-                    <img src="{% static 'assets/imgs/theme/hejrmarket-logo.png' %}" alt="هژیر مارکت" />
+                <a href="{% url 'useradmin:dashboard' %}" class="admin-brand__link" aria-label="Hazhirmarket، صفحهٔ داشبورد">
+                    <img src="{% static 'assets/imgs/theme/hejrmarket-logo.webp' %}" alt="هژیر مارکت" width="40" height="40" decoding="async" />
                     <span>مدیریت فروشگاه</span>
                 </a>
                 <button class="admin-icon-button admin-sidebar__desktop-toggle" type="button" data-sidebar-collapse aria-label="جمع‌کردن نوار کناری" title="جمع‌کردن نوار کناری">
-                    <span class="material-icons-round" aria-hidden="true">right_panel_close</span>
+                <i class="fas fa-angle-double-right" aria-hidden="true"></i>
                 </button>
             </div>
 
-            <p class="admin-nav__caption">مدیریت فروشگاه</p>
-            <nav>
+            <nav class="admin-navigation" aria-label="ناوبری مدیریت">
+                <p class="admin-nav__caption">نمای کلی</p>
                 <ul class="admin-nav">
-                    <li><a class="admin-nav__link{% if request.resolver_match.url_name == 'dashboard' %} is-active{% endif %}" href="{% url 'useradmin:dashboard' %}"><span class="material-icons-round" aria-hidden="true">space_dashboard</span><span>داشبورد</span></a></li>
-                    <li><a class="admin-nav__link{% if request.resolver_match.url_name == 'dashboard-products' or request.resolver_match.url_name == 'dashboard-add-products' or request.resolver_match.url_name == 'dashboard-edit-products' %} is-active{% endif %}" href="{% url 'useradmin:dashboard-products' %}"><span class="material-icons-round" aria-hidden="true">inventory_2</span><span>محصولات</span></a></li>
-                    <li><a class="admin-nav__link" href="{% url 'admin:core_category_changelist' %}"><span class="material-icons-round" aria-hidden="true">category</span><span>دسته‌بندی‌ها</span><span class="material-icons-round admin-nav__external" aria-hidden="true">open_in_new</span></a></li>
-                    <li><a class="admin-nav__link{% if request.resolver_match.url_name == 'orders' or request.resolver_match.url_name == 'order_detail' %} is-active{% endif %}" href="{% url 'useradmin:orders' %}"><span class="material-icons-round" aria-hidden="true">receipt_long</span><span>سفارش‌ها</span></a></li>
-                    <li><a class="admin-nav__link" href="{% url 'admin:userauths_user_changelist' %}"><span class="material-icons-round" aria-hidden="true">group</span><span>مشتریان</span><span class="material-icons-round admin-nav__external" aria-hidden="true">open_in_new</span></a></li>
-                    <li><a class="admin-nav__link" href="{% url 'admin:core_coupon_changelist' %}"><span class="material-icons-round" aria-hidden="true">sell</span><span>تخفیف‌ها</span><span class="material-icons-round admin-nav__external" aria-hidden="true">open_in_new</span></a></li>
-                    <li><a class="admin-nav__link{% if request.resolver_match.url_name == 'settings' %} is-active{% endif %}" href="{% url 'useradmin:settings' %}"><span class="material-icons-round" aria-hidden="true">settings</span><span>تنظیمات</span></a></li>
+                    <li><a class="admin-nav__link{% if request.resolver_match.url_name == 'dashboard' %} is-active{% endif %}" href="{% url 'useradmin:dashboard' %}" title="داشبورد"><i class="admin-nav-icon fas fa-chart-pie" aria-hidden="true"></i><span>داشبورد</span></a></li>
+                    <li><a class="admin-nav__link" href="{% url 'useradmin:dashboard' %}#sales-chart-title" title="گزارش‌ها"><i class="admin-nav-icon fas fa-chart-line" aria-hidden="true"></i><span>گزارش‌ها</span></a></li>
+                </ul>
+
+                <p class="admin-nav__caption">مدیریت فروشگاه</p>
+                <ul class="admin-nav">
+                    <li>
+                        <details class="admin-nav-group" data-sidebar-group{% if request.resolver_match.url_name == 'dashboard-products' or request.resolver_match.url_name == 'dashboard-add-products' or request.resolver_match.url_name == 'dashboard-edit-products' %} open{% endif %}>
+                            <summary class="admin-nav__link{% if request.resolver_match.url_name == 'dashboard-products' or request.resolver_match.url_name == 'dashboard-add-products' or request.resolver_match.url_name == 'dashboard-edit-products' %} is-active{% endif %}" title="کالا و انبار">
+                                <i class="admin-nav-icon fas fa-boxes" aria-hidden="true"></i><span>کالا و انبار</span><i class="fas fa-chevron-down admin-nav__chevron" aria-hidden="true"></i>
+                            </summary>
+                            <ul class="admin-subnav">
+                                <li><a class="admin-nav__link{% if request.resolver_match.url_name == 'dashboard-products' or request.resolver_match.url_name == 'dashboard-edit-products' %} is-active{% endif %}" href="{% url 'useradmin:dashboard-products' %}" title="محصولات"><span>محصولات</span></a></li>
+                                <li><a class="admin-nav__link{% if request.resolver_match.url_name == 'dashboard-add-products' %} is-active{% endif %}" href="{% url 'useradmin:dashboard-add-products' %}" title="افزودن محصول"><span>افزودن محصول</span></a></li>
+                                <li><a class="admin-nav__link" href="{% url 'admin:core_category_changelist' %}" title="دسته‌بندی‌ها"><span>دسته‌بندی‌ها</span><i class="fas fa-external-link-alt admin-nav__external" aria-hidden="true"></i></a></li>
+                            </ul>
+                        </details>
+                    </li>
+                    <li>
+                        <details class="admin-nav-group" data-sidebar-group{% if request.resolver_match.url_name == 'orders' or request.resolver_match.url_name == 'order_detail' or request.resolver_match.url_name == 'change_order_status' %} open{% endif %}>
+                            <summary class="admin-nav__link{% if request.resolver_match.url_name == 'orders' or request.resolver_match.url_name == 'order_detail' or request.resolver_match.url_name == 'change_order_status' %} is-active{% endif %}" title="فروش و سفارش‌ها">
+                                <i class="admin-nav-icon fas fa-receipt" aria-hidden="true"></i><span>فروش و سفارش‌ها</span><i class="fas fa-chevron-down admin-nav__chevron" aria-hidden="true"></i>
+                            </summary>
+                            <ul class="admin-subnav">
+                                <li><a class="admin-nav__link{% if request.resolver_match.url_name == 'orders' or request.resolver_match.url_name == 'order_detail' or request.resolver_match.url_name == 'change_order_status' %} is-active{% endif %}" href="{% url 'useradmin:orders' %}" title="سفارش‌ها"><span>سفارش‌ها</span></a></li>
+                                <li><a class="admin-nav__link" href="{% url 'admin:core_cartorder_changelist' %}" title="مدیریت سفارش‌ها"><span>مدیریت سفارش‌ها</span><i class="fas fa-external-link-alt admin-nav__external" aria-hidden="true"></i></a></li>
+                                <li><a class="admin-nav__link" href="{% url 'admin:core_coupon_changelist' %}" title="تخفیف‌ها"><span>تخفیف‌ها</span><i class="fas fa-external-link-alt admin-nav__external" aria-hidden="true"></i></a></li>
+                            </ul>
+                        </details>
+                    </li>
+                    <li>
+                        <details class="admin-nav-group" data-sidebar-group{% if request.resolver_match.url_name == 'reviews' %} open{% endif %}>
+                            <summary class="admin-nav__link{% if request.resolver_match.url_name == 'reviews' %} is-active{% endif %}" title="تعامل با مشتری">
+                                <i class="admin-nav-icon fas fa-comments" aria-hidden="true"></i><span>تعامل با مشتری</span><i class="fas fa-chevron-down admin-nav__chevron" aria-hidden="true"></i>
+                            </summary>
+                            <ul class="admin-subnav">
+                                <li><a class="admin-nav__link{% if request.resolver_match.url_name == 'reviews' %} is-active{% endif %}" href="{% url 'useradmin:reviews' %}" title="دیدگاه‌ها"><span>دیدگاه‌ها</span></a></li>
+                                <li><a class="admin-nav__link" href="{% url 'admin:userauths_user_changelist' %}" title="مشتریان"><span>مشتریان</span><i class="fas fa-external-link-alt admin-nav__external" aria-hidden="true"></i></a></li>
+                            </ul>
+                        </details>
+                    </li>
+                    <li>
+                        <details class="admin-nav-group" data-sidebar-group>
+                            <summary class="admin-nav__link" title="کاربران و دسترسی‌ها">
+                                <i class="admin-nav-icon fas fa-user-shield" aria-hidden="true"></i><span>کاربران و دسترسی‌ها</span><i class="fas fa-chevron-down admin-nav__chevron" aria-hidden="true"></i>
+                            </summary>
+                            <ul class="admin-subnav">
+                                <li><a class="admin-nav__link" href="{% url 'admin:userauths_user_changelist' %}" title="کاربران"><span>کاربران</span><i class="fas fa-external-link-alt admin-nav__external" aria-hidden="true"></i></a></li>
+                                <li><a class="admin-nav__link" href="{% url 'admin:auth_group_changelist' %}" title="نقش‌ها و دسترسی‌ها"><span>نقش‌ها و دسترسی‌ها</span><i class="fas fa-external-link-alt admin-nav__external" aria-hidden="true"></i></a></li>
+                            </ul>
+                        </details>
+                    </li>
+                </ul>
+
+                <p class="admin-nav__caption">فروشگاه و حساب</p>
+                <ul class="admin-nav">
+                    <li><a class="admin-nav__link{% if request.resolver_match.url_name == 'shop_page' %} is-active{% endif %}" href="{% url 'useradmin:shop_page' %}" title="محتوای فروشگاه"><i class="admin-nav-icon fas fa-store" aria-hidden="true"></i><span>محتوای فروشگاه</span></a></li>
+                    <li><a class="admin-nav__link{% if request.resolver_match.url_name == 'settings' %} is-active{% endif %}" href="{% url 'useradmin:settings' %}" title="تنظیمات فروشگاه"><i class="admin-nav-icon fas fa-cog" aria-hidden="true"></i><span>تنظیمات فروشگاه</span></a></li>
                 </ul>
             </nav>
 
             <div class="admin-sidebar__bottom">
-                <a class="admin-nav__link{% if request.resolver_match.url_name == 'reviews' %} is-active{% endif %}" href="{% url 'useradmin:reviews' %}"><span class="material-icons-round" aria-hidden="true">rate_review</span><span>دیدگاه‌ها</span></a>
-                <a class="admin-nav__link" href="{% url 'userauths:sign-out' %}"><span class="material-icons-round" aria-hidden="true">logout</span><span>خروج از حساب</span></a>
+                <a class="admin-nav__link{% if request.resolver_match.url_name == 'change_password' %} is-active{% endif %}" href="{% url 'useradmin:change_password' %}" title="تغییر گذرواژه"><i class="admin-nav-icon fas fa-key" aria-hidden="true"></i><span>تغییر گذرواژه</span></a>
+                <a class="admin-nav__link" href="{% url 'userauths:sign-out' %}" title="خروج از حساب"><i class="admin-nav-icon fas fa-sign-out-alt" aria-hidden="true"></i><span>خروج از حساب</span></a>
             </div>
         </aside>
 
@@ -48,33 +100,34 @@
             <header class="admin-topbar">
                 <div class="admin-topbar__start">
                     <button class="admin-icon-button admin-mobile-toggle" type="button" data-sidebar-open aria-label="بازکردن منوی مدیریت" aria-controls="admin-sidebar" aria-expanded="false">
-                        <span class="material-icons-round" aria-hidden="true">menu</span>
+                        <i class="fas fa-bars" aria-hidden="true"></i>
                     </button>
                     <div class="admin-topbar__heading">
-                        <p>هژیر مارکت <span aria-hidden="true">/</span> {% block breadcrumb %}مدیریت{% endblock %}</p>
+                        <p>Hazhirmarket <span aria-hidden="true">/</span> {% block breadcrumb %}مدیریت{% endblock %}</p>
                         <h1>{% block page_heading %}مدیریت فروشگاه{% endblock %}</h1>
                     </div>
                 </div>
                 <div class="admin-topbar__tools">
                     <form class="admin-search" method="get" action="{% url 'useradmin:dashboard-products' %}" role="search">
                         <label class="visually-hidden" for="admin-global-search">جست‌وجو در محصولات</label>
-                        <span class="material-icons-round" aria-hidden="true">search</span>
+                        <i class="fas fa-search" aria-hidden="true"></i>
                         <input id="admin-global-search" type="search" name="q" placeholder="جست‌وجوی محصول…" value="{% if request.resolver_match.url_name == 'dashboard-products' %}{{ query }}{% endif %}" />
                         <kbd>جست‌وجو</kbd>
                     </form>
                     <a class="admin-icon-button admin-notification" href="{% url 'useradmin:dashboard-products' %}?status=in_review" aria-label="دیدن محصولات در انتظار بررسی" title="محصولات در انتظار بررسی">
-                        <span class="material-icons-round" aria-hidden="true">notifications_none</span>
-                        {% if pending_products_count %}<span class="admin-notification__dot" aria-hidden="true"></span>{% endif %}
+                        <i class="far fa-bell" aria-hidden="true"></i>
+                        {% if pending_products_count %}<span class="admin-notification__count" data-fa-number="{{ pending_products_count }}" aria-label="{{ pending_products_count }} محصول در انتظار بررسی">{{ pending_products_count }}</span>{% endif %}
                     </a>
                     <details class="admin-user-menu">
                         <summary aria-label="منوی کاربر {{ request.user.get_username }}">
                             <span class="admin-avatar" aria-hidden="true">{{ request.user.get_username|slice:":1"|upper }}</span>
                             <span class="admin-user-menu__name">{{ request.user.get_full_name|default:request.user.get_username }}</span>
-                            <span class="material-icons-round" aria-hidden="true">expand_more</span>
+                            <i class="fas fa-chevron-down" aria-hidden="true"></i>
                         </summary>
                         <div class="admin-user-menu__panel">
                             <strong>{{ request.user.get_full_name|default:request.user.get_username }}</strong>
                             <span>مدیر فروشگاه</span>
+                            <a href="{% url 'userauths:profile-update' %}">پروفایل مدیر</a>
                             <a href="{% url 'useradmin:settings' %}">تنظیمات حساب</a>
                             <a href="{% url 'userauths:sign-out' %}">خروج از حساب</a>
                         </div>
@@ -97,7 +150,7 @@
                 {% block content %}{% endblock %}
             </div>
             <footer class="admin-footer">
-                <span>هژیر مارکت</span>
+                <span>Hazhirmarket</span>
                 <span>پنل مدیریت فروشگاه</span>
             </footer>
         </main>

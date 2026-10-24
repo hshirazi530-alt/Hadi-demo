@@ -71,6 +71,13 @@ SESSION_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_SECURE = not DEBUG
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_HSTS_SECONDS = int(os.environ.get("DJANGO_SECURE_HSTS_SECONDS", "0"))
+if SECURE_HSTS_SECONDS:
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = _environment_bool(
+        "DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS", default=True
+    )
+    SECURE_HSTS_PRELOAD = _environment_bool(
+        "DJANGO_SECURE_HSTS_PRELOAD", default=True
+    )
 
 
 # Application definition
@@ -103,8 +110,8 @@ INSTALLED_APPS = [
     'paypal.standard.ipn',
 
     # Custom Apps
-    'core',
-    'userauths',
+    'core.apps.CoreConfig',
+    'userauths.apps.UserauthsConfig',
     "django_jalali",
 
 ]
@@ -245,22 +252,70 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 JAZZMIN_SETTINGS = {
-    'site_header': "هژیر مارکت",
-    'site_brand': "You order, we deliver",
+    'site_header': "Hazhirmarket",
+    'site_brand': "Hazhirmarket",
+    'site_title': "مدیریت Hazhirmarket",
+    'welcome_sign': "به پنل مدیریت Hazhirmarket خوش آمدید",
+    'use_google_fonts_cdn': False,
     # Reuse the same storefront logo in the admin navbar and login screen.
-    'site_logo': "assets/imgs/theme/hejrmarket-logo.png",
+    'site_logo': "assets/imgs/theme/hejrmarket-logo.webp",
     'site_logo_classes': "admin-brand-logo",
-    'login_logo': "assets/imgs/theme/hejrmarket-logo.png",
-    'copyright': "hadi-byanns.com",
-    # Custom CSS: keeps the sidebar on the right and the content on the left.
-    'custom_css': "css/admin-rtl.css",
+    'login_logo': "assets/imgs/theme/hejrmarket-logo.webp",
+    'copyright': "Hazhirmarket",
+    'custom_css': "css/admin-luxury-light.css",
     'custom_js': "js/admin-loading.js",
+    'search_model': "core.Product",
+    'topmenu_links': [
+        {'name': "داشبورد", 'url': "admin-dashboard", 'icon': "fas fa-chart-pie"},
+    ],
     'show_sidebar': True,
     'navigation_expanded': True,
+    'order_with_respect_to': [
+        'core',
+        'core.product',
+        'core.cartorder',
+        'core.category',
+        'core.subcategory',
+        'core.coupon',
+        'core.vendor',
+        'core.paymentattempt',
+        'core.cartorderproducts',
+        'core.productreview',
+        'core.address',
+        'core.wishlist_model',
+        'core.herobanner',
+        'core.productbundle',
+        'core.storetrustfeature',
+        'core.faq',
+        'userauths',
+        'userauths.user',
+        'userauths.profile',
+        'userauths.contactus',
+    ],
     'icons': {
         'auth': 'fas fa-users-cog',
         'auth.user': 'fas fa-user',
         'auth.Group': 'fas fa-users',
+        'core': 'fas fa-store',
+        'core.product': 'fas fa-box-open',
+        'core.cartorder': 'fas fa-receipt',
+        'core.category': 'fas fa-tags',
+        'core.subcategory': 'fas fa-layer-group',
+        'core.coupon': 'fas fa-percent',
+        'core.vendor': 'fas fa-store-alt',
+        'core.paymentattempt': 'fas fa-credit-card',
+        'core.cartorderproducts': 'fas fa-boxes',
+        'core.productreview': 'fas fa-star',
+        'core.address': 'fas fa-map-marker-alt',
+        'core.wishlist_model': 'fas fa-heart',
+        'core.herobanner': 'fas fa-images',
+        'core.productbundle': 'fas fa-gift',
+        'core.storetrustfeature': 'fas fa-shield-alt',
+        'core.faq': 'fas fa-question-circle',
+        'userauths': 'fas fa-users',
+        'userauths.user': 'fas fa-user',
+        'userauths.profile': 'fas fa-id-card',
+        'userauths.contactus': 'fas fa-envelope',
     },
 }
 
@@ -270,15 +325,15 @@ JAZZMIN_UI_TWEAKS = {
     "footer_small_text": False,
     "body_small_text": False,
     "brand_small_text": False,
-    "brand_colour": "navbar-warning",
-    "accent": "accent-warning",
-    "navbar": "navbar-warning navbar-dark",
+    "brand_colour": "navbar-light",
+    "accent": "accent-light-gold",
+    "navbar": "navbar-light navbar-gold",
     "no_navbar_border": False,
     "navbar_fixed": False,
     "layout_boxed": False,
     "footer_fixed": False,
     "sidebar_fixed": True,
-    "sidebar": "sidebar-dark-warning",
+    "sidebar": "sidebar-light-gold",
     "sidebar_nav_small_text": False,
     "sidebar_disable_expand": False,
     "sidebar_nav_child_indent": False,

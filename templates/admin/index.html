@@ -1,0 +1,382 @@
+{% extends "admin/base_site.html" %}
+{% load humanize static %}
+
+{% block title %}داشبورد | Hazhirmarket{% endblock %}
+{% block bodyclass %}larkon-admin admin-product-dashboard{% endblock %}
+
+{% block extrastyle %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/admin-overview.css' %}">
+{% endblock %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <script>
+        try {
+            if (localStorage.getItem("hjm-admin-theme") === "dark") {
+                document.documentElement.dataset.adminTheme = "dark";
+            }
+        } catch (error) {
+            console.warn("ذخیره‌سازی تنظیم تم در این مرورگر در دسترس نیست.", error);
+        }
+    </script>
+{% endblock %}
+
+{% block page_content %}
+<div id="hjm-admin-loader" role="status" aria-live="polite" aria-atomic="true" aria-label="در حال بارگذاری پنل مدیریت">
+    <div class="hjm-admin-loader__content">
+        <span class="hjm-admin-loader__mark" aria-hidden="true">
+            <img src="{% static 'assets/imgs/theme/hejrmarket-logo.webp' %}" alt="" width="768" height="768" fetchpriority="high" decoding="async">
+        </span>
+        <p class="hjm-admin-loader__brand">Hazhirmarket</p>
+        <p class="hjm-admin-loader__message">در حال بارگذاری پنل مدیریت</p>
+        <span class="hjm-admin-loader__progress" aria-hidden="true"></span>
+    </div>
+</div>
+<noscript><style>#hjm-admin-loader { display: none !important; }</style></noscript>
+
+<button class="dashboard-sidebar-scrim" type="button" data-sidebar-close aria-label="بستن منوی مدیریت"></button>
+<main class="dashboard-content" id="content-main" aria-labelledby="dashboard-welcome-title">
+    <header class="dashboard-toolbar" aria-label="ابزارهای داشبورد">
+        <div class="dashboard-toolbar__start">
+            <button
+                class="dashboard-icon-button dashboard-menu-toggle"
+                type="button"
+                data-sidebar-open
+                aria-label="بازکردن منوی مدیریت"
+                aria-controls="jazzy-sidebar"
+                aria-expanded="false"
+            >
+                <i class="fas fa-bars" aria-hidden="true"></i>
+            </button>
+            <button
+                class="dashboard-icon-button dashboard-collapse-toggle"
+                type="button"
+                data-sidebar-collapse
+                aria-label="جمع‌کردن نوار کناری"
+                aria-pressed="false"
+                title="جمع‌کردن نوار کناری"
+            >
+                <i class="fas fa-outdent" aria-hidden="true"></i>
+            </button>
+            <span class="dashboard-toolbar__label">مدیریت فروشگاه <span aria-hidden="true">/</span> داشبورد</span>
+        </div>
+        <div class="dashboard-toolbar__actions">
+            <form class="dashboard-global-search" method="get" action="{% url 'admin-dashboard' %}" role="search">
+                <input type="hidden" name="period" value="{{ selected_period }}">
+                <label class="sr-only" for="dashboard-global-search">جست‌وجو در سفارش‌ها</label>
+                <i class="fas fa-search" aria-hidden="true"></i>
+                <input id="dashboard-global-search" type="search" name="q" value="{{ search_query }}" placeholder="جست‌وجوی سفارش‌ها…" autocomplete="off">
+            </form>
+            <details class="dashboard-menu dashboard-settings">
+                <summary class="dashboard-icon-button" aria-label="تنظیمات داشبورد" title="تنظیمات داشبورد">
+                    <i class="fas fa-sliders-h" aria-hidden="true"></i>
+                </summary>
+                <div class="dashboard-menu-panel dashboard-settings__panel">
+                    <div class="dashboard-menu-panel__head"><strong>تنظیمات سریع</strong></div>
+                    <button class="dashboard-setting-toggle" type="button" data-theme-toggle aria-label="فعال‌کردن تم تیره">
+                        <i class="fas fa-moon" aria-hidden="true"></i>
+                        <span>تم تیره</span>
+                    </button>
+                    <a class="dashboard-setting-link" href="{% url 'admin:password_change' %}">
+                        <i class="fas fa-key" aria-hidden="true"></i>
+                        تغییر گذرواژه
+                    </a>
+                </div>
+            </details>
+            <details class="dashboard-menu dashboard-notifications">
+                <summary class="dashboard-icon-button" aria-label="اعلان‌های مدیریت">
+                    <i class="far fa-bell" aria-hidden="true"></i>
+                    <span class="dashboard-notification-count" data-notification-count hidden></span>
+                </summary>
+                <div class="dashboard-menu-panel dashboard-notifications__panel">
+                    <div class="dashboard-menu-panel__head">
+                        <strong>اعلان‌های فروشگاه</strong>
+                        <button type="button" data-notifications-read>خواندم</button>
+                    </div>
+                    {% if pending_products_count or unpaid_orders_count %}
+                        {% if pending_products_count %}
+                            <a class="dashboard-notification-item" href="{% url 'admin:core_product_changelist' %}?product_status__exact=in_review">
+                                <span class="dashboard-notification-item__icon"><i class="fas fa-box-open" aria-hidden="true"></i></span>
+                                <span><bdi>{{ pending_products_count|intcomma }}</bdi> محصول در انتظار بررسی</span>
+                            </a>
+                        {% endif %}
+                        {% if unpaid_orders_count %}
+                            <a class="dashboard-notification-item" href="{{ order_list_url }}">
+                                <span class="dashboard-notification-item__icon"><i class="fas fa-receipt" aria-hidden="true"></i></span>
+                                <span><bdi>{{ unpaid_orders_count|intcomma }}</bdi> سفارش پرداخت‌نشده</span>
+                            </a>
+                        {% endif %}
+                    {% else %}
+                        <p class="dashboard-notifications__empty">اعلان تازه‌ای ندارید.</p>
+                    {% endif %}
+                    <span class="sr-only" data-notification-values data-products="{{ pending_products_count }}" data-orders="{{ unpaid_orders_count }}"></span>
+                </div>
+            </details>
+            <details class="dashboard-menu dashboard-account">
+                <summary class="dashboard-account__summary" aria-label="منوی کاربر {{ request.user.get_username }}">
+                    <span class="dashboard-avatar" aria-hidden="true">{{ request.user.get_username|slice:":1"|upper }}</span>
+                    <span class="dashboard-account__name">{{ request.user.get_full_name|default:request.user.get_username }}</span>
+                    <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                </summary>
+                <div class="dashboard-menu-panel dashboard-account__panel">
+                    <strong>{{ request.user.get_full_name|default:request.user.get_username }}</strong>
+                    <span>مدیر فروشگاه</span>
+                    <a href="{% url 'admin:password_change' %}">تغییر گذرواژه</a>
+                    <form method="post" action="{% url 'admin:logout' %}">
+                        {% csrf_token %}
+                        <button type="submit">خروج از حساب</button>
+                    </form>
+                </div>
+            </details>
+        </div>
+    </header>
+
+    <div class="dashboard-welcome">
+        <div>
+            <p class="product-breadcrumb">مدیریت فروشگاه <span aria-hidden="true">›</span> داشبورد</p>
+            <h1 id="dashboard-welcome-title">خوش آمدید، {{ request.user.get_short_name|default:request.user.username }}</h1>
+            <p>نمای کلی فروشگاه بر اساس اطلاعات ثبت‌شده در سامانه</p>
+        </div>
+        <div class="dashboard-welcome__date">
+            <form class="dashboard-range-form" method="get" action="{% url 'admin-dashboard' %}">
+                {% if search_query %}<input type="hidden" name="q" value="{{ search_query }}">{% endif %}
+                <label for="dashboard-period">بازهٔ زمانی</label>
+                <select id="dashboard-period" name="period">
+                    {% for choice in period_choices %}
+                        <option value="{{ choice.value }}"{% if choice.value == selected_period %} selected{% endif %}>{{ choice.label }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit">اعمال</button>
+            </form>
+            <time datetime="{{ today|date:'Y-m-d' }}">{{ today|date:"l، j F Y" }}</time>
+        </div>
+    </div>
+
+    <p class="dashboard-period-caption">
+        آمار از {{ range_start|date:"j F Y" }} تا {{ range_end|date:"j F Y" }}
+        <span>؛ مقایسه با {{ period_label }} پیش از آن</span>
+    </p>
+
+    <section class="dashboard-stats" aria-label="شاخص‌های فروشگاه">
+        <article class="dashboard-stat-card">
+            <div class="dashboard-stat-icon orders"><i class="fas fa-shopping-basket" aria-hidden="true"></i></div>
+            <div class="dashboard-stat-copy">
+                <p>سفارش‌ها</p>
+                <strong>{{ total_orders|intcomma }}</strong>
+            </div>
+            <div class="dashboard-stat-foot">
+                <span class="dashboard-trend dashboard-trend--{{ trend_orders.direction }}"><i class="fas fa-arrow-{% if trend_orders.direction == 'down' %}down{% else %}up{% endif %}" aria-hidden="true"></i> {{ trend_orders.label }}</span>
+                <span>در بازهٔ انتخاب‌شده</span>
+            </div>
+        </article>
+        <article class="dashboard-stat-card">
+            <div class="dashboard-stat-icon customers"><i class="fas fa-user-plus" aria-hidden="true"></i></div>
+            <div class="dashboard-stat-copy">
+                <p>مشتریان جدید</p>
+                <strong>{{ new_customers|intcomma }}</strong>
+            </div>
+            <div class="dashboard-stat-foot">
+                <span class="dashboard-trend dashboard-trend--{{ trend_customers.direction }}"><i class="fas fa-arrow-{% if trend_customers.direction == 'down' %}down{% else %}up{% endif %}" aria-hidden="true"></i> {{ trend_customers.label }}</span>
+                <span>ثبت‌نام در این بازه</span>
+            </div>
+        </article>
+        <article class="dashboard-stat-card">
+            <div class="dashboard-stat-icon revenue"><i class="fas fa-wallet" aria-hidden="true"></i></div>
+            <div class="dashboard-stat-copy">
+                <p>فروش پرداخت‌شده</p>
+                <strong class="dashboard-revenue">{{ paid_revenue|floatformat:0|intcomma }} <small>تومان</small></strong>
+            </div>
+            <div class="dashboard-stat-foot">
+                <span class="dashboard-trend dashboard-trend--{{ trend_revenue.direction }}"><i class="fas fa-arrow-{% if trend_revenue.direction == 'down' %}down{% else %}up{% endif %}" aria-hidden="true"></i> {{ trend_revenue.label }}</span>
+                <span>سفارش‌های پرداخت‌شده</span>
+            </div>
+        </article>
+        <article class="dashboard-stat-card">
+            <div class="dashboard-stat-icon products"><i class="fas fa-chart-line" aria-hidden="true"></i></div>
+            <div class="dashboard-stat-copy">
+                <p>میانگین مبلغ سفارش</p>
+                <strong class="dashboard-revenue">{{ average_order_value|floatformat:0|intcomma }} <small>تومان</small></strong>
+            </div>
+            <div class="dashboard-stat-foot">
+                <span class="dashboard-trend dashboard-trend--{{ trend_average_order.direction }}"><i class="fas fa-arrow-{% if trend_average_order.direction == 'down' %}down{% else %}up{% endif %}" aria-hidden="true"></i> {{ trend_average_order.label }}</span>
+                <span>میانگین خرید پرداخت‌شده</span>
+            </div>
+        </article>
+    </section>
+
+    <section class="dashboard-panel dashboard-performance" aria-labelledby="performance-title">
+        <header class="dashboard-panel-head">
+            <div>
+                <h2 id="performance-title">عملکرد فروشگاه</h2>
+                <p>روند سفارش‌ها و مبلغ فروش واقعی در {{ period_label }}</p>
+            </div>
+            <div class="dashboard-chart-legend" aria-label="راهنمای نمودار">
+                <span><i class="orders"></i> تعداد سفارش</span>
+                <span><i class="revenue"></i> فروش پرداخت‌شده</span>
+            </div>
+        </header>
+        <div class="dashboard-chart-wrap">
+            <div class="dashboard-chart-legend dashboard-chart-legend--mobile" aria-hidden="true">
+                <span><i class="orders"></i> سفارش</span>
+                <span><i class="revenue"></i> فروش پرداخت‌شده</span>
+            </div>
+            <svg class="dashboard-chart" viewBox="0 0 900 260" role="img" aria-labelledby="chart-title chart-description">
+                <title id="chart-title">نمودار سفارش‌ها و فروش پرداخت‌شده</title>
+                <desc id="chart-description">داده‌ها از سفارش‌های واقعی ثبت‌شده در پایگاه داده Hazhirmarket تهیه شده‌اند.</desc>
+                <g class="dashboard-chart-grid" aria-hidden="true">
+                    <line x1="40" y1="30" x2="880" y2="30"></line>
+                    <line x1="40" y1="78" x2="880" y2="78"></line>
+                    <line x1="40" y1="126" x2="880" y2="126"></line>
+                    <line x1="40" y1="174" x2="880" y2="174"></line>
+                    <line x1="40" y1="222" x2="880" y2="222"></line>
+                </g>
+                <polyline class="dashboard-chart-line orders" points=""></polyline>
+                <polyline class="dashboard-chart-line revenue" points=""></polyline>
+                <g class="dashboard-chart-points orders" aria-hidden="true"></g>
+                <g class="dashboard-chart-points revenue" aria-hidden="true"></g>
+            </svg>
+            <div class="dashboard-chart-labels" aria-hidden="true"></div>
+            <p class="dashboard-chart-empty" hidden>در این بازه هنوز سفارشی ثبت نشده است.</p>
+        </div>
+        {{ chart_data|json_script:"dashboard-chart-data" }}
+    </section>
+
+    <div class="dashboard-insights-grid">
+        <section class="dashboard-panel dashboard-insight-panel" aria-labelledby="category-title">
+            <header class="dashboard-panel-head">
+                <div>
+                    <h2 id="category-title">ترکیب محصولات</h2>
+                    <p>دسته‌بندی کالاهای ثبت‌شده در فروشگاه</p>
+                </div>
+                <span class="dashboard-panel-count">{{ total_products|intcomma }} کالا</span>
+            </header>
+            <div class="dashboard-category-list">
+                {% for category in category_breakdown %}
+                    <div class="dashboard-category">
+                        <div class="dashboard-category__heading">
+                            <span>{{ category.title }}</span>
+                            <b>{{ category.product_count|intcomma }} کالا</b>
+                        </div>
+                        <div class="dashboard-progress" role="img" aria-label="{{ category.title }}، {{ category.share }} درصد">
+                            <span style="width: {{ category.share }}%"></span>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p class="dashboard-insight-empty">هنوز دسته‌بندی محصولی ثبت نشده است.</p>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="dashboard-panel dashboard-insight-panel" aria-labelledby="top-products-title">
+            <header class="dashboard-panel-head">
+                <div>
+                    <h2 id="top-products-title">محصولات پرفروش</h2>
+                    <p>بر پایهٔ تعداد اقلام سفارش‌های پرداخت‌شده</p>
+                </div>
+                <span class="dashboard-panel-count">{{ period_label }}</span>
+            </header>
+            <div class="dashboard-top-products">
+                {% for item in top_products %}
+                    <div class="dashboard-top-product">
+                        <span class="dashboard-top-product__rank">{{ forloop.counter|stringformat:"02d" }}</span>
+                        <span class="dashboard-top-product__name">{{ item.item }}</span>
+                        <span class="dashboard-top-product__quantity">{{ item.quantity|intcomma }} عدد</span>
+                    </div>
+                {% empty %}
+                    <p class="dashboard-insight-empty">در این بازه فروش پرداخت‌شده‌ای ثبت نشده است.</p>
+                {% endfor %}
+            </div>
+        </section>
+    </div>
+
+    <section class="dashboard-panel dashboard-orders" aria-labelledby="recent-orders-title">
+        <header class="dashboard-panel-head dashboard-orders-head">
+            <div>
+                <h2 id="recent-orders-title">سفارش‌های اخیر</h2>
+                <p>جست‌وجو، مرتب‌سازی و مرور سفارش‌های {{ period_label }}</p>
+            </div>
+            <a class="dashboard-view-all" href="{{ order_list_url }}">مدیریت همهٔ سفارش‌ها <i class="fas fa-arrow-left" aria-hidden="true"></i></a>
+        </header>
+        <form class="dashboard-orders-filter" method="get" action="{% url 'admin-dashboard' %}" role="search">
+            <input type="hidden" name="period" value="{{ selected_period }}">
+            <label class="sr-only" for="dashboard-order-search">جست‌وجو در سفارش‌ها</label>
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <input id="dashboard-order-search" type="search" name="q" value="{{ search_query }}" placeholder="شناسه، نام مشتری یا محصول…" autocomplete="off">
+            <button type="submit">جست‌وجو</button>
+            {% if search_query %}
+                <a class="dashboard-clear-filters" href="{{ clear_filters_url }}?period={{ selected_period }}">پاک‌کردن فیلترها</a>
+            {% endif %}
+        </form>
+        <div class="dashboard-orders-wrap">
+            <table class="dashboard-orders-table">
+                <thead>
+                    <tr>
+                        <th scope="col"><a href="{{ sort_links.order }}">شناسهٔ سفارش{% if selected_sort == "order" %}<span aria-hidden="true">{% if selected_direction == "asc" %} ↑{% else %} ↓{% endif %}</span>{% endif %}</a></th>
+                        <th scope="col"><a href="{{ sort_links.date }}">تاریخ{% if selected_sort == "date" %}<span aria-hidden="true">{% if selected_direction == "asc" %} ↑{% else %} ↓{% endif %}</span>{% endif %}</a></th>
+                        <th scope="col">محصول</th>
+                        <th scope="col">مشتری</th>
+                        <th scope="col"><a href="{{ sort_links.amount }}">مبلغ{% if selected_sort == "amount" %}<span aria-hidden="true">{% if selected_direction == "asc" %} ↑{% else %} ↓{% endif %}</span>{% endif %}</a></th>
+                        <th scope="col"><a href="{{ sort_links.status }}">وضعیت{% if selected_sort == "status" %}<span aria-hidden="true">{% if selected_direction == "asc" %} ↑{% else %} ↓{% endif %}</span>{% endif %}</a></th>
+                        <th scope="col"><span class="sr-only">عملیات</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in recent_orders %}
+                        <tr>
+                            <td><bdi class="dashboard-order-id">#{{ row.order.oid|default:row.order.pk }}</bdi></td>
+                            <td>{{ row.order.date|date:"j F Y" }}</td>
+                            <td>
+                                <span class="dashboard-order-product">{{ row.item_name }}</span>
+                                {% if row.item_count %}<small>{{ row.item_count|intcomma }} عدد</small>{% endif %}
+                            </td>
+                            <td>
+                                <span>{{ row.customer_name }}</span>
+                                {% if row.order.email %}<small>{{ row.order.email }}</small>{% endif %}
+                            </td>
+                            <td class="dashboard-order-amount">{{ row.order.price|floatformat:0|intcomma }} <small>تومان</small></td>
+                            <td><span class="dashboard-order-status {{ row.status_class }}">{{ row.status_label }}</span></td>
+                            <td><a class="dashboard-order-open" href="{% url 'admin:core_cartorder_change' row.order.pk %}" aria-label="مشاهدهٔ سفارش {{ row.order.oid|default:row.order.pk }}"><i class="far fa-eye" aria-hidden="true"></i></a></td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td class="dashboard-orders-empty" colspan="7">
+                                {% if search_query %}برای «{{ search_query }}» سفارشی پیدا نشد.{% else %}هنوز سفارشی ثبت نشده است.{% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <footer class="dashboard-orders-foot">
+            {% if filtered_order_count %}
+                نمایش {{ recent_orders.start_index|intcomma }} تا {{ recent_orders.end_index|intcomma }} از {{ filtered_order_count|intcomma }} سفارش
+            {% else %}
+                هیچ سفارشی برای نمایش وجود ندارد.
+            {% endif %}
+            {% if recent_orders.paginator.num_pages > 1 %}
+                <nav class="dashboard-pagination" aria-label="صفحه‌های سفارش‌ها">
+                    {% if recent_orders.has_previous %}
+                        <a href="{{ first_page_url }}" aria-label="صفحهٔ نخست"><i class="fas fa-angle-double-right" aria-hidden="true"></i></a>
+                        <a href="{{ previous_page_url }}" aria-label="صفحهٔ پیشین"><i class="fas fa-angle-right" aria-hidden="true"></i></a>
+                    {% endif %}
+                    {% for page_link in pagination_links %}
+                        <a href="{{ page_link.url }}" {% if page_link.number == recent_orders.number %}aria-current="page"{% endif %}>{{ page_link.number|intcomma }}</a>
+                    {% endfor %}
+                    {% if recent_orders.has_next %}
+                        <a href="{{ next_page_url }}" aria-label="صفحهٔ بعد"><i class="fas fa-angle-left" aria-hidden="true"></i></a>
+                        <a href="{{ last_page_url }}" aria-label="صفحهٔ پایانی"><i class="fas fa-angle-double-left" aria-hidden="true"></i></a>
+                    {% endif %}
+                </nav>
+            {% endif %}
+        </footer>
+    </section>
+
+    <aside class="dashboard-data-note" aria-label="محدودیت داده‌های تحلیلی">
+        <i class="fas fa-info-circle" aria-hidden="true"></i>
+        نرخ تبدیل و بازدیدکننده نمایش داده نمی‌شود؛ سامانه در حال حاضر بازدید صفحه را ثبت نمی‌کند.
+    </aside>
+    <footer class="dashboard-footer">Hazhirmarket <span aria-hidden="true">·</span> پنل مدیریت</footer>
+</main>
+<script defer src="{% static 'js/admin-overview.js' %}"></script>
+{% endblock %}

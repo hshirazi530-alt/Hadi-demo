@@ -28,6 +28,18 @@ from userauths.models import ContactUs
 
 
 class StorefrontTests(TestCase):
+    def test_header_has_order_tracking_and_telegram_contact(self):
+        response = self.client.get(reverse("core:index"))
+
+        self.assertContains(
+            response,
+            f'href="{reverse("core:dashboard")}#track-orders"',
+        )
+        self.assertContains(response, 'href="https://t.me/+989186555100"')
+        self.assertContains(response, "۰۹۱۸۶۵۵۵۱۰۰")
+        self.assertContains(response, 'class="store-nav-logo"')
+        self.assertContains(response, 'class="logo logo-width-1 d-block d-lg-none store-mobile-logo"')
+
     def test_sample_product_command_is_repeatable_and_publishes_personal_care_items(self):
         Category.objects.create(title="کادویی")
         with tempfile.TemporaryDirectory() as media_root:
@@ -260,8 +272,35 @@ class StorefrontTests(TestCase):
         for category in HOME_CATEGORIES:
             with self.subTest(category=category["name"]):
                 self.assertContains(response, category["name"])
-        self.assertContains(response, "درخواست راهنمایی")
+        self.assertContains(response, "راهنمای خرید")
         self.assertContains(response, "09186555100")
+
+    def test_homepage_uses_all_active_hero_banners_in_the_slider(self):
+        HeroBanner.objects.create(
+            title="پیشنهاد اول",
+            button_label="دیدن پیشنهاد",
+            button_url=reverse("core:search"),
+        )
+        HeroBanner.objects.create(
+            title="پیشنهاد دوم",
+            button_label="مشاهدهٔ کالاها",
+            button_url=reverse("core:search"),
+        )
+        HeroBanner.objects.create(title="بنر غیرفعال", is_active=False)
+
+        response = self.client.get(reverse("core:index"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'class="beauty-slider hm-hero swiper"')
+        self.assertContains(response, "پیشنهاد اول")
+        self.assertContains(response, "پیشنهاد دوم")
+        self.assertNotContains(response, "بنر غیرفعال")
+        self.assertContains(response, "همهٔ دسته‌بندی‌ها")
+        self.assertContains(
+            response,
+            'class="hm-hero__cta" href="/search/"',
+            count=2,
+        )
 
     def test_homepage_shows_published_relevant_products(self):
         product = Product.objects.create(
@@ -680,7 +719,7 @@ class StorefrontCompletionTests(TestCase):
             with override_settings(MEDIA_ROOT=Path(media_root)):
                 HeroBanner.objects.create(
                     title="مراقبت روزانه، با انتخاب دقیق",
-                    eyebrow="هژیر مارکت · انتخاب آگاهانه",
+                    eyebrow="Hazhirmarket · انتخاب آگاهانه",
                 )
                 call_command("load_demo_data", verbosity=0)
                 FAQ.objects.filter(question="چطور محصول مناسب خودم را انتخاب کنم؟").update(
@@ -860,37 +899,32 @@ class CustomerDashboardTests(TestCase):
         second_address.refresh_from_db()
         self.assertTrue(second_address.status)
 
-    def test_dashboard_tracks_orders_by_owner_identifier_and_email(self):
-        order = CartOrder.objects.create(
-            user=self.user,
-            email=self.user.email,
-            price=1250000,
-            tracking_id="POST-12345",
-            product_status="shipped",
-        )
-        response = self.client.post(
-            reverse("core:dashboard"),
-            {
-                "form_type": "track",
-                "order_id": order.oid,
-                "billing_email": self.user.email.upper(),
-            },
-        )
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context["tracked_order"], order)
-        self.assertContains(response, "POST-12345")
+    def test_dashboard_tracking_panel_shows_telegram_and_instagram_contacts(self):
+        response = self.client.get(reverse("core:dashboard"))
 
-        invalid_response = self.client.post(
-            reverse("core:dashboard"),
-            {
-                "form_type": "track",
-                "order_id": order.oid,
-                "billing_email": "wrong@example.com",
-            },
+        self.assertContains(
+            response,
+            "جهت پیگیری سفارشات به",
         )
-        self.assertEqual(invalid_response.status_code, 200)
-        self.assertIsNone(invalid_response.context["tracked_order"])
-        self.assertContains(invalid_response, "سفارشی با این شناسه و ایمیل")
+        self.assertContains(response, "09186555100")
+        self.assertContains(response, "hazhir.market")
+        self.assertContains(response, 'href="https://t.me/+989186555100"')
+        self.assertContains(
+            response,
+            'href="https://www.instagram.com/hazhir.market/"',
+        )
+        self.assertContains(
+            response,
+            'class="customer-dashboard__tracking-label">جهت پیگیری سفارشات به تلگرام ما (09186555100) و یا به اینستاگرام hazhir.market مراجعه فرمائید.</span>',
+        )
+        self.assertContains(response, 'id="track-title"')
+        self.assertNotContains(response, "پیگیری آسان")
+        self.assertNotContains(response, "> پیگیری سفارش</a>")
+        self.assertContains(
+            response,
+            f'href="{reverse("core:dashboard")}#track-orders"',
+        )
+        self.assertNotContains(response, 'name="order_id"')
 
     def test_order_detail_is_private_to_the_order_owner(self):
         other_user = get_user_model().objects.create_user(

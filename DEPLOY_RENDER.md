@@ -33,6 +33,7 @@
 - وارد Render شوید و "New +" -> "Web Service" -> Connect via GitHub/GitLab انتخاب کنید.
 - repo ای که ساخته‌اید را انتخاب کنید.
 - گزینه runtime: Python، Branch: main.
+- آدرس نهایی پیش‌نمایش: https://Hazhirmarket-demo.onrender.com/
 - Build Command: pip install -r requirements.txt && python manage.py collectstatic --noinput
 - Start Command: python manage.py migrate && python manage.py load_demo_data && gunicorn ecomprj.wsgi:application --bind 0.0.0.0:$PORT --workers 1 --threads 2
 - Environment variables (Render -> Environment): حداقل‌های لازم:
@@ -42,6 +43,7 @@
   - DJANGO_TRUST_X_FORWARDED_PROTO: True
   - DJANGO_DEMO_SERVE_MEDIA: True  # برای پیش‌نمایش demo — توجه: media در فایل‌سیستم ephemeral است
   - DJANGO_STRICT_STATIC_MANIFEST: False
+  - DJANGO_SECURE_HSTS_SECONDS: 31536000  # HSTS برای HTTPS دائمی
   - DATABASE_URL: (اگر از Render PostgreSQL استفاده می‌کنید، از بخش Databases مقدار connectionString را بگیرید)
 
 4) پایگاه داده

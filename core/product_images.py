@@ -34,7 +34,7 @@ def get_product_image_source_directory():
     return Path(settings.PRODUCT_IMAGE_SOURCE_DIR).expanduser().resolve()
 
 
-def get_source_product_image(name):
+def get_source_product_image(name, *, enforce_size_limit=True):
     if not isinstance(name, str) or not name or name in {".", ".."}:
         raise ProductImageUploadError(["نام تصویر انتخاب‌شده معتبر نیست."])
     if "/" in name or "\\" in name or PurePath(name).name != name:
@@ -58,7 +58,7 @@ def get_source_product_image(name):
 
     if candidate.suffix.lower() not in SUPPORTED_IMAGE_EXTENSIONS:
         raise ProductImageUploadError(["فقط JPEG، PNG و WebP پشتیبانی می‌شوند."])
-    if file_size > MAX_PRODUCT_IMAGE_SIZE:
+    if enforce_size_limit and file_size > MAX_PRODUCT_IMAGE_SIZE:
         raise ProductImageUploadError(["حجم هر تصویر باید حداکثر ۱۰ مگابایت باشد."])
 
     return candidate
@@ -82,7 +82,15 @@ def list_source_product_images():
                 "error": "",
             }
             try:
-                safe_path = get_source_product_image(candidate.name)
+                safe_path = get_source_product_image(
+                    candidate.name,
+                    enforce_size_limit=False,
+                )
+                image_info["size"] = safe_path.stat().st_size
+                if image_info["size"] > MAX_PRODUCT_IMAGE_SIZE:
+                    image_info["error"] = "حجم هر تصویر باید حداکثر ۱۰ مگابایت باشد."
+                    images.append(image_info)
+                    continue
                 with Image.open(safe_path) as image:
                     expected_format = SUPPORTED_IMAGE_FORMATS[safe_path.suffix.lower()]
                     if image.format != expected_format:
@@ -96,7 +104,6 @@ def list_source_product_images():
                     image.verify()
                 image_info.update(
                     {
-                        "size": safe_path.stat().st_size,
                         "selectable": True,
                     }
                 )

@@ -19,12 +19,14 @@ from django.contrib.sitemaps.views import sitemap
 from django.views.static import serve
 from core.sitemaps import ProductSitemap, StorePagesSitemap
 from core.views import robots_txt
+from core.admin_dashboard import dashboard_view
 
 from django.conf import settings
 from django.conf.urls.static import static
 
 
 urlpatterns = [
+    re_path(r"^admin/$", admin.site.admin_view(dashboard_view), name="admin-dashboard"),
     path('admin/', admin.site.urls),
     path(
         "sitemap.xml",

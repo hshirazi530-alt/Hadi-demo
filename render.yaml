@@ -1,13 +1,13 @@
 databases:
-  - name: hazhirmarket-db
-    databaseName: hazhirmarket
-    user: hazhirmarket
+  - name: hejrmarket-demo-db
+    databaseName: hejrmarket_demo
+    user: hejrmarket
     plan: free
     region: frankfurt
 
 services:
   - type: web
-    name: Hazhirmarket
+    name: hejrmarket-demo
     runtime: python
     plan: free
     region: frankfurt
@@ -27,6 +27,8 @@ services:
         value: "True"
       - key: DJANGO_STRICT_STATIC_MANIFEST
         value: "False"
+      - key: DJANGO_SECURE_HSTS_SECONDS
+        value: "31536000"
       - key: ZARINPAL_SANDBOX
         value: "True"
       - key: DATABASE_URL

@@ -55,3 +55,6 @@ htmlcov/
 
 # Keep deployment instructions file tracked
 !DEPLOY_RENDER.md
+
+# Node toolchain
+node_modules/

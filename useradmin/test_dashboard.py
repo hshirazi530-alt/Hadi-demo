@@ -56,11 +56,55 @@ class AdminDashboardTests(TestCase):
             "سفارش‌ها",
             "مشتریان",
             "تخفیف‌ها",
+            "گزارش‌ها",
+            "کاربران و دسترسی‌ها",
+            "نقش‌ها و دسترسی‌ها",
+            "تنظیمات فروشگاه",
             "تنظیمات",
         ):
             with self.subTest(label=label):
                 self.assertContains(response, label)
+        self.assertContains(response, "sales-chart-title")
+        self.assertContains(response, reverse("admin:auth_group_changelist"))
+        self.assertContains(response, 'data-fa-number="1"')
         self.assertContains(response, "آمار بر پایهٔ سفارش‌ها")
+
+    def test_settings_page_is_persian_rtl_and_has_store_settings_and_profile_form(self):
+        response = self.client.get(reverse("useradmin:settings"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'lang="fa" dir="rtl"')
+        self.assertContains(response, "تنظیمات فروشگاه")
+        self.assertContains(response, "اطلاعات فروشگاه")
+        self.assertContains(response, "منطقه و واحدها")
+        self.assertContains(response, "دیدگاه‌ها و امتیازها")
+        self.assertContains(response, "تخفیف و مالیات")
+        self.assertContains(response, "ذخیرهٔ تغییرات")
+        self.assertContains(response, "در همین مرورگر ذخیره می‌شوند")
+        self.assertContains(response, 'data-storage-key="hjm-store-settings-v1-')
+        self.assertContains(response, 'name="full_name"')
+        self.assertContains(response, "کالا و انبار")
+        self.assertContains(response, "تعامل با مشتری")
+        self.assertContains(response, 'id="admin-sidebar"')
+        self.assertContains(response, 'data-sidebar-group')
+
+    def test_settings_profile_form_still_saves_profile_to_server(self):
+        response = self.client.post(
+            reverse("useradmin:settings"),
+            {
+                "full_name": "مدیر فروشگاه",
+                "phone": "09120000000",
+                "bio": "پروفایل آزمایشی",
+                "address": "تهران",
+                "country": "ایران",
+            },
+        )
+
+        self.assertRedirects(response, reverse("useradmin:settings"))
+        self.admin.profile.refresh_from_db()
+        self.assertEqual(self.admin.profile.full_name, "مدیر فروشگاه")
+        self.assertEqual(self.admin.profile.phone, "09120000000")
+        self.assertEqual(self.admin.profile.bio, "پروفایل آزمایشی")
 
     def test_product_list_searches_filters_sorts_and_paginates(self):
         self.create_product("ماشین اصلاح سبز", status="published", price=300000, stock="2")

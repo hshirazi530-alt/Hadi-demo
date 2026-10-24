@@ -135,6 +135,12 @@ class Product(models.Model):
 
     price = models.DecimalField(
         max_digits=12, decimal_places=0, default="0", verbose_name="قیمت")
+    price_pending_confirmation = models.BooleanField(
+        default=False,
+        verbose_name="قیمت نیازمند تأیید",
+        help_text="تا پیش از ثبت قیمت واقعی، محصول فقط به‌صورت پیش‌نویس نگه داشته شود.",
+    )
+
     # old_price = models.DecimalField(
     #     max_digits=12, decimal_places=0, default="2")
 
@@ -425,3 +431,61 @@ class StoreTrustFeature(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Banner(models.Model):
+    """Mini promotional banner shown between product cards in sliders."""
+
+    PLACEMENT_CHOICES = (
+        ("amazing_offers", "بخش شگفت‌انگیز"),
+        ("product_slider", "اسلایدر محصولات اصلی"),
+    )
+
+    title = models.CharField(max_length=120, verbose_name="عنوان")
+    subtitle = models.CharField(max_length=180, blank=True, verbose_name="زیرعنوان")
+    image = models.ImageField(upload_to="storefront/banners/", blank=True, verbose_name="تصویر")
+    image_alt = models.CharField(max_length=180, blank=True, verbose_name="متن جایگزین تصویر")
+    link_url = models.CharField(max_length=300, blank=True, verbose_name="پیوند")
+    button_label = models.CharField(max_length=60, blank=True, verbose_name="متن دکمه")
+    placement = models.CharField(
+        max_length=30,
+        choices=PLACEMENT_CHOICES,
+        default="amazing_offers",
+        verbose_name="محل نمایش",
+    )
+    is_active = models.BooleanField(default=True, verbose_name="فعال")
+    sort_order = models.PositiveSmallIntegerField(default=0, verbose_name="ترتیب نمایش")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="آخرین ویرایش")
+
+    class Meta:
+        ordering = ("sort_order", "id")
+        verbose_name = "مینی‌بنر"
+        verbose_name_plural = "مینی‌بنرها"
+
+    def __str__(self):
+        return self.title
+
+
+class AmazingOffersSettings(models.Model):
+    """Single-row settings for the Amazing Offers section."""
+
+    deadline = models.DateTimeField(
+        verbose_name="پایان مهلت شگفت‌انگیزها",
+        null=True,
+        blank=True,
+        help_text="اگر خالی باشد، تایمر نمایش داده نمی‌شود.",
+    )
+    is_active = models.BooleanField(default=True, verbose_name="فعال")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="آخرین ویرایش")
+
+    class Meta:
+        verbose_name = "تنظیمات شگفت‌انگیزها"
+        verbose_name_plural = "تنظیمات شگفت‌انگیزها"
+
+    def __str__(self):
+        return "تنظیمات بخش شگفت‌انگیز"
+
+    @classmethod
+    def get_settings(cls):
+        obj, _ = cls.objects.get_or_create(pk=1)
+        return obj

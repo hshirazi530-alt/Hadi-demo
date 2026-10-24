@@ -1,0 +1,84 @@
+@media (min-width: 992px) {
+  body.larkon-admin #jazzy-sidebar,
+  body.larkon-admin .main-sidebar {
+    right: 0 !important;
+    left: auto !important;
+    margin: 0 !important;
+    transform: translateX(0) !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  body.larkon-admin #jazzy-sidebar .brand-link,
+  body.larkon-admin #jazzy-sidebar .sidebar,
+  body.larkon-admin #jazzy-sidebar .sidebar > nav,
+  body.larkon-admin #jazzy-sidebar .nav-sidebar,
+  body.larkon-admin #jazzy-sidebar .nav-sidebar > .nav-item,
+  body.larkon-admin #jazzy-sidebar .nav-sidebar > .nav-header,
+  body.larkon-admin #jazzy-sidebar .user-panel {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  body.larkon-admin #jazzy-sidebar .sidebar {
+    display: flex !important;
+  }
+
+  body.larkon-admin #jazzy-sidebar .nav-sidebar {
+    display: flex !important;
+  }
+
+  body.larkon-admin #jazzy-sidebar .nav-sidebar > .nav-item > .nav-link,
+  body.larkon-admin #jazzy-sidebar .nav-sidebar .nav-link p {
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  body.larkon-admin #jazzy-sidebar .nav-sidebar .nav-link p {
+    display: flex !important;
+    color: inherit !important;
+  }
+
+  body.larkon-admin #jazzy-sidebar .nav-sidebar .nav-link .nav-icon {
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  body.larkon-admin.sidebar-collapse.sidebar-mini #jazzy-sidebar,
+  body.larkon-admin.sidebar-collapse.sidebar-mini .main-sidebar,
+  body.larkon-admin.sidebar-collapse.sidebar-mini .main-sidebar::before {
+    width: 4.6rem !important;
+  }
+
+  body.larkon-admin.sidebar-collapse.sidebar-mini .main-header,
+  body.larkon-admin.sidebar-collapse.sidebar-mini .content-wrapper {
+    margin-inline-start: 4.6rem !important;
+    margin-inline-end: 0 !important;
+  }
+
+  body.larkon-admin.sidebar-collapse.sidebar-mini #jazzy-sidebar .brand-text,
+  body.larkon-admin.sidebar-collapse.sidebar-mini #jazzy-sidebar .user-panel .info,
+  body.larkon-admin.sidebar-collapse.sidebar-mini #jazzy-sidebar .nav-header,
+  body.larkon-admin.sidebar-collapse.sidebar-mini #jazzy-sidebar .nav-link p {
+    display: none !important;
+  }
+
+  body.larkon-admin.sidebar-collapse.sidebar-mini #jazzy-sidebar .nav-link {
+    justify-content: center !important;
+    padding-inline: 0 !important;
+  }
+}
+
+@media (max-width: 991.98px) {
+  body.larkon-admin #jazzy-sidebar,
+  body.larkon-admin .main-sidebar {
+    transform: translateX(105%) !important;
+  }
+
+  body.larkon-admin.sidebar-open #jazzy-sidebar,
+  body.larkon-admin.sidebar-open .main-sidebar {
+    transform: translateX(0) !important;
+  }
+}

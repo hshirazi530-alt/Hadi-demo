@@ -246,6 +246,10 @@ class ProductCreationUploadTests(TestCase):
         self.assertIn("معتبر", images["broken.jpg"]["error"])
         self.assertFalse(images["oversized.png"]["selectable"])
         self.assertIn("حداکثر ۱۰ مگابایت", images["oversized.png"]["error"])
+        self.assertEqual(
+            images["oversized.png"]["size"],
+            MAX_PRODUCT_IMAGE_SIZE + 1,
+        )
         self.assertContains(response, "broken.jpg")
         self.assertContains(response, "oversized.png")
         response_html = response.content.decode()
@@ -338,6 +342,76 @@ class ProductCreationUploadTests(TestCase):
         self.assertContains(response, "قیمت واقعی و مثبت لازم است", status_code=200)
         self.assertEqual(Product.objects.filter(title="محصول آزمایشی").count(), 1)
         self.assertFalse(list(self.media_root.rglob("*.webp")))
+
+    def test_unknown_price_can_only_be_saved_as_flagged_unpublished_draft(self):
+        response = self.client.post(
+            reverse("useradmin:dashboard-add-products"),
+            data={
+                **self.product_form_data(),
+                "title": "سشوار حرفه‌ای مکس گلد 7000",
+                "price": "",
+                "price_pending_confirmation": "on",
+                "product_status": "draft",
+                "source_product_images": ["source-gallery.jpg", "source-cover.png"],
+                "source_cover_image": "source-cover.png",
+            },
+        )
+
+        self.assertRedirects(response, reverse("useradmin:dashboard-products"))
+        product = Product.objects.get(title="سشوار حرفه‌ای مکس گلد 7000")
+        self.assertEqual(product.price, 0)
+        self.assertTrue(product.price_pending_confirmation)
+        self.assertEqual(product.product_status, "draft")
+        self.assertEqual(product.stock_count, "8")
+        self.assertEqual(product.p_images.count(), 1)
+        self.assertTrue(product.image.name.endswith(".webp"))
+        self.assertTrue(product.p_images.get().images.name.endswith(".webp"))
+        anonymous_client = Client()
+        self.assertEqual(
+            anonymous_client.get(
+                reverse("core:product-detail", args=[product.pid])
+            ).status_code,
+            404,
+        )
+
+    def test_unknown_price_cannot_be_published(self):
+        response = self.client.post(
+            reverse("useradmin:dashboard-add-products"),
+            data={
+                **self.product_form_data(),
+                "title": "سشوار بدون قیمت",
+                "price": "",
+                "price_pending_confirmation": "on",
+                "product_status": "published",
+                "source_product_images": ["source-cover.png"],
+                "source_cover_image": "source-cover.png",
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("product_status", response.context["form"].errors)
+        self.assertFalse(Product.objects.filter(title="سشوار بدون قیمت").exists())
+        self.assertFalse(list(self.media_root.rglob("*.webp")))
+
+    def test_confirmed_price_clears_pending_confirmation_flag(self):
+        response = self.client.post(
+            reverse("useradmin:dashboard-add-products"),
+            data={
+                **self.product_form_data(),
+                "title": "سشوار با قیمت تأییدشده",
+                "price": "3500000",
+                "price_pending_confirmation": "on",
+                "product_status": "draft",
+                "source_product_images": ["source-cover.png"],
+                "source_cover_image": "source-cover.png",
+            },
+        )
+
+        self.assertRedirects(response, reverse("useradmin:dashboard-products"))
+        product = Product.objects.get(title="سشوار با قیمت تأییدشده")
+        self.assertEqual(product.price, 3500000)
+        self.assertFalse(product.price_pending_confirmation)
+        self.assertEqual(product.product_status, "draft")
 
     def test_description_is_required_for_a_complete_product(self):
         form_data = self.product_form_data()

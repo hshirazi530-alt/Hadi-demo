@@ -58,6 +58,12 @@
                                 {{ form.sale_price.errors }}
                             </div>
                         </div>
+                        <div class="form-check mb-3">
+                            {{ form.price_pending_confirmation }}
+                            <label class="form-check-label" for="{{ form.price_pending_confirmation.id_for_label }}">{{ form.price_pending_confirmation.label }}</label>
+                            <small class="product-upload__help d-block">فقط برای قیمت نامشخص فعال کنید؛ محصول با قیمت صفر و وضعیت پیش‌نویس ذخیره می‌شود و تا واردکردن قیمت واقعی قابل انتشار نیست.</small>
+                            {{ form.price_pending_confirmation.errors }}
+                        </div>
                         <div class="form-check mb-4">
                             {{ form.is_sale }}
                             <label class="form-check-label" for="{{ form.is_sale.id_for_label }}">این محصول تخفیف دارد</label>

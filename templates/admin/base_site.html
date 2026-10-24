@@ -1,13 +1,22 @@
 {% extends 'admin/base.html' %}
 {% load static %}
 
+{% block bodyclass %}larkon-admin {{ block.super }}{% endblock %}
+
+{% block extrastyle %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/admin-sidebar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/admin-luxury-light.css' %}">
+    <link rel="stylesheet" href="{% static 'css/admin-rtl.css' %}">
+{% endblock %}
+
 {% block page_content %}
     <div id="hjm-admin-loader" role="status" aria-live="polite" aria-atomic="true" aria-label="در حال بارگذاری پنل مدیریت">
         <div class="hjm-admin-loader__content">
             <span class="hjm-admin-loader__mark" aria-hidden="true">
-                <img src="{% static 'assets/imgs/theme/hejrmarket-logo.png' %}" alt="" width="768" height="768" fetchpriority="high" decoding="async">
+                <img src="{% static 'assets/imgs/theme/hejrmarket-logo.webp' %}" alt="" width="768" height="768" fetchpriority="high" decoding="async">
             </span>
-            <p class="hjm-admin-loader__brand">هژیر مارکت</p>
+            <p class="hjm-admin-loader__brand">Hazhirmarket</p>
             <p class="hjm-admin-loader__message">در حال بارگذاری پنل مدیریت</p>
             <span class="hjm-admin-loader__progress" aria-hidden="true"></span>
         </div>

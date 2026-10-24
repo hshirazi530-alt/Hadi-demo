@@ -5,7 +5,7 @@
         window.addEventListener("load", function () {
             navigator.serviceWorker.register("/service-worker.js", { scope: "/" })
                 .catch(function (error) {
-                    console.error("ثبت سرویس‌ورکر هژیر مارکت انجام نشد:", error);
+                    console.error("ثبت سرویس‌ورکر Hazhirmarket انجام نشد:", error);
                 });
         });
     }

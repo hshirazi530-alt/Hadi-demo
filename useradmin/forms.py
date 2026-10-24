@@ -7,7 +7,7 @@ from core.upload_forms import ProductImageFormField
 class AddProductForm(forms.ModelForm):
     approval = forms.BooleanField(
         required=True,
-        label="اطلاعات، قیمت و تطبیق تصاویر را بررسی کرده‌ام و ثبت را تأیید می‌کنم.",
+        label="اطلاعات و تطبیق تصاویر را بررسی کرده‌ام و ثبت را تأیید می‌کنم.",
     )
     title = forms.CharField(
         label="عنوان محصول",
@@ -63,6 +63,7 @@ class AddProductForm(forms.ModelForm):
             "image",
             "description",
             "price",
+            "price_pending_confirmation",
             "sale_price",
             "is_sale",
             "specifications",
@@ -84,9 +85,12 @@ class AddProductForm(forms.ModelForm):
                 attrs={
                     "placeholder": "قیمت فروش",
                     "class": "form-control",
-                    "min": 1,
+                    "min": 0,
                     "step": 1,
                 }
+            ),
+            "price_pending_confirmation": forms.CheckboxInput(
+                attrs={"class": "form-check-input"}
             ),
             "sale_price": forms.NumberInput(
                 attrs={
@@ -129,6 +133,7 @@ class AddProductForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields["price"].required = False
         if self.instance.pk:
             self.fields.pop("approval")
             self.fields["description"].required = False
@@ -141,7 +146,7 @@ class AddProductForm(forms.ModelForm):
             self.fields["price"].initial = None
             self.fields["stock_count"].initial = ""
         self.fields["price"].help_text = (
-            "قیمت واقعی و تأییدشده را وارد کنید؛ قیمت نامشخص را حدس نزنید."
+            "قیمت واقعی را وارد کنید؛ در صورت نامشخص بودن، گزینهٔ تأیید قیمت را فعال و وضعیت را روی پیش‌نویس بگذارید."
         )
 
     def clean_title(self):
@@ -168,13 +173,33 @@ class AddProductForm(forms.ModelForm):
         price = cleaned_data.get("price")
         sale_price = cleaned_data.get("sale_price")
         is_sale = cleaned_data.get("is_sale")
+        price_pending_confirmation = cleaned_data.get("price_pending_confirmation")
+        product_status = cleaned_data.get("product_status")
 
         if sale_price is None:
             cleaned_data["sale_price"] = sale_price = 0
-        if price is not None and price < 0:
+        if price is None or price == 0:
+            if not price_pending_confirmation:
+                self.add_error(
+                    "price",
+                    "قیمت واقعی و مثبت لازم است؛ برای محصول بدون قیمت، تأیید قیمت را فعال کنید.",
+                )
+            elif product_status != "draft":
+                self.add_error(
+                    "product_status",
+                    "تا زمان تأیید قیمت، وضعیت محصول باید پیش‌نویس باشد.",
+                )
+            else:
+                cleaned_data["price"] = 0
+            if is_sale:
+                self.add_error(
+                    "is_sale",
+                    "برای محصولی که قیمت آن تأیید نشده، تخفیف ثبت نکنید.",
+                )
+        elif price < 0:
             self.add_error("price", "قیمت نمی‌تواند منفی باشد.")
-        elif price == 0 and not self.instance.pk:
-            self.add_error("price", "برای ثبت محصول، قیمت واقعی و مثبت لازم است.")
+        else:
+            cleaned_data["price_pending_confirmation"] = False
         if sale_price is not None and sale_price < 0:
             self.add_error("sale_price", "قیمت تخفیف نمی‌تواند منفی باشد.")
         if is_sale and price is not None and sale_price is not None and sale_price >= price:

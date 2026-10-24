@@ -1,6 +1,6 @@
 {% extends 'partials/base.html' %}
 {% load static humanize %}
-{% block title %}حساب من | هژیر مارکت{% endblock %}
+{% block title %}حساب من | Hazhirmarkett{% endblock %}
 {% block content %}
 <main class="main pages customer-dashboard" dir="rtl">
     <div class="page-header breadcrumb-wrap">
@@ -46,8 +46,9 @@
                             <span aria-hidden="true">▤</span> سفارش‌های من
                             <span class="customer-dashboard__nav-count">{{ total_orders }}</span>
                         </a>
-                        <a href="#track-orders" data-account-tab="track-orders">
-                            <span aria-hidden="true">⌕</span> پیگیری سفارش
+                        <a class="customer-dashboard__tracking-link" href="#track-orders" data-account-tab="track-orders">
+                            <span aria-hidden="true">⌕</span>
+                            <span class="customer-dashboard__tracking-label">جهت پیگیری سفارشات به تلگرام ما (09186555100) و یا به اینستاگرام hazhir.market مراجعه فرمائید.</span>
                         </a>
                         <a href="#address" data-account-tab="address">
                             <span aria-hidden="true">⌖</span> نشانی‌های من
@@ -113,36 +114,13 @@
                     </section>
 
                     <section class="account-panel" id="track-orders" data-account-panel aria-labelledby="track-title" hidden>
-                        <div class="account-panel__title">
-                            <p class="store-eyebrow">پیگیری آسان</p>
-                            <h1 id="track-title">پیگیری سفارش</h1>
-                            <p>شناسهٔ سفارش و ایمیلی که هنگام ثبت سفارش وارد کردید را بنویسید.</p>
-                        </div>
-                        <div class="account-card account-card--narrow">
-                            <form method="post" action="{% url 'core:dashboard' %}#track-orders" class="account-form">
-                                {% csrf_token %}
-                                <input type="hidden" name="form_type" value="track">
-                                <label for="tracking-order-id">شناسهٔ سفارش</label>
-                                <input id="tracking-order-id" class="form-control" name="order_id" value="{{ tracking_order_id }}" required autocomplete="off" dir="ltr">
-                                <label for="tracking-billing-email">ایمیل صورتحساب</label>
-                                <input id="tracking-billing-email" class="form-control" name="billing_email" type="email" value="{{ tracking_email }}" required autocomplete="email" dir="ltr">
-                                {% if tracking_error %}<p class="account-form__error" role="alert">{{ tracking_error }}</p>{% endif %}
-                                <button class="beauty-button beauty-button--primary" type="submit">بررسی وضعیت سفارش</button>
-                            </form>
-                            {% if tracked_order %}
-                            <div class="tracking-result" role="status">
-                                <p>سفارش <strong dir="ltr">{{ tracked_order.oid }}</strong></p>
-                                <p>وضعیت سفارش: <strong>{{ tracked_order.get_product_status_display }}</strong></p>
-                                <p>پرداخت: <strong>{% if tracked_order.paid_status %}پرداخت‌شده{% else %}در انتظار پرداخت{% endif %}</strong></p>
-                                {% if tracked_order.tracking_id %}
-                                <p>کد رهگیری مرسوله: <strong dir="ltr">{{ tracked_order.tracking_id }}</strong></p>
-                                {% endif %}
-                                {% if tracked_order.tracking_website_address %}
-                                <a href="{{ tracked_order.tracking_website_address }}" target="_blank" rel="noopener noreferrer">پیگیری در وب‌سایت شرکت حمل‌ونقل</a>
-                                {% endif %}
-                            </div>
-                            {% endif %}
-                        </div>
+                        <h1 id="track-title" class="tracking-contact-note">
+                            جهت پیگیری سفارشات به
+                            <a href="https://t.me/+989186555100" target="_blank" rel="noopener noreferrer">تلگرام ما (<bdi dir="ltr">09186555100</bdi>)</a>
+                            و یا به اینستاگرام
+                            <a href="https://www.instagram.com/hazhir.market/" target="_blank" rel="noopener noreferrer"><bdi dir="ltr">hazhir.market</bdi></a>
+                            مراجعه فرمائید.
+                        </h1>
                     </section>
 
                     <section class="account-panel" id="address" data-account-panel aria-labelledby="address-title" hidden>

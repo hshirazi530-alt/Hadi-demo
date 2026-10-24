@@ -1,0 +1,1406 @@
+/*
+ * admin-luxury-light.css — تم روشن لوکس برای پنل مدیریت هژیر مارکت
+ * پالت رنگ: کرم روشن، سفید، طلایی لوکس
+ * مطابق با skill persian-ui-theme و frontend-design
+ */
+
+/* ============================================================
+   1. متغیرهای CSS - پالت رنگ لوکس
+   ============================================================ */
+:root,
+html,
+body {
+  /* رنگ‌های اصلی */
+  --hjm-bg-primary: #FDFCF8 !important;
+  --hjm-bg-secondary: #F5F3EB !important;
+  --hjm-bg-card: #FFFFFF !important;
+  --hjm-bg-hover: #FAF8F0 !important;
+
+  /* رنگ طلایی لوکس */
+  --hjm-gold-primary: #C9A962 !important;
+  --hjm-gold-secondary: #8B7355 !important;
+  --hjm-gold-light: #E8D5A3 !important;
+  --hjm-gold-dark: #6B5344 !important;
+
+  /* متن */
+  --hjm-text-primary: #2C2C2C !important;
+  --hjm-text-secondary: #6B6B6B !important;
+  --hjm-text-muted: #9A9A9A !important;
+  --hjm-text-light: #B8B8B8 !important;
+
+  /* حاشیه */
+  --hjm-border-color: #E8E4D9 !important;
+  --hjm-border-light: #F0EDE4 !important;
+  --hjm-border-dark: #D4D0C5 !important;
+
+  /* وضعیت‌ها */
+  --hjm-success: #4CAF50 !important;
+  --hjm-success-bg: #E8F5E9 !important;
+  --hjm-warning: #FF9800 !important;
+  --hjm-warning-bg: #FFF3E0 !important;
+  --hjm-error: #F44336 !important;
+  --hjm-error-bg: #FFEBEE !important;
+  --hjm-info: #2196F3 !important;
+  --hjm-info-bg: #E3F2FD !important;
+
+  /* سایه‌ها */
+  --hjm-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+  --hjm-shadow-md: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+  --hjm-shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
+  --hjm-shadow-xl: 0 8px 32px rgba(0, 0, 0, 0.16) !important;
+
+  /* فاصله‌ها */
+  --hjm-radius-sm: 6px !important;
+  --hjm-radius-md: 8px !important;
+  --hjm-radius-lg: 12px !important;
+  --hjm-radius-xl: 16px !important;
+
+  /* فونت */
+  --hjm-font-family: 'Vazirmatn', 'Tahoma', 'Segoe UI', sans-serif !important;
+}
+
+/* ============================================================
+   2. استایل پایه - body و typography
+   ============================================================ */
+body.larkon-admin {
+  background-color: var(--hjm-bg-primary) !important;
+  color: var(--hjm-text-primary) !important;
+  font-family: var(--hjm-font-family) !important;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* فونت Vazirmatn از CDN */
+@import url('https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css');
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--hjm-text-primary) !important;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+h1 { font-size: 1.75rem; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.25rem; }
+h4 { font-size: 1.125rem; }
+h5 { font-size: 1rem; }
+h6 { font-size: 0.875rem; }
+
+p {
+  color: var(--hjm-text-secondary);
+  margin-bottom: 1rem;
+}
+
+a {
+  color: var(--hjm-gold-primary) !important;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--hjm-gold-secondary) !important;
+}
+
+/* ============================================================
+   3. محتوای اصلی - content-wrapper
+   ============================================================ */
+.content-wrapper {
+  background-color: var(--hjm-bg-primary) !important;
+  min-height: calc(100vh - 56px);
+}
+
+.main-header {
+  background-color: var(--hjm-bg-card) !important;
+  border-bottom: 1px solid var(--hjm-border-color) !important;
+  box-shadow: var(--hjm-shadow-sm) !important;
+}
+
+.main-footer {
+  background-color: var(--hjm-bg-card) !important;
+  border-top: 1px solid var(--hjm-border-color) !important;
+  color: var(--hjm-text-secondary) !important;
+}
+
+/* ============================================================
+   4. سایدبار - sidebar
+   ============================================================ */
+.main-sidebar {
+  background-color: var(--hjm-bg-card) !important;
+  border-left: 1px solid var(--hjm-border-color) !important;
+  box-shadow: var(--hjm-shadow-md) !important;
+}
+
+.sidebar {
+  background-color: var(--hjm-bg-card) !important;
+}
+
+.brand-link {
+  background-color: var(--hjm-bg-card) !important;
+  border-bottom: 1px solid var(--hjm-border-color) !important;
+  padding: 0.75rem 1.25rem !important;
+  height: auto !important;
+  min-height: 56px !important;
+}
+
+.brand-link .brand-image {
+  max-height: 32px !important;
+  width: auto !important;
+  opacity: 1 !important;
+}
+
+.brand-text {
+  color: var(--hjm-gold-primary) !important;
+  font-weight: 700 !important;
+  font-size: 1.125rem !important;
+  line-height: 1.2 !important;
+}
+
+.nav-sidebar {
+  background-color: var(--hjm-bg-card) !important;
+  padding: 0.75rem 0.5rem !important;
+}
+
+.nav-item {
+  margin: 0.25rem 0.5rem !important;
+}
+
+.nav-link {
+  color: var(--hjm-text-secondary) !important;
+  background-color: transparent !important;
+  border-radius: var(--hjm-radius-md) !important;
+  padding: 0.625rem 0.875rem !important;
+  margin: 0 !important;
+  transition: all 0.2s ease !important;
+  font-size: 0.875rem !important;
+  line-height: 1.5 !important;
+}
+
+.nav-link:hover {
+  background-color: var(--hjm-bg-hover) !important;
+  color: var(--hjm-gold-primary) !important;
+}
+
+.nav-link.active {
+  background-color: var(--hjm-gold-light) !important;
+  color: var(--hjm-gold-dark) !important;
+  font-weight: 600 !important;
+  box-shadow: var(--hjm-shadow-sm) !important;
+}
+
+.nav-icon {
+  color: var(--hjm-gold-primary) !important;
+  margin-left: 0.75rem !important;
+  font-size: 0.875rem !important;
+  width: 1.25rem !important;
+  text-align: center !important;
+}
+
+/* لوگوی لودینگ کوچکتر */
+#hjm-admin-loader {
+  background-color: var(--hjm-bg-primary) !important;
+}
+
+.hjm-admin-loader__content {
+  padding: 2rem !important;
+}
+
+.hjm-admin-loader__mark {
+  width: 64px !important;
+  height: 64px !important;
+  margin: 0 auto 1rem !important;
+  display: block !important;
+}
+
+.hjm-admin-loader__mark img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+}
+
+.hjm-admin-loader__brand {
+  color: var(--hjm-gold-primary) !important;
+  font-weight: 700 !important;
+  font-size: 1.25rem !important;
+  margin-bottom: 0.5rem !important;
+  text-align: center !important;
+}
+
+.hjm-admin-loader__message {
+  color: var(--hjm-text-secondary) !important;
+  font-size: 0.875rem !important;
+  text-align: center !important;
+  margin-bottom: 1rem !important;
+}
+
+.hjm-admin-loader__progress {
+  background: linear-gradient(90deg, var(--hjm-gold-light), var(--hjm-gold-primary), var(--hjm-gold-light)) !important;
+  background-size: 200% 100% !important;
+  animation: shimmer 1.5s infinite !important;
+  height: 3px !important;
+  width: 200px !important;
+  margin: 0 auto !important;
+  border-radius: 2px !important;
+}
+
+/* ============================================================
+   5. داشبورد سفارشی - dashboard-custom
+   ============================================================ */
+.dashboard-content {
+  background-color: var(--hjm-bg-primary) !important;
+  padding: 1.5rem !important;
+}
+
+.dashboard-toolbar {
+  background-color: var(--hjm-bg-card) !important;
+  border: 1px solid var(--hjm-border-color) !important;
+  border-radius: var(--hjm-radius-lg) !important;
+  padding: 1rem 1.5rem !important;
+  margin-bottom: 1.5rem !important;
+  box-shadow: var(--hjm-shadow-sm) !important;
+}
+
+.dashboard-toolbar__label {
+  color: var(--hjm-text-primary) !important;
+  font-weight: 600 !important;
+  font-size: 1.125rem !important;
+}
+
+.dashboard-icon-button {
+  background-color: var(--hjm-bg-secondary) !important;
+  border: 1px solid var(--hjm-border-color) !important;
+  color: var(--hjm-text-secondary) !important;
+  border-radius: var(--hjm-radius-md) !important;
+  padding: 0.5rem 0.75rem !important;
+  transition: all 0.2s ease !important;
+}
+
+.dashboard-icon-button:hover {
+  background-color: var(--hjm-gold-light) !important;
+  color: var(--hjm-gold-dark) !important;
+  border-color: var(--hjm-gold-primary) !important;
+}
+
+.dashboard-global-search input {
+  background-color: var(--hjm-bg-secondary) !important;
+  border: 1px solid var(--hjm-border-color) !important;
+  color: var(--hjm-text-primary) !important;
+  border-radius: var(--hjm-radius-md) !important;
+  padding: 0.5rem 1rem !important;
+}
+
+.dashboard-global-search input:focus {
+  border-color: var(--hjm-gold-primary) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(201, 169, 98, 0.1) !important;
+}
+
+/* ============================================================
+   6. کارت‌های آمار - dashboard-stat-card
+   ============================================================ */
+.dashboard-stat-card {
+  background-color: var(--hjm-bg-card) !important;
+  border: 1px solid var(--hjm-border-color) !important;
+  border-radius: var(--hjm-radius-lg) !important;
+  padding: 1.5rem !important;
+  box-shadow: var(--hjm-shadow-sm) !important;
+  transition: all 0.2s ease !important;
+}
+
+.dashboard-stat-card:hover {
+  box-shadow: var(--hjm-shadow-md) !important;
+  transform: translateY(-2px) !important;
+}
+
+.dashboard-stat-icon {
+  background-color: var(--hjm-gold-light) !important;
+  color: var(--hjm-gold-dark) !important;
+  border-radius: var(--hjm-radius-lg) !important;
+  width: 48px !important;
+  height: 48px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 1.25rem !important;
+}
+
+.dashboard-stat-copy p {
+  color: var(--hjm-text-muted) !important;
+  font-size: 0.875rem !important;
+  margin-bottom: 0.25rem !important;
+}
+
+.dashboard-stat-copy strong {
+  color: var(--hjm-text-primary) !important;
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+}
+
+.dashboard-stat-foot {
+  color: var(--hjm-text-muted) !important;
+  font-size: 0.75rem !important;
+  margin-top: 0.75rem !important;
+}
+
+.dashboard-trend {
+  font-weight: 600 !important;
+}
+
+.dashboard-trend--up {
+  color: var(--hjm-success) !important;
+}
+
+.dashboard-trend--down {
+  color: var(--hjm-error) !important;
+}
+
+/* ============================================================
+   7. پنل‌ها - dashboard-panel
+   ============================================================ */
+.dashboard-panel {
+  background-color: var(--hjm-bg-card) !important;
+  border: 1px solid var(--hjm-border-color) !important;
+  border-radius: var(--hjm-radius-lg) !important;
+  padding: 1.5rem !important;
+  box-shadow: var(--hjm-shadow-sm) !important;
+  margin-bottom: 1.5rem !important;
+}
+
+.dashboard-panel-head h2 {
+  color: var(--hjm-text-primary) !important;
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+  margin-bottom: 0.25rem !important;
+}
+
+.dashboard-panel-head p {
+  color: var(--hjm-text-muted) !important;
+  font-size: 0.875rem !important;
+  margin-bottom: 0 !important;
+}
+
+/* ============================================================
+   8. جداول - dashboard-orders-table
+   ============================================================ */
+.dashboard-orders-table {
+  background-color: var(--hjm-bg-card) !important;
+  border: 1px solid var(--hjm-border-color) !important;
+  border-radius: var(--hjm-radius-lg) !important;
+  overflow: hidden !important;
+  box-shadow: var(--hjm-shadow-sm) !important;
+}
+
+.dashboard-orders-table thead {
+  background-color: var(--hjm-bg-secondary) !important;
+}
+
+.dashboard-orders-table th {
+  color: var(--hjm-text-primary) !important;
+  font-weight: 600 !important;
+  font-size: 0.875rem !important;
+  padding: 1rem !important;
+  border-bottom: 1px solid var(--hjm-border-color) !important;
+}
+
+.dashboard-orders-table td {
+  color: var(--hjm-text-secondary) !important;
+  padding: 1rem !important;
+  border-bottom: 1px solid var(--hjm-border-light) !important;
+}
+
+.dashboard-orders-table tbody tr:hover {
+  background-color: var(--hjm-bg-hover) !important;
+}
+
+/* ============================================================
+   9. دکمه‌ها
+   ============================================================ */
+.btn {
+  border-radius: var(--hjm-radius-md) !important;
+  padding: 0.5rem 1.25rem !important;
+  font-weight: 500 !important;
+  transition: all 0.2s ease !important;
+  font-family: var(--hjm-font-family) !important;
+}
+
+.btn-primary {
+  background-color: var(--hjm-gold-primary) !important;
+  border-color: var(--hjm-gold-primary) !important;
+  color: #FFFFFF !important;
+}
+
+.btn-primary:hover {
+  background-color: var(--hjm-gold-secondary) !important;
+  border-color: var(--hjm-gold-secondary) !important;
+}
+
+.btn-secondary {
+  background-color: var(--hjm-bg-secondary) !important;
+  border-color: var(--hjm-border-color) !important;
+  color: var(--hjm-text-primary) !important;
+}
+
+.btn-secondary:hover {
+  background-color: var(--hjm-bg-hover) !important;
+  border-color: var(--hjm-gold-primary) !important;
+  color: var(--hjm-gold-primary) !important;
+}
+
+.btn-success {
+  background-color: var(--hjm-success) !important;
+  border-color: var(--hjm-success) !important;
+  color: #FFFFFF !important;
+}
+
+.btn-danger {
+  background-color: var(--hjm-error) !important;
+  border-color: var(--hjm-error) !important;
+  color: #FFFFFF !important;
+}
+
+/* ============================================================
+   10. فرم‌ها
+   ============================================================ */
+.form-control {
+  background-color: var(--hjm-bg-card) !important;
+  border: 1px solid var(--hjm-border-color) !important;
+  color: var(--hjm-text-primary) !important;
+  border-radius: var(--hjm-radius-md) !important;
+  padding: 0.625rem 0.875rem !important;
+  font-family: var(--hjm-font-family) !important;
+}
+
+.form-control:focus {
+  border-color: var(--hjm-gold-primary) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(201, 169, 98, 0.1) !important;
+}
+
+.form-control::placeholder {
+  color: var(--hjm-text-muted) !important;
+}
+
+.form-label {
+  color: var(--hjm-text-primary) !important;
+  font-weight: 500 !important;
+  margin-bottom: 0.5rem !important;
+}
+
+/* ============================================================
+   11. تم تیره - Dark Mode
+   ============================================================ */
+[data-admin-theme="dark"] {
+  --hjm-bg-primary: #1A1A1A;
+  --hjm-bg-secondary: #2D2D2D;
+  --hjm-bg-card: #252525;
+  --hjm-bg-hover: #333333;
+
+  --hjm-text-primary: #E8E8E8;
+  --hjm-text-secondary: #B8B8B8;
+  --hjm-text-muted: #888888;
+  --hjm-text-light: #666666;
+
+  --hjm-border-color: #404040;
+  --hjm-border-light: #353535;
+  --hjm-border-dark: #505050;
+
+  --hjm-gold-light: #B8955A;
+}
+
+[data-admin-theme="dark"] body.larkon-admin {
+  background-color: var(--hjm-bg-primary) !important;
+  color: var(--hjm-text-primary) !important;
+}
+
+[data-admin-theme="dark"] .main-header,
+[data-admin-theme="dark"] .main-footer,
+[data-admin-theme="dark"] .main-sidebar,
+[data-admin-theme="dark"] .sidebar,
+[data-admin-theme="dark"] .brand-link,
+[data-admin-theme="dark"] .dashboard-toolbar,
+[data-admin-theme="dark"] .dashboard-stat-card,
+[data-admin-theme="dark"] .dashboard-panel,
+[data-admin-theme="dark"] .dashboard-orders-table {
+  background-color: var(--hjm-bg-card) !important;
+  border-color: var(--hjm-border-color) !important;
+}
+
+[data-admin-theme="dark"] .form-control {
+  background-color: var(--hjm-bg-secondary) !important;
+  border-color: var(--hjm-border-color) !important;
+  color: var(--hjm-text-primary) !important;
+}
+
+/* ============================================================
+   12. استایل‌های RTL-specific
+   ============================================================ */
+[dir="rtl"] .nav-icon {
+  margin-left: 0.75rem !important;
+  margin-right: 0 !important;
+}
+
+[dir="rtl"] .dashboard-global-search {
+  margin-right: auto !important;
+  margin-left: 0 !important;
+}
+
+[dir="rtl"] .dashboard-toolbar__actions {
+  margin-left: 0 !important;
+  margin-right: auto !important;
+}
+
+/* ============================================================
+   13. loader - hjm-admin-loader (حذف شد - در بخش سایدبار تعریف شده)
+   ============================================================ */
+
+/* بهبود بیشتر سایدبار */
+.sidebar .user-panel {
+  background-color: var(--hjm-bg-secondary) !important;
+  border-bottom: 1px solid var(--hjm-border-color) !important;
+  padding: 0.75rem 1rem !important;
+  margin: 0 !important;
+}
+
+.sidebar .user-panel .info {
+  color: var(--hjm-text-primary) !important;
+  font-weight: 500 !important;
+}
+
+.sidebar .user-panel .info .role {
+  color: var(--hjm-text-muted) !important;
+  font-size: 0.75rem !important;
+}
+
+.sidebar .user-panel .image {
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 50% !important;
+  border: 2px solid var(--hjm-gold-primary) !important;
+  overflow: hidden !important;
+}
+
+.sidebar .user-panel .image img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+/* separator در سایدبار */
+.sidebar .sidebar-divider {
+  background-color: var(--hjm-border-color) !important;
+  margin: 0.5rem 0.75rem !important;
+  height: 1px !important;
+}
+
+/* header در سایدبار */
+.sidebar .sidebar-header {
+  background-color: var(--hjm-bg-secondary) !important;
+  padding: 0.75rem 1rem !important;
+  border-bottom: 1px solid var(--hjm-border-color) !important;
+}
+
+.sidebar .sidebar-header h3 {
+  color: var(--hjm-text-primary) !important;
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  margin: 0 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* ============================================================
+   14. dashboard-welcome
+   ============================================================ */
+.dashboard-welcome {
+  background-color: var(--hjm-bg-card) !important;
+  border: 1px solid var(--hjm-border-color) !important;
+  border-radius: var(--hjm-radius-lg) !important;
+  padding: 1.5rem !important;
+  margin-bottom: 1.5rem !important;
+  box-shadow: var(--hjm-shadow-sm) !important;
+}
+
+.dashboard-welcome h1 {
+  color: var(--hjm-text-primary) !important;
+  font-size: 1.75rem !important;
+  font-weight: 700 !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.dashboard-welcome p {
+  color: var(--hjm-text-secondary) !important;
+  margin-bottom: 0 !important;
+}
+
+.product-breadcrumb {
+  color: var(--hjm-text-muted) !important;
+  font-size: 0.875rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+/* ============================================================
+   15. notification badge
+   ============================================================ */
+.dashboard-notification-count {
+  background-color: var(--hjm-error) !important;
+  color: #FFFFFF !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  padding: 0.125rem 0.375rem !important;
+  border-radius: 999px !important;
+}
+
+/* ============================================================
+   16. login page - jazzmin login
+   ============================================================ */
+body.login-page {
+  background-color: var(--hjm-bg-primary) !important;
+  background-image: linear-gradient(135deg, var(--hjm-bg-primary) 0%, var(--hjm-bg-secondary) 100%) !important;
+  font-family: var(--hjm-font-family) !important;
+}
+
+.login-page .login-box {
+  background-color: var(--hjm-bg-card) !important;
+  border: 1px solid var(--hjm-border-color) !important;
+  border-radius: var(--hjm-radius-xl) !important;
+  box-shadow: var(--hjm-shadow-xl) !important;
+  padding: 2.5rem !important;
+  margin-top: 5vh !important;
+}
+
+.login-page .login-logo {
+  margin-bottom: 1.5rem !important;
+}
+
+.login-page .login-logo a {
+  color: var(--hjm-gold-primary) !important;
+  font-weight: 700 !important;
+  font-size: 1.75rem !important;
+  text-decoration: none !important;
+}
+
+.login-page .card-body {
+  padding: 0 !important;
+}
+
+.login-page .form-control {
+  background-color: var(--hjm-bg-secondary) !important;
+  border: 1px solid var(--hjm-border-color) !important;
+  color: var(--hjm-text-primary) !important;
+  border-radius: var(--hjm-radius-md) !important;
+  padding: 0.75rem 1rem !important;
+  font-family: var(--hjm-font-family) !important;
+  margin-bottom: 1rem !important;
+  height: auto !important;
+}
+
+.login-page .form-control:focus {
+  border-color: var(--hjm-gold-primary) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(201, 169, 98, 0.1) !important;
+}
+
+.login-page .btn-primary {
+  background-color: var(--hjm-gold-primary) !important;
+  border-color: var(--hjm-gold-primary) !important;
+  color: #FFFFFF !important;
+  border-radius: var(--hjm-radius-md) !important;
+  padding: 0.75rem 1.5rem !important;
+  font-weight: 600 !important;
+  font-size: 1rem !important;
+  width: 100% !important;
+  margin-top: 0.5rem !important;
+  font-family: var(--hjm-font-family) !important;
+}
+
+.login-page .btn-primary:hover {
+  background-color: var(--hjm-gold-secondary) !important;
+  border-color: var(--hjm-gold-secondary) !important;
+  color: #FFFFFF !important;
+}
+
+.login-page label {
+  color: var(--hjm-text-primary) !important;
+  font-weight: 500 !important;
+  margin-bottom: 0.5rem !important;
+  display: block !important;
+  font-family: var(--hjm-font-family) !important;
+}
+
+.login-page .input-group-text {
+  background-color: var(--hjm-bg-secondary) !important;
+  border: 1px solid var(--hjm-border-color) !important;
+  color: var(--hjm-gold-primary) !important;
+}
+
+.login-page .input-group .form-control {
+  border-right: none !important;
+}
+
+.login-page .input-group .form-control:focus {
+  border-right: none !important;
+}
+
+.login-page .input-group-text:focus {
+  border-color: var(--hjm-gold-primary) !important;
+}
+
+.login-page h1 {
+  color: var(--hjm-text-primary) !important;
+  font-weight: 700 !important;
+  font-size: 1.5rem !important;
+  margin-bottom: 0.5rem !important;
+  font-family: var(--hjm-font-family) !important;
+}
+
+.login-page p {
+  color: var(--hjm-text-secondary) !important;
+  margin-bottom: 1.5rem !important;
+  font-family: var(--hjm-font-family) !important;
+}
+
+/* Override jazzmin specific styles */
+.login-page .card {
+  background-color: var(--hjm-bg-card) !important;
+  border: 1px solid var(--hjm-border-color) !important;
+  border-radius: var(--hjm-radius-xl) !important;
+  box-shadow: var(--hjm-shadow-xl) !important;
+}
+
+.login-page .card .card-body {
+  padding: 2rem !important;
+}
+
+.login-page .input-group {
+  margin-bottom: 1rem !important;
+}
+
+.login-page .input-group .input-group-prepend {
+  margin-right: 0 !important;
+}
+
+/* RTL specific for login page */
+[dir="rtl"] .login-page .input-group .form-control {
+  border-left: none !important;
+  border-right: 1px solid var(--hjm-border-color) !important;
+}
+
+[dir="rtl"] .login-page .input-group .form-control:focus {
+  border-left: none !important;
+  border-right: 1px solid var(--hjm-gold-primary) !important;
+}
+
+/* ============================================================
+   17. menu panel
+   ============================================================ */
+.dashboard-menu-panel {
+  background-color: var(--hjm-bg-card) !important;
+  border: 1px solid var(--hjm-border-color) !important;
+  border-radius: var(--hjm-radius-md) !important;
+  box-shadow: var(--hjm-shadow-lg) !important;
+  padding: 0.75rem !important;
+}
+
+.dashboard-menu-panel__head {
+  color: var(--hjm-text-primary) !important;
+  font-weight: 600 !important;
+  font-size: 0.875rem !important;
+  padding-bottom: 0.5rem !important;
+  border-bottom: 1px solid var(--hjm-border-light) !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.dashboard-setting-toggle,
+.dashboard-setting-link {
+  color: var(--hjm-text-secondary) !important;
+  padding: 0.5rem 0.75rem !important;
+  border-radius: var(--hjm-radius-sm) !important;
+  transition: all 0.2s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  text-decoration: none !important;
+}
+
+.dashboard-setting-toggle:hover,
+.dashboard-setting-link:hover {
+  background-color: var(--hjm-bg-hover) !important;
+  color: var(--hjm-gold-primary) !important;
+}
+
+.dashboard-notification-item {
+  color: var(--hjm-text-secondary) !important;
+  padding: 0.5rem 0.75rem !important;
+  border-radius: var(--hjm-radius-sm) !important;
+  transition: all 0.2s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  text-decoration: none !important;
+}
+
+.dashboard-notification-item:hover {
+  background-color: var(--hjm-bg-hover) !important;
+  color: var(--hjm-gold-primary) !important;
+}
+
+/* ============================================================
+   18. account menu
+   ============================================================ */
+.dashboard-account__summary {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  padding: 0.5rem 0.75rem !important;
+  border-radius: var(--hjm-radius-md) !important;
+  transition: all 0.2s ease !important;
+  cursor: pointer !important;
+}
+
+.dashboard-account__summary:hover {
+  background-color: var(--hjm-bg-hover) !important;
+}
+
+.dashboard-avatar {
+  background-color: var(--hjm-gold-light) !important;
+  color: var(--hjm-gold-dark) !important;
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-weight: 600 !important;
+  font-size: 0.875rem !important;
+}
+
+.dashboard-account__name {
+  color: var(--hjm-text-primary) !important;
+  font-weight: 500 !important;
+  font-size: 0.875rem !important;
+}
+
+.dashboard-account__panel {
+  background-color: var(--hjm-bg-card) !important;
+  border: 1px solid var(--hjm-border-color) !important;
+  border-radius: var(--hjm-radius-md) !important;
+  box-shadow: var(--hjm-shadow-lg) !important;
+  padding: 1rem !important;
+  min-width: 200px !important;
+}
+
+.dashboard-account__panel strong {
+  color: var(--hjm-text-primary) !important;
+  font-weight: 600 !important;
+  display: block !important;
+  margin-bottom: 0.25rem !important;
+}
+
+.dashboard-account__panel span {
+  color: var(--hjm-text-muted) !important;
+  font-size: 0.875rem !important;
+  display: block !important;
+  margin-bottom: 0.75rem !important;
+}
+
+.dashboard-account__panel a,
+.dashboard-account__panel button {
+  color: var(--hjm-text-secondary) !important;
+  padding: 0.5rem 0 !important;
+  transition: all 0.2s ease !important;
+  display: block !important;
+  text-decoration: none !important;
+  background: none !important;
+  border: none !important;
+  cursor: pointer !important;
+  width: 100% !important;
+  text-align: right !important;
+  font-family: var(--hjm-font-family) !important;
+}
+
+.dashboard-account__panel a:hover,
+.dashboard-account__panel button:hover {
+  color: var(--hjm-gold-primary) !important;
+}
+
+/* ============================================================
+   19. RTL specific overrides for admin
+   ============================================================ */
+[dir="rtl"] .login-page .input-group .input-group-text {
+  border-radius: 0 var(--hjm-radius-md) var(--hjm-radius-md) 0 !important;
+}
+
+[dir="rtl"] .login-page .input-group .form-control {
+  border-radius: var(--hjm-radius-md) 0 0 var(--hjm-radius-md) !important;
+}
+
+[dir="rtl"] .main-sidebar {
+  right: 0 !important;
+  left: auto !important;
+}
+
+[dir="rtl"] .content-wrapper,
+[dir="rtl"] .main-header,
+[dir="rtl"] .main-footer {
+  margin-right: 250px !important;
+  margin-left: 0 !important;
+}
+
+@media (max-width: 767.98px) {
+  [dir="rtl"] .content-wrapper,
+  [dir="rtl"] .main-header,
+  [dir="rtl"] .main-footer {
+    margin-right: 0 !important;
+  }
+}
+
+/* ============================================================
+   20. Admin changelist - محصولات و لیست‌ها
+   ============================================================ */
+body.larkon-admin .changelist,
+body.larkon-admin #changelist {
+  background-color: var(--hjm-bg-primary) !important;
+}
+
+body.larkon-admin #content,
+body.larkon-admin .content {
+  background-color: var(--hjm-bg-primary) !important;
+}
+
+body.larkon-admin .module,
+body.larkon-admin .module#changelist {
+  background-color: var(--hjm-bg-card) !important;
+  border: 1px solid var(--hjm-border-color) !important;
+  border-radius: var(--hjm-radius-lg) !important;
+  box-shadow: var(--hjm-shadow-sm) !important;
+  margin-bottom: 1.5rem !important;
+}
+
+body.larkon-admin .module h2,
+body.larkon-admin .module h3 {
+  background-color: var(--hjm-bg-secondary) !important;
+  color: var(--hjm-text-primary) !important;
+  padding: 1rem 1.5rem !important;
+  border-bottom: 1px solid var(--hjm-border-color) !important;
+  border-radius: var(--hjm-radius-lg) var(--hjm-radius-lg) 0 0 !important;
+  margin: 0 !important;
+}
+
+body.larkon-admin .module caption {
+  background-color: var(--hjm-bg-secondary) !important;
+  color: var(--hjm-text-primary) !important;
+  padding: 0.75rem 1rem !important;
+  font-weight: 600 !important;
+}
+
+body.larkon-admin #result_list,
+body.larkon-admin .results {
+  background-color: var(--hjm-bg-card) !important;
+  border: 1px solid var(--hjm-border-color) !important;
+  border-radius: var(--hjm-radius-lg) !important;
+  overflow: hidden !important;
+}
+
+body.larkon-admin #result_list thead,
+body.larkon-admin .results thead {
+  background-color: var(--hjm-bg-secondary) !important;
+}
+
+body.larkon-admin #result_list th,
+body.larkon-admin .results th {
+  background-color: var(--hjm-bg-secondary) !important;
+  color: var(--hjm-text-primary) !important;
+  font-weight: 600 !important;
+  padding: 1rem !important;
+  border-bottom: 1px solid var(--hjm-border-color) !important;
+}
+
+body.larkon-admin #result_list td,
+body.larkon-admin .results td {
+  background-color: var(--hjm-bg-card) !important;
+  color: var(--hjm-text-secondary) !important;
+  padding: 1rem !important;
+  border-bottom: 1px solid var(--hjm-border-light) !important;
+  vertical-align: middle !important;
+}
+
+/* تصاویر محصولات در لیست admin */
+body.larkon-admin #result_list td img,
+body.larkon-admin .results td img,
+body.larkon-admin .admin-product-thumbnail {
+  max-width: 80px !important;
+  max-height: 80px !important;
+  width: auto !important;
+  height: auto !important;
+  object-fit: cover !important;
+  border-radius: var(--hjm-radius-md) !important;
+  border: 1px solid var(--hjm-border-color) !important;
+  box-shadow: var(--hjm-shadow-sm) !important;
+  display: block !important;
+  margin: 0 auto !important;
+}
+
+body.larkon-admin #result_list td a img,
+body.larkon-admin .results td a img {
+  max-width: 80px !important;
+  max-height: 80px !important;
+  width: auto !important;
+  height: auto !important;
+  object-fit: cover !important;
+  border-radius: var(--hjm-radius-md) !important;
+  border: 1px solid var(--hjm-border-color) !important;
+  box-shadow: var(--hjm-shadow-sm) !important;
+  display: block !important;
+  margin: 0 auto !important;
+  transition: transform 0.2s ease !important;
+}
+
+body.larkon-admin #result_list td a img:hover,
+body.larkon-admin .results td a img:hover {
+  transform: scale(1.05) !important;
+  box-shadow: var(--hjm-shadow-md) !important;
+}
+
+/* استایل خاص برای ستون تصویر */
+body.larkon-admin #result_list td:first-child img,
+body.larkon-admin .results td:first-child img {
+  max-width: 60px !important;
+  max-height: 60px !important;
+}
+
+/* استایل برای تصاویر با کلاس خاص */
+body.larkon-admin img.admin-product-thumbnail,
+body.larkon-admin td img[src*="media"] {
+  max-width: 80px !important;
+  max-height: 80px !important;
+  width: auto !important;
+  height: auto !important;
+  object-fit: cover !important;
+  border-radius: var(--hjm-radius-md) !important;
+  border: 1px solid var(--hjm-border-color) !important;
+  box-shadow: var(--hjm-shadow-sm) !important;
+  display: block !important;
+  margin: 0 auto !important;
+}
+
+/* استایل برای لینک‌های تصویر */
+body.larkon-admin #result_list td a:has(img),
+body.larkon-admin .results td a:has(img) {
+  display: block !important;
+  text-align: center !important;
+  padding: 0.5rem !important;
+}
+
+body.larkon-admin #result_list tbody tr:hover,
+body.larkon-admin .results tbody tr:hover {
+  background-color: var(--hjm-bg-hover) !important;
+}
+
+body.larkon-admin .paginator {
+  background-color: var(--hjm-bg-card) !important;
+  border: 1px solid var(--hjm-border-color) !important;
+  border-radius: var(--hjm-radius-md) !important;
+  padding: 0.75rem 1rem !important;
+  margin-top: 1rem !important;
+}
+
+body.larkon-admin .paginator a {
+  color: var(--hjm-gold-primary) !important;
+  padding: 0.5rem 0.75rem !important;
+  border-radius: var(--hjm-radius-sm) !important;
+  transition: all 0.2s ease !important;
+}
+
+body.larkon-admin .paginator a:hover {
+  background-color: var(--hjm-gold-light) !important;
+  color: var(--hjm-gold-dark) !important;
+}
+
+body.larkon-admin .paginator .this-page {
+  background-color: var(--hjm-gold-primary) !important;
+  color: #FFFFFF !important;
+  padding: 0.5rem 0.75rem !important;
+  border-radius: var(--hjm-radius-sm) !important;
+}
+
+/* ============================================================
+   21. Admin filters - فیلترها
+   ============================================================ */
+body.larkon-admin .filter,
+body.larkon-admin #changelist-filter {
+  background-color: var(--hjm-bg-card) !important;
+  border: 1px solid var(--hjm-border-color) !important;
+  border-radius: var(--hjm-radius-lg) !important;
+  padding: 1.5rem !important;
+  box-shadow: var(--hjm-shadow-sm) !important;
+}
+
+body.larkon-admin .filter h2,
+body.larkon-admin #changelist-filter h2 {
+  background-color: transparent !important;
+  color: var(--hjm-text-primary) !important;
+  font-size: 1.125rem !important;
+  font-weight: 600 !important;
+  padding: 0 !important;
+  margin-bottom: 1rem !important;
+  border: none !important;
+}
+
+body.larkon-admin .filter h3,
+body.larkon-admin #changelist-filter h3 {
+  background-color: transparent !important;
+  color: var(--hjm-text-primary) !important;
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  padding: 0 !important;
+  margin: 1rem 0 0.5rem 0 !important;
+  border: none !important;
+}
+
+body.larkon-admin .filter ul,
+body.larkon-admin #changelist-filter ul {
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+
+body.larkon-admin .filter li,
+body.larkon-admin #changelist-filter li {
+  padding: 0.5rem 0 !important;
+}
+
+body.larkon-admin .filter li a,
+body.larkon-admin #changelist-filter li a {
+  color: var(--hjm-text-secondary) !important;
+  transition: color 0.2s ease !important;
+}
+
+body.larkon-admin .filter li a:hover,
+body.larkon-admin #changelist-filter li a:hover {
+  color: var(--hjm-gold-primary) !important;
+}
+
+body.larkon-admin .filter li.selected a,
+body.larkon-admin #changelist-filter li.selected a {
+  color: var(--hjm-gold-primary) !important;
+  font-weight: 600 !important;
+}
+
+/* ============================================================
+   22. Admin form - فرم‌های ویرایش
+   ============================================================ */
+body.larkon-admin .form-row {
+  background-color: var(--hjm-bg-card) !important;
+  border: 1px solid var(--hjm-border-color) !important;
+  border-radius: var(--hjm-radius-md) !important;
+  padding: 1rem 1.5rem !important;
+  margin-bottom: 1rem !important;
+}
+
+body.larkon-admin .form-row label {
+  color: var(--hjm-text-primary) !important;
+  font-weight: 500 !important;
+  margin-bottom: 0.5rem !important;
+}
+
+body.larkon-admin .form-row .help {
+  color: var(--hjm-text-muted) !important;
+  font-size: 0.875rem !important;
+  margin-top: 0.5rem !important;
+}
+
+body.larkon-admin .vLargeTextField,
+body.larkon-admin .vTextField {
+  background-color: var(--hjm-bg-secondary) !important;
+  border: 1px solid var(--hjm-border-color) !important;
+  color: var(--hjm-text-primary) !important;
+  border-radius: var(--hjm-radius-md) !important;
+  padding: 0.75rem 1rem !important;
+  font-family: var(--hjm-font-family) !important;
+}
+
+body.larkon-admin .vLargeTextField:focus,
+body.larkon-admin .vTextField:focus {
+  border-color: var(--hjm-gold-primary) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(201, 169, 98, 0.1) !important;
+}
+
+body.larkon-admin select {
+  background-color: var(--hjm-bg-secondary) !important;
+  border: 1px solid var(--hjm-border-color) !important;
+  color: var(--hjm-text-primary) !important;
+  border-radius: var(--hjm-radius-md) !important;
+  padding: 0.75rem 1rem !important;
+  font-family: var(--hjm-font-family) !important;
+}
+
+body.larkon-admin select:focus {
+  border-color: var(--hjm-gold-primary) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(201, 169, 98, 0.1) !important;
+}
+
+/* ============================================================
+   23. Admin submit buttons
+   ============================================================ */
+body.larkon-admin .submit-row {
+  background-color: var(--hjm-bg-card) !important;
+  border: 1px solid var(--hjm-border-color) !important;
+  border-radius: var(--hjm-radius-lg) !important;
+  padding: 1.5rem !important;
+  margin-top: 1.5rem !important;
+  box-shadow: var(--hjm-shadow-sm) !important;
+}
+
+body.larkon-admin .submit-row input[type="submit"],
+body.larkon-admin .submit-row button[type="submit"] {
+  background-color: var(--hjm-gold-primary) !important;
+  border-color: var(--hjm-gold-primary) !important;
+  color: #FFFFFF !important;
+  border-radius: var(--hjm-radius-md) !important;
+  padding: 0.75rem 1.5rem !important;
+  font-weight: 600 !important;
+  font-family: var(--hjm-font-family) !important;
+  margin-right: 0.5rem !important;
+  margin-left: 0.5rem !important;
+}
+
+body.larkon-admin .submit-row input[type="submit"]:hover,
+body.larkon-admin .submit-row button[type="submit"]:hover {
+  background-color: var(--hjm-gold-secondary) !important;
+  border-color: var(--hjm-gold-secondary) !important;
+}
+
+body.larkon-admin .submit-row .deletelink {
+  color: var(--hjm-error) !important;
+  font-weight: 500 !important;
+}
+
+/* ============================================================
+   24. Admin inline - درون‌خطی‌ها
+   ============================================================ */
+body.larkon-admin .inline-group {
+  background-color: var(--hjm-bg-card) !important;
+  border: 1px solid var(--hjm-border-color) !important;
+  border-radius: var(--hjm-radius-lg) !important;
+  padding: 1.5rem !important;
+  margin-bottom: 1.5rem !important;
+  box-shadow: var(--hjm-shadow-sm) !important;
+}
+
+body.larkon-admin .inline-group h2 {
+  background-color: var(--hjm-bg-secondary) !important;
+  color: var(--hjm-text-primary) !important;
+  padding: 0.75rem 1rem !important;
+  border-radius: var(--hjm-radius-md) !important;
+  margin: 0 0 1rem 0 !important;
+  font-size: 1rem !important;
+}
+
+body.larkon-admin .inline-related h3 {
+  background-color: var(--hjm-bg-secondary) !important;
+  color: var(--hjm-text-primary) !important;
+  padding: 0.75rem 1rem !important;
+  border-radius: var(--hjm-radius-md) !important;
+  margin: 0 0 1rem 0 !important;
+  font-size: 0.875rem !important;
+}
+
+/* ============================================================
+   25. Admin breadcrumbs
+   ============================================================ */
+body.larkon-admin .breadcrumbs {
+  background-color: var(--hjm-bg-card) !important;
+  border: 1px solid var(--hjm-border-color) !important;
+  border-radius: var(--hjm-radius-md) !important;
+  padding: 0.75rem 1.5rem !important;
+  margin-bottom: 1.5rem !important;
+  box-shadow: var(--hjm-shadow-sm) !important;
+}
+
+body.larkon-admin .breadcrumbs a {
+  color: var(--hjm-gold-primary) !important;
+}
+
+body.larkon-admin .breadcrumbs a:hover {
+  color: var(--hjm-gold-secondary) !important;
+}
+
+/* ============================================================
+   26. Admin object-tools
+   ============================================================ */
+body.larkon-admin .object-tools {
+  background-color: var(--hjm-bg-card) !important;
+  border: 1px solid var(--hjm-border-color) !important;
+  border-radius: var(--hjm-radius-md) !important;
+  padding: 0.5rem 1rem !important;
+  margin-bottom: 1rem !important;
+}
+
+body.larkon-admin .object-tools a {
+  background-color: var(--hjm-gold-light) !important;
+  color: var(--hjm-gold-dark) !important;
+  border-radius: var(--hjm-radius-sm) !important;
+  padding: 0.5rem 1rem !important;
+  font-weight: 500 !important;
+  transition: all 0.2s ease !important;
+}
+
+body.larkon-admin .object-tools a:hover {
+  background-color: var(--hjm-gold-primary) !important;
+  color: #FFFFFF !important;
+}
+
+/* ============================================================
+   27. Admin search bar
+   ============================================================ */
+body.larkon-admin #searchbar {
+  background-color: var(--hjm-bg-card) !important;
+  border: 1px solid var(--hjm-border-color) !important;
+  border-radius: var(--hjm-radius-lg) !important;
+  padding: 1rem 1.5rem !important;
+  margin-bottom: 1.5rem !important;
+  box-shadow: var(--hjm-shadow-sm) !important;
+}
+
+body.larkon-admin #searchbar label {
+  color: var(--hjm-text-primary) !important;
+  font-weight: 500 !important;
+  margin-bottom: 0.5rem !important;
+}
+
+body.larkon-admin #searchbar input[type="text"] {
+  background-color: var(--hjm-bg-secondary) !important;
+  border: 1px solid var(--hjm-border-color) !important;
+  color: var(--hjm-text-primary) !important;
+  border-radius: var(--hjm-radius-md) !important;
+  padding: 0.75rem 1rem !important;
+  font-family: var(--hjm-font-family) !important;
+}
+
+body.larkon-admin #searchbar input[type="text"]:focus {
+  border-color: var(--hjm-gold-primary) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(201, 169, 98, 0.1) !important;
+}
+
+/* ============================================================
+   28. Admin fieldsets
+   ============================================================ */
+body.larkon-admin fieldset {
+  background-color: var(--hjm-bg-card) !important;
+  border: 1px solid var(--hjm-border-color) !important;
+  border-radius: var(--hjm-radius-lg) !important;
+  padding: 1.5rem !important;
+  margin-bottom: 1.5rem !important;
+  box-shadow: var(--hjm-shadow-sm) !important;
+}
+
+body.larkon-admin fieldset h2 {
+  background-color: var(--hjm-bg-secondary) !important;
+  color: var(--hjm-text-primary) !important;
+  padding: 0.75rem 1rem !important;
+  border-radius: var(--hjm-radius-md) !important;
+  margin: 0 0 1rem 0 !important;
+  font-size: 1rem !important;
+}

@@ -449,9 +449,8 @@ def settings(request):
         bio = request.POST.get("bio")
         address = request.POST.get("address")
         country = request.POST.get("country")
-        print("image ===========", image)
-        
-        if image != None:
+
+        if image is not None:
             profile.image = image
         profile.full_name = full_name
         profile.phone = phone
@@ -460,7 +459,7 @@ def settings(request):
         profile.country = country
 
         profile.save()
-        messages.success(request, "Profile Updated Successfully")
+        messages.success(request, "پروفایل مدیر با موفقیت ذخیره شد.")
         return redirect("useradmin:settings")
     
     context = {

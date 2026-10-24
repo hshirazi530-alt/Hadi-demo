@@ -1,0 +1,320 @@
+/* ============================================================
+   HAJIR MARKET — FOOTER (Cream/Gold identity)
+   ============================================================ */
+
+.hm-footer {
+    --hm-footer-bg: #faf6ec;
+    --hm-footer-surface: #fffdf7;
+    --hm-footer-gold: #c8a253;
+    --hm-footer-gold-bright: #e8ce94;
+    --hm-footer-bronze: #7a5a1e;
+    --hm-footer-bronze-deep: #5f4616;
+    --hm-footer-ink: #241e15;
+    --hm-footer-ink-soft: #6b6152;
+    --hm-footer-hairline: rgba(200, 162, 83, 0.38);
+    --hm-footer-wash: rgba(200, 162, 83, 0.12);
+    --hm-footer-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+    background: var(--hm-footer-bg);
+    border-top: 1px solid var(--hm-footer-hairline);
+    color: var(--hm-footer-ink-soft);
+    font-family: 'Vazirmatn', 'Vazir', Tahoma, sans-serif;
+    margin-top: clamp(2rem, 5vw, 4rem);
+    padding-top: clamp(2.5rem, 5vw, 4rem);
+    padding-bottom: 1.5rem;
+}
+
+.hm-footer__sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.hm-footer__inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 clamp(1rem, 4vw, 2.5rem);
+}
+
+/* ---------- Grid ---------- */
+.hm-footer__grid {
+    display: grid;
+    grid-template-columns: 1.6fr repeat(3, 1fr);
+    gap: clamp(1.5rem, 3.5vw, 3rem);
+    padding-bottom: clamp(2rem, 4vw, 3rem);
+}
+
+.hm-footer__col--brand {
+    max-width: 340px;
+}
+
+.hm-footer__logo {
+    width: clamp(96px, 10vw, 120px);
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    display: block;
+    margin-bottom: 1rem;
+    border-radius: 16px;
+}
+
+.hm-footer__about {
+    font-size: 0.875rem;
+    line-height: 1.7;
+    margin: 0 0 1.25rem;
+    color: var(--hm-footer-ink-soft);
+}
+
+/* ---------- Contact list ---------- */
+.hm-footer__contact {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.75rem;
+}
+
+.hm-footer__contact li {
+    display: grid;
+    grid-template-columns: 5.5rem 1fr;
+    gap: 0.75rem;
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    align-items: start;
+}
+
+.hm-footer__contact-label {
+    color: var(--hm-footer-bronze);
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.hm-footer__contact a {
+    color: var(--hm-footer-ink-soft);
+    text-decoration: none;
+    transition: color 0.2s var(--hm-footer-ease);
+}
+
+.hm-footer__contact a:hover,
+.hm-footer__contact a:focus-visible {
+    color: var(--hm-footer-bronze-deep);
+}
+
+/* ---------- Link columns ---------- */
+.hm-footer__heading {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: var(--hm-footer-ink);
+    margin: 0 0 1.125rem;
+    padding-bottom: 0.5rem;
+    position: relative;
+}
+
+.hm-footer__heading::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 2rem;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--hm-footer-gold), var(--hm-footer-bronze));
+}
+
+.hm-footer__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.625rem;
+}
+
+.hm-footer__list a {
+    color: var(--hm-footer-ink-soft);
+    font-size: 0.8125rem;
+    text-decoration: none;
+    transition: color 0.2s var(--hm-footer-ease), padding-right 0.2s var(--hm-footer-ease);
+}
+
+.hm-footer__list a:hover,
+.hm-footer__list a:focus-visible {
+    color: var(--hm-footer-bronze-deep);
+    padding-right: 0.25rem;
+}
+
+/* ---------- Social row ---------- */
+.hm-footer__social-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding: 1.25rem 0;
+    border-top: 1px solid var(--hm-footer-hairline);
+    border-bottom: 1px solid var(--hm-footer-hairline);
+}
+
+.hm-footer__social {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid var(--hm-footer-hairline);
+    background: var(--hm-footer-surface);
+    color: var(--hm-footer-bronze-deep);
+    transition: background 0.2s var(--hm-footer-ease), border-color 0.2s var(--hm-footer-ease), transform 0.2s var(--hm-footer-ease);
+}
+
+.hm-footer__social svg {
+    flex-shrink: 0;
+    fill: currentColor;
+}
+
+.hm-footer__social:hover,
+.hm-footer__social:focus-visible {
+    border-color: var(--hm-footer-gold);
+    background: linear-gradient(135deg, var(--hm-footer-gold-bright), var(--hm-footer-gold));
+    color: var(--hm-footer-bronze-deep);
+    transform: translateY(-1px);
+}
+
+.hm-footer__social:focus-visible {
+    outline: 2px solid var(--hm-footer-bronze);
+    outline-offset: 2px;
+}
+
+/* ---------- Trust badges ---------- */
+.hm-footer__trust {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem 0;
+}
+
+.hm-footer__trust-item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--hm-footer-hairline);
+    border-radius: 12px;
+    padding: 0.5rem 0.75rem;
+    background: var(--hm-footer-surface);
+    transition: border-color 0.2s var(--hm-footer-ease);
+}
+
+.hm-footer__trust-item:hover,
+.hm-footer__trust-item:focus-visible {
+    border-color: var(--hm-footer-gold);
+}
+
+.hm-footer__trust-item:focus-visible {
+    outline: 2px solid var(--hm-footer-bronze);
+    outline-offset: 2px;
+}
+
+.hm-footer__trust-item img {
+    max-height: 72px;
+    width: auto;
+    display: block;
+}
+
+/* ---------- Bottom bar ---------- */
+.hm-footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    border-top: 1px solid var(--hm-footer-hairline);
+    padding-top: 1.25rem;
+    font-size: 0.8125rem;
+}
+
+.hm-footer__copy {
+    margin: 0;
+    color: var(--hm-footer-ink-soft);
+}
+
+.hm-footer__copy strong {
+    color: var(--hm-footer-bronze-deep);
+    font-weight: 700;
+}
+
+.hm-footer__note {
+    margin: 0;
+    color: var(--hm-footer-bronze);
+    font-weight: 500;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 992px) {
+    .hm-footer__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .hm-footer__col--brand {
+        grid-column: 1 / -1;
+        max-width: none;
+    }
+}
+
+@media (max-width: 576px) {
+    .hm-footer__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hm-footer__social-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .hm-footer__social {
+        justify-content: center;
+    }
+
+    .hm-footer__bottom {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .hm-footer__contact li {
+        grid-template-columns: 1fr;
+        gap: 0.125rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hm-footer__social,
+    .hm-footer__list a {
+        transition: none;
+    }
+
+    .hm-footer__social:hover {
+        transform: none;
+    }
+}
+/* ---------- Header brand mark (logo next to brand name) ---------- */
+.hm-brand-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+}
+
+.hm-brand-mark {
+    width: 2.25rem;
+    height: 2.25rem;
+    flex-shrink: 0;
+    display: block;
+    object-fit: contain;
+    border-radius: 50%;
+}

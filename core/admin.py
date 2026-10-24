@@ -1,9 +1,12 @@
 from django.contrib import admin
 from django import forms
 from django.db import transaction
+from django.utils.html import format_html
 import logging
 from core.models import (
     Address,
+    AmazingOffersSettings,
+    Banner,
     CartOrder,
     CartOrderProducts,
     Category,
@@ -60,6 +63,7 @@ class ProductAdminForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields["price"].required = False
         if not self.instance.pk:
             for field_name in ("description", "stock_count", "category", "tags"):
                 self.fields[field_name].required = True
@@ -72,6 +76,8 @@ class ProductAdminForm(forms.ModelForm):
         cover_image = cleaned_data.get("image")
         title = cleaned_data.get("title", "").strip()
         price = cleaned_data.get("price")
+        price_pending_confirmation = cleaned_data.get("price_pending_confirmation")
+        product_status = cleaned_data.get("product_status")
         description = cleaned_data.get("description")
 
         if title:
@@ -83,10 +89,28 @@ class ProductAdminForm(forms.ModelForm):
                     "title",
                     "محصولی با این عنوان از قبل ثبت شده است؛ عنوان یا مشخصات محصول را دقیق‌تر کنید.",
                 )
-        if price is not None and price < 0:
+        if price is None or price == 0:
+            if not price_pending_confirmation:
+                self.add_error(
+                    "price",
+                    "قیمت واقعی و مثبت لازم است؛ برای محصول بدون قیمت، تأیید قیمت را فعال کنید.",
+                )
+            elif product_status != "draft":
+                self.add_error(
+                    "product_status",
+                    "تا زمان تأیید قیمت، وضعیت محصول باید پیش‌نویس باشد.",
+                )
+            else:
+                cleaned_data["price"] = 0
+            if cleaned_data.get("is_sale"):
+                self.add_error(
+                    "is_sale",
+                    "برای محصولی که قیمت آن تأیید نشده، تخفیف ثبت نکنید.",
+                )
+        elif price < 0:
             self.add_error("price", "قیمت نمی‌تواند منفی باشد.")
-        elif price == 0 and not self.instance.pk:
-            self.add_error("price", "برای ثبت محصول، قیمت واقعی و مثبت لازم است.")
+        else:
+            cleaned_data["price_pending_confirmation"] = False
         if not description and not self.instance.pk:
             self.add_error("description", "توضیحات محصول بر پایهٔ اطلاعات تأییدشده لازم است.")
 
@@ -115,9 +139,55 @@ class ProductImagesAdmin(admin.TabularInline):
 class ProductAdmin(admin.ModelAdmin):
     form = ProductAdminForm
     inlines = [ProductImagesAdmin]
-    list_editable = ['title', 'price', 'featured', 'product_status']
-    list_display = ['user', 'title', 'product_image', 'price', 'category', 'subcategory', 'vendor', 'featured', 'product_status', 'pid']
+    list_display = (
+        "product_image_preview",
+        "title",
+        "product_code",
+        "category",
+        "price",
+        "inventory_count",
+        "product_status_badge",
+        "in_stock",
+    )
+    list_display_links = ("title",)
+    list_filter = ("category", "product_status", "in_stock", "featured")
     search_fields = ["title", "pid", "sku"]
+    list_per_page = 20
+    ordering = ("title",)
+
+    @admin.display(description="شناسهٔ محصول", ordering="pid")
+    def product_code(self, obj):
+        return obj.pid
+
+    @admin.display(description="موجودی", ordering="stock_count")
+    def inventory_count(self, obj):
+        return obj.stock_count or "۰"
+
+    @admin.display(description="تصویر")
+    def product_image_preview(self, obj):
+        if not obj.image:
+            return "—"
+        return format_html(
+            '<img class="admin-product-thumbnail" src="{}" alt="تصویر محصول {}">',
+            obj.image.url,
+            obj.title,
+        )
+
+    @admin.display(description="وضعیت انتشار", ordering="product_status")
+    def product_status_badge(self, obj):
+        status_classes = {
+            "published": "published",
+            "draft": "draft",
+            "disabled": "disabled",
+            "rejected": "rejected",
+            "in_review": "review",
+        }
+        status_class = status_classes.get(obj.product_status, "review")
+        return format_html(
+            '<span class="admin-status-badge admin-status-badge--{}">{}</span>',
+            status_class,
+            obj.get_product_status_display(),
+        )
 
     def save_model(self, request, obj, form, change):
         if not obj.user_id:
@@ -153,17 +223,30 @@ class ProductAdmin(admin.ModelAdmin):
             raise
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['title', 'category_image']
+    list_display = ['title', 'image_preview']
+
+    @admin.display(description="تصویر")
+    def image_preview(self, obj):
+        return obj.category_image()
+
 
 class SubCategoryAdmin(admin.ModelAdmin):
-    list_display = ['title', 'category', 'subcategory_image', 'order', 'is_active']
+    list_display = ['title', 'category', 'image_preview', 'order', 'is_active']
     list_editable = ['order', 'is_active']
     list_filter = ['category', 'is_active']
     search_fields = ['title']
 
+    @admin.display(description="تصویر")
+    def image_preview(self, obj):
+        return obj.subcategory_image()
+
 
 class VendorAdmin(admin.ModelAdmin):
-    list_display = ['title', 'vendor_image']
+    list_display = ['title', 'image_preview']
+
+    @admin.display(description="تصویر")
+    def image_preview(self, obj):
+        return obj.vendor_image()
 
 
 class CartOrderAdmin(admin.ModelAdmin):
@@ -227,6 +310,34 @@ class AddressAdmin(admin.ModelAdmin):
     list_display = ['user', 'address', 'status']
 
 
+class BannerAdmin(admin.ModelAdmin):
+    list_display = ['title', 'placement', 'is_active', 'sort_order', 'updated_at']
+    list_editable = ['is_active', 'sort_order']
+    list_filter = ['placement', 'is_active']
+    search_fields = ['title', 'subtitle']
+    ordering = ['sort_order', 'id']
+
+
+@admin.register(AmazingOffersSettings)
+class AmazingOffersSettingsAdmin(admin.ModelAdmin):
+    list_display = ['is_active', 'deadline', 'updated_at']
+    list_editable = ['is_active', 'deadline']
+    list_display_links = None
+    fieldsets = [
+        ("بخش شگفت‌انگیز", {
+            "fields": ("is_active", "deadline"),
+            "description": "این تنظیمات تنها یک ردیف دارد. مهلت گذشته باعث نمایش وضعیت «به پایان رسید» می‌شود.",
+        }),
+    ]
+
+    def has_add_permission(self, request):
+        return not AmazingOffersSettings.objects.exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
+admin.site.register(Banner, BannerAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(SubCategory, SubCategoryAdmin)
