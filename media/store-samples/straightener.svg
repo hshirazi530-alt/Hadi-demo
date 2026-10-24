@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 380" role="img" aria-labelledby="title">
+  <title id="title">تصویر نمایشی اتوی مو</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f8e9df"/><stop offset="1" stop-color="#f0d6cf"/></linearGradient>
+    <linearGradient id="body" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#805b76"/><stop offset=".55" stop-color="#4a3348"/><stop offset="1" stop-color="#2a1f2d"/></linearGradient>
+    <linearGradient id="plate" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#fff0d3"/><stop offset=".55" stop-color="#c99a51"/><stop offset="1" stop-color="#f6e7c6"/></linearGradient>
+    <filter id="shadow" x="-.3" y="-.3" width="1.6" height="1.7"><feDropShadow dx="0" dy="18" stdDeviation="14" flood-color="#503444" flood-opacity=".2"/></filter>
+  </defs>
+  <rect width="520" height="380" rx="28" fill="url(#bg)"/>
+  <circle cx="267" cy="189" r="146" fill="#fff" opacity=".52"/>
+  <g filter="url(#shadow)" transform="rotate(24 264 190)">
+    <path d="M221 90c27-15 61-14 85 3l-15 181c-2 22-21 39-43 37l-10-1c-21-2-36-21-34-42l17-178Z" fill="url(#body)"/>
+    <path d="M214 95c-25 16-40 47-43 78l-7 86c-2 21 14 40 35 42l13 1c16 1 30-10 33-26l24-154c3-17-6-34-22-41l-33 14Z" fill="url(#body)"/>
+    <path d="m219 109 37 13-24 151-38-11 25-153Z" fill="url(#plate)"/>
+    <path d="m278 111 17 5-23 156-18-3 24-158Z" fill="url(#plate)"/>
+    <path d="M239 115c11 11 23 14 35 12" fill="none" stroke="#f8e8cb" stroke-width="2" opacity=".7"/>
+    <circle cx="266" cy="288" r="7" fill="#d98895"/>
+    <path d="M250 304c8 6 18 7 28 3" fill="none" stroke="#d5c8d2" stroke-width="2" opacity=".7"/>
+  </g>
+  <path d="M90 128c30-28 65-38 101-29" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".8"/>
+  <path d="m411 278 7 7-7 7-7-7Z" fill="#c99a51"/>
+</svg>

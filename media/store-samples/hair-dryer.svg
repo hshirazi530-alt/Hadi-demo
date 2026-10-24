@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 380" role="img" aria-labelledby="title">
+  <title id="title">تصویر نمایشی سشوار</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#eee7f4"/><stop offset="1" stop-color="#dcd0e8"/></linearGradient>
+    <linearGradient id="body" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#775777"/><stop offset=".55" stop-color="#49344e"/><stop offset="1" stop-color="#2b202f"/></linearGradient>
+    <linearGradient id="metal" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#fff1d5"/><stop offset=".5" stop-color="#c99a51"/><stop offset="1" stop-color="#f6e5c5"/></linearGradient>
+    <filter id="shadow" x="-.3" y="-.3" width="1.6" height="1.7"><feDropShadow dx="0" dy="18" stdDeviation="14" flood-color="#392b40" flood-opacity=".2"/></filter>
+  </defs>
+  <rect width="520" height="380" rx="28" fill="url(#bg)"/>
+  <circle cx="270" cy="190" r="146" fill="#fff" opacity=".48"/>
+  <g filter="url(#shadow)" transform="rotate(-18 270 190)">
+    <path d="M133 144c0-26 21-47 47-47h147c35 0 63 28 63 63v54c0 35-28 63-63 63H180c-26 0-47-21-47-47v-86Z" fill="url(#body)"/>
+    <path d="M104 157h44v106h-44c-14 0-25-11-25-25v-56c0-14 11-25 25-25Z" fill="#2d222f"/>
+    <path d="M96 168v84" stroke="url(#metal)" stroke-width="4" stroke-linecap="round"/>
+    <path d="M336 144h53v86h-53" fill="#271d2b"/>
+    <path d="M211 260h81l-10 82c-2 18-17 31-35 31s-33-13-35-31l-10-82Z" fill="url(#body)"/>
+    <path d="M236 275h34l-7 66c-1 9-6 15-12 15s-11-6-12-15l-7-66Z" fill="#3a2b40"/>
+    <rect x="221" y="191" width="52" height="8" rx="4" fill="url(#metal)"/>
+    <circle cx="247" cy="174" r="8" fill="#d98895"/>
+    <path d="M168 112h129" stroke="#d7c6d8" stroke-width="3" stroke-linecap="round" opacity=".55"/>
+  </g>
+  <path d="M389 80c24 18 37 39 38 64" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".8"/>
+  <circle cx="119" cy="305" r="5" fill="#c99a51"/>
+</svg>

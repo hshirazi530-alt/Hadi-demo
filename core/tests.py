@@ -234,7 +234,7 @@ class StorefrontTests(TestCase):
         self.assertNotContains(response, "کادویی")
         self.assertEqual(
             response.context["products"].count(),
-            min(len(SAMPLE_STORE_PRODUCTS), 12),
+            min(len(SAMPLE_STORE_PRODUCTS), 24),
         )
 
         straightener_search = self.client.get(

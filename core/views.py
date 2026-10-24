@@ -107,7 +107,7 @@ def index(request):
             review_count=Count("نظرات", filter=Q(نظرات__is_approved=True)),
             average_rating=Avg("نظرات__rating", filter=Q(نظرات__is_approved=True)),
         )
-        .order_by("-featured", "-date")[:12]
+        .order_by("-featured", "-date")[:24]
     )
     categories = Category.objects.filter(_personal_care_category_filter()).distinct()
     comparison_products = []

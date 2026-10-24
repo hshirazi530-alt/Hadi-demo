@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 380" role="img" aria-labelledby="title">
+  <title id="title">تصویر نمایشی ماشین اصلاح برقی</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f7e4e2"/><stop offset="1" stop-color="#efd3d5"/></linearGradient>
+    <linearGradient id="body" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#73536c"/><stop offset=".55" stop-color="#402d43"/><stop offset="1" stop-color="#241b2a"/></linearGradient>
+    <linearGradient id="steel" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#fff0d4"/><stop offset=".5" stop-color="#cda45d"/><stop offset="1" stop-color="#f6dfb4"/></linearGradient>
+    <filter id="shadow" x="-.3" y="-.3" width="1.6" height="1.7"><feDropShadow dx="0" dy="18" stdDeviation="14" flood-color="#503444" flood-opacity=".2"/></filter>
+  </defs>
+  <rect width="520" height="380" rx="28" fill="url(#bg)"/>
+  <circle cx="265" cy="187" r="145" fill="#fff" opacity=".5"/>
+  <g filter="url(#shadow)" transform="rotate(-16 262 191)">
+    <rect x="216" y="91" width="96" height="205" rx="44" fill="url(#body)"/>
+    <path d="M227 122c0-16 13-29 29-29h16c16 0 29 13 29 29v28h-74v-28Z" fill="url(#steel)"/>
+    <path d="M237 104v35m16-41v41m16-41v41m16-35v35" stroke="#877d80" stroke-width="2"/>
+    <path d="M230 151h68" stroke="#b98d4c" stroke-width="3"/>
+    <rect x="248" y="193" width="32" height="7" rx="3.5" fill="#d6b57a"/>
+    <circle cx="264" cy="220" r="9" fill="#d98895"/>
+    <path d="M239 264c16 9 34 9 50 0" fill="none" stroke="#d5c8d2" stroke-width="2" opacity=".7"/>
+  </g>
+  <path d="M84 293c34-36 68-48 100-37" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".8"/>
+  <circle cx="416" cy="92" r="6" fill="#c99a51"/>
+</svg>

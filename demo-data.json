@@ -1,0 +1,1375 @@
+{
+ "categories": [
+  {
+   "cid": "cata3hd1a24fh",
+   "title": "کادویی",
+   "image": "category/osechi_3637338.png"
+  },
+  {
+   "cid": "catfc424e53gc",
+   "title": "لوازم شخصی",
+   "image": "store-samples/photos/barber-shop.jpg"
+  },
+  {
+   "cid": "cat21f5f2e114",
+   "title": "سلامت",
+   "image": "store-samples/photos/health-category.jpg"
+  },
+  {
+   "cid": "catacgd1c3eb4",
+   "title": "عطر و ادکلن",
+   "image": "store-samples/photos/perfume-category.jpg"
+  },
+  {
+   "cid": "cat3cc4cfdbhe",
+   "title": "لوازم خانگی",
+   "image": "store-samples/photos/home-category.jpg"
+  },
+  {
+   "cid": "catcfbc5adf1b",
+   "title": "قطعات و لوازم دیجیتال",
+   "image": "category/digital-category.jpg"
+  }
+ ],
+ "subcategories": [
+  {
+   "scid": "subah1f34d3ch",
+   "title": "لوازم جانبی موبایل",
+   "image": "عکس زیرمجموعه.jpg",
+   "order": 0,
+   "is_active": true,
+   "created_at": "2026-10-23T00:52:33.977998+00:00",
+   "category_title": "قطعات و لوازم دیجیتال"
+  },
+  {
+   "scid": "subh55a5b421e",
+   "title": "ریش‌تراش و ماشین اصلاح",
+   "image": "store-samples/photos/barber-shop.jpg",
+   "order": 1,
+   "is_active": true,
+   "created_at": "2026-10-16T03:56:01.342978+00:00",
+   "category_title": "لوازم شخصی"
+  },
+  {
+   "scid": "subffcef5agg5",
+   "title": "عطر",
+   "image": "store-samples/products/perfume-attar.jpg",
+   "order": 1,
+   "is_active": true,
+   "created_at": "2026-10-16T04:45:57.978094+00:00",
+   "category_title": "عطر و ادکلن"
+  },
+  {
+   "scid": "subd1ged43a5f",
+   "title": "فشارسنج",
+   "image": "store-samples/products/health-bp.jpg",
+   "order": 1,
+   "is_active": true,
+   "created_at": "2026-10-16T04:27:04.005643+00:00",
+   "category_title": "سلامت"
+  },
+  {
+   "scid": "subh4fecaa22b",
+   "title": "مخلوط کن و آبمیوه گیری",
+   "image": "store-samples/products/blender.jpg",
+   "order": 1,
+   "is_active": true,
+   "created_at": "2026-10-16T04:45:58.007252+00:00",
+   "category_title": "لوازم خانگی"
+  },
+  {
+   "scid": "subg31b43ea1g",
+   "title": "کابل و شارژر",
+   "image": "عکس زیرمجموعه.jpg",
+   "order": 1,
+   "is_active": true,
+   "created_at": "2026-10-23T00:52:33.979166+00:00",
+   "category_title": "قطعات و لوازم دیجیتال"
+  },
+  {
+   "scid": "sub2d33e4535f",
+   "title": "ادکلن",
+   "image": "store-samples/products/perfume-cologne.jpg",
+   "order": 2,
+   "is_active": true,
+   "created_at": "2026-10-16T04:45:57.993100+00:00",
+   "category_title": "عطر و ادکلن"
+  },
+  {
+   "scid": "sub5313a4cb3g",
+   "title": "تب سنج",
+   "image": "store-samples/products/health-thermometer.jpg",
+   "order": 2,
+   "is_active": true,
+   "created_at": "2026-10-16T04:27:04.016746+00:00",
+   "category_title": "سلامت"
+  },
+  {
+   "scid": "sub2h321f21eg",
+   "title": "زود پز",
+   "image": "store-samples/products/pressure-cooker.jpg",
+   "order": 2,
+   "is_active": true,
+   "created_at": "2026-10-16T04:45:58.021394+00:00",
+   "category_title": "لوازم خانگی"
+  },
+  {
+   "scid": "sub4422ggd341",
+   "title": "سشوار",
+   "image": "store-samples/photos/hair-dryer.jpg",
+   "order": 2,
+   "is_active": true,
+   "created_at": "2026-10-16T03:56:01.354773+00:00",
+   "category_title": "لوازم شخصی"
+  },
+  {
+   "scid": "sub4hhhcad4hf",
+   "title": "هندزفری و هدفون",
+   "image": "عکس زیرمجموعه.jpg",
+   "order": 2,
+   "is_active": true,
+   "created_at": "2026-10-23T00:52:33.979951+00:00",
+   "category_title": "قطعات و لوازم دیجیتال"
+  },
+  {
+   "scid": "sub2ce2abgdh4",
+   "title": "اتو مو و بابليس",
+   "image": "store-samples/photos/hair-styling.jpg",
+   "order": 3,
+   "is_active": true,
+   "created_at": "2026-10-16T03:56:01.364303+00:00",
+   "category_title": "لوازم شخصی"
+  },
+  {
+   "scid": "sub341a34hbdg",
+   "title": "سرویس قابلمه",
+   "image": "store-samples/products/cookware-set.jpg",
+   "order": 3,
+   "is_active": true,
+   "created_at": "2026-10-16T04:45:58.034882+00:00",
+   "category_title": "لوازم خانگی"
+  },
+  {
+   "scid": "sub1d1f451fdb",
+   "title": "ماساژور",
+   "image": "store-samples/products/health-massager.jpg",
+   "order": 3,
+   "is_active": true,
+   "created_at": "2026-10-16T04:27:04.027611+00:00",
+   "category_title": "سلامت"
+  },
+  {
+   "scid": "sub32hca2c3b3",
+   "title": "پاوربانک",
+   "image": "عکس زیرمجموعه.jpg",
+   "order": 3,
+   "is_active": true,
+   "created_at": "2026-10-23T00:52:33.980745+00:00",
+   "category_title": "قطعات و لوازم دیجیتال"
+  },
+  {
+   "scid": "subb32ccf2ggf",
+   "title": "اپیلیدی",
+   "image": "store-samples/products/hair-straightener.jpg",
+   "order": 4,
+   "is_active": true,
+   "created_at": "2026-10-16T03:56:01.376942+00:00",
+   "category_title": "لوازم شخصی"
+  },
+  {
+   "scid": "subf5gfde515a",
+   "title": "فلاسک",
+   "image": "store-samples/products/flask.jpg",
+   "order": 4,
+   "is_active": true,
+   "created_at": "2026-10-16T04:45:58.050191+00:00",
+   "category_title": "لوازم خانگی"
+  },
+  {
+   "scid": "subdcgdgfedb5",
+   "title": "هولدر و پایه موبایل",
+   "image": "عکس زیرمجموعه.jpg",
+   "order": 4,
+   "is_active": true,
+   "created_at": "2026-10-23T00:52:33.981539+00:00",
+   "category_title": "قطعات و لوازم دیجیتال"
+  },
+  {
+   "scid": "sub1514fffcd2",
+   "title": "گوشی پزشکی",
+   "image": "store-samples/products/health-stethoscope.jpg",
+   "order": 4,
+   "is_active": true,
+   "created_at": "2026-10-16T04:27:04.041123+00:00",
+   "category_title": "سلامت"
+  },
+  {
+   "scid": "sub24edd5f4eb",
+   "title": "قطعات یدکی",
+   "image": "store-samples/products/rotary-shaver.jpg",
+   "order": 5,
+   "is_active": true,
+   "created_at": "2026-10-16T03:56:01.385654+00:00",
+   "category_title": "لوازم شخصی"
+  }
+ ],
+ "products": [
+  {
+   "pid": "hdbe53ea4b",
+   "user": 3,
+   "vendor": 1,
+   "title": "ریش‌تراش شارژی سری آرامیس (نمونه)",
+   "image": "store-samples/products/rotary-shaver.jpg",
+   "description": "نمونهٔ نمایشی برای کاتالوگ هژیر مارکت. قیمت، مشخصات و موجودی این کالا فرضی هستند و باید پیش از فروش واقعی با اطلاعات محصول جایگزین شوند. عکس این کالا برای پیش‌نمایش فروشگاه است و لزوماً مدل دقیق نام‌برده را نمایش نمی‌دهد.",
+   "price": "2450000",
+   "price_pending_confirmation": false,
+   "is_sale": true,
+   "sale_price": "2190000",
+   "specifications": "<ul><li>طراحی شارژی برای استفادهٔ روزمره</li><li>سری قابل شست‌وشو</li><li>محتویات جعبه و زمان شارژ: نمونه‌ای</li></ul>",
+   "type": "ریش‌تراش شارژی",
+   "stock_count": "0",
+   "life": "نمونهٔ نمایشی",
+   "mfd": null,
+   "product_status": "published",
+   "status": true,
+   "in_stock": false,
+   "featured": true,
+   "digital": false,
+   "sku": "sku2264",
+   "date": "2026-10-12T07:16:24.239390+00:00",
+   "updated": null,
+   "category_title": "لوازم شخصی",
+   "subcategory_title": "ریش‌تراش و ماشین اصلاح"
+  },
+  {
+   "pid": "dheg3d3h2c",
+   "user": 3,
+   "vendor": 1,
+   "title": "ماشین اصلاح چندکاره مدل هژیر M2 (نمونه)",
+   "image": "store-samples/products/gold-trimmer.jpg",
+   "description": "نمونهٔ نمایشی ماشین اصلاح چندکاره. برای عرضهٔ واقعی، برند، لوازم همراه، مشخصات فنی و قیمت را با اطلاعات تأییدشده جایگزین کنید. عکس این کالا برای پیش‌نمایش فروشگاه است و لزوماً مدل دقیق نام‌برده را نمایش نمی‌دهد.",
+   "price": "3180000",
+   "price_pending_confirmation": false,
+   "is_sale": false,
+   "sale_price": "0",
+   "specifications": "<ul><li>مناسب اصلاح صورت و مرتب‌کردن ریش</li><li>دارای شانه‌های قابل تعویض (نمونه‌ای)</li><li>زمان کارکرد و گارانتی: نیازمند تأیید فروشگاه</li></ul>",
+   "type": "ماشین اصلاح چندکاره",
+   "stock_count": "0",
+   "life": "نمونهٔ نمایشی",
+   "mfd": null,
+   "product_status": "published",
+   "status": true,
+   "in_stock": false,
+   "featured": true,
+   "digital": false,
+   "sku": "sku4819",
+   "date": "2026-10-12T07:16:24.253140+00:00",
+   "updated": null,
+   "category_title": "لوازم شخصی",
+   "subcategory_title": "ریش‌تراش و ماشین اصلاح"
+  },
+  {
+   "pid": "bd3a111aae",
+   "user": 3,
+   "vendor": 1,
+   "title": "سشوار یونیورسال مدل نسیم 2200 (نمونه)",
+   "image": "store-samples/products/hair-dryer-home.jpg",
+   "description": "نمونهٔ نمایشی سشوار برای نمایش چیدمان فروشگاه. توان، تنظیمات حرارت و قیمت درج‌شده فرضی هستند. عکس این کالا برای پیش‌نمایش فروشگاه است و لزوماً مدل دقیق نام‌برده را نمایش نمی‌دهد.",
+   "price": "2890000",
+   "price_pending_confirmation": false,
+   "is_sale": true,
+   "sale_price": "2590000",
+   "specifications": "<ul><li>دارای چند حالت تنظیم دما (نمونه‌ای)</li><li>مناسب استفادهٔ خانگی</li><li>توان، اقلام همراه و گارانتی: نیازمند تأیید فروشگاه</li></ul>",
+   "type": "سشوار خانگی",
+   "stock_count": "0",
+   "life": "نمونهٔ نمایشی",
+   "mfd": null,
+   "product_status": "published",
+   "status": true,
+   "in_stock": false,
+   "featured": true,
+   "digital": false,
+   "sku": "sku0154",
+   "date": "2026-10-12T07:16:24.280953+00:00",
+   "updated": null,
+   "category_title": "لوازم شخصی",
+   "subcategory_title": "سشوار"
+  },
+  {
+   "pid": "fd3h2hh424",
+   "user": 3,
+   "vendor": 1,
+   "title": "سشوار حرفه‌ای مدل سالنی S5 (نمونه)",
+   "image": "store-samples/products/hair-dryer-salon.jpg",
+   "description": "نمونهٔ نمایشی سشوار حرفه‌ای. پیش از ثبت فروش، مشخصات سازنده و قیمت واقعی را وارد کنید. عکس این کالا برای پیش‌نمایش فروشگاه است و لزوماً مدل دقیق نام‌برده را نمایش نمی‌دهد.",
+   "price": "4350000",
+   "price_pending_confirmation": false,
+   "is_sale": false,
+   "sale_price": "0",
+   "specifications": "<ul><li>طراحی مناسب حالت‌دهی مو</li><li>دارای سری متمرکزکنندهٔ هوا (نمونه‌ای)</li><li>توان و سطح صدا: نیازمند تأیید فروشگاه</li></ul>",
+   "type": "سشوار حرفه‌ای",
+   "stock_count": "0",
+   "life": "نمونهٔ نمایشی",
+   "mfd": null,
+   "product_status": "published",
+   "status": true,
+   "in_stock": false,
+   "featured": true,
+   "digital": false,
+   "sku": "sku8174",
+   "date": "2026-10-12T07:16:24.293135+00:00",
+   "updated": null,
+   "category_title": "لوازم شخصی",
+   "subcategory_title": "سشوار"
+  },
+  {
+   "pid": "e544a3ae33",
+   "user": 3,
+   "vendor": 1,
+   "title": "اتو مو سرامیکی مدل درخشان P1 (نمونه)",
+   "image": "store-samples/products/hair-straightener.jpg",
+   "description": "نمونهٔ نمایشی اتوی مو با صفحهٔ سرامیکی. دمای کارکرد و قیمت فعلی صرفاً برای پیش‌نمایش کاتالوگ هستند. عکس این کالا برای پیش‌نمایش فروشگاه است و لزوماً مدل دقیق نام‌برده را نمایش نمی‌دهد.",
+   "price": "2750000",
+   "price_pending_confirmation": false,
+   "is_sale": true,
+   "sale_price": "2390000",
+   "specifications": "<ul><li>صفحه با پوشش سرامیکی (نمونه‌ای)</li><li>مناسب صاف‌کردن و حالت‌دهی مو</li><li>بازهٔ دما و زمان گرم‌شدن: نیازمند تأیید فروشگاه</li></ul>",
+   "type": "اتو مو سرامیکی",
+   "stock_count": "0",
+   "life": "نمونهٔ نمایشی",
+   "mfd": null,
+   "product_status": "published",
+   "status": true,
+   "in_stock": false,
+   "featured": true,
+   "digital": false,
+   "sku": "sku3192",
+   "date": "2026-10-12T07:16:24.324785+00:00",
+   "updated": null,
+   "category_title": "لوازم شخصی",
+   "subcategory_title": "اتو مو و بابليس"
+  },
+  {
+   "pid": "c1b5fc2gfd",
+   "user": 3,
+   "vendor": 1,
+   "title": "حالت‌دهندهٔ مو مدل موج 360 (نمونه)",
+   "image": "store-samples/products/styling-tools.jpg",
+   "description": "نمونهٔ نمایشی ابزار حالت‌دهی مو. مشخصات فنی، قیمت و موجودی ساختگی‌اند و برای آزمایش رابط درج شده‌اند. عکس این کالا برای پیش‌نمایش فروشگاه است و لزوماً مدل دقیق نام‌برده را نمایش نمی‌دهد.",
+   "price": "3520000",
+   "price_pending_confirmation": false,
+   "is_sale": false,
+   "sale_price": "0",
+   "specifications": "<ul><li>ابزار برقی حالت‌دهی مو</li><li>طراحی جمع‌وجور برای استفادهٔ خانگی</li><li>اقلام همراه و مشخصات فنی: نیازمند تأیید فروشگاه</li></ul>",
+   "type": "حالت‌دهندهٔ مو",
+   "stock_count": "0",
+   "life": "نمونهٔ نمایشی",
+   "mfd": null,
+   "product_status": "published",
+   "status": true,
+   "in_stock": false,
+   "featured": true,
+   "digital": false,
+   "sku": "sku1349",
+   "date": "2026-10-12T07:16:24.340368+00:00",
+   "updated": null,
+   "category_title": "لوازم شخصی",
+   "subcategory_title": "اتو مو و بابليس"
+  },
+  {
+   "pid": "331a54d5eg",
+   "user": 3,
+   "vendor": 1,
+   "title": "ماشین اصلاح خط‌زن طرح‌دار طلایی (نمونه)",
+   "image": "store-samples/products/engraved-trimmer.jpg",
+   "description": "نمونهٔ نمایشی یک ماشین اصلاح طلایی با بدنهٔ باریک و طرح حکاکی‌شده. قیمت و مشخصات فنی تا زمان تأیید فروشگاه صرفاً نمایشی هستند. عکس این کالا برای پیش‌نمایش فروشگاه است و لزوماً مدل دقیق نام‌برده را نمایش نمی‌دهد.",
+   "price": "1890000",
+   "price_pending_confirmation": false,
+   "is_sale": false,
+   "sale_price": "0",
+   "specifications": "<ul><li>بدنهٔ باریک طلایی با نقش حکاکی‌شده، مطابق تصاویر نمونه</li><li>دارای تیغهٔ اصلاح در بخش بالایی، مطابق تصاویر نمونه</li><li>برند، اقلام همراه، شارژدهی و گارانتی: نیازمند تأیید فروشگاه</li></ul>",
+   "type": "ماشین اصلاح خط‌زن",
+   "stock_count": "0",
+   "life": "نمونهٔ نمایشی",
+   "mfd": null,
+   "product_status": "published",
+   "status": true,
+   "in_stock": false,
+   "featured": true,
+   "digital": false,
+   "sku": "sku1821",
+   "date": "2026-10-13T05:25:24.932400+00:00",
+   "updated": null,
+   "category_title": "لوازم شخصی",
+   "subcategory_title": "ریش‌تراش و ماشین اصلاح"
+  },
+  {
+   "pid": "f1efabd34c",
+   "user": 3,
+   "vendor": 1,
+   "title": "ماشین اصلاح Kemei مدل KM-1698 (نمونه)",
+   "image": "store-samples/products/digital-clipper.jpg",
+   "description": "نمونهٔ نمایشی Kemei KM-1698 بر اساس ویدئوی دستگاه. قیمت و مشخصات فنی تا زمان تأیید فروشگاه صرفاً نمایشی هستند. عکس این کالا برای پیش‌نمایش فروشگاه است و لزوماً مدل دقیق نام‌برده را نمایش نمی‌دهد.",
+   "price": "2190000",
+   "price_pending_confirmation": false,
+   "is_sale": false,
+   "sale_price": "0",
+   "specifications": "<ul><li>بدنهٔ طلایی با نمایشگر دیجیتال، مطابق ویدئوی نمونه</li><li>تیغه و بخش‌های کناری در گالری چرخش قابل مشاهده‌اند</li><li>اقلام همراه، شارژدهی، سرعت و گارانتی: نیازمند تأیید فروشگاه</li></ul>",
+   "type": "ماشین اصلاح شارژی",
+   "stock_count": "0",
+   "life": "نمونهٔ نمایشی",
+   "mfd": null,
+   "product_status": "published",
+   "status": true,
+   "in_stock": false,
+   "featured": true,
+   "digital": false,
+   "sku": "sku3719",
+   "date": "2026-10-13T06:05:52.288339+00:00",
+   "updated": null,
+   "category_title": "لوازم شخصی",
+   "subcategory_title": "ریش‌تراش و ماشین اصلاح"
+  },
+  {
+   "pid": "5be13ch15g",
+   "user": 3,
+   "vendor": 1,
+   "title": "لوازم شخصی چندکاره مدل هژیر P1 (نمونه)",
+   "image": "store-samples/products/styling-tools.jpg",
+   "description": "نمونهٔ نمایشی کالای لوازم شخصی فروشگاه. قیمت و مشخصات فنی تا تأیید فروشگاه صرفاً نمایشی هستند. عکس این کالا برای پیش‌نمایش فروشگاه است و لزوماً مدل دقیق نام‌برده را نمایش نمی‌دهد.",
+   "price": "1890000",
+   "price_pending_confirmation": false,
+   "is_sale": false,
+   "sale_price": "0",
+   "specifications": "<ul><li>ادوات لوازم شخصی جمع‌وجور برای روتین روزمره</li><li>بدنه و طراحی: مطابق تصاویر نمونه</li><li>مشخصات دقیق و گارانتی: نیازمند تأیید فروشگاه</li></ul>",
+   "type": "لوازم شخصی",
+   "stock_count": "0",
+   "life": "نمونهٔ نمایشی",
+   "mfd": null,
+   "product_status": "published",
+   "status": true,
+   "in_stock": false,
+   "featured": true,
+   "digital": false,
+   "sku": "sku3022",
+   "date": "2026-10-16T03:45:21.020989+00:00",
+   "updated": null,
+   "category_title": "لوازم شخصی",
+   "subcategory_title": null
+  },
+  {
+   "pid": "eeah43b5a1",
+   "user": 3,
+   "vendor": 1,
+   "title": "فشارسنج دیجیتال بازویی مدل سلامت H1 (نمونه)",
+   "image": "store-samples/products/health-bp.jpg",
+   "description": "نمونهٔ نمایشی فشارسنج دیجیتال برای کاتالوگ هژیر مارکت. قیمت، مشخصات و موجودی این کالا فرضی هستند و باید پیش از فروش واقعی با اطلاعات محصول جایگزین شوند. عکس این کالا برای پیش‌نمایش فروشگاه است و لزوماً مدل دقیق نام‌برده را نمایش نمی‌دهد.",
+   "price": "2650000",
+   "price_pending_confirmation": false,
+   "is_sale": true,
+   "sale_price": "2390000",
+   "specifications": "<ul><li>نمایشگر دیجیتال برای خواندن فشار خون (نمونه‌ای)</li><li>کاف بازویی و حافظهٔ اندازه‌گیری: مطابق تصاویر نمونه</li><li>دقت دستگاه، اقلام همراه و گارانتی: نیازمند تأیید فروشگاه</li></ul>",
+   "type": "فشارسنج دیجیتال",
+   "stock_count": "0",
+   "life": "نمونهٔ نمایشی",
+   "mfd": null,
+   "product_status": "published",
+   "status": true,
+   "in_stock": false,
+   "featured": true,
+   "digital": false,
+   "sku": "sku8673",
+   "date": "2026-10-16T04:27:04.603800+00:00",
+   "updated": null,
+   "category_title": "سلامت",
+   "subcategory_title": "فشارسنج"
+  },
+  {
+   "pid": "d2ed52bdbf",
+   "user": 3,
+   "vendor": 1,
+   "title": "عطر مردانه مدل رایحهٔ شب (نمونه)",
+   "image": "store-samples/products/perfume-attar.jpg",
+   "description": "نمونهٔ نمایشی عطر برای کاتالوگ هژیر مارکت. قیمت، حجم و مشخصات این کالا فرضی هستند و باید پیش از فروش واقعی با اطلاعات محصول جایگزین شوند. عکس این کالا برای پیش‌نمایش فروشگاه است و لزوماً مدل دقیق نام‌برده را نمایش نمی‌دهد.",
+   "price": "1450000",
+   "price_pending_confirmation": false,
+   "is_sale": true,
+   "sale_price": "1290000",
+   "specifications": "<ul><li>رایحهٔ گرم و ماندگار (نمونه‌ای)</li><li>حجم و غلظت: مطابق تصویر نمونه</li><li>اصالت، برند و گارانتی: نیازمند تأیید فروشگاه</li></ul>",
+   "type": "عطر مردانه",
+   "stock_count": "0",
+   "life": "نمونهٔ نمایشی",
+   "mfd": null,
+   "product_status": "published",
+   "status": true,
+   "in_stock": false,
+   "featured": true,
+   "digital": false,
+   "sku": "sku4599",
+   "date": "2026-10-16T04:45:58.795842+00:00",
+   "updated": null,
+   "category_title": "عطر و ادکلن",
+   "subcategory_title": "عطر"
+  },
+  {
+   "pid": "cdchggg5b3",
+   "user": 3,
+   "vendor": 1,
+   "title": "مخلوط‌کن و آبمیوه‌گیری مدل هژیر K1 (نمونه)",
+   "image": "store-samples/products/blender.jpg",
+   "description": "نمونهٔ نمایشی مخلوط‌کن و آبمیوه‌گیری برای کاتالوگ هژیر مارکت. قیمت و مشخصات فنی این کالا فرضی هستند و باید پیش از فروش واقعی جایگزین شوند. عکس این کالا برای پیش‌نمایش فروشگاه است و لزوماً مدل دقیق نام‌برده را نمایش نمی‌دهد.",
+   "price": "3250000",
+   "price_pending_confirmation": false,
+   "is_sale": false,
+   "sale_price": "0",
+   "specifications": "<ul><li>پارچ و تیغهٔ مخصوص مخلوط و آبمیوه (نمونه‌ای)</li><li>توان و تعداد سرعت‌ها: مطابق تصویر نمونه</li><li>اقلام همراه و گارانتی: نیازمند تأیید فروشگاه</li></ul>",
+   "type": "مخلوط کن و آبمیوه‌گیری",
+   "stock_count": "0",
+   "life": "نمونهٔ نمایشی",
+   "mfd": null,
+   "product_status": "published",
+   "status": true,
+   "in_stock": false,
+   "featured": true,
+   "digital": false,
+   "sku": "sku0190",
+   "date": "2026-10-16T04:45:58.811772+00:00",
+   "updated": null,
+   "category_title": "لوازم خانگی",
+   "subcategory_title": "مخلوط کن و آبمیوه گیری"
+  },
+  {
+   "pid": "e3db5edfgf",
+   "user": 3,
+   "vendor": 1,
+   "title": "ادکلن مردانه مدل خنکای صبح (نمونه)",
+   "image": "store-samples/products/perfume-cologne.jpg",
+   "description": "نمونهٔ نمایشی ادکلن برای کاتالوگ هژیر مارکت. قیمت، حجم و مشخصات این کالا فرضی هستند و باید پیش از فروش واقعی با اطلاعات محصول جایگزین شوند. عکس این کالا برای پیش‌نمایش فروشگاه است و لزوماً مدل دقیق نام‌برده را نمایش نمی‌دهد.",
+   "price": "1590000",
+   "price_pending_confirmation": false,
+   "is_sale": false,
+   "sale_price": "0",
+   "specifications": "<ul><li>رایحهٔ خنک و تازه (نمونه‌ای)</li><li>حجم و غلظت: مطابق تصویر نمونه</li><li>اصالت، برند و گارانتی: نیازمند تأیید فروشگاه</li></ul>",
+   "type": "ادکلن مردانه",
+   "stock_count": "0",
+   "life": "نمونهٔ نمایشی",
+   "mfd": null,
+   "product_status": "published",
+   "status": true,
+   "in_stock": false,
+   "featured": true,
+   "digital": false,
+   "sku": "sku8148",
+   "date": "2026-10-16T05:06:40.961919+00:00",
+   "updated": null,
+   "category_title": "عطر و ادکلن",
+   "subcategory_title": "ادکلن"
+  },
+  {
+   "pid": "2b1f4g32ga",
+   "user": 3,
+   "vendor": 1,
+   "title": "زود پز برقی مدل هژیر PC5 (نمونه)",
+   "image": "store-samples/products/pressure-cooker.jpg",
+   "description": "نمونهٔ نمایشی زود پز برقی برای کاتالوگ هژیر مارکت. قیمت و مشخصات فنی این کالا فرضی هستند و باید پیش از فروش واقعی جایگزین شوند. عکس این کالا برای پیش‌نمایش فروشگاه است و لزوماً مدل دقیق نام‌برده را نمایش نمی‌دهد.",
+   "price": "4850000",
+   "price_pending_confirmation": false,
+   "is_sale": true,
+   "sale_price": "4390000",
+   "specifications": "<ul><li>دیگ و درپوش با قفل ایمنی (نمونه‌ای)</li><li>گنجایش و برنامه‌های پخت: مطابق تصویر نمونه</li><li>اقلام همراه و گارانتی: نیازمند تأیید فروشگاه</li></ul>",
+   "type": "زود پز برقی",
+   "stock_count": "0",
+   "life": "نمونهٔ نمایشی",
+   "mfd": null,
+   "product_status": "published",
+   "status": true,
+   "in_stock": false,
+   "featured": true,
+   "digital": false,
+   "sku": "sku0624",
+   "date": "2026-10-16T05:06:40.985537+00:00",
+   "updated": null,
+   "category_title": "لوازم خانگی",
+   "subcategory_title": "زود پز"
+  },
+  {
+   "pid": "bd54d2gcg5",
+   "user": 3,
+   "vendor": 1,
+   "title": "فلاسک استیل مدل نگه‌دار F2 (نمونه)",
+   "image": "store-samples/products/flask.jpg",
+   "description": "نمونهٔ نمایشی فلاسک استیل برای کاتالوگ هژیر مارکت. قیمت و مشخصات فنی این کالا فرضی هستند و باید پیش از فروش واقعی جایگزین شوند. عکس این کالا برای پیش‌نمایش فروشگاه است و لزوماً مدل دقیق نام‌برده را نمایش نمی‌دهد.",
+   "price": "890000",
+   "price_pending_confirmation": false,
+   "is_sale": false,
+   "sale_price": "0",
+   "specifications": "<ul><li>بدنهٔ استیل و درپوش آب‌بند (نمونه‌ای)</li><li>گنجایش و مدت نگه‌داری دما: مطابق تصویر نمونه</li><li>اقلام همراه و گارانتی: نیازمند تأیید فروشگاه</li></ul>",
+   "type": "فلاسک استیل",
+   "stock_count": "0",
+   "life": "نمونهٔ نمایشی",
+   "mfd": null,
+   "product_status": "published",
+   "status": true,
+   "in_stock": false,
+   "featured": true,
+   "digital": false,
+   "sku": "sku6926",
+   "date": "2026-10-16T05:06:41.005988+00:00",
+   "updated": null,
+   "category_title": "لوازم خانگی",
+   "subcategory_title": "فلاسک"
+  },
+  {
+   "pid": "ghd2fc112c",
+   "user": 3,
+   "vendor": 1,
+   "title": "ریش‌تراش و ماشین اصلاح برقی مدل هژیر S3 (نمونه)",
+   "image": "store-samples/products/shaver-new.jpg",
+   "description": "نمونهٔ نمایشی ریش‌تراش برقی برای کاتالوگ هژیر مارکت. قیمت و مشخصات فنی این کالا فرضی هستند و باید پیش از فروش واقعی جایگزین شوند. عکس این کالا برای پیش‌نمایش فروشگاه است و لزوماً مدل دقیق نام‌برده را نمایش نمی‌دهد.",
+   "price": "2290000",
+   "price_pending_confirmation": false,
+   "is_sale": false,
+   "sale_price": "0",
+   "specifications": "<ul><li>تیغهٔ اصلاح برقی (نمونه‌ای)</li><li>شارژدهی و اقلام همراه: مطابق تصویر نمونه</li><li>گارانتی: نیازمند تأیید فروشگاه</li></ul>",
+   "type": "ریش‌تراش برقی",
+   "stock_count": "0",
+   "life": "نمونهٔ نمایشی",
+   "mfd": null,
+   "product_status": "published",
+   "status": true,
+   "in_stock": false,
+   "featured": true,
+   "digital": false,
+   "sku": "sku2441",
+   "date": "2026-10-16T05:06:41.021775+00:00",
+   "updated": null,
+   "category_title": "لوازم شخصی",
+   "subcategory_title": "ریش‌تراش و ماشین اصلاح"
+  },
+  {
+   "pid": "bb53haa1d3",
+   "user": 3,
+   "vendor": 1,
+   "title": "سشوار برقی مدل باد ملایم H2 (نمونه)",
+   "image": "store-samples/products/hair-dryer-new.jpg",
+   "description": "نمونهٔ نمایشی سشوار برقی برای کاتالوگ هژیر مارکت. قیمت و مشخصات فنی این کالا فرضی هستند و باید پیش از فروش واقعی جایگزین شوند. عکس این کالا برای پیش‌نمایش فروشگاه است و لزوماً مدل دقیق نام‌برده را نمایش نمی‌دهد.",
+   "price": "1950000",
+   "price_pending_confirmation": false,
+   "is_sale": false,
+   "sale_price": "0",
+   "specifications": "<ul><li>چند حالت تنظیم دما و باد (نمونه‌ای)</li><li>توان و سطح صدا: مطابق تصویر نمونه</li><li>اقلام همراه و گارانتی: نیازمند تأیید فروشگاه</li></ul>",
+   "type": "سشوار برقی",
+   "stock_count": "0",
+   "life": "نمونهٔ نمایشی",
+   "mfd": null,
+   "product_status": "published",
+   "status": true,
+   "in_stock": false,
+   "featured": true,
+   "digital": false,
+   "sku": "sku1120",
+   "date": "2026-10-16T05:06:41.035273+00:00",
+   "updated": null,
+   "category_title": "لوازم شخصی",
+   "subcategory_title": "سشوار"
+  },
+  {
+   "pid": "h2h4hgb454",
+   "user": 3,
+   "vendor": 1,
+   "title": "اتو مو و بابليس سرامیکی مدل صاف B1 (نمونه)",
+   "image": "store-samples/products/hair-straightener-new.jpg",
+   "description": "نمونهٔ نمایشی اتو مو و بابليس سرامیکی برای کاتالوگ هژیر مارکت. قیمت و مشخصات فنی این کالا فرضی هستند و باید پیش از فروش واقعی جایگزین شوند. عکس این کالا برای پیش‌نمایش فروشگاه است و لزوماً مدل دقیق نام‌برده را نمایش نمی‌دهد.",
+   "price": "2350000",
+   "price_pending_confirmation": false,
+   "is_sale": true,
+   "sale_price": "2090000",
+   "specifications": "<ul><li>صفحه با پوشش سرامیکی (نمونه‌ای)</li><li>بازهٔ دما و زمان گرم‌شدن: مطابق تصویر نمونه</li><li>اقلام همراه و گارانتی: نیازمند تأیید فروشگاه</li></ul>",
+   "type": "اتو مو سرامیکی",
+   "stock_count": "0",
+   "life": "نمونهٔ نمایشی",
+   "mfd": null,
+   "product_status": "published",
+   "status": true,
+   "in_stock": false,
+   "featured": true,
+   "digital": false,
+   "sku": "sku3722",
+   "date": "2026-10-16T05:06:41.055565+00:00",
+   "updated": null,
+   "category_title": "لوازم شخصی",
+   "subcategory_title": "اتو مو و بابليس"
+  },
+  {
+   "pid": "341h3eehc2",
+   "user": 3,
+   "vendor": 1,
+   "title": "اپیلیدی برقی مدل نرم E1 (نمونه)",
+   "image": "store-samples/products/epilator.jpg",
+   "description": "نمونهٔ نمایشی اپیلیدی برقی برای کاتالوگ هژیر مارکت. قیمت و مشخصات فنی این کالا فرضی هستند و باید پیش از فروش واقعی جایگزین شوند. عکس این کالا برای پیش‌نمایش فروشگاه است و لزوماً مدل دقیق نام‌برده را نمایش نمی‌دهد.",
+   "price": "1980000",
+   "price_pending_confirmation": false,
+   "is_sale": false,
+   "sale_price": "0",
+   "specifications": "<ul><li>مناسب حذف موهای زائد (نمونه‌ای)</li><li>سری و تنظیمات سرعت: مطابق تصویر نمونه</li><li>اقلام همراه و گارانتی: نیازمند تأیید فروشگاه</li></ul>",
+   "type": "اپیلیدی برقی",
+   "stock_count": "0",
+   "life": "نمونهٔ نمایشی",
+   "mfd": null,
+   "product_status": "published",
+   "status": true,
+   "in_stock": false,
+   "featured": true,
+   "digital": false,
+   "sku": "sku4137",
+   "date": "2026-10-16T05:06:41.070905+00:00",
+   "updated": null,
+   "category_title": "لوازم شخصی",
+   "subcategory_title": "اپیلیدی"
+  },
+  {
+   "pid": "dba1c41eg5",
+   "user": 3,
+   "vendor": 1,
+   "title": "قطعات یدکی و تیغهٔ ماشین اصلاح (نمونه)",
+   "image": "store-samples/products/spare-parts.jpg",
+   "description": "نمونهٔ نمایشی قطعات یدکی و تیغهٔ ماشین اصلاح برای کاتالوگ هژیر مارکت. قیمت و سازگاری این کالا فرضی هستند و باید پیش از فروش واقعی جایگزین شوند. عکس این کالا برای پیش‌نمایش فروشگاه است و لزوماً مدل دقیق نام‌برده را نمایش نمی‌دهد.",
+   "price": "320000",
+   "price_pending_confirmation": false,
+   "is_sale": false,
+   "sale_price": "0",
+   "specifications": "<ul><li>تیغه و قطعات یدکی ماشین اصلاح (نمونه‌ای)</li><li>سازگاری با مدل‌ها: مطابق تصویر نمونه</li><li>اصالت و گارانتی: نیازمند تأیید فروشگاه</li></ul>",
+   "type": "قطعات یدکی",
+   "stock_count": "0",
+   "life": "نمونهٔ نمایشی",
+   "mfd": null,
+   "product_status": "published",
+   "status": true,
+   "in_stock": false,
+   "featured": true,
+   "digital": false,
+   "sku": "sku6848",
+   "date": "2026-10-16T05:06:41.094234+00:00",
+   "updated": null,
+   "category_title": "لوازم شخصی",
+   "subcategory_title": "قطعات یدکی"
+  },
+  {
+   "pid": "4hb1g155a1",
+   "user": null,
+   "vendor": null,
+   "title": "ماشین اصلاح DSP مدل 91407",
+   "image": "product-images/3109c5d94adb4139be76d7144f89ea14.webp",
+   "description": "ماشین اصلاح DSP مدل 91407؛ در تصویر محصول عبارت 7000 RPM و موتور Brushless دیده می‌شود. تصویر، نمایشگر درصد توان باقی‌مانده و شش شانهٔ راهنما را نیز نشان می‌دهد.",
+   "price": "6800000",
+   "price_pending_confirmation": false,
+   "is_sale": false,
+   "sale_price": "0",
+   "specifications": "مدل: DSP 91407\nموتور: Brushless؛ عبارت درج‌شده روی تصویر: 7000 RPM\nنمایشگر: درصد توان باقی‌مانده (Power Left)\nاقلام قابل مشاهده در تصویر: شش شانهٔ راهنما\nظرفیت باتری، زمان شارژ و کارکرد، طول برش و شرایط گارانتی تأیید نشده‌اند.",
+   "type": "ماشین اصلاح",
+   "stock_count": "100",
+   "life": "100 روز",
+   "mfd": null,
+   "product_status": "published",
+   "status": true,
+   "in_stock": true,
+   "featured": false,
+   "digital": false,
+   "sku": "sku5255",
+   "date": "2026-10-18T05:51:06.553832+00:00",
+   "updated": null,
+   "category_title": "سلامت",
+   "subcategory_title": null
+  },
+  {
+   "pid": "ccg225fe1c",
+   "user": 3,
+   "vendor": null,
+   "title": "سشوار حرفه‌ای مکس گلد 7000",
+   "image": "user_3/2fa891f27a44421d94b5c408d0f6eb74.webp",
+   "description": "<p><strong>معرفی کوتاه:</strong> سشوار حرفه‌ای مکس گلد مدل 7000 با موتور سنگین سایز ۲۱، برای استفادهٔ خانگی و سالنی طراحی شده است.</p><h3>توضیحات کامل</h3><p>با سشوار مکس گلد مدل 7000 موها را به‌راحتی خشک و حالت‌دهی کنید. این سشوار به موتور سنگین سایز ۲۱ مجهز است و برای افرادی مناسب است که به‌دنبال دستگاهی کاربردی برای استفادهٔ روزمره یا آرایش مو هستند. همراه دستگاه، دو سری متمرکزکننده برای هدایت و متمرکزکردن جریان هوا و یک سری دیفیوزر برای پخش یکنواخت‌تر باد ارائه می‌شود.</p><p>کابل ۲ متری آزادی عمل مناسبی هنگام استفاده فراهم می‌کند و جعبهٔ کادویی مگنتی، بسته‌بندی محصول را برای هدیه‌دادن جذاب‌تر می‌سازد. این سشوار برای خشک‌کردن و حالت‌دهی مو در خانه یا سالن مناسب است.</p><h3>اقلام همراه</h3><ul><li>دو سری متمرکزکننده</li><li>یک سری دیفیوزر</li><li>جعبهٔ کادویی مگنتی</li></ul>",
+   "price": "0",
+   "price_pending_confirmation": true,
+   "is_sale": false,
+   "sale_price": "0",
+   "specifications": "برند: مکس گلد؛ مدل: 7000؛ موتور: سنگین سایز ۲۱؛ طول کابل: ۲ متر؛ کاربری: خانگی و سالنی؛ اقلام همراه: دو سری متمرکزکننده و یک دیفیوزر؛ بسته‌بندی: جعبهٔ کادویی مگنتی.",
+   "type": "سشوار حرفه‌ای",
+   "stock_count": "100",
+   "life": "100 روز",
+   "mfd": null,
+   "product_status": "draft",
+   "status": true,
+   "in_stock": true,
+   "featured": false,
+   "digital": false,
+   "sku": "sku3924",
+   "date": "2026-10-19T04:36:39.161640+00:00",
+   "updated": null,
+   "category_title": "لوازم شخصی",
+   "subcategory_title": null
+  },
+  {
+   "pid": "532dg4h352",
+   "user": 3,
+   "vendor": null,
+   "title": "مخلوط‌کن تفال مدل TF67",
+   "image": "user_3/4a76a3fef1584f0395c2f4636829326c.webp",
+   "description": "<p><strong>توضیح کوتاه:</strong> مخلوط‌کن تفال مدل TF67 با پارچ شیشه‌ای و موتور سیم‌پیچ سنگین، برای آماده‌سازی نوشیدنی‌ها و ترکیب مواد غذایی در خانه.</p><h3>توضیحات کامل</h3><p>مخلوط‌کن تفال مدل TF67 برای آماده‌سازی اسموتی، شیک و ترکیب مواد غذایی طراحی شده است. پارچ شیشه‌ای دستگاه امکان مشاهدهٔ مواد هنگام مخلوط‌شدن را فراهم می‌کند. موتور سیم‌پیچ سنگین و پیچ تنظیم روی بدنه از ویژگی‌های اعلام‌شده برای این دستگاه هستند.</p><p>این مخلوط‌کن برای استفادهٔ روزمره در آشپزخانه مناسب است. برای اطمینان از سازگاری دستگاه با نیاز خود، مشخصات روی بسته‌بندی و راهنمای محصول را پیش از خرید بررسی کنید.</p>",
+   "price": "3600000",
+   "price_pending_confirmation": false,
+   "is_sale": false,
+   "sale_price": "0",
+   "specifications": "برند: تفال؛ مدل: TF67؛ نوع دستگاه: مخلوط‌کن؛ جنس پارچ: شیشه‌ای؛ موتور: سیم‌پیچ سنگین؛ کنترل: پیچ تنظیم روی بدنه.",
+   "type": "مخلوط‌کن",
+   "stock_count": "50",
+   "life": "100 روز",
+   "mfd": null,
+   "product_status": "in_review",
+   "status": true,
+   "in_stock": true,
+   "featured": false,
+   "digital": false,
+   "sku": "sku0198",
+   "date": "2026-10-19T04:56:50.575175+00:00",
+   "updated": null,
+   "category_title": "لوازم خانگی",
+   "subcategory_title": null
+  },
+  {
+   "pid": "cf42cddacf",
+   "user": 3,
+   "vendor": null,
+   "title": "سشوار برس‌دار حالت‌دهنده DSP مدل 50328",
+   "image": "user_3/199a6f30b52647778cb77a29c767f4df.webp",
+   "description": "<p><strong>توضیح کوتاه:</strong> سشوار برس‌دار حالت‌دهندهٔ DSP مدل 50328 با سری‌های قابل‌تعویض، برای خشک‌کردن و حالت‌دهی مو طراحی شده است.</p><h3>توضیحات کامل</h3><p>مدل 50328 از برند DSP یک دستگاه چندکاره برای خشک‌کردن و حالت‌دهی مو است. طبق اطلاعات ارائه‌شده، دستگاه با سه سطح سرعت و تنظیم دما، از جمله حالت باد سرد، قابلیت تنظیم جریان هوا را فراهم می‌کند. فناوری یون‌ساز، بدنهٔ تاشو و کیف نگهداری نیز در مشخصات اعلام‌شده برای این مدل آمده‌اند.</p><p>سری‌های همراه برای صاف‌کردن، فرکردن، موج‌دادن و حجم‌دادن مو در نظر گرفته شده‌اند. توان درج‌شده روی جعبه ۱۳۰۰ تا ۱۵۰۰ وات و سرعت موتور درج‌شده ۱۱۰٬۰۰۰ دور در دقیقه است. پیش از استفاده، دستورالعمل و شرایط ایمنی درج‌شده در دفترچهٔ محصول را رعایت کنید.</p><h3>اقلام همراه اعلام‌شده</h3><ul><li>برس پارویی</li><li>دیفیوزر</li><li>سری‌های فرکنندهٔ راست و چپ</li><li>نازل هوا</li><li>کیف نگهداری</li></ul>",
+   "price": "6000000",
+   "price_pending_confirmation": false,
+   "is_sale": false,
+   "sale_price": "0",
+   "specifications": "برند: DSP؛ مدل: 50328؛ نوع دستگاه: سشوار برس‌دار حالت‌دهنده؛ توان درج‌شده روی جعبه: ۱۳۰۰ تا ۱۵۰۰ وات؛ موتور: BLDC؛ سرعت موتور درج‌شده: ۱۱۰٬۰۰۰ دور در دقیقه؛ سرعت: ۳ سطح؛ دما: ۳ سطح شامل باد سرد؛ فناوری یون‌ساز: دارد؛ بدنهٔ تاشو: دارد؛ اقلام همراه اعلام‌شده: برس پارویی، دیفیوزر، سری‌های فرکنندهٔ راست و چپ، نازل هوا و کیف نگهداری.",
+   "type": "سشوار برس‌دار حالت‌دهنده",
+   "stock_count": "50",
+   "life": "100 روز",
+   "mfd": null,
+   "product_status": "published",
+   "status": true,
+   "in_stock": true,
+   "featured": false,
+   "digital": false,
+   "sku": "sku5368",
+   "date": "2026-10-19T05:05:05.155257+00:00",
+   "updated": null,
+   "category_title": "لوازم شخصی",
+   "subcategory_title": null
+  }
+ ],
+ "product_images": [
+  {
+   "images": "product-images/IMG_20251121_204957_688.jpg",
+   "date": "2025-12-18T16:52:55.122341+00:00",
+   "product_pid": null
+  },
+  {
+   "images": "product-images/IMG_20251121_204954_904.jpg",
+   "date": "2025-12-18T16:52:55.126404+00:00",
+   "product_pid": null
+  },
+  {
+   "images": "product-images/IMG_20251218_101307_880.jpg",
+   "date": "2025-12-18T16:52:55.130353+00:00",
+   "product_pid": null
+  },
+  {
+   "images": "product-images/1763871297572.png",
+   "date": "2025-12-18T17:43:41.658276+00:00",
+   "product_pid": null
+  },
+  {
+   "images": "product-images/1763871283565.png",
+   "date": "2025-12-18T17:43:41.660513+00:00",
+   "product_pid": null
+  },
+  {
+   "images": "product-images/1763871330735.png",
+   "date": "2025-12-18T17:43:41.662088+00:00",
+   "product_pid": null
+  },
+  {
+   "images": "store-samples/360/dsp-gold-clipper/frame-01.webp",
+   "date": "2026-10-16T05:30:47.607553+00:00",
+   "product_pid": "dheg3d3h2c"
+  },
+  {
+   "images": "store-samples/360/dsp-gold-clipper/frame-02.webp",
+   "date": "2026-10-16T05:30:47.618611+00:00",
+   "product_pid": "dheg3d3h2c"
+  },
+  {
+   "images": "store-samples/360/dsp-gold-clipper/frame-03.webp",
+   "date": "2026-10-16T05:30:47.627459+00:00",
+   "product_pid": "dheg3d3h2c"
+  },
+  {
+   "images": "store-samples/360/dsp-gold-clipper/frame-04.webp",
+   "date": "2026-10-16T05:30:47.640284+00:00",
+   "product_pid": "dheg3d3h2c"
+  },
+  {
+   "images": "store-samples/360/dsp-gold-clipper/frame-05.webp",
+   "date": "2026-10-16T05:30:47.653103+00:00",
+   "product_pid": "dheg3d3h2c"
+  },
+  {
+   "images": "store-samples/360/dsp-gold-clipper/frame-06.webp",
+   "date": "2026-10-16T05:30:47.667035+00:00",
+   "product_pid": "dheg3d3h2c"
+  },
+  {
+   "images": "store-samples/360/dsp-gold-clipper/frame-07.webp",
+   "date": "2026-10-16T05:30:47.685550+00:00",
+   "product_pid": "dheg3d3h2c"
+  },
+  {
+   "images": "store-samples/360/dsp-gold-clipper/frame-08.webp",
+   "date": "2026-10-16T05:30:47.694659+00:00",
+   "product_pid": "dheg3d3h2c"
+  },
+  {
+   "images": "store-samples/360/dsp-gold-clipper/frame-09.webp",
+   "date": "2026-10-16T05:30:47.709572+00:00",
+   "product_pid": "dheg3d3h2c"
+  },
+  {
+   "images": "store-samples/360/dsp-gold-clipper/frame-10.webp",
+   "date": "2026-10-16T05:30:47.726928+00:00",
+   "product_pid": "dheg3d3h2c"
+  },
+  {
+   "images": "store-samples/360/dsp-gold-clipper/frame-11.webp",
+   "date": "2026-10-16T05:30:47.743147+00:00",
+   "product_pid": "dheg3d3h2c"
+  },
+  {
+   "images": "store-samples/360/dsp-gold-clipper/frame-12.webp",
+   "date": "2026-10-16T05:30:47.754643+00:00",
+   "product_pid": "dheg3d3h2c"
+  },
+  {
+   "images": "store-samples/360/dsp-gold-clipper/frame-13.webp",
+   "date": "2026-10-16T05:30:47.764840+00:00",
+   "product_pid": "dheg3d3h2c"
+  },
+  {
+   "images": "store-samples/360/dsp-gold-clipper/frame-14.webp",
+   "date": "2026-10-16T05:30:47.774553+00:00",
+   "product_pid": "dheg3d3h2c"
+  },
+  {
+   "images": "store-samples/360/dsp-gold-clipper/frame-15.webp",
+   "date": "2026-10-16T05:30:47.784692+00:00",
+   "product_pid": "dheg3d3h2c"
+  },
+  {
+   "images": "store-samples/360/dsp-gold-clipper/frame-16.webp",
+   "date": "2026-10-16T05:30:47.793599+00:00",
+   "product_pid": "dheg3d3h2c"
+  },
+  {
+   "images": "store-samples/360/dsp-gold-clipper/frame-17.webp",
+   "date": "2026-10-16T05:30:47.802944+00:00",
+   "product_pid": "dheg3d3h2c"
+  },
+  {
+   "images": "store-samples/360/dsp-gold-clipper/frame-18.webp",
+   "date": "2026-10-16T05:30:47.810959+00:00",
+   "product_pid": "dheg3d3h2c"
+  },
+  {
+   "images": "store-samples/360/dsp-gold-clipper/frame-19.webp",
+   "date": "2026-10-16T05:30:47.819980+00:00",
+   "product_pid": "dheg3d3h2c"
+  },
+  {
+   "images": "store-samples/360/dsp-gold-clipper/frame-20.webp",
+   "date": "2026-10-16T05:30:47.832059+00:00",
+   "product_pid": "dheg3d3h2c"
+  },
+  {
+   "images": "store-samples/360/dsp-gold-clipper/frame-21.webp",
+   "date": "2026-10-16T05:30:47.840606+00:00",
+   "product_pid": "dheg3d3h2c"
+  },
+  {
+   "images": "store-samples/360/dsp-gold-clipper/frame-22.webp",
+   "date": "2026-10-16T05:30:47.850959+00:00",
+   "product_pid": "dheg3d3h2c"
+  },
+  {
+   "images": "store-samples/360/dsp-gold-clipper/frame-23.webp",
+   "date": "2026-10-16T05:30:47.858755+00:00",
+   "product_pid": "dheg3d3h2c"
+  },
+  {
+   "images": "store-samples/360/dsp-gold-clipper/frame-24.webp",
+   "date": "2026-10-16T05:30:47.866779+00:00",
+   "product_pid": "dheg3d3h2c"
+  },
+  {
+   "images": "store-samples/360/gold-engraved-trimmer/frame-01.webp",
+   "date": "2026-10-16T05:30:47.892336+00:00",
+   "product_pid": "331a54d5eg"
+  },
+  {
+   "images": "store-samples/360/gold-engraved-trimmer/frame-02.webp",
+   "date": "2026-10-16T05:30:47.900263+00:00",
+   "product_pid": "331a54d5eg"
+  },
+  {
+   "images": "store-samples/360/gold-engraved-trimmer/frame-03.webp",
+   "date": "2026-10-16T05:30:47.907386+00:00",
+   "product_pid": "331a54d5eg"
+  },
+  {
+   "images": "store-samples/360/gold-engraved-trimmer/frame-04.webp",
+   "date": "2026-10-16T05:30:47.917130+00:00",
+   "product_pid": "331a54d5eg"
+  },
+  {
+   "images": "store-samples/360/gold-engraved-trimmer/frame-05.webp",
+   "date": "2026-10-16T05:30:47.924159+00:00",
+   "product_pid": "331a54d5eg"
+  },
+  {
+   "images": "store-samples/360/gold-engraved-trimmer/frame-06.webp",
+   "date": "2026-10-16T05:30:47.932106+00:00",
+   "product_pid": "331a54d5eg"
+  },
+  {
+   "images": "store-samples/360/gold-engraved-trimmer/frame-07.webp",
+   "date": "2026-10-16T05:30:47.939472+00:00",
+   "product_pid": "331a54d5eg"
+  },
+  {
+   "images": "store-samples/360/gold-engraved-trimmer/frame-08.webp",
+   "date": "2026-10-16T05:30:47.952466+00:00",
+   "product_pid": "331a54d5eg"
+  },
+  {
+   "images": "store-samples/360/gold-engraved-trimmer/frame-09.webp",
+   "date": "2026-10-16T05:30:47.960426+00:00",
+   "product_pid": "331a54d5eg"
+  },
+  {
+   "images": "store-samples/360/gold-engraved-trimmer/frame-10.webp",
+   "date": "2026-10-16T05:30:47.971080+00:00",
+   "product_pid": "331a54d5eg"
+  },
+  {
+   "images": "store-samples/360/gold-engraved-trimmer/frame-11.webp",
+   "date": "2026-10-16T05:30:47.979022+00:00",
+   "product_pid": "331a54d5eg"
+  },
+  {
+   "images": "store-samples/360/gold-engraved-trimmer/frame-12.webp",
+   "date": "2026-10-16T05:30:47.989152+00:00",
+   "product_pid": "331a54d5eg"
+  },
+  {
+   "images": "store-samples/360/gold-engraved-trimmer/frame-13.webp",
+   "date": "2026-10-16T05:30:47.996938+00:00",
+   "product_pid": "331a54d5eg"
+  },
+  {
+   "images": "store-samples/360/gold-engraved-trimmer/frame-14.webp",
+   "date": "2026-10-16T05:30:48.006308+00:00",
+   "product_pid": "331a54d5eg"
+  },
+  {
+   "images": "store-samples/360/gold-engraved-trimmer/frame-15.webp",
+   "date": "2026-10-16T05:30:48.016479+00:00",
+   "product_pid": "331a54d5eg"
+  },
+  {
+   "images": "store-samples/360/gold-engraved-trimmer/frame-16.webp",
+   "date": "2026-10-16T05:30:48.024897+00:00",
+   "product_pid": "331a54d5eg"
+  },
+  {
+   "images": "store-samples/360/gold-engraved-trimmer/frame-17.webp",
+   "date": "2026-10-16T05:30:48.034617+00:00",
+   "product_pid": "331a54d5eg"
+  },
+  {
+   "images": "store-samples/360/gold-engraved-trimmer/frame-18.webp",
+   "date": "2026-10-16T05:30:48.045812+00:00",
+   "product_pid": "331a54d5eg"
+  },
+  {
+   "images": "store-samples/360/gold-engraved-trimmer/frame-19.webp",
+   "date": "2026-10-16T05:30:48.054221+00:00",
+   "product_pid": "331a54d5eg"
+  },
+  {
+   "images": "store-samples/360/gold-engraved-trimmer/frame-20.webp",
+   "date": "2026-10-16T05:30:48.063416+00:00",
+   "product_pid": "331a54d5eg"
+  },
+  {
+   "images": "store-samples/360/gold-engraved-trimmer/frame-21.webp",
+   "date": "2026-10-16T05:30:48.075453+00:00",
+   "product_pid": "331a54d5eg"
+  },
+  {
+   "images": "store-samples/360/gold-engraved-trimmer/frame-22.webp",
+   "date": "2026-10-16T05:30:48.089648+00:00",
+   "product_pid": "331a54d5eg"
+  },
+  {
+   "images": "store-samples/360/gold-engraved-trimmer/frame-23.webp",
+   "date": "2026-10-16T05:30:48.101787+00:00",
+   "product_pid": "331a54d5eg"
+  },
+  {
+   "images": "store-samples/360/gold-engraved-trimmer/frame-24.webp",
+   "date": "2026-10-16T05:30:48.114211+00:00",
+   "product_pid": "331a54d5eg"
+  },
+  {
+   "images": "store-samples/360/kemei-km1698/frame-01.webp",
+   "date": "2026-10-16T05:30:48.151357+00:00",
+   "product_pid": "f1efabd34c"
+  },
+  {
+   "images": "store-samples/360/kemei-km1698/frame-02.webp",
+   "date": "2026-10-16T05:30:48.158599+00:00",
+   "product_pid": "f1efabd34c"
+  },
+  {
+   "images": "store-samples/360/kemei-km1698/frame-03.webp",
+   "date": "2026-10-16T05:30:48.169156+00:00",
+   "product_pid": "f1efabd34c"
+  },
+  {
+   "images": "store-samples/360/kemei-km1698/frame-04.webp",
+   "date": "2026-10-16T05:30:48.178405+00:00",
+   "product_pid": "f1efabd34c"
+  },
+  {
+   "images": "store-samples/360/kemei-km1698/frame-05.webp",
+   "date": "2026-10-16T05:30:48.189823+00:00",
+   "product_pid": "f1efabd34c"
+  },
+  {
+   "images": "store-samples/360/kemei-km1698/frame-06.webp",
+   "date": "2026-10-16T05:30:48.201083+00:00",
+   "product_pid": "f1efabd34c"
+  },
+  {
+   "images": "store-samples/360/kemei-km1698/frame-07.webp",
+   "date": "2026-10-16T05:30:48.210295+00:00",
+   "product_pid": "f1efabd34c"
+  },
+  {
+   "images": "store-samples/360/kemei-km1698/frame-08.webp",
+   "date": "2026-10-16T05:30:48.218829+00:00",
+   "product_pid": "f1efabd34c"
+  },
+  {
+   "images": "store-samples/360/kemei-km1698/frame-09.webp",
+   "date": "2026-10-16T05:30:48.226446+00:00",
+   "product_pid": "f1efabd34c"
+  },
+  {
+   "images": "store-samples/360/kemei-km1698/frame-10.webp",
+   "date": "2026-10-16T05:30:48.234413+00:00",
+   "product_pid": "f1efabd34c"
+  },
+  {
+   "images": "store-samples/360/kemei-km1698/frame-11.webp",
+   "date": "2026-10-16T05:30:48.244349+00:00",
+   "product_pid": "f1efabd34c"
+  },
+  {
+   "images": "store-samples/360/kemei-km1698/frame-12.webp",
+   "date": "2026-10-16T05:30:48.251540+00:00",
+   "product_pid": "f1efabd34c"
+  },
+  {
+   "images": "store-samples/360/kemei-km1698/frame-13.webp",
+   "date": "2026-10-16T05:30:48.257933+00:00",
+   "product_pid": "f1efabd34c"
+  },
+  {
+   "images": "store-samples/360/kemei-km1698/frame-14.webp",
+   "date": "2026-10-16T05:30:48.264913+00:00",
+   "product_pid": "f1efabd34c"
+  },
+  {
+   "images": "store-samples/360/kemei-km1698/frame-15.webp",
+   "date": "2026-10-16T05:30:48.272069+00:00",
+   "product_pid": "f1efabd34c"
+  },
+  {
+   "images": "store-samples/360/kemei-km1698/frame-16.webp",
+   "date": "2026-10-16T05:30:48.280243+00:00",
+   "product_pid": "f1efabd34c"
+  },
+  {
+   "images": "store-samples/360/kemei-km1698/frame-17.webp",
+   "date": "2026-10-16T05:30:48.287474+00:00",
+   "product_pid": "f1efabd34c"
+  },
+  {
+   "images": "store-samples/360/kemei-km1698/frame-18.webp",
+   "date": "2026-10-16T05:30:48.293595+00:00",
+   "product_pid": "f1efabd34c"
+  },
+  {
+   "images": "store-samples/360/kemei-km1698/frame-19.webp",
+   "date": "2026-10-16T05:30:48.301664+00:00",
+   "product_pid": "f1efabd34c"
+  },
+  {
+   "images": "store-samples/360/kemei-km1698/frame-20.webp",
+   "date": "2026-10-16T05:30:48.309422+00:00",
+   "product_pid": "f1efabd34c"
+  },
+  {
+   "images": "store-samples/360/kemei-km1698/frame-21.webp",
+   "date": "2026-10-16T05:30:48.319242+00:00",
+   "product_pid": "f1efabd34c"
+  },
+  {
+   "images": "store-samples/360/kemei-km1698/frame-22.webp",
+   "date": "2026-10-16T05:30:48.326648+00:00",
+   "product_pid": "f1efabd34c"
+  },
+  {
+   "images": "store-samples/360/kemei-km1698/frame-23.webp",
+   "date": "2026-10-16T05:30:48.337033+00:00",
+   "product_pid": "f1efabd34c"
+  },
+  {
+   "images": "store-samples/360/kemei-km1698/frame-24.webp",
+   "date": "2026-10-16T05:30:48.350501+00:00",
+   "product_pid": "f1efabd34c"
+  },
+  {
+   "images": "product-images/d4d40f5ff86d4bf5bc4b342ba0d2b222.webp",
+   "date": "2026-10-19T04:35:27.692804+00:00",
+   "product_pid": null
+  },
+  {
+   "images": "product-images/7cbc9cc573fc4820b4614caba869dc0b.webp",
+   "date": "2026-10-19T04:36:39.205170+00:00",
+   "product_pid": "ccg225fe1c"
+  },
+  {
+   "images": "product-images/2f894d09b78449919fad10d73d45b858.webp",
+   "date": "2026-10-19T04:56:50.645368+00:00",
+   "product_pid": "532dg4h352"
+  }
+ ],
+ "banners": [
+  {
+   "eyebrow": "مراقبت روزانه",
+   "title": "ابزارهای مراقبت شخصی مردانه",
+   "description": "ابزارهای مراقبت شخصی را با اطلاعات روشن، پشتیبانی فارسی و تجربهٔ خرید ساده بررسی کنید.",
+   "image": "storefront/banners/barber-hero.jpg",
+   "image_alt": "تصویر نمایشی ابزارهای مراقبت شخصی",
+   "button_label": "دیدن محصولات",
+   "button_url": "/products/",
+   "is_active": true,
+   "sort_order": 0,
+   "updated_at": "2026-10-23T08:18:47.867933+00:00"
+  },
+  {
+   "eyebrow": "کلکسیون استایلینگ",
+   "title": "کالکشن جدید هژیر مارکت",
+   "description": "ابزارهای استایلینگ مو در یک کلکسیون هم‌خانواده؛ انتخاب سریع‌تر برای یک نتیجهٔ یکدست.",
+   "image": "",
+   "image_alt": "کالکشن جدید هژیر مارکت",
+   "button_label": "مشاهده محصولات",
+   "button_url": "/products/",
+   "is_active": false,
+   "sort_order": 0,
+   "updated_at": "2026-10-24T07:15:16.248818+00:00"
+  },
+  {
+   "eyebrow": "",
+   "title": "",
+   "description": "",
+   "image": "storefront/banners/hero-custom.jpg",
+   "image_alt": "همان متن باشد",
+   "button_label": "مشاهده محصولات",
+   "button_url": "/products/",
+   "is_active": true,
+   "sort_order": 0,
+   "updated_at": "2026-10-24T07:32:25.806854+00:00"
+  }
+ ],
+ "faqs": [
+  {
+   "question": "چطور محصول مناسب خودم را انتخاب کنم؟",
+   "answer": "مشخصات و توضیحات هر محصول را بررسی کنید. اگر بین چند مدل مردد هستید، از فرم مشاورهٔ خرید استفاده کنید تا راهنمایی‌تان کنیم.",
+   "is_active": true,
+   "sort_order": 0,
+   "updated_at": "2026-10-15T02:54:37.571107+00:00"
+  },
+  {
+   "question": "آیا امکان ثبت سفارش اینترنتی وجود دارد؟",
+   "answer": "بله. محصولات را به سبد خرید اضافه کنید، اطلاعات تحویل را وارد کنید و سفارش را ثبت کنید. پرداخت فقط زمانی فعال می‌شود که شناسهٔ پذیرندهٔ زرین‌پال در تنظیمات فروشگاه قرار گرفته باشد.",
+   "is_active": true,
+   "sort_order": 0,
+   "updated_at": "2026-10-15T02:54:37.576980+00:00"
+  },
+  {
+   "question": "چطور سفارش خود را پیگیری کنم؟",
+   "answer": "پس از ورود به حساب کاربری، از بخش سفارش‌ها می‌توانید سفارش‌های ثبت‌شده و آخرین وضعیت آن‌ها را ببینید.",
+   "is_active": true,
+   "sort_order": 0,
+   "updated_at": "2026-10-15T02:54:37.582722+00:00"
+  },
+  {
+   "question": "محصولات نمونه قابل خرید واقعی هستند؟",
+   "answer": "خیر. کالاهایی که با برچسب «نمونه» مشخص شده‌اند صرفاً برای نمایش روند فروشگاه هستند و قیمت و موجودی واقعی ندارند.",
+   "is_active": true,
+   "sort_order": 0,
+   "updated_at": "2026-10-15T02:54:37.588930+00:00"
+  }
+ ],
+ "trust_features": [
+  {
+   "title": "انتخاب شفاف",
+   "description": "مشخصات کالا و شرایط سفارش را پیش از خرید بررسی کنید.",
+   "icon": "check",
+   "is_active": true,
+   "sort_order": 0
+  },
+  {
+   "title": "پشتیبانی انسانی",
+   "description": "برای انتخاب محصول یا پیگیری سفارش با ما در تماس باشید.",
+   "icon": "support",
+   "is_active": true,
+   "sort_order": 1
+  },
+  {
+   "title": "پرداخت امن",
+   "description": "پرداخت آنلاین پس از پیکربندی رسمی درگاه زرین‌پال فعال می‌شود.",
+   "icon": "lock",
+   "is_active": true,
+   "sort_order": 2
+  }
+ ],
+ "bundles": [
+  {
+   "title": "پک مراقبت روزانه",
+   "slug": "daily-grooming-set",
+   "description": "ترکیبی نمایشی از ریش‌تراش، سشوار و اتوی مو برای نمایش چیدمان پک‌های فروشگاه. مبلغ این پک تا زمان تأیید قیمت واقعی صرفاً نمونه است.",
+   "image": "storefront/bundles/daily-care-kit.jpg",
+   "price": "6811500",
+   "is_active": true,
+   "sort_order": 0
+  }
+ ]
+}
