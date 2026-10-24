@@ -398,9 +398,9 @@ STORE_SUBCATEGORIES = {
     ),
     "قطعات و لوازم دیجیتال": (
         {"title": "لوازم جانبی موبایل", "image": "products/digital-accessories.jpg"},
-        {"title": "کابل و شارژر", "image": "products/digital-cables.jpg"},
-        {"title": "هندزفری و هدفون", "image": "products/digital-headphones.jpg"},
-        {"title": "پاوربانک", "image": "products/digital-powerbank.jpg"},
+        {"title": "کابل و شارژر", "image": "products/digital-accessories.jpg"},
+        {"title": "هندزفری و هدفون", "image": "products/digital-accessories.jpg"},
+        {"title": "پاوربانک", "image": "products/digital-accessories.jpg"},
         {"title": "هولدر و پایه موبایل", "image": "products/digital-accessories.jpg"},
     ),
 }

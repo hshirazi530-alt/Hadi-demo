@@ -18,6 +18,7 @@
             {% if hero_banners %}
             {% for banner in hero_banners %}
             <article class="swiper-slide hm-hero__slide" aria-label="{{ forloop.counter }} از {{ hero_banners|length }}">
+                <div class="hm-hero__bg" aria-hidden="true"></div>
                 <div class="hm-hero__media">
                     {% if banner.image %}
                     <img src="{{ banner.image.url }}" alt="{{ banner.image_alt|default:banner.title }}" width="1600" height="900" {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %} decoding="async">
@@ -39,6 +40,7 @@
             {% else %}
             {% for category in home_categories %}
             <article class="swiper-slide hm-hero__slide" aria-label="{{ forloop.counter }} از {{ home_categories|length }}">
+                <div class="hm-hero__bg" aria-hidden="true"></div>
                 <div class="hm-hero__media">
                     <img src="{% static category.image %}?v=2" alt="{{ category.alt }}" width="1600" height="900" {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %} decoding="async">
                 </div>
@@ -256,23 +258,39 @@
 
     <section class="beauty-section trust-section" id="trust" aria-labelledby="trust-title">
         <div class="purchase-guide-summary purchase-guide-summary--standalone">
-            <h2 id="trust-title" class="purchase-guide-summary__title">راهنمای خرید مطمئن در ۴ گام</h2>
+            <div class="purchase-guide-summary__head">
+                <span class="purchase-guide-summary__eyebrow">خرید امن</span>
+                <h2 id="trust-title" class="purchase-guide-summary__title">راهنمای خرید مطمئن در ۴ گام</h2>
+                <p class="purchase-guide-summary__subtitle">از انتخاب تا تحویل، کنار شما هستیم</p>
+            </div>
             <div class="purchase-guide-summary__steps">
                 <div class="purchase-guide-summary__step">
                     <span class="purchase-guide-summary__num">۱</span>
-                    <span class="purchase-guide-summary__text">نیازها و بودجه را مشخص کنید</span>
+                    <div class="purchase-guide-summary__copy">
+                        <span class="purchase-guide-summary__label">برنامه‌ریزی</span>
+                        <span class="purchase-guide-summary__text">نیازها و بودجه را مشخص کنید</span>
+                    </div>
                 </div>
                 <div class="purchase-guide-summary__step">
                     <span class="purchase-guide-summary__num">۲</span>
-                    <span class="purchase-guide-summary__text">فروشنده و اصالت کالا را بررسی کنید</span>
+                    <div class="purchase-guide-summary__copy">
+                        <span class="purchase-guide-summary__label">اعتماد</span>
+                        <span class="purchase-guide-summary__text">فروشنده و اصالت کالا را بررسی کنید</span>
+                    </div>
                 </div>
                 <div class="purchase-guide-summary__step">
                     <span class="purchase-guide-summary__num">۳</span>
-                    <span class="purchase-guide-summary__text">هزینه‌های نهایی و شرایط مرجوعی را بخوانید</span>
+                    <div class="purchase-guide-summary__copy">
+                        <span class="purchase-guide-summary__label">شفافیت</span>
+                        <span class="purchase-guide-summary__text">هزینه‌های نهایی و شرایط مرجوعی را بخوانید</span>
+                    </div>
                 </div>
                 <div class="purchase-guide-summary__step">
                     <span class="purchase-guide-summary__num">۴</span>
-                    <span class="purchase-guide-summary__text">پرداخت امن و پیگیری ارسال</span>
+                    <div class="purchase-guide-summary__copy">
+                        <span class="purchase-guide-summary__label">اطمینان</span>
+                        <span class="purchase-guide-summary__text">پرداخت امن و پیگیری ارسال</span>
+                    </div>
                 </div>
             </div>
             <a href="{% url 'core:purchase_guide' %}" class="purchase-guide-summary__link">مشاهده راهنمای کامل <i class="fas fa-arrow-left"></i></a>

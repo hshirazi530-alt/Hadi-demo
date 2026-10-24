@@ -6252,9 +6252,9 @@
 }
 
 .store-css .comparison-table thead th {
-  background: #242522;
-  color: #f5efe4;
-  font-weight: 600;
+  background: linear-gradient(160deg, #e8d3a1 0%, #c9a96e 100%);
+  color: #2b2620;
+  font-weight: 700;
 }
 
 .store-css .comparison-table tbody th {
@@ -7528,10 +7528,10 @@
 .store-css .comparison-table thead th {
   min-width: 220px;
   padding: 18px 20px;
-  background: #252821;
-  color: #fffaf0;
+  background: linear-gradient(160deg, #e8d3a1 0%, #c9a96e 100%);
+  color: #2b2620;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .store-css .comparison-table thead th:first-child {
@@ -7540,8 +7540,8 @@
   z-index: 2;
   min-width: 128px;
   border-radius: 0 17px 0 0;
-  background: #1d211c;
-  color: #d9bd88;
+  background: linear-gradient(160deg, #f0e2c2 0%, #d8bd8a 100%);
+  color: #6d5527;
 }
 
 .store-css .comparison-table thead th:last-child {
@@ -7559,7 +7559,7 @@
 }
 
 .store-css .comparison-product:hover {
-  color: #e3c58d;
+  color: #6d5527;
 }
 
 .store-css .comparison-product img {
@@ -8461,45 +8461,79 @@
    Purchase Guide Summary (in Trust Section)
    ============================================================ */
 .store-css .purchase-guide-summary {
+  position: relative;
   margin-top: 32px;
-  padding: 24px 28px;
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(201, 169, 110, 0.25);
-  border-radius: 24px;
+  padding: clamp(26px, 4vw, 40px);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0.58) 100%);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(201, 169, 110, 0.28);
+  border-radius: 26px;
+  box-shadow: 0 2px 0 rgba(255, 255, 255, 0.65) inset, 0 14px 34px rgba(53, 45, 31, 0.05);
+}
+
+.store-css .purchase-guide-summary__head {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 24px;
+}
+
+.store-css .purchase-guide-summary__eyebrow {
+  width: fit-content;
+  padding: 5px 14px;
+  border-radius: 999px;
+  background: rgba(201, 169, 110, 0.14);
+  border: 1px solid rgba(201, 169, 110, 0.3);
+  color: #9d8058;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
 }
 
 .store-css .purchase-guide-summary__title {
-  font-size: 18px;
+  font-size: clamp(20px, 2.6vw, 26px);
   font-weight: 700;
   color: #2b2620;
-  margin: 0 0 16px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.store-css .purchase-guide-summary__subtitle {
+  margin: 0;
+  color: #736a6a;
+  font-size: 13.5px;
 }
 
 .store-css .purchase-guide-summary__steps {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
-  margin-bottom: 16px;
+  margin-bottom: 22px;
 }
 
 .store-css .purchase-guide-summary__step {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 14px;
-  background: rgba(201, 169, 110, 0.06);
-  border-radius: 12px;
-  transition: background 150ms ease;
+  gap: 12px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(201, 169, 110, 0.16);
+  border-radius: 14px;
+  box-shadow: 0 1px 2px rgba(53, 45, 31, 0.03);
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
 }
 
 .store-css .purchase-guide-summary__step:hover {
-  background: rgba(201, 169, 110, 0.12);
+  transform: translateY(-3px);
+  border-color: rgba(201, 169, 110, 0.45);
+  box-shadow: 0 12px 24px rgba(201, 169, 110, 0.14);
 }
 
 .store-css .purchase-guide-summary__num {
-  width: 28px;
-  height: 28px;
+  position: relative;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   background: linear-gradient(135deg, #c9a96e 0%, #e8d3a1 100%);
   color: #2b2620;
@@ -8508,6 +8542,36 @@
   display: grid;
   place-items: center;
   flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(201, 169, 110, 0.35);
+}
+
+.store-css .purchase-guide-summary__num::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border: 1px dashed rgba(201, 169, 110, 0.5);
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+
+.store-css .purchase-guide-summary__step:hover .purchase-guide-summary__num::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.store-css .purchase-guide-summary__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.store-css .purchase-guide-summary__label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #9d8058;
 }
 
 .store-css .purchase-guide-summary__text {
@@ -8540,6 +8604,44 @@
 @media (max-width: 560px) {
   .store-css .purchase-guide-summary__steps {
     grid-template-columns: 1fr;
+  }
+
+  .store-css .purchase-guide-summary {
+    padding: 22px 18px;
+    border-radius: 22px;
+  }
+
+  .store-css .purchase-guide-summary__head {
+    align-items: center;
+    text-align: center;
+  }
+}
+
+/* Reveal animation for the purchase guide summary */
+@media (prefers-reduced-motion: no-preference) {
+  .store-css .purchase-guide-summary {
+    animation: guideSummaryIn 600ms both cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @keyframes guideSummaryIn {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .store-css .purchase-guide-summary,
+  .store-css .purchase-guide-summary__step,
+  .store-css .purchase-guide-summary__num::after {
+    animation: none;
+    transition: none;
   }
 }
 
@@ -9347,6 +9449,15 @@ drawdown and the cart/wishlist counters behave exactly as before. */
 }
 
 /* ---------- Full-bleed photograph ---------- */
+.store-css .hm-hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: url("../assets/imgs/beauty/hero-custom-bg.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 .store-css .hm-hero__media {
   position: absolute;
   inset: 0;
