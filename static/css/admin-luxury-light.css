@@ -667,8 +667,22 @@ body.login-page {
   margin-top: 5vh !important;
 }
 
-.login-page .login-logo {
+.login-page .login-logo,
+.jazzmin-login-page .login-logo {
   margin-bottom: 1.5rem !important;
+  text-align: center !important;
+}
+
+.login-page .login-logo img,
+.jazzmin-login-page .login-logo img {
+  display: inline-block !important;
+  width: auto !important;
+  height: auto !important;
+  max-width: min(160px, 54vw) !important;
+  max-height: 90px !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  margin: 0 auto !important;
 }
 
 .login-page .login-logo a {

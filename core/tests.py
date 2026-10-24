@@ -38,6 +38,7 @@ class StorefrontTests(TestCase):
         self.assertContains(response, 'href="https://t.me/+989186555100"')
         self.assertContains(response, "09186555100")
 
+
     def test_sample_product_command_is_repeatable_and_publishes_personal_care_items(self):
         Category.objects.create(title="کادویی")
         with tempfile.TemporaryDirectory() as media_root:

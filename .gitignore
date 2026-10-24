@@ -24,7 +24,7 @@ ENV/
 # Static and media
 staticfiles/
 staticfiles_collected/
-# media/ is tracked intentionally for the hosted demo snapshot.
+media/
 
 # Local deployment archive
 /pythonanywhere-deploy.zip
