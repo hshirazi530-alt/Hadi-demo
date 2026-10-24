@@ -1284,23 +1284,11 @@
    "updated_at": "2026-10-23T08:18:47.867933+00:00"
   },
   {
-   "eyebrow": "کلکسیون استایلینگ",
-   "title": "کالکشن جدید هژیر مارکت",
-   "description": "ابزارهای استایلینگ مو در یک کلکسیون هم‌خانواده؛ انتخاب سریع‌تر برای یک نتیجهٔ یکدست.",
-   "image": "",
-   "image_alt": "کالکشن جدید هژیر مارکت",
-   "button_label": "مشاهده محصولات",
-   "button_url": "/products/",
-   "is_active": false,
-   "sort_order": 0,
-   "updated_at": "2026-10-24T07:15:16.248818+00:00"
-  },
-  {
-   "eyebrow": "",
-   "title": "",
-   "description": "",
+   "eyebrow": "کلکسیون جدید",
+   "title": "کلکسیون جدید هژیر مارکت",
+   "description": "ابزارهای مراقبت شخصی در یک کلکسیون هم‌خانواده؛ انتخاب سریع‌تر برای یک نتیجهٔ یکدست.",
    "image": "storefront/banners/hero-custom.jpg",
-   "image_alt": "همان متن باشد",
+   "image_alt": "کلکسیون جدید هژیر مارکت",
    "button_label": "مشاهده محصولات",
    "button_url": "/products/",
    "is_active": true,

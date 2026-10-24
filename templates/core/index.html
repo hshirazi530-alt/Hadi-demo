@@ -28,7 +28,7 @@
                 </div>
                 <div class="hm-hero__content">
                     {% if banner.eyebrow %}<p class="hm-hero__eyebrow">{{ banner.eyebrow }}</p>{% endif %}
-                    <h1 class="hm-hero__title" id="hero-title-{{ forloop.counter }}">{{ banner.title }}</h1>
+                    {% if banner.title %}<h1 class="hm-hero__title" id="hero-title-{{ forloop.counter }}">{{ banner.title }}</h1>{% endif %}
                     {% if banner.description %}<p class="hm-hero__description">{{ banner.description }}</p>{% endif %}
                     <div class="hm-hero__actions">
                         <a class="hm-hero__cta" href="{{ banner.button_url|default:'/products/' }}">{{ banner.button_label|default:'مشاهده محصولات' }}</a>
