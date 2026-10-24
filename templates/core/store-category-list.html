@@ -1,29 +1,19 @@
 {% extends 'partials/base.html' %}
 {% load static %}
 {% block title %}دسته‌بندی محصولات | هژیر مارکت{% endblock %}
-
 {% block content %}
-<main class="store-page" dir="rtl">
-    <header class="store-page-heading">
-        <p class="store-eyebrow">انتخاب ساده‌تر</p>
-        <h1>دسته‌بندی محصولات</h1>
-        <p>ابزار موردنیازت را پیدا کن و کالاهای هر گروه را ببین.</p>
-    </header>
-    <section class="store-category-grid" aria-label="دسته‌بندی‌های فروشگاه">
-        {% for category in categories %}
-        <a class="store-category-card" href="{% url 'core:category-product-list' category.cid %}">
-            <span class="store-category-card__image">
-                {% if category.image %}<img src="{{ category.image.url }}" alt="" loading="lazy">{% else %}<img src="{% static 'assets/imgs/beauty/barber-shop.jpg' %}" alt="" loading="lazy">{% endif %}
-            </span>
-            <span class="store-category-card__copy">
-                <strong>{{ category.title }}</strong>
-                <span>{{ category.category.count }} کالا</span>
-            </span>
-            <span class="store-category-card__arrow" aria-hidden="true">←</span>
-        </a>
-        {% empty %}
-        <div class="store-empty-state"><h2>دسته‌بندی‌ای ثبت نشده است</h2><p>به‌زودی دسته‌های محصولات فروشگاه در این بخش نمایش داده می‌شوند.</p><a class="beauty-button beauty-button--primary" href="{% url 'core:index' %}">بازگشت به صفحهٔ اصلی</a></div>
-        {% endfor %}
-    </section>
-</main>
-{% endblock %}
+<style>
+:root{--navy:#172331;--blue:#2350a5;--gold:#e8ad2d;--paper:#f8f7f3;--line:#e8e4dc;--muted:#707782}.nava-categories-page{direction:rtl;background:var(--paper);color:var(--navy);font-family:Vazirmatn,Arial,sans-serif;padding:0 5vw 85px}.nava-categories-page *{box-sizing:border-box}.nava-categories-page a{text-decoration:none;color:inherit}.nava-cat-hero{width:100%;min-height:260px;background:#e6edfb;display:flex;align-items:center;justify-content:space-between;padding:48px 7vw;position:relative;overflow:hidden}.nava-cat-hero:after{content:"";position:absolute;width:380px;height:380px;border:1px solid #2350a52b;border-radius:50%;left:-90px;top:-90px;box-shadow:0 0 0 42px #ffffff1c,0 0 0 84px #ffffff14}.nava-cat-hero-copy{position:relative;z-index:1}.nava-eyebrow{color:var(--blue);font-size:12px;font-weight:700;margin:0 0 12px}.nava-cat-hero h1{font-size:clamp(35px,5vw,60px);letter-spacing:-2px;line-height:1.15;margin:0 0 12px}.nava-cat-hero p:not(.nava-eyebrow){color:#66748c;font-size:14px;line-height:2;margin:0;max-width:440px}.nava-cat-hero-mark{position:relative;z-index:1;color:var(--blue);font-size:12px;line-height:1.2;text-align:center;transform:rotate(-8deg)}.nava-cat-hero-mark b{font-size:39px}.nava-cat-breadcrumb{display:flex;gap:8px;align-items:center;font-size:11px;color:#888f98;padding:22px 0}.nava-cat-breadcrumb a{color:var(--blue)}.nava-cat-toolbar{display:flex;justify-content:space-between;align-items:end;margin:48px 0 25px}.nava-cat-toolbar h2{font-size:29px;letter-spacing:-1px;margin:0}.nava-cat-toolbar p{color:var(--muted);font-size:12px;margin:8px 0 0}.nava-cat-count{background:#fff;border:1px solid var(--line);border-radius:20px;padding:8px 14px;color:var(--blue);font-size:11px}.nava-cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.nava-category-card{min-height:225px;border-radius:21px;padding:22px;display:grid;grid-template-columns:1fr 44%;align-items:center;gap:10px;overflow:hidden;position:relative;border:1px solid transparent;transition:.2s}.nava-category-card:hover{transform:translateY(-5px);box-shadow:0 15px 30px #17233112}.nava-category-card:nth-child(6n+1){background:#f5e3cb;border-color:#eddbc0}.nava-category-card:nth-child(6n+2){background:#e3ebdf;border-color:#d4e2d0}.nava-category-card:nth-child(6n+3){background:#dce7fb;border-color:#cbdaf4}.nava-category-card:nth-child(6n+4){background:#f0dfeb;border-color:#e8d0e1}.nava-category-card:nth-child(6n+5){background:#eee7d4;border-color:#e5dcc1}.nava-category-card:nth-child(6n){background:#e5e3f3;border-color:#d8d5ea}.nava-category-card__copy{display:flex;flex-direction:column;align-items:flex-start;z-index:1}.nava-category-card__copy strong{font-size:20px;line-height:1.5}.nava-category-card__copy span{color:#66717b;font-size:11px;margin-top:6px}.nava-category-card__link{color:var(--blue)!important;font-weight:700;margin-top:22px!important}.nava-category-card__image{height:170px;display:grid;place-items:center;z-index:1}.nava-category-card__image img{width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply}.nava-category-card__image:after{content:"";position:absolute;width:132px;height:132px;border-radius:50%;background:#ffffff44;left:18px;z-index:-0}.nava-subcategories{grid-column:1/-1;display:flex;gap:7px;flex-wrap:wrap;margin-top:-3px}.nava-subcategories span{background:#ffffffaa;border-radius:14px;padding:5px 8px;color:#52606c;font-size:10px}.nava-category-card--wide{grid-column:span 2}.nava-help{margin-top:64px;background:var(--navy);border-radius:22px;color:#fff;padding:29px 36px;display:flex;justify-content:space-between;align-items:center}.nava-help h2{font-size:22px;margin:0 0 5px}.nava-help p{color:#c4ccd8;font-size:12px;margin:0}.nava-help a{background:var(--gold);color:var(--navy);border-radius:9px;padding:12px 18px;font-size:12px;font-weight:700}.nava-empty{padding:45px;text-align:center;border:1px dashed #dfc8c2;border-radius:20px;color:var(--muted);grid-column:1/-1}
++@media(max-width:900px){.nava-cat-grid{grid-template-columns:repeat(2,1fr)}.nava-category-card--wide{grid-column:span 1}}
++@media(max-width:600px){.nava-categories-page{padding:0 18px 55px}.nava-cat-hero{min-height:245px;padding:36px 24px}.nava-cat-hero h1{font-size:39px}.nava-cat-hero-mark{display:none}.nava-cat-toolbar{display:block;margin:38px 0 19px}.nava-cat-count{display:inline-block;margin-top:12px}.nava-cat-grid{display:flex;overflow-x:auto;gap:11px;padding-bottom:10px;scroll-snap-type:x mandatory}.nava-category-card{min-width:285px;min-height:210px;scroll-snap-align:start}.nava-help{display:block;padding:25px 21px;margin-top:40px}.nava-help a{display:inline-block;margin-top:18px}}
++</style>
++<main class="nava-categories-page">
++  <nav class="nava-cat-breadcrumb" aria-label="مسیر صفحه"><a href="{% url 'core:index' %}">خانه</a><span>/</span><span>دسته‌بندی محصولات</span></nav>
++  <section class="nava-cat-hero"><div class="nava-cat-hero-copy"><p class="nava-eyebrow">برای شروع، انتخاب کن</p><h1>دنیای هژیر مارکت</h1><p>دسته‌بندی‌ها را سریع مرور کن و از میان محصولات مراقبت شخصی، سلامت، خانه و اکسسوری انتخاب کن.</p></div><div class="nava-cat-hero-mark">HEJR<br><b>MARKET</b></div></section>
++  <div class="nava-cat-toolbar"><div><p class="nava-eyebrow">مرتب و قابل جست‌وجو</p><h2>همه دسته‌بندی‌ها</h2><p>هر چیزی که برای روتین و خانه‌ات لازم داری، یک قدم نزدیک‌تر است.</p></div><span class="nava-cat-count">{{ categories|length }} دسته فعال</span></div>
++  <section class="nava-cat-grid" aria-label="دسته‌بندی‌های فروشگاه">
++    {% for category in categories %}<a class="nava-category-card{% if forloop.counter|divisibleby:3 %} nava-category-card--wide{% endif %}" href="{% url 'core:category-product-list' category.cid %}"><span class="nava-category-card__copy"><strong>{{ category.title }}</strong><span>{{ category.category.count }} کالا</span><span class="nava-category-card__link">مشاهده محصولات ←</span></span><span class="nava-category-card__image">{% if category.image %}<img src="{{ category.image.url }}" alt="{{ category.title }}" loading="lazy">{% else %}<img src="{% static 'assets/imgs/beauty/barber-shop.jpg' %}" alt="" loading="lazy">{% endif %}</span>{% if category.subcategories.all %}<span class="nava-subcategories">{% for subcategory in category.subcategories.all|slice:":4" %}<span>{{ subcategory.title }}</span>{% endfor %}</span>{% endif %}</a>{% empty %}<div class="nava-empty"><h2>دسته‌بندی‌ای ثبت نشده است</h2><p>به‌زودی دسته‌های محصولات فروشگاه در این بخش نمایش داده می‌شوند.</p><a href="{% url 'core:index' %}">بازگشت به صفحه اصلی</a></div>{% endfor %}
++  </section>
++  <section class="nava-help"><div><h2>برای انتخاب محصول مطمئن نیستی؟</h2><p>تیم هژیر مارکت کمکت می‌کند گزینه مناسب را سریع‌تر پیدا کنی.</p></div><a href="{% url 'core:contact' %}">درخواست راهنمایی ←</a></section>
++</main>
++{% endblock %}
