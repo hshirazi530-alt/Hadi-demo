@@ -6,10 +6,12 @@ __pycache__/
 .Python
 
 # Distribution / packaging
-build/
 dist/
 *.egg-info/
 .eggs/
+
+# Build output (keep static/build tracked: slider bundles used in production)
+!static/build/
 
 # Django local database
 *.sqlite3
