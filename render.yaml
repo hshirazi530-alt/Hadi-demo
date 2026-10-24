@@ -1,13 +1,13 @@
 databases:
-  - name: hejrmarket-demo-db
-    databaseName: hejrmarket_demo
-    user: hejrmarket
+  - name: hazhirmarket-db
+    databaseName: hazhirmarket
+    user: hazhirmarket
     plan: free
     region: frankfurt
 
 services:
   - type: web
-    name: hejrmarket-demo
+    name: Hazhirmarket
     runtime: python
     plan: free
     region: frankfurt
