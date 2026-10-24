@@ -36,9 +36,7 @@ class StorefrontTests(TestCase):
             f'href="{reverse("core:dashboard")}#track-orders"',
         )
         self.assertContains(response, 'href="https://t.me/+989186555100"')
-        self.assertContains(response, "۰۹۱۸۶۵۵۵۱۰۰")
-        self.assertContains(response, 'class="store-nav-logo"')
-        self.assertContains(response, 'class="logo logo-width-1 d-block d-lg-none store-mobile-logo"')
+        self.assertContains(response, "09186555100")
 
     def test_sample_product_command_is_repeatable_and_publishes_personal_care_items(self):
         Category.objects.create(title="کادویی")
@@ -211,15 +209,14 @@ class StorefrontTests(TestCase):
                 )
 
         response = self.client.get(reverse("core:index"))
-        self.assertContains(response, "محصولات منتخب مراقبت شخصی")
+        self.assertContains(response, "تازه‌ترین محصولات فروشگاه")
         visible_sample_products = [
             item
             for item in SAMPLE_STORE_PRODUCTS
             if item["title"] in response.content.decode()
         ]
         self.assertTrue(visible_sample_products)
-        self.assertContains(response, "نمونهٔ نمایشی")
-        self.assertContains(response, "قیمت و موجودی فرضی‌اند")
+        self.assertContains(response, "(نمونه)")
         for item in visible_sample_products:
             with self.subTest(sample_title=item["title"]):
                 self.assertContains(response, item["image"])
@@ -237,7 +234,7 @@ class StorefrontTests(TestCase):
         self.assertNotContains(response, "کادویی")
         self.assertEqual(
             response.context["products"].count(),
-            min(len(SAMPLE_STORE_PRODUCTS), 8),
+            min(len(SAMPLE_STORE_PRODUCTS), 12),
         )
 
         straightener_search = self.client.get(

@@ -397,10 +397,10 @@ STORE_SUBCATEGORIES = {
         {"title": "فلاسک", "image": "products/flask.jpg"},
     ),
     "قطعات و لوازم دیجیتال": (
-        {"title": "لوازم جانبی موبایل", "image": "products/digital-accessories.webp"},
-        {"title": "کابل و شارژر", "image": "products/digital-cables.webp"},
-        {"title": "هندزفری و هدفون", "image": "products/digital-headphones.webp"},
-        {"title": "پاوربانک", "image": "products/digital-powerbank.webp"},
-        {"title": "هولدر و پایه موبایل", "image": "products/digital-holder.webp"},
+        {"title": "لوازم جانبی موبایل", "image": "products/digital-accessories.jpg"},
+        {"title": "کابل و شارژر", "image": "products/digital-cables.jpg"},
+        {"title": "هندزفری و هدفون", "image": "products/digital-headphones.jpg"},
+        {"title": "پاوربانک", "image": "products/digital-powerbank.jpg"},
+        {"title": "هولدر و پایه موبایل", "image": "products/digital-accessories.jpg"},
     ),
 }
