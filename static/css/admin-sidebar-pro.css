@@ -451,12 +451,14 @@ body.larkon-admin #jazzy-sidebar .nav-sidebar .nav-link > p > .right {
   right: auto !important;
   left: 8px !important;
   color: var(--hjm-sb-text-dim) !important;
-  transition: transform var(--hjm-sb-transition) !important;
+  transition: none !important;
 }
 
 body.larkon-admin .main-sidebar .nav-sidebar .nav-item.menu-open > .nav-link > .right,
-body.larkon-admin .main-sidebar .nav-sidebar .nav-item.menu-open > .nav-link > p > .right {
-  transform: rotate(-180deg) !important;
+body.larkon-admin .main-sidebar .nav-sidebar .nav-item.menu-open > .nav-link > p > .right,
+body.larkon-admin #jazzy-sidebar .nav-sidebar .nav-item.menu-open > .nav-link > .right,
+body.larkon-admin #jazzy-sidebar .nav-sidebar .nav-item.menu-open > .nav-link > p > .right {
+  transform: rotate(-90deg) !important;
   color: var(--hjm-sb-gold) !important;
 }
 

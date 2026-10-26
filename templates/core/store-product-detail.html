@@ -112,6 +112,23 @@
             </fieldset>
             {% endif %}
 
+            {% if authenticity_badges %}
+            <div class="hm-authenticity" data-authenticity-wrap>
+                <p class="hm-authenticity__title">
+                    <span class="hm-authenticity__icon" aria-hidden="true">🔍</span>
+                    اصالت کالا
+                </p>
+                <div class="hm-authenticity__badges">
+                    {% for badge in authenticity_badges %}
+                    <span class="hm-authenticity__badge hm-authenticity__badge--{{ badge.key }}">
+                        <span class="hm-authenticity__mark" aria-hidden="true">{{ badge.icon }}</span>
+                        {{ badge.label }}
+                    </span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
             <div class="store-product-info__actions">
                 {% if p.in_stock or "(نمونه)" in p.title %}
                 <label for="product-quantity-{{ p.id }}">{% if "(نمونه)" in p.title %}تعداد آزمایشی{% else %}تعداد{% endif %}</label>

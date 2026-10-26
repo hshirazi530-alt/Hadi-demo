@@ -1,4 +1,4 @@
-{% extends 'partials/base.html' %}
+﻿{% extends 'partials/base.html' %}
 {% load static humanize store_math %}
 
 {% block title %}Hazhirmarket | ابزارهای زیبایی و مراقبت شخصی{% endblock %}
@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="{% static 'build/hero-slider.css' %}?v=1">
     <link rel="stylesheet" href="{% static 'build/product-slider.css' %}?v=1">
     <link rel="stylesheet" href="{% static 'build/amazing-slider.css' %}?v=1">
-    <link rel="stylesheet" href="{% static 'build/digital-promo.css' %}?v=1">
 {% endblock %}
 
 {% block content %}
@@ -16,7 +15,28 @@
              data-hero-slider
              aria-label="بنرهای اصلی هژیر مارکت">
         <div class="swiper-wrapper hm-hero__slides">
-            {% if hero_banners %}
+            {% if hero_banners or digital_banners %}
+            {% for banner in digital_banners %}
+            <article class="swiper-slide hm-hero__slide hm-hero__slide--digital" aria-label="{{ forloop.counter }} از {{ digital_banners|length }} بنر دیجیتال">
+                <div class="hm-hero__bg" aria-hidden="true"></div>
+                <div class="hm-hero__media">
+                    {% if banner.image %}
+                    <img src="{{ banner.image.url }}" alt="{{ banner.image_alt|default:banner.title }}" width="1600" height="900" {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %} decoding="async">
+                    {% else %}
+                    <img src="{% static 'assets/imgs/beauty/hero/tools-gold.webp' %}" alt="{{ banner.image_alt|default:banner.title }}" width="1600" height="900" {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %} decoding="async">
+                    {% endif %}
+                </div>
+                <div class="hm-hero__content">
+                    {% if banner.eyebrow %}<p class="hm-hero__eyebrow">{{ banner.eyebrow }}</p>{% endif %}
+                    <h1 class="hm-hero__title" id="hero-title-digital-{{ forloop.counter }}">{{ banner.title }}</h1>
+                    {% if banner.description %}<p class="hm-hero__description">{{ banner.description }}</p>{% endif %}
+                    <div class="hm-hero__actions">
+                        <a class="hm-hero__cta" href="{{ banner.button_url|default:'/products/' }}">{{ banner.button_label|default:'مشاهده محصولات' }}</a>
+                        <a class="hm-hero__cta hm-hero__cta--quiet" href="{% url 'core:category-list' %}">همهٔ دسته‌بندی‌ها</a>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
             {% for banner in hero_banners %}
             <article class="swiper-slide hm-hero__slide" aria-label="{{ forloop.counter }} از {{ hero_banners|length }}">
                 <div class="hm-hero__bg" aria-hidden="true"></div>
@@ -70,61 +90,6 @@
             </div>
         </nav>
     </section>
-
-    {% if digital_banners %}
-    <!-- Digital goods promotional slider -->
-    <section class="hm-digital-promo" aria-label="اسلایدر لوازم دیجیتال هژیر مارکت">
-        <div class="hm-digital-promo__inner swiper" data-digital-slider>
-            <div class="swiper-wrapper">
-                {% for banner in digital_banners %}
-                <article class="swiper-slide hm-digital-slide" aria-label="{{ forloop.counter }} از {{ digital_banners|length }}">
-                    <div class="hm-digital-slide__content">
-                        {% if banner.eyebrow %}<p class="hm-digital-slide__eyebrow">{{ banner.eyebrow }}</p>{% endif %}
-                        <h2 class="hm-digital-slide__title">{{ banner.title }}</h2>
-                        {% if banner.description %}<p class="hm-digital-slide__description">{{ banner.description }}</p>{% endif %}
-                        <div class="hm-digital-slide__actions">
-                            <a class="hm-digital-slide__cta" href="{{ banner.button_url|default:'/products/' }}">{{ banner.button_label|default:'مشاهده محصولات' }}</a>
-                            <a class="hm-digital-slide__cta hm-digital-slide__cta--quiet" href="{% url 'core:category-list' %}">همهٔ دسته‌بندی‌ها</a>
-                        </div>
-                    </div>
-                    <div class="hm-digital-slide__media">
-                        <div class="hm-digital-slide__media-frame">
-                            {% if banner.image %}
-                            <img src="{{ banner.image.url }}" alt="{{ banner.image_alt|default:banner.title }}" {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %} decoding="async">
-                            {% else %}
-                            <span class="hm-digital-slide__media-empty" aria-hidden="true">
-                                <svg viewBox="0 0 24 24" fill="none" focusable="false">
-                                    <path d="M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1Z" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M7 10h10M7 14h6" stroke-linecap="round"/>
-                                    <path d="M8 21h8" stroke-linecap="round"/>
-                                </svg>
-                                <span>تصویر بنر</span>
-                            </span>
-                            {% endif %}
-                            <span class="hm-digital-slide__badge">لوازم دیجیتال</span>
-                        </div>
-                    </div>
-                </article>
-                {% endfor %}
-            </div>
-            <nav class="hm-digital-promo__controls" data-digital-controls aria-label="کنترل اسلایدر لوازم دیجیتال">
-                <span class="hm-digital-promo__dots" data-digital-dots></span>
-                <span class="hm-digital-promo__arrows">
-                    <button type="button" class="hm-digital-promo__arrow" data-digital-prev aria-label="اسلاید قبلی">
-                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6"/></svg>
-                    </button>
-                    <button type="button" class="hm-digital-promo__arrow" data-digital-next aria-label="اسلاید بعدی">
-                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 6l-6 6 6 6"/></svg>
-                    </button>
-                </span>
-                <button type="button" class="hm-digital-promo__toggle" data-digital-autoplay aria-pressed="false" aria-label="توقف پخش خودکار">
-                    <span aria-hidden="true" data-digital-autoplay-icon>Ⅱ</span>
-                    <span data-digital-autoplay-label>توقف</span>
-                </button>
-            </nav>
-        </div>
-    </section>
-    {% endif %}
 
     <section class="beauty-section beauty-categories" id="categories" aria-labelledby="categories-title">
         <div class="beauty-section__heading">
@@ -866,5 +831,5 @@
     <script type="module" src="{% static 'build/hero-slider.js' %}?v=1"></script>
     <script type="module" src="{% static 'build/product-slider.js' %}?v=1"></script>
     <script type="module" src="{% static 'build/amazing-slider.js' %}?v=1"></script>
-    <script src="{% static 'build/digital-promo.js' %}?v=1" defer></script>
 {% endblock %}
+

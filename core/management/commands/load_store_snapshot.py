@@ -21,6 +21,7 @@ from core.models import (
     StoreTrustFeature,
     SubCategory,
     Category,
+    DigitalBanner,
 )
 
 
@@ -55,6 +56,7 @@ class Command(BaseCommand):
                 SubCategory.objects.all().delete()
                 Category.objects.all().delete()
                 HeroBanner.objects.all().delete()
+                DigitalBanner.objects.all().delete()
                 FAQ.objects.all().delete()
                 StoreTrustFeature.objects.all().delete()
                 ProductBundle.objects.all().delete()
@@ -69,6 +71,8 @@ class Command(BaseCommand):
                 )
                 if item.get("image"):
                     category.image.name = item["image"]
+                if item.get("icon"):
+                    category.icon.name = item["icon"]
                 category.save()
                 categories[category.title] = category
             stats["categories"] = len(categories)
@@ -124,6 +128,13 @@ class Command(BaseCommand):
                 product.price_pending_confirmation = bool(
                     item.get("price_pending_confirmation")
                 )
+                product.has_warranty = bool(item.get("has_warranty"))
+                product.warranty_6_price = item.get("warranty_6_price") or 0
+                product.warranty_12_price = item.get("warranty_12_price") or 0
+                product.warranty_24_price = item.get("warranty_24_price") or 0
+                product.authenticity_original = bool(item.get("authenticity_original"))
+                product.authenticity_high_copy = bool(item.get("authenticity_high_copy"))
+                product.authenticity_copy = bool(item.get("authenticity_copy"))
                 product.save()
                 products[product.pid] = product
             stats["products"] = len(products)
@@ -170,6 +181,26 @@ class Command(BaseCommand):
                 if created:
                     banner_count += 1
             stats["banners"] = banner_count
+
+            digital_count = 0
+            for item in data.get("digital_banners", []):
+                banner, created = DigitalBanner.objects.get_or_create(
+                    title=item["title"],
+                    defaults={"image": item.get("image") or ""},
+                )
+                banner.eyebrow = item.get("eyebrow") or ""
+                banner.description = item.get("description") or ""
+                banner.image_alt = item.get("image_alt") or ""
+                banner.button_label = item.get("button_label") or ""
+                banner.button_url = item.get("button_url") or "/products/"
+                banner.is_active = bool(item.get("is_active"))
+                banner.sort_order = item.get("sort_order") or 0
+                if item.get("image"):
+                    banner.image = item["image"]
+                banner.save()
+                if created:
+                    digital_count += 1
+            stats["digital_banners"] = digital_count
 
             faq_count = 0
             for item in data.get("faqs", []):

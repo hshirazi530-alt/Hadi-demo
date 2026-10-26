@@ -8,27 +8,32 @@
   {
    "cid": "catfc424e53gc",
    "title": "لوازم شخصی",
-   "image": "store-samples/photos/barber-shop.jpg"
+   "image": "store-samples/photos/barber-shop.jpg",
+   "icon": "category_icons/personal-care.svg"
   },
   {
    "cid": "cat21f5f2e114",
    "title": "سلامت",
-   "image": "store-samples/photos/health-category.jpg"
+   "image": "store-samples/photos/health-category.jpg",
+   "icon": "category_icons/health.svg"
   },
   {
    "cid": "catacgd1c3eb4",
    "title": "عطر و ادکلن",
-   "image": "store-samples/photos/perfume-category.jpg"
+   "image": "store-samples/photos/perfume-category.jpg",
+   "icon": "category_icons/perfume.svg"
   },
   {
    "cid": "cat3cc4cfdbhe",
    "title": "لوازم خانگی",
-   "image": "store-samples/photos/home-category.jpg"
+   "image": "store-samples/photos/home-category.jpg",
+   "icon": "category_icons/home.svg"
   },
   {
    "cid": "catcfbc5adf1b",
    "title": "قطعات و لوازم دیجیتال",
-   "image": "category/digital-category.jpg"
+   "image": "category/digital-category.jpg",
+   "icon": "category_icons/digital.svg"
   }
  ],
  "subcategories": [
@@ -239,7 +244,14 @@
    "date": "2026-10-12T07:16:24.239390+00:00",
    "updated": null,
    "category_title": "لوازم شخصی",
-   "subcategory_title": "ریش‌تراش و ماشین اصلاح"
+   "subcategory_title": "ریش‌تراش و ماشین اصلاح",
+   "has_warranty": true,
+   "warranty_6_price": "50000",
+   "warranty_12_price": "90000",
+   "warranty_24_price": "150000",
+   "authenticity_original": true,
+   "authenticity_high_copy": true,
+   "authenticity_copy": true
   },
   {
    "pid": "dheg3d3h2c",
@@ -266,7 +278,14 @@
    "date": "2026-10-12T07:16:24.253140+00:00",
    "updated": null,
    "category_title": "لوازم شخصی",
-   "subcategory_title": "ریش‌تراش و ماشین اصلاح"
+   "subcategory_title": "ریش‌تراش و ماشین اصلاح",
+   "has_warranty": false,
+   "warranty_6_price": "0",
+   "warranty_12_price": "0",
+   "warranty_24_price": "0",
+   "authenticity_original": false,
+   "authenticity_high_copy": false,
+   "authenticity_copy": false
   },
   {
    "pid": "bd3a111aae",
@@ -293,7 +312,14 @@
    "date": "2026-10-12T07:16:24.280953+00:00",
    "updated": null,
    "category_title": "لوازم شخصی",
-   "subcategory_title": "سشوار"
+   "subcategory_title": "سشوار",
+   "has_warranty": false,
+   "warranty_6_price": "0",
+   "warranty_12_price": "0",
+   "warranty_24_price": "0",
+   "authenticity_original": false,
+   "authenticity_high_copy": false,
+   "authenticity_copy": false
   },
   {
    "pid": "fd3h2hh424",
@@ -320,7 +346,14 @@
    "date": "2026-10-12T07:16:24.293135+00:00",
    "updated": null,
    "category_title": "لوازم شخصی",
-   "subcategory_title": "سشوار"
+   "subcategory_title": "سشوار",
+   "has_warranty": false,
+   "warranty_6_price": "0",
+   "warranty_12_price": "0",
+   "warranty_24_price": "0",
+   "authenticity_original": false,
+   "authenticity_high_copy": false,
+   "authenticity_copy": false
   },
   {
    "pid": "e544a3ae33",
@@ -347,7 +380,14 @@
    "date": "2026-10-12T07:16:24.324785+00:00",
    "updated": null,
    "category_title": "لوازم شخصی",
-   "subcategory_title": "اتو مو و بابليس"
+   "subcategory_title": "اتو مو و بابليس",
+   "has_warranty": false,
+   "warranty_6_price": "0",
+   "warranty_12_price": "0",
+   "warranty_24_price": "0",
+   "authenticity_original": false,
+   "authenticity_high_copy": false,
+   "authenticity_copy": false
   },
   {
    "pid": "c1b5fc2gfd",
@@ -374,7 +414,14 @@
    "date": "2026-10-12T07:16:24.340368+00:00",
    "updated": null,
    "category_title": "لوازم شخصی",
-   "subcategory_title": "اتو مو و بابليس"
+   "subcategory_title": "اتو مو و بابليس",
+   "has_warranty": false,
+   "warranty_6_price": "0",
+   "warranty_12_price": "0",
+   "warranty_24_price": "0",
+   "authenticity_original": false,
+   "authenticity_high_copy": false,
+   "authenticity_copy": false
   },
   {
    "pid": "331a54d5eg",
@@ -401,7 +448,14 @@
    "date": "2026-10-13T05:25:24.932400+00:00",
    "updated": null,
    "category_title": "لوازم شخصی",
-   "subcategory_title": "ریش‌تراش و ماشین اصلاح"
+   "subcategory_title": "ریش‌تراش و ماشین اصلاح",
+   "has_warranty": false,
+   "warranty_6_price": "0",
+   "warranty_12_price": "0",
+   "warranty_24_price": "0",
+   "authenticity_original": false,
+   "authenticity_high_copy": false,
+   "authenticity_copy": false
   },
   {
    "pid": "f1efabd34c",
@@ -428,7 +482,14 @@
    "date": "2026-10-13T06:05:52.288339+00:00",
    "updated": null,
    "category_title": "لوازم شخصی",
-   "subcategory_title": "ریش‌تراش و ماشین اصلاح"
+   "subcategory_title": "ریش‌تراش و ماشین اصلاح",
+   "has_warranty": false,
+   "warranty_6_price": "0",
+   "warranty_12_price": "0",
+   "warranty_24_price": "0",
+   "authenticity_original": false,
+   "authenticity_high_copy": false,
+   "authenticity_copy": false
   },
   {
    "pid": "5be13ch15g",
@@ -455,7 +516,14 @@
    "date": "2026-10-16T03:45:21.020989+00:00",
    "updated": null,
    "category_title": "لوازم شخصی",
-   "subcategory_title": null
+   "subcategory_title": null,
+   "has_warranty": false,
+   "warranty_6_price": "0",
+   "warranty_12_price": "0",
+   "warranty_24_price": "0",
+   "authenticity_original": false,
+   "authenticity_high_copy": false,
+   "authenticity_copy": false
   },
   {
    "pid": "eeah43b5a1",
@@ -482,7 +550,14 @@
    "date": "2026-10-16T04:27:04.603800+00:00",
    "updated": null,
    "category_title": "سلامت",
-   "subcategory_title": "فشارسنج"
+   "subcategory_title": "فشارسنج",
+   "has_warranty": false,
+   "warranty_6_price": "0",
+   "warranty_12_price": "0",
+   "warranty_24_price": "0",
+   "authenticity_original": false,
+   "authenticity_high_copy": false,
+   "authenticity_copy": false
   },
   {
    "pid": "d2ed52bdbf",
@@ -509,7 +584,14 @@
    "date": "2026-10-16T04:45:58.795842+00:00",
    "updated": null,
    "category_title": "عطر و ادکلن",
-   "subcategory_title": "عطر"
+   "subcategory_title": "عطر",
+   "has_warranty": false,
+   "warranty_6_price": "0",
+   "warranty_12_price": "0",
+   "warranty_24_price": "0",
+   "authenticity_original": false,
+   "authenticity_high_copy": false,
+   "authenticity_copy": false
   },
   {
    "pid": "cdchggg5b3",
@@ -536,7 +618,14 @@
    "date": "2026-10-16T04:45:58.811772+00:00",
    "updated": null,
    "category_title": "لوازم خانگی",
-   "subcategory_title": "مخلوط کن و آبمیوه گیری"
+   "subcategory_title": "مخلوط کن و آبمیوه گیری",
+   "has_warranty": false,
+   "warranty_6_price": "0",
+   "warranty_12_price": "0",
+   "warranty_24_price": "0",
+   "authenticity_original": false,
+   "authenticity_high_copy": false,
+   "authenticity_copy": false
   },
   {
    "pid": "e3db5edfgf",
@@ -563,7 +652,14 @@
    "date": "2026-10-16T05:06:40.961919+00:00",
    "updated": null,
    "category_title": "عطر و ادکلن",
-   "subcategory_title": "ادکلن"
+   "subcategory_title": "ادکلن",
+   "has_warranty": false,
+   "warranty_6_price": "0",
+   "warranty_12_price": "0",
+   "warranty_24_price": "0",
+   "authenticity_original": false,
+   "authenticity_high_copy": false,
+   "authenticity_copy": false
   },
   {
    "pid": "2b1f4g32ga",
@@ -590,7 +686,14 @@
    "date": "2026-10-16T05:06:40.985537+00:00",
    "updated": null,
    "category_title": "لوازم خانگی",
-   "subcategory_title": "زود پز"
+   "subcategory_title": "زود پز",
+   "has_warranty": false,
+   "warranty_6_price": "0",
+   "warranty_12_price": "0",
+   "warranty_24_price": "0",
+   "authenticity_original": false,
+   "authenticity_high_copy": false,
+   "authenticity_copy": false
   },
   {
    "pid": "bd54d2gcg5",
@@ -617,7 +720,14 @@
    "date": "2026-10-16T05:06:41.005988+00:00",
    "updated": null,
    "category_title": "لوازم خانگی",
-   "subcategory_title": "فلاسک"
+   "subcategory_title": "فلاسک",
+   "has_warranty": false,
+   "warranty_6_price": "0",
+   "warranty_12_price": "0",
+   "warranty_24_price": "0",
+   "authenticity_original": false,
+   "authenticity_high_copy": false,
+   "authenticity_copy": false
   },
   {
    "pid": "ghd2fc112c",
@@ -644,7 +754,14 @@
    "date": "2026-10-16T05:06:41.021775+00:00",
    "updated": null,
    "category_title": "لوازم شخصی",
-   "subcategory_title": "ریش‌تراش و ماشین اصلاح"
+   "subcategory_title": "ریش‌تراش و ماشین اصلاح",
+   "has_warranty": false,
+   "warranty_6_price": "0",
+   "warranty_12_price": "0",
+   "warranty_24_price": "0",
+   "authenticity_original": false,
+   "authenticity_high_copy": false,
+   "authenticity_copy": false
   },
   {
    "pid": "bb53haa1d3",
@@ -671,7 +788,14 @@
    "date": "2026-10-16T05:06:41.035273+00:00",
    "updated": null,
    "category_title": "لوازم شخصی",
-   "subcategory_title": "سشوار"
+   "subcategory_title": "سشوار",
+   "has_warranty": false,
+   "warranty_6_price": "0",
+   "warranty_12_price": "0",
+   "warranty_24_price": "0",
+   "authenticity_original": false,
+   "authenticity_high_copy": false,
+   "authenticity_copy": false
   },
   {
    "pid": "h2h4hgb454",
@@ -698,7 +822,14 @@
    "date": "2026-10-16T05:06:41.055565+00:00",
    "updated": null,
    "category_title": "لوازم شخصی",
-   "subcategory_title": "اتو مو و بابليس"
+   "subcategory_title": "اتو مو و بابليس",
+   "has_warranty": false,
+   "warranty_6_price": "0",
+   "warranty_12_price": "0",
+   "warranty_24_price": "0",
+   "authenticity_original": false,
+   "authenticity_high_copy": false,
+   "authenticity_copy": false
   },
   {
    "pid": "341h3eehc2",
@@ -725,7 +856,14 @@
    "date": "2026-10-16T05:06:41.070905+00:00",
    "updated": null,
    "category_title": "لوازم شخصی",
-   "subcategory_title": "اپیلیدی"
+   "subcategory_title": "اپیلیدی",
+   "has_warranty": false,
+   "warranty_6_price": "0",
+   "warranty_12_price": "0",
+   "warranty_24_price": "0",
+   "authenticity_original": false,
+   "authenticity_high_copy": false,
+   "authenticity_copy": false
   },
   {
    "pid": "dba1c41eg5",
@@ -752,7 +890,14 @@
    "date": "2026-10-16T05:06:41.094234+00:00",
    "updated": null,
    "category_title": "لوازم شخصی",
-   "subcategory_title": "قطعات یدکی"
+   "subcategory_title": "قطعات یدکی",
+   "has_warranty": false,
+   "warranty_6_price": "0",
+   "warranty_12_price": "0",
+   "warranty_24_price": "0",
+   "authenticity_original": false,
+   "authenticity_high_copy": false,
+   "authenticity_copy": false
   },
   {
    "pid": "4hb1g155a1",
@@ -779,7 +924,14 @@
    "date": "2026-10-18T05:51:06.553832+00:00",
    "updated": null,
    "category_title": "سلامت",
-   "subcategory_title": null
+   "subcategory_title": null,
+   "has_warranty": false,
+   "warranty_6_price": "0",
+   "warranty_12_price": "0",
+   "warranty_24_price": "0",
+   "authenticity_original": false,
+   "authenticity_high_copy": false,
+   "authenticity_copy": false
   },
   {
    "pid": "ccg225fe1c",
@@ -806,7 +958,14 @@
    "date": "2026-10-19T04:36:39.161640+00:00",
    "updated": null,
    "category_title": "لوازم شخصی",
-   "subcategory_title": null
+   "subcategory_title": null,
+   "has_warranty": false,
+   "warranty_6_price": "0",
+   "warranty_12_price": "0",
+   "warranty_24_price": "0",
+   "authenticity_original": false,
+   "authenticity_high_copy": false,
+   "authenticity_copy": false
   },
   {
    "pid": "532dg4h352",
@@ -833,7 +992,14 @@
    "date": "2026-10-19T04:56:50.575175+00:00",
    "updated": null,
    "category_title": "لوازم خانگی",
-   "subcategory_title": null
+   "subcategory_title": null,
+   "has_warranty": false,
+   "warranty_6_price": "0",
+   "warranty_12_price": "0",
+   "warranty_24_price": "0",
+   "authenticity_original": false,
+   "authenticity_high_copy": false,
+   "authenticity_copy": false
   },
   {
    "pid": "cf42cddacf",
@@ -860,7 +1026,14 @@
    "date": "2026-10-19T05:05:05.155257+00:00",
    "updated": null,
    "category_title": "لوازم شخصی",
-   "subcategory_title": null
+   "subcategory_title": null,
+   "has_warranty": false,
+   "warranty_6_price": "0",
+   "warranty_12_price": "0",
+   "warranty_24_price": "0",
+   "authenticity_original": false,
+   "authenticity_high_copy": false,
+   "authenticity_copy": false
   }
  ],
  "product_images": [
@@ -1358,6 +1531,41 @@
    "price": "6811500",
    "is_active": true,
    "sort_order": 0
+  }
+ ],
+ "digital_banners": [
+  {
+   "title": "لوازم جانبی موبایل و لپ‌تاپ",
+   "eyebrow": "لوازم جانبی دیجیتال",
+   "description": "کابل، شارژر، هندزفری و پاوربانک با کیفیت تضمینی و قیمت منصفانه",
+   "image": "",
+   "image_alt": "",
+   "button_label": "مشاهده لوازم دیجیتال",
+   "button_url": "/category/",
+   "is_active": true,
+   "sort_order": 1
+  },
+  {
+   "title": "قطعات اصلی با ضمانت اصالت",
+   "eyebrow": "قطعات و لوازم دیجیتال",
+   "description": "قطعات و لوازم یدکی دستگاه‌های دیجیتال با پشتیبانی فارسی و ارسال مطمئن",
+   "image": "",
+   "image_alt": "",
+   "button_label": "مشاهده قطعات",
+   "button_url": "/category/",
+   "is_active": true,
+   "sort_order": 2
+  },
+  {
+   "title": "تخفیف ویژه لوازم دیجیتال",
+   "eyebrow": "پیشنهاد ویژه",
+   "description": "مجموعه‌ای از بهترین لوازم دیجیتال با تخفیف ویژه و کیفیت تضمینی",
+   "image": "",
+   "image_alt": "",
+   "button_label": "مشاهده تخفیف‌ها",
+   "button_url": "/products/",
+   "is_active": true,
+   "sort_order": 3
   }
  ]
 }

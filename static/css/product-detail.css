@@ -580,6 +580,63 @@
   line-height: 1.7;
 }
 
+/* ---------- Product authenticity badges (Feature 9) ---------- */
+.store-css .hm-authenticity {
+  margin: 16px 0;
+  padding: 12px 16px;
+  border: 1px solid var(--hm-gold-hairline);
+  border-radius: var(--hm-radius-md);
+  background: var(--hm-surface);
+}
+
+.store-css .hm-authenticity__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 8px;
+  color: var(--hm-bronze-deep);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.store-css .hm-authenticity__icon {
+  font-size: 14px;
+}
+
+.store-css .hm-authenticity__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.store-css .hm-authenticity__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 13px;
+  border-radius: var(--hm-radius-pill);
+  font-size: 12.5px;
+  font-weight: 700;
+  border: 1px solid transparent;
+}
+
+.store-css .hm-authenticity__mark {
+  font-size: 12px;
+}
+
+.store-css .hm-authenticity__badge--original {
+  border-color: rgba(74, 124, 89, 0.35);
+  background: rgba(74, 124, 89, 0.10);
+  color: #2f5c3d;
+}
+
+.store-css .hm-authenticity__badge--high_copy,
+.store-css .hm-authenticity__badge--copy {
+  border-color: rgba(160, 124, 60, 0.35);
+  background: rgba(200, 162, 83, 0.12);
+  color: var(--hm-bronze-deep);
+}
+
 /* ---------- Responsive (mobile) ---------- */
 @media (max-width: 768px) {
   .store-css .hm-product-title {
@@ -643,6 +700,20 @@
 
   .store-css .hm-warranty__option {
     padding: 8px 10px;
+  }
+
+  .store-css .hm-authenticity {
+    margin: 12px 0;
+    padding: 10px 14px;
+  }
+
+  .store-css .hm-authenticity__badges {
+    gap: 6px;
+  }
+
+  .store-css .hm-authenticity__badge {
+    padding: 5px 11px;
+    font-size: 12px;
   }
 }
 
