@@ -27,6 +27,7 @@ ENV/
 staticfiles/
 staticfiles_collected/
 media/
+!media/category_icons/
 
 # Local deployment archive
 /pythonanywhere-deploy.zip
