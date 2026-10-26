@@ -54,6 +54,58 @@
     });
   }
 
+  /* ---------- Warranty selector live price update (Feature 7) ---------- */
+  function formatToman(amount) {
+    var value = Number(amount) || 0;
+    return value.toLocaleString('fa-IR');
+  }
+
+  function initWarrantySelector() {
+    var wrap = document.querySelector('[data-warranty-wrap]');
+    if (!wrap) return;
+
+    var card = wrap.closest('.product-cart-wrap');
+    if (!card) return;
+
+    var basePrice = Number(card.dataset.productPrice) || 0;
+    var currentPriceEl = document.querySelector('.hm-price-card__current');
+
+    function updatePrice() {
+      var selected = wrap.querySelector('[data-warranty-option]:checked');
+      var warrantyPrice = selected ? (Number(selected.dataset.warrantyPrice) || 0) : 0;
+      var total = basePrice + warrantyPrice;
+
+      wrap.querySelectorAll('.hm-warranty__option').forEach(function (label) {
+        var input = label.querySelector('[data-warranty-option]');
+        label.classList.toggle('is-active', input === selected);
+      });
+
+      if (currentPriceEl) {
+        var small = currentPriceEl.querySelector('small');
+        currentPriceEl.childNodes.forEach(function (node) {
+          if (node.nodeType === 3 && node.textContent.trim()) {
+            node.textContent = ' ' + formatToman(total) + ' ';
+          }
+        });
+        if (small) {
+          small.textContent = 'تومان';
+        }
+      }
+    }
+
+    wrap.querySelectorAll('[data-warranty-option]').forEach(function (input) {
+      input.addEventListener('change', updatePrice);
+    });
+    updatePrice();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initWarrantySelector);
+  } else {
+    initWarrantySelector();
+  }
+  /* ---------- End warranty selector ---------- */
+
   var imageZoomDialog = document.querySelector('[data-image-zoom-dialog]');
   if (imageZoomDialog) {
     var zoomedImage = imageZoomDialog.querySelector('[data-image-zoom-view]');
@@ -409,13 +461,21 @@
     button.setAttribute('aria-busy', 'true');
     button.textContent = 'در حال افزودن…';
 
+    // گارانتی انتخابی کاربر (Feature 7)
+    var warrantyMonths = '0';
+    var warrantyInput = card.querySelector('[data-warranty-option]:checked');
+    if (warrantyInput) {
+      warrantyMonths = warrantyInput.value || '0';
+    }
+
     postCartAction(cartUrl, {
       id: card.dataset.productId || '',
       pid: card.dataset.productPid || '',
       title: card.dataset.productTitle || '',
       price: card.dataset.productPrice || '',
       image: card.dataset.productImage || '',
-      qty: (card.querySelector('[class*="product-quantity-"]') || {}).value || '1'
+      qty: (card.querySelector('[class*="product-quantity-"]') || {}).value || '1',
+      warranty_months: warrantyMonths
     }).then(function (data) {
         updateCartBadges(data.totalcartitems);
         button.textContent = 'به سبد خرید اضافه شد';

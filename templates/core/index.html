@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{% static 'build/hero-slider.css' %}?v=1">
     <link rel="stylesheet" href="{% static 'build/product-slider.css' %}?v=1">
     <link rel="stylesheet" href="{% static 'build/amazing-slider.css' %}?v=1">
+    <link rel="stylesheet" href="{% static 'build/digital-promo.css' %}?v=1">
 {% endblock %}
 
 {% block content %}
@@ -28,7 +29,7 @@
                 </div>
                 <div class="hm-hero__content">
                     {% if banner.eyebrow %}<p class="hm-hero__eyebrow">{{ banner.eyebrow }}</p>{% endif %}
-                    {% if banner.title %}<h1 class="hm-hero__title" id="hero-title-{{ forloop.counter }}">{{ banner.title }}</h1>{% endif %}
+                    <h1 class="hm-hero__title" id="hero-title-{{ forloop.counter }}">{{ banner.title }}</h1>
                     {% if banner.description %}<p class="hm-hero__description">{{ banner.description }}</p>{% endif %}
                     <div class="hm-hero__actions">
                         <a class="hm-hero__cta" href="{{ banner.button_url|default:'/products/' }}">{{ banner.button_label|default:'مشاهده محصولات' }}</a>
@@ -69,6 +70,61 @@
             </div>
         </nav>
     </section>
+
+    {% if digital_banners %}
+    <!-- Digital goods promotional slider -->
+    <section class="hm-digital-promo" aria-label="اسلایدر لوازم دیجیتال هژیر مارکت">
+        <div class="hm-digital-promo__inner swiper" data-digital-slider>
+            <div class="swiper-wrapper">
+                {% for banner in digital_banners %}
+                <article class="swiper-slide hm-digital-slide" aria-label="{{ forloop.counter }} از {{ digital_banners|length }}">
+                    <div class="hm-digital-slide__content">
+                        {% if banner.eyebrow %}<p class="hm-digital-slide__eyebrow">{{ banner.eyebrow }}</p>{% endif %}
+                        <h2 class="hm-digital-slide__title">{{ banner.title }}</h2>
+                        {% if banner.description %}<p class="hm-digital-slide__description">{{ banner.description }}</p>{% endif %}
+                        <div class="hm-digital-slide__actions">
+                            <a class="hm-digital-slide__cta" href="{{ banner.button_url|default:'/products/' }}">{{ banner.button_label|default:'مشاهده محصولات' }}</a>
+                            <a class="hm-digital-slide__cta hm-digital-slide__cta--quiet" href="{% url 'core:category-list' %}">همهٔ دسته‌بندی‌ها</a>
+                        </div>
+                    </div>
+                    <div class="hm-digital-slide__media">
+                        <div class="hm-digital-slide__media-frame">
+                            {% if banner.image %}
+                            <img src="{{ banner.image.url }}" alt="{{ banner.image_alt|default:banner.title }}" {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %} decoding="async">
+                            {% else %}
+                            <span class="hm-digital-slide__media-empty" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" focusable="false">
+                                    <path d="M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1Z" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M7 10h10M7 14h6" stroke-linecap="round"/>
+                                    <path d="M8 21h8" stroke-linecap="round"/>
+                                </svg>
+                                <span>تصویر بنر</span>
+                            </span>
+                            {% endif %}
+                            <span class="hm-digital-slide__badge">لوازم دیجیتال</span>
+                        </div>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+            <nav class="hm-digital-promo__controls" data-digital-controls aria-label="کنترل اسلایدر لوازم دیجیتال">
+                <span class="hm-digital-promo__dots" data-digital-dots></span>
+                <span class="hm-digital-promo__arrows">
+                    <button type="button" class="hm-digital-promo__arrow" data-digital-prev aria-label="اسلاید قبلی">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6"/></svg>
+                    </button>
+                    <button type="button" class="hm-digital-promo__arrow" data-digital-next aria-label="اسلاید بعدی">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 6l-6 6 6 6"/></svg>
+                    </button>
+                </span>
+                <button type="button" class="hm-digital-promo__toggle" data-digital-autoplay aria-pressed="false" aria-label="توقف پخش خودکار">
+                    <span aria-hidden="true" data-digital-autoplay-icon>Ⅱ</span>
+                    <span data-digital-autoplay-label>توقف</span>
+                </button>
+            </nav>
+        </div>
+    </section>
+    {% endif %}
 
     <section class="beauty-section beauty-categories" id="categories" aria-labelledby="categories-title">
         <div class="beauty-section__heading">
@@ -500,6 +556,40 @@
     </section>
     {% endif %}
 
+    <!-- Promo banners set 5: cream / gold theme -->
+    <section class="beauty-section hm-promo-strip hm-promo-strip--alt4" id="promo-banners-5" aria-label="بنرهای پیشنهاد ویژه هژیر مارکت">
+        <div class="hm-promo-strip__grid">
+            <a class="hm-promo-card hm-promo-card--salt" href="{% url 'core:category-list' %}">
+                <img src="{% static 'assets/imgs/beauty/promo/promo5-salt.jpg' %}" alt="بنر لوازم اسپا و نمک‌های درمانی" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body">
+                    <b>اسپا و نمک‌های درمانی</b>
+                    <i>محصولات آرامش‌بخش برای ریلکسیشن بدن</i>
+                </span>
+            </a>
+            <a class="hm-promo-card hm-promo-card--bath" href="{% url 'core:category-list' %}">
+                <img src="{% static 'assets/imgs/beauty/promo/promo5-bath.jpg' %}" alt="بنر لوازم حمام و ریلکسیشن" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body">
+                    <b>لوازم حمام و ریلکسیشن</b>
+                    <i>تجهیزات آرامش‌بخش برای لحظات استراحت شما</i>
+                </span>
+            </a>
+            <a class="hm-promo-card hm-promo-card--cosmetics2" href="{% url 'core:category-list' %}">
+                <img src="{% static 'assets/imgs/beauty/promo/promo5-cosmetics2.jpg' %}" alt="بنر لوازم آرایشی و روتین پوستی" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body">
+                    <b>آرایش و روتین پوستی</b>
+                    <i>ترکیبات ملایم و ایمن برای هر نوع پوست</i>
+                </span>
+            </a>
+            <a class="hm-promo-card hm-promo-card--spa3" href="{% url 'core:category-list' %}">
+                <img src="{% static 'assets/imgs/beauty/promo/promo5-spa3.jpg' %}" alt="بنر مراقبت تخصصی بدن" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body">
+                    <b>مراقبت تخصصی بدن</b>
+                    <i>محصولات مغذی و بازسازی‌کنندهٔ پوست بدن</i>
+                </span>
+            </a>
+        </div>
+    </section>
+
     {% if bundles %}
     <section class="beauty-section bundle-section" aria-labelledby="bundle-title">
         <div class="beauty-section__heading">
@@ -550,6 +640,40 @@
     </section>
     {% endif %}
 
+    <!-- Promo banners set 6: cream / gold theme -->
+    <section class="beauty-section hm-promo-strip hm-promo-strip--alt5" id="promo-banners-6" aria-label="بنرهای پیشنهاد ویژه هژیر مارکت">
+        <div class="hm-promo-strip__grid">
+            <a class="hm-promo-card hm-promo-card--cream2" href="{% url 'core:category-list' %}">
+                <img src="{% static 'assets/imgs/beauty/promo/promo6-cream2.jpg' %}" alt="بنر کرم‌ها و لوسیون‌های مغذی" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body">
+                    <b>کرم‌ها و لوسیون‌های مغذی</b>
+                    <i>مراقبت عمیق برای پوست‌های خشک و حساس</i>
+                </span>
+            </a>
+            <a class="hm-promo-card hm-promo-card--perfume3" href="{% url 'core:category-list' %}">
+                <img src="{% static 'assets/imgs/beauty/promo/promo6-perfume3.jpg' %}" alt="بنر عطر و ادکلن لوکس" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body">
+                    <b>عطر و ادکلن لوکس</b>
+                    <i>رایحه‌های شرقی و کلاسیک با ماندگاری بالا</i>
+                </span>
+            </a>
+            <a class="hm-promo-card hm-promo-card--spa4" href="{% url 'core:category-list' %}">
+                <img src="{% static 'assets/imgs/beauty/promo/promo6-spa4.jpg' %}" alt="بنر محصولات اسپا و آرامش" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body">
+                    <b>اسپا و آرامش</b>
+                    <i>محصولات ریلکسیشن برای بدن و روح</i>
+                </span>
+            </a>
+            <a class="hm-promo-card hm-promo-card--skincare3" href="{% url 'core:category-list' %}">
+                <img src="{% static 'assets/imgs/beauty/promo/promo6-skincare3.jpg' %}" alt="بنر روتین پوستی و آبرسانی" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body">
+                    <b>روتین پوستی و آبرسانی</b>
+                    <i>سرم‌ها و آبرسان‌های تخصصی برای پوست</i>
+                </span>
+            </a>
+        </div>
+    </section>
+
     {% if faqs %}
     <section class="beauty-section faq-section" aria-labelledby="faq-title">
         <div class="beauty-section__heading">
@@ -591,8 +715,41 @@
     </section>
     {% endif %}
 
+    <section class="beauty-section hm-promo-strip hm-promo-strip--alt6" id="promo-banners-7" aria-label="بنرهای پیشنهاد ویژه هژیر مارکت">
+        <div class="hm-promo-strip__grid">
+            <a class="hm-promo-card hm-promo-card--giftbox2" href="{% url 'core:category-list' %}">
+                <img src="{% static 'assets/imgs/beauty/promo/promo7-giftbox2.jpg' %}" alt="بنر پک‌های هدیه لوکس" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body">
+                    <b>پک‌های هدیه لوکس</b>
+                    <i>ست‌های آماده برای هدیه دادن</i>
+                </span>
+            </a>
+            <a class="hm-promo-card hm-promo-card--trimmer2" href="{% url 'core:category-list' %}">
+                <img src="{% static 'assets/imgs/beauty/promo/promo7-trimmer2.jpg' %}" alt="بنر بیوتی‌تریمرها" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body">
+                    <b>بیوتی‌تریمرها</b>
+                    <i>اصلاح‌کننده‌های دقیق و ایمن</i>
+                </span>
+            </a>
+            <a class="hm-promo-card hm-promo-card--barber2" href="{% url 'core:category-list' %}">
+                <img src="{% static 'assets/imgs/beauty/promo/promo7-barber2.jpg' %}" alt="بنر لوازم آرایشی" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body">
+                    <b>لوازم آرایشی</b>
+                    <i>ابزار حرفه‌ای برای آرایش</i>
+                </span>
+            </a>
+            <a class="hm-promo-card hm-promo-card--spa5" href="{% url 'core:category-list' %}">
+                <img src="{% static 'assets/imgs/beauty/promo/promo7-spa5.jpg' %}" alt="بنر مراقبت اسپا" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body">
+                    <b>مراقبت اسپا</b>
+                    <i>آرامش و ریلکسیشن در خانه</i>
+                </span>
+            </a>
+        </div>
+    </section>
+
     <section class="beauty-story" aria-labelledby="story-title">
-        <div class="beauty-story__mark" aria-hidden="true"><img src="{% static 'assets/imgs/theme/hejrmarket-logo.webp' %}" alt="" width="120" height="120" decoding="async"></div>
+        <div class="beauty-story__mark" aria-hidden="true"><img src="{% static 'assets/imgs/theme/hejrmarket-logo-120.png' %}" alt="" width="120" height="120" decoding="async"></div>
         <div class="beauty-story__content">
             <p class="eyebrow">داستان Hazhirmarket</p>
             <h2 id="story-title">انتخاب بهتر، با خیال آسوده‌تر</h2>
@@ -601,6 +758,40 @@
             <a class="text-link" href="#contact">دربارهٔ راه‌های ارتباطی <span aria-hidden="true">←</span></a>
         </div>
         <div class="beauty-story__detail" aria-hidden="true"><span>ریش‌تراش</span><span>سشوار</span><span>اتو مو</span></div>
+    </section>
+
+    <!-- Promo banners set 8: cream / gold theme -->
+    <section class="beauty-section hm-promo-strip hm-promo-strip--alt7" id="promo-banners-8" aria-label="بنرهای پیشنهاد ویژه هژیر مارکت">
+        <div class="hm-promo-strip__grid">
+            <a class="hm-promo-card hm-promo-card--towel2" href="{% url 'core:category-list' %}">
+                <img src="{% static 'assets/imgs/beauty/promo/promo8-towel2.jpg' %}" alt="بنر حوله و لوازم حمام" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body">
+                    <b>حوله و لوازم حمام</b>
+                    <i>پارچه‌های نرم و جذب‌کنندهٔ مرغوب</i>
+                </span>
+            </a>
+            <a class="hm-promo-card hm-promo-card--cream3" href="{% url 'core:category-list' %}">
+                <img src="{% static 'assets/imgs/beauty/promo/promo8-cream3.jpg' %}" alt="بنر کرم و مراقبت پوست" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body">
+                    <b>کرم و مراقبت پوست</b>
+                    <i>محصولات مغذی برای پوست‌های حساس</i>
+                </span>
+            </a>
+            <a class="hm-promo-card hm-promo-card--spa6" href="{% url 'core:category-list' %}">
+                <img src="{% static 'assets/imgs/beauty/promo/promo8-spa6.jpg' %}" alt="بنر محصولات اسپا" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body">
+                    <b>محصولات اسپا</b>
+                    <i>آرامش و ریلکسیشن در خانه</i>
+                </span>
+            </a>
+            <a class="hm-promo-card hm-promo-card--giftbox3" href="{% url 'core:category-list' %}">
+                <img src="{% static 'assets/imgs/beauty/promo/promo8-giftbox3.jpg' %}" alt="بنر ست‌های هدیه" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body">
+                    <b>ست‌های هدیه</b>
+                    <i>بسته‌بندی لوکس برای مناسبت‌های شما</i>
+                </span>
+            </a>
+        </div>
     </section>
 
     <section class="beauty-section consultation-section" id="consultation" aria-labelledby="consultation-title">
@@ -635,6 +826,27 @@
         </form>
     </section>
 
+    <section class="beauty-section hm-promo-strip hm-promo-strip--alt8" id="promo-banners-9" aria-label="بنرهای پیشنهاد ویژه هژیر مارکت">
+        <div class="hm-promo-strip__grid">
+            <a class="hm-promo-card hm-promo-card--oil" href="{% url 'core:category-list' %}">
+                <img src="{% static 'assets/imgs/beauty/promo/promo9-oil.jpg' %}" alt="روغن‌های مراقبتی و آرایشی" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><b>روغن‌های مراقبتی</b><i>ترکیبات طبیعی برای پوست و مو</i></span>
+            </a>
+            <a class="hm-promo-card hm-promo-card--mirror" href="{% url 'core:category-list' %}">
+                <img src="{% static 'assets/imgs/beauty/promo/promo9-mirror.jpg' %}" alt="آینه و لوازم جانبی آرایش" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><b>لوازم آرایشی</b><i>آینه، دسته آرایش و اکسسوری</i></span>
+            </a>
+            <a class="hm-promo-card hm-promo-card--leaf" href="{% url 'core:category-list' %}">
+                <img src="{% static 'assets/imgs/beauty/promo/promo9-leaf.jpg' %}" alt="محصولات گیاهی و طبیعی" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><b>محصولات گیاهی</b><i>مراقبت طبیعی با عصاره‌های گیاهی</i></span>
+            </a>
+            <a class="hm-promo-card hm-promo-card--spa7" href="{% url 'core:category-list' %}">
+                <img src="{% static 'assets/imgs/beauty/promo/promo9-spa7.jpg' %}" alt="لوازم اسپا و ریلکسیشن" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><b>لوازم اسپا</b><i>آرامش و ریلکسیشن در منزل</i></span>
+            </a>
+        </div>
+    </section>
+
     <section class="beauty-contact" id="contact" aria-labelledby="contact-title">
         <div>
             <p class="eyebrow">ارتباط با ما</p>
@@ -654,4 +866,5 @@
     <script type="module" src="{% static 'build/hero-slider.js' %}?v=1"></script>
     <script type="module" src="{% static 'build/product-slider.js' %}?v=1"></script>
     <script type="module" src="{% static 'build/amazing-slider.js' %}?v=1"></script>
+    <script src="{% static 'build/digital-promo.js' %}?v=1" defer></script>
 {% endblock %}

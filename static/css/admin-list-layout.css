@@ -1,0 +1,288 @@
+﻿/* ============================================================
+   admin-list-layout.css
+   Unified layout for all admin list tables.
+   Pattern: product page (image at right, params in logical order)
+   ============================================================ */
+
+:root {
+  --hjm-list-thumb-size: 52px;
+  --hjm-list-thumb-radius: 10px;
+  --hjm-list-row-pad: 0.7rem 0.85rem;
+  --hjm-list-border: #e7dfd4;
+  --hjm-list-bg-alt: #fbf7f1;
+  --hjm-list-bg-hover: #f5eee3;
+}
+
+/* ---------- 1) Table base structure ---------- */
+/* the real scroll container in AdminLTE/Jazzmin changelist */
+body.larkon-admin .card-body.table-responsive,
+body.larkon-admin .table-responsive,
+body.larkon-admin .results {
+  display: block !important;
+  width: 100% !important;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+body.larkon-admin #result_list,
+body.larkon-admin .results table {
+  width: 100% !important;
+  table-layout: auto !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  margin-bottom: 0 !important;
+  direction: rtl !important;
+}
+
+body.larkon-admin #result_list thead th,
+body.larkon-admin .results thead th {
+  text-align: right !important;
+  direction: rtl !important;
+  vertical-align: middle !important;
+  padding: 0.75rem 0.85rem !important;
+  font-weight: 700 !important;
+  white-space: nowrap !important;
+  background: linear-gradient(180deg, #f7f1e8, #f1e9dc) !important;
+  border-bottom: 2px solid var(--hjm-list-border) !important;
+}
+
+body.larkon-admin #result_list thead th a,
+body.larkon-admin .results thead th a {
+  color: #4a3f2f !important;
+}
+
+/* ---------- 2) Cells and rows ---------- */
+body.larkon-admin #result_list tbody td,
+body.larkon-admin #result_list tbody th,
+body.larkon-admin .results tbody td,
+body.larkon-admin .results tbody th {
+  text-align: right !important;
+  direction: rtl !important;
+  vertical-align: middle !important;
+  padding: var(--hjm-list-row-pad) !important;
+  border-bottom: 1px solid var(--hjm-list-border) !important;
+  border-left: none !important;
+  border-right: none !important;
+}
+
+body.larkon-admin #result_list tbody tr:nth-child(even),
+body.larkon-admin .results tbody tr:nth-child(even) {
+  background-color: var(--hjm-list-bg-alt) !important;
+}
+
+body.larkon-admin #result_list tbody tr:hover,
+body.larkon-admin .results tbody tr:hover {
+  background-color: var(--hjm-list-bg-hover) !important;
+}
+
+/* ---------- 3) Image column (narrow, fixed) ---------- */
+body.larkon-admin #result_list td.field-image_preview,
+body.larkon-admin #result_list td.field-product_image_preview,
+body.larkon-admin #result_list td.field-vendor_image,
+body.larkon-admin #result_list td.field-subcategory_image,
+body.larkon-admin #result_list td.field-category_image,
+body.larkon-admin #result_list td.field-order_img,
+body.larkon-admin #result_list td.field-image,
+body.larkon-admin #result_list td[class*="field-"][class*="image"],
+body.larkon-admin #result_list td[class*="field-"][class*="thumb"],
+body.larkon-admin #result_list td[class*="field-"][class*="preview"] {
+  width: 84px !important;
+  min-width: 84px !important;
+  max-width: 84px !important;
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+
+/* ---------- 4) Thumbnails ---------- */
+body.larkon-admin #result_list td img,
+body.larkon-admin .results td img {
+  width: var(--hjm-list-thumb-size) !important;
+  height: var(--hjm-list-thumb-size) !important;
+  max-width: var(--hjm-list-thumb-size) !important;
+  max-height: var(--hjm-list-thumb-size) !important;
+  object-fit: cover !important;
+  border-radius: var(--hjm-list-thumb-radius) !important;
+  border: 1px solid var(--hjm-list-border) !important;
+  background: #fff !important;
+  box-shadow: 0 1px 3px rgba(74, 54, 28, 0.14) !important;
+  display: inline-block !important;
+  margin: 0 auto !important;
+  padding: 2px !important;
+}
+
+body.larkon-admin #result_list td a img {
+  transition: transform 0.18s ease !important;
+}
+
+body.larkon-admin #result_list td a img:hover {
+  transform: scale(1.06) !important;
+}
+
+/* ---------- 5) Checkbox column ---------- */
+body.larkon-admin #result_list th.action-checkbox-column,
+body.larkon-admin #result_list th.djn-checkbox-select-all,
+body.larkon-admin #result_list td.action-checkbox,
+body.larkon-admin #result_list th.djn-checkbox-select-all {
+  width: 42px !important;
+  min-width: 42px !important;
+  max-width: 42px !important;
+  text-align: center !important;
+  padding-right: 0.6rem !important;
+  padding-left: 0.6rem !important;
+}
+
+/* ---------- 6) Numeric / price columns ---------- */
+body.larkon-admin #result_list td.field-price,
+body.larkon-admin #result_list td.field-total,
+body.larkon-admin #result_list td.field-qty,
+body.larkon-admin #result_list td.field-inventory_count,
+body.larkon-admin #result_list td.field-stock_count,
+body.larkon-admin #result_list td.field-discount,
+body.larkon-admin #result_list td.field-rating,
+body.larkon-admin #result_list td.field-sort_order,
+body.larkon-admin #result_list td.field-order {
+  font-variant-numeric: tabular-nums !important;
+}
+
+/* ---------- 7) Title column (main, wider) ---------- */
+body.larkon-admin #result_list td.field-title,
+body.larkon-admin #result_list td.field-question,
+body.larkon-admin #result_list td.field-item,
+body.larkon-admin #result_list td[class*="field-"][class*="title"] {
+  font-weight: 600 !important;
+  text-align: right !important;
+  max-width: 320px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+/* Header cells must match column widths */
+body.larkon-admin #result_list thead th.column-title,
+body.larkon-admin #result_list thead th.column-question,
+body.larkon-admin #result_list thead th.column-item {
+  max-width: 320px !important;
+}
+
+/* ---------- 8) Status columns ---------- */
+body.larkon-admin #result_list td.field-is_active,
+body.larkon-admin #result_list td.field-is_approved,
+body.larkon-admin #result_list td.field-paid_status,
+body.larkon-admin #result_list td.field-status,
+body.larkon-admin #result_list td.field-product_status,
+body.larkon-admin #result_list td.field-product_status_badge,
+body.larkon-admin #result_list td.field-in_stock {
+  text-align: center !important;
+  white-space: nowrap !important;
+}
+
+/* ---------- 9) Status badges ---------- */
+body.larkon-admin #result_list .admin-status-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 24px !important;
+  padding: 3px 10px !important;
+  border-radius: 999px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  white-space: nowrap !important;
+}
+
+/* ---------- 10) Long text truncation ---------- */
+body.larkon-admin #result_list td {
+  max-width: 320px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+body.larkon-admin #result_list td.field-address,
+body.larkon-admin #result_list td.field-review,
+body.larkon-admin #result_list td.field-description {
+  max-width: 320px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+/* ---------- 11) Pagination ---------- */
+body.larkon-admin .paginator {
+  direction: rtl !important;
+  text-align: center !important;
+  padding: 0.9rem 0.5rem !important;
+}
+
+body.larkon-admin .paginator .this-page {
+  font-weight: 700 !important;
+}
+
+/* ---------- 12) Mobile ---------- */
+/* Prevent horizontal page overflow from off-canvas sidebar */
+body.larkon-admin .wrapper,
+body.larkon-admin .content-wrapper {
+  overflow-x: hidden !important;
+}
+
+@media (max-width: 767.98px) {
+  body.larkon-admin .results {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    border: 1px solid var(--hjm-list-border) !important;
+    border-radius: 10px !important;
+  }
+
+  body.larkon-admin #result_list,
+  body.larkon-admin .results table {
+    width: max-content !important;
+    min-width: 100% !important;
+    white-space: nowrap !important;
+  }
+
+  body.larkon-admin #result_list td,
+  body.larkon-admin #result_list th {
+    padding: 0.55rem 0.6rem !important;
+    max-width: 200px !important;
+  }
+
+  body.larkon-admin #result_list td img {
+    width: 40px !important;
+    height: 40px !important;
+    max-width: 40px !important;
+    max-height: 40px !important;
+  }
+}
+
+/* ---------- 13) Inline form tables ---------- */
+body.larkon-admin .inline-group h2,
+body.larkon-admin .inline-related h3 {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+body.larkon-admin .inline-group .tabular tr td {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+/* ---------- 14) Override legacy 50x50 images ---------- */
+body.larkon-admin #result_list td img[width="50"],
+body.larkon-admin #result_list td img[height="50"] {
+  width: var(--hjm-list-thumb-size) !important;
+  height: var(--hjm-list-thumb-size) !important;
+}
+
+/* ---------- 15) Empty row ---------- */
+body.larkon-admin #result_list tbody tr.empty td,
+body.larkon-admin #result_list tbody tr:first-child:last-child td {
+  text-align: center !important;
+}
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,480 @@
+/* ============================================================
+ * admin-rtl-full.css — راست‌چینی کامل پنل مدیریت Hazhirmarket
+ * طرح: فارسی، راست‌چین، فونت Vazirmatn
+ * بارگذاری: base_site.html بعد از همهٔ فایل‌های CSS
+ * ============================================================ */
+
+/* ---- تنظیمات پایه ---- */
+body.larkon-admin,
+body.larkon-admin .content-wrapper,
+body.larkon-admin .content,
+body.larkon-admin .container-fluid,
+body.larkon-admin .container,
+body.larkon-admin section.content,
+body.larkon-admin div.row,
+body.larkon-admin div.col-12,
+body.larkon-admin #content,
+body.larkon-admin #content-main {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* ---- هدر و بریدکرامب ---- */
+body.larkon-admin .content-header,
+body.larkon-admin .breadcrumb,
+body.larkon-admin .breadcrumb-item,
+body.larkon-admin h1,
+body.larkon-admin h2,
+body.larkon-admin h3,
+body.larkon-admin h4,
+body.larkon-admin h5,
+body.larkon-admin h6,
+body.larkon-admin p,
+body.larkon-admin label,
+body.larkon-admin .form-label,
+body.larkon-admin .h4,
+body.larkon-admin .text-muted,
+body.larkon-admin .text-secondary {
+  text-align: right !important;
+}
+
+/* ---- جداول ---- */
+body.larkon-admin table,
+body.larkon-admin .table,
+body.larkon-admin #result_list,
+body.larkon-admin #result_list th,
+body.larkon-admin #result_list td,
+body.larkon-admin .table-striped tbody tr,
+body.larkon-admin .table thead th,
+body.larkon-admin .table tbody td {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* هدر جدول: چیدمان راست‌چین */
+body.larkon-admin #result_list thead th,
+body.larkon-admin #result_list thead th .text {
+  text-align: right !important;
+}
+
+/* سلول‌های جدول */
+body.larkon-admin #result_list tbody td,
+body.larkon-admin #result_list tbody th {
+  text-align: right !important;
+}
+
+/* ---- فرم‌ها ---- */
+body.larkon-admin form,
+body.larkon-admin .form-group,
+body.larkon-admin .form-inline,
+body.larkon-admin .form-row,
+body.larkon-admin .input-group,
+body.larkon-admin .card,
+body.larkon-admin .card-body,
+body.larkon-admin .card-header,
+body.larkon-admin .card-footer,
+body.larkon-admin .module,
+body.larkon-admin .aligned,
+body.larkon-admin .form-horizontal {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* لیبل‌های فرم */
+body.larkon-admin label,
+body.larkon-admin .form-label,
+body.larkon-admin .col-form-label,
+body.larkon-admin .form-check-label {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+/* فیلدهای ورودی (به جز موارد LTR مثل ایمیل) */
+body.larkon-admin input[type="text"],
+body.larkon-admin input[type="password"],
+body.larkon-admin input[type="search"],
+body.larkon-admin input[type="number"],
+body.larkon-admin textarea,
+body.larkon-admin select,
+body.larkon-admin .form-control,
+body.larkon-admin .form-select {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* فیلدهای LTR (ایمیل، URL، تلفن) */
+body.larkon-admin input[type="email"],
+body.larkon-admin input[type="url"],
+body.larkon-admin input[type="tel"],
+body.larkon-admin input[type="file"] {
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+/* ---- دکمه‌ها ---- */
+body.larkon-admin button,
+body.larkon-admin .btn,
+body.larkon-admin .btn-primary,
+body.larkon-admin .btn-outline-primary,
+body.larkon-admin .btn-secondary,
+body.larkon-admin .btn-danger,
+body.larkon-admin .btn-success,
+body.larkon-admin a.btn {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* ---- اکشن‌های لیست (change-list actions) ---- */
+body.larkon-admin .change-list-actions,
+body.larkon-admin .actions,
+body.larkon-admin .actions label,
+body.larkon-admin .actions .btn,
+body.larkon-admin .action-counter {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* ---- pagination ---- */
+body.larkon-admin .pagination,
+body.larkon-admin .dataTables_info,
+body.larkon-admin .dataTables_paginate {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+body.larkon-admin .pagination {
+  justify-content: flex-start !important;
+}
+
+body.larkon-admin .float-right {
+  float: left !important;
+}
+
+body.larkon-admin .float-left {
+  float: right !important;
+}
+
+/* ---- Select2 ---- */
+body.larkon-admin .select2-container,
+body.larkon-admin .select2-container--default,
+body.larkon-admin .select2-selection,
+body.larkon-admin .select2-selection__rendered,
+body.larkon-admin .select2-dropdown,
+body.larkon-admin .select2-results,
+body.larkon-admin .select2-results__option {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+body.larkon-admin .select2-selection__arrow {
+  left: 8px !important;
+  right: auto !important;
+}
+
+/* ---- چک‌باکس و رادیو ---- */
+body.larkon-admin .form-check,
+body.larkon-admin .checkbox,
+body.larkon-admin .radio,
+body.larkon-admin .form-check-input,
+body.larkon-admin input[type="checkbox"],
+body.larkon-admin input[type="radio"] {
+  direction: rtl !important;
+}
+
+body.larkon-admin .form-check {
+  text-align: right !important;
+  padding-right: 1.5rem !important;
+  padding-left: 0 !important;
+}
+
+body.larkon-admin .form-check-input {
+  margin-right: -1.5rem !important;
+  margin-left: 0 !important;
+}
+
+/* ---- مارجین و پدینگ آینه‌ای ---- */
+body.larkon-admin .ml-1, body.larkon-admin .ml-2, body.larkon-admin .ml-3,
+body.larkon-admin .ml-4, body.larkon-admin .ml-5,
+body.larkon-admin .ml-auto {
+  margin-left: 0 !important;
+}
+
+body.larkon-admin .mr-1, body.larkon-admin .mr-2, body.larkon-admin .mr-3,
+body.larkon-admin .mr-4, body.larkon-admin .mr-5,
+body.larkon-admin .mr-auto {
+  margin-right: 0 !important;
+}
+
+body.larkon-admin .ml-2 { margin-left: 0.5rem !important; }
+body.larkon-admin .ml-3 { margin-left: 1rem !important; }
+body.larkon-admin .mr-2 { margin-right: 0.5rem !important; }
+body.larkon-admin .mr-3 { margin-right: 1rem !important; }
+
+/* ---- مرزهای آینه‌ای ---- */
+body.larkon-admin .border-right,
+body.larkon-admin .border-right-0 {
+  border-right: none !important;
+  border-left: 1px solid rgba(0, 0, 0, 0.125) !important;
+}
+
+body.larkon-admin .border-left,
+body.larkon-admin .border-left-0 {
+  border-left: none !important;
+  border-right: 1px solid rgba(0, 0, 0, 0.125) !important;
+}
+
+/* ---- پدینگ آینه‌ای ---- */
+body.larkon-admin .pr-0 { padding-right: 0 !important; padding-left: 0 !important; }
+body.larkon-admin .pl-0 { padding-left: 0 !important; padding-right: 0 !important; }
+body.larkon-admin .pr-1 { padding-right: 0.25rem !important; }
+body.larkon-admin .pl-1 { padding-left: 0.25rem !important; }
+body.larkon-admin .pr-2 { padding-right: 0.5rem !important; }
+body.larkon-admin .pl-2 { padding-left: 0.5rem !important; }
+body.larkon-admin .pr-3 { padding-right: 1rem !important; }
+body.larkon-admin .pl-3 { padding-left: 1rem !important; }
+
+/* ---- Flexbox آینه‌ای ---- */
+body.larkon-admin .d-flex {
+  direction: rtl !important;
+}
+
+body.larkon-admin .justify-content-start {
+  justify-content: flex-start !important;
+}
+
+body.larkon-admin .justify-content-end {
+  justify-content: flex-end !important;
+}
+
+body.larkon-admin .ml-auto {
+  margin-right: auto !important;
+  margin-left: 0 !important;
+}
+
+body.larkon-admin .mr-auto {
+  margin-left: auto !important;
+  margin-right: 0 !important;
+}
+
+/* ---- پیام‌ها و هشدارها ---- */
+body.larkon-admin .alert,
+body.larkon-admin .alert-warning,
+body.larkon-admin .alert-danger,
+body.larkon-admin .alert-success,
+body.larkon-admin .alert-info,
+body.larkon-admin .messagelist,
+body.larkon-admin .message,
+body.larkon-admin .callout {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* ---- ابزارک‌های Django Admin ---- */
+body.larkon-admin .module h2,
+body.larkon-admin .module caption,
+body.larkon-admin #changelist h2,
+body.larkon-admin .submit-row,
+body.larkon-admin .submit-row input,
+body.larkon-admin .object-tools,
+body.larkon-admin .object-tools a,
+body.larkon-admin .addlink,
+body.larkon-admin .changelink,
+body.larkon-admin .deletelink {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* ردیف دکمه‌های ثبت */
+body.larkon-admin .submit-row {
+  display: flex !important;
+  justify-content: flex-start !important;
+  gap: 8px !important;
+}
+
+/* ---- باکس جست‌وجو ---- */
+body.larkon-admin #changelist-search,
+body.larkon-admin #searchbar,
+body.larkon-admin .search-form {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* ---- صفحه لاگین ---- */
+body.larkon-admin.login-page .login-box,
+body.jazzmin-login-page .login-box {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+body.larkon-admin.login-page .login-logo,
+body.jazzmin-login-page .login-logo {
+  text-align: center !important;
+}
+
+/* ---- صفحه فراموشی رمز ---- */
+body.larkon-admin .password-reset,
+body.larkon-admin #password-reset-form {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* ---- مودال‌ها ---- */
+body.larkon-admin .modal,
+body.larkon-admin .modal-dialog,
+body.larkon-admin .modal-content,
+body.larkon-admin .modal-header,
+body.larkon-admin .modal-body,
+body.larkon-admin .modal-footer {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* ---- تول‌تیپ‌ها ---- */
+body.larkon-admin .tooltip,
+body.larkon-admin .tooltip-inner {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* ---- باکس اطلاعات (help text) ---- */
+body.larkon-admin .help-block,
+body.larkon-admin .form-text,
+body.larkon-admin .helptext,
+body.larkon-admin .help {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* ---- خط‌های جداکننده ---- */
+body.larkon-admin hr,
+body.larkon-admin .divider {
+  direction: rtl !important;
+}
+
+/* ---- نوار اسکرول ---- */
+body.larkon-admin .table-responsive {
+  direction: rtl !important;
+}
+
+/* ---- اعداد در حالت RTL ---- */
+body.larkon-admin .action-counter,
+body.larkon-admin .dataTables_info,
+body.larkon-admin .pagination {
+  direction: rtl !important;
+}
+
+/* ---- صفحه تغییرات (change form) ---- */
+body.larkon-admin .change-form #content-main,
+body.larkon-admin .change-form .inline-group,
+body.larkon-admin .change-form .inline-related,
+body.larkon-admin .change-form .tabular,
+body.larkon-admin .change-form .add-row,
+body.larkon-admin .change-form .related-widget-wrapper {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* ---- باکس‌های inline ---- */
+body.larkon-admin .inline-group h2,
+body.larkon-admin .inline-related h3,
+body.larkon-admin .add-row a {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* ---- تاریخ و ساعت ---- */
+body.larkon-admin .datetimeshortcuts,
+body.larkon-admin .calendar,
+body.larkon-admin .calendarbox,
+body.larkon-admin .clockbox {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* ---- صفحه حذف ---- */
+body.larkon-admin .delete-confirmation,
+body.larkon-admin .delete-confirmation form {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* ---- صفحه تاریخچه ---- */
+body.larkon-admin #content-history,
+body.larkon-admin table#change-history {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* ---- فوتر ---- */
+body.larkon-admin .main-footer,
+body.larkon-admin .dashboard-footer {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* ---- بریدکرامب ---- */
+body.larkon-admin .breadcrumb {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: flex-start !important;
+  direction: rtl !important;
+}
+
+body.larkon-admin .breadcrumb-item + .breadcrumb-item::before {
+  content: "‫/‬" !important;
+  padding-left: 0.5rem !important;
+  padding-right: 0.5rem !important;
+}
+
+/* ---- جعبه ابزار (object tools) ---- */
+body.larkon-admin .object-tools {
+  display: flex !important;
+  justify-content: flex-start !important;
+  direction: rtl !important;
+}
+
+/* ---- ردیف اکشن در جدول ---- */
+body.larkon-admin .change-list-actions .actions {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  direction: rtl !important;
+}
+
+/* ---- متن‌های لاتین (کدها، اعداد) ---- */
+body.larkon-admin code,
+body.larkon-admin pre,
+body.larkon-admin kbd,
+body.larkon-admin samp {
+  direction: ltr !important;
+  text-align: left !important;
+  display: inline-block !important;
+}
+
+/* ---- تصاویر در جدول ---- */
+body.larkon-admin #result_list img,
+body.larkon-admin .field-image_preview img {
+  border-radius: 6px !important;
+}
+
+/* ---- جست‌وجوی select2 در حالت RTL ---- */
+body.larkon-admin .select2-search__field {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* ---- صفحه خطا ---- */
+body.larkon-admin .errornote,
+body.larkon-admin .errorlist {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* ---- پیام‌های موفقیت ---- */
+body.larkon-admin .success,
+body.larkon-admin .info,
+body.larkon-admin .warning,
+body.larkon-admin .error {
+  direction: rtl !important;
+  text-align: right !important;
+}

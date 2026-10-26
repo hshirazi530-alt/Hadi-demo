@@ -3,6 +3,8 @@ from userauths.models import User, ContactUs, Profile
 
 class UserAdmin(admin.ModelAdmin):
     list_display = ['username', 'email', 'bio_summary']
+    list_display_links = ['username']
+    search_fields = ['username', 'email']
 
     @admin.display(description="معرفی کوتاه")
     def bio_summary(self, obj):

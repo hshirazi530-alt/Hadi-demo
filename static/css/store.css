@@ -506,6 +506,26 @@
   object-fit: contain;
 }
 
+/* Transparent logo artwork: let the emblem fill the box instead of sitting
+   inside a badge, without growing the mobile header row. */
+.store-css .mobile-header-logo a img.store-brand-logo {
+  width: 140px;
+  height: 140px;
+  max-height: 140px;
+}
+
+/* The drawer logo box is narrower than 140px; keep the square artwork
+   undistorted and let width be the limiting factor. The legacy main.css
+   forces width:100px with higher specificity, so match it here. */
+@media (max-width: 991px) {
+  .store-css .mobile-header-wrapper-style .mobile-header-wrapper-inner .mobile-header-top .mobile-header-logo a img.store-brand-logo {
+    width: 130px;
+    max-width: 130px;
+    height: 130px;
+    max-height: 130px;
+  }
+}
+
 .store-css .search-style-2 form {
   background: #f5f4f2 !important;
   border: 1px solid rgba(201, 169, 110, 0.3) !important;
@@ -1846,7 +1866,7 @@
   place-items: center;
   border: 2px solid rgba(255, 255, 255, 0.9);
   border-radius: 50%;
-  background: #1478e8;
+  background: #229ED9;
   box-shadow: 0 6px 20px rgba(20, 74, 132, 0.28);
   color: #fff !important;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -3589,7 +3609,6 @@
 .store-css .hm-amazing__controls [data-amazing-next] {
   left: 8px;
 }
-
 .store-css .hm-amazing__arrow {
   display: grid;
   width: 40px;
@@ -3614,13 +3633,13 @@
 .store-css .hm-amazing__arrow:focus-visible {
   background: linear-gradient(135deg, var(--hm-gold-bright), var(--hm-gold));
   color: var(--hm-bronze-deep);
-  transform: translateY(-1px);
+  transform: translateY(calc(-50% - 1px));
 }
 
 .store-css .hm-amazing__arrow.is-disabled {
   opacity: 0.35;
   cursor: not-allowed;
-  transform: none;
+  transform: translateY(-50%);
 }
 
 /* ---- Responsive ---- */
@@ -4306,6 +4325,226 @@
 @media (max-width: 560px) {
   .store-css .hm-promo-strip--alt3 .hm-promo-card {
     height: 215px;
+  }
+}
+
+/* Fifth promo strip — soft cream / champagne gold */
+.store-css .hm-promo-strip--alt4 {
+  margin-top: -24px;
+}
+
+.store-css .hm-promo-strip--alt4 .hm-promo-card {
+  height: 250px;
+  border-radius: 30px;
+  background: linear-gradient(140deg, #fcf5e8 0%, #f6ead2 55%, #f0e0c0 100%);
+  box-shadow: 0 20px 46px rgba(150, 120, 74, 0.22);
+}
+
+.store-css .hm-promo-strip--alt4 .hm-promo-card::before {
+  inset: 12px;
+  border-radius: 20px;
+  border-color: rgba(201, 169, 110, 0.75);
+}
+
+.store-css .hm-promo-strip--alt4 .hm-promo-card::after {
+  background:
+    linear-gradient(to top, rgba(78, 58, 32, 0.80) 0%, rgba(78, 58, 32, 0.36) 46%, rgba(78, 58, 32, 0) 76%),
+    linear-gradient(to left, rgba(252, 245, 232, 0.68) 0%, rgba(252, 245, 232, 0.16) 42%, rgba(252, 245, 232, 0) 70%),
+    radial-gradient(120% 120% at 85% 15%, rgba(206, 168, 108, 0.38) 0%, rgba(206, 168, 108, 0) 62%);
+}
+
+.store-css .hm-promo-strip--alt4 .hm-promo-card__body {
+  padding: 20px 22px 22px;
+}
+
+.store-css .hm-promo-strip--alt4 .hm-promo-card__body b {
+  font-size: 1.14rem;
+}
+
+.store-css .hm-promo-strip--alt4 .hm-promo-card__body i {
+  color: #faf0d8;
+}
+
+@media (max-width: 560px) {
+  .store-css .hm-promo-strip--alt4 .hm-promo-card {
+    height: 215px;
+  }
+}
+
+/* Sixth promo strip — ivory cream / polished gold */
+.store-css .hm-promo-strip--alt5 {
+  margin-top: -24px;
+}
+
+.store-css .hm-promo-strip--alt5 .hm-promo-card {
+  height: 250px;
+  border-radius: 30px;
+  background: linear-gradient(140deg, #fdf6ea 0%, #f7ecd6 55%, #f1e2c4 100%);
+  box-shadow: 0 20px 46px rgba(150, 120, 74, 0.22);
+}
+
+.store-css .hm-promo-strip--alt5 .hm-promo-card::before {
+  inset: 12px;
+  border-radius: 20px;
+  border-color: rgba(201, 169, 110, 0.75);
+}
+
+.store-css .hm-promo-strip--alt5 .hm-promo-card::after {
+  background:
+    linear-gradient(to top, rgba(84, 63, 34, 0.80) 0%, rgba(84, 63, 34, 0.36) 46%, rgba(84, 63, 34, 0) 76%),
+    linear-gradient(to left, rgba(253, 246, 234, 0.68) 0%, rgba(253, 246, 234, 0.16) 42%, rgba(253, 246, 234, 0) 70%),
+    radial-gradient(120% 120% at 15% 8%, rgba(206, 168, 108, 0.38) 0%, rgba(206, 168, 108, 0) 62%);
+}
+
+.store-css .hm-promo-strip--alt5 .hm-promo-card__body {
+  padding: 20px 22px 22px;
+}
+
+.store-css .hm-promo-strip--alt5 .hm-promo-card__body b {
+  font-size: 1.14rem;
+}
+
+.store-css .hm-promo-strip--alt5 .hm-promo-card__body i {
+  color: #fbf2dc;
+}
+
+@media (max-width: 560px) {
+  .store-css .hm-promo-strip--alt5 .hm-promo-card {
+    height: 215px;
+  }
+}
+
+/* --- Promo strip 7 (FAQ <-> story) — alt6 variant ------------------- */
+.store-css .hm-promo-strip--alt6 {
+  margin-top: -28px;
+}
+
+.store-css .hm-promo-strip--alt6 .hm-promo-card {
+  height: 244px;
+  border-radius: 26px;
+  background: linear-gradient(145deg, #fff9ee 0%, #f8eeda 52%, #f0dfc0 100%);
+  box-shadow: 0 18px 42px rgba(146, 116, 66, 0.20);
+}
+
+.store-css .hm-promo-strip--alt6 .hm-promo-card::before {
+  inset: 11px;
+  border-radius: 17px;
+  border-color: rgba(201, 169, 110, 0.8);
+}
+
+.store-css .hm-promo-strip--alt6 .hm-promo-card::after {
+  background:
+    linear-gradient(to top, rgba(92, 70, 38, 0.82) 0%, rgba(92, 70, 38, 0.38) 48%, rgba(92, 70, 38, 0) 78%),
+    linear-gradient(to left, rgba(255, 249, 238, 0.72) 0%, rgba(255, 249, 238, 0.18) 44%, rgba(255, 249, 238, 0) 72%),
+    radial-gradient(120% 90% at 88% 12%, rgba(226, 190, 120, 0.42), rgba(226, 190, 120, 0) 60%);
+}
+
+.store-css .hm-promo-strip--alt6 .hm-promo-card__body {
+  padding: 20px 22px 22px;
+}
+
+.store-css .hm-promo-strip--alt6 .hm-promo-card__body b {
+  font-size: 1.14rem;
+}
+
+.store-css .hm-promo-strip--alt6 .hm-promo-card__body i {
+  color: #fdf4de;
+}
+
+@media (max-width: 1100px) {
+  .store-css .hm-promo-strip--alt6 .hm-promo-card {
+    height: 222px;
+  }
+}
+
+@media (max-width: 560px) {
+  .store-css .hm-promo-strip--alt6 .hm-promo-card {
+    height: 214px;
+  }
+}
+
+/* Eighth promo strip — warm cream / honey gold */
+.store-css .hm-promo-strip--alt7 {
+  margin-top: -24px;
+}
+
+.store-css .hm-promo-strip--alt7 .hm-promo-card {
+  height: 246px;
+  border-radius: 28px;
+  background: linear-gradient(140deg, #fffaf0 0%, #f9f0dc 55%, #f2e2c2 100%);
+  box-shadow: 0 18px 42px rgba(146, 116, 66, 0.20);
+}
+
+.store-css .hm-promo-strip--alt7 .hm-promo-card::before {
+  inset: 11px;
+  border-radius: 18px;
+  border-color: rgba(201, 169, 110, 0.8);
+}
+
+.store-css .hm-promo-strip--alt7 .hm-promo-card::after {
+  background:
+    linear-gradient(to top, rgba(98, 74, 40, 0.80) 0%, rgba(98, 74, 40, 0.36) 48%, rgba(98, 74, 40, 0) 78%),
+    linear-gradient(to left, rgba(255, 250, 240, 0.70) 0%, rgba(255, 250, 240, 0.16) 44%, rgba(255, 250, 240, 0) 72%),
+    radial-gradient(120% 90% at 12% 14%, rgba(226, 190, 120, 0.40), rgba(226, 190, 120, 0) 60%);
+}
+
+.store-css .hm-promo-strip--alt7 .hm-promo-card__body {
+  padding: 20px 22px 22px;
+}
+
+.store-css .hm-promo-strip--alt7 .hm-promo-card__body b {
+  font-size: 1.14rem;
+}
+
+.store-css .hm-promo-strip--alt7 .hm-promo-card__body i {
+  color: #fcf3dd;
+}
+
+@media (max-width: 560px) {
+  .store-css .hm-promo-strip--alt7 .hm-promo-card {
+    height: 214px;
+  }
+}
+
+.store-css .hm-promo-strip--alt8 {
+  margin-top: -24px;
+}
+
+.store-css .hm-promo-strip--alt8 .hm-promo-card {
+  height: 252px;
+  border-radius: 30px;
+  background: linear-gradient(145deg, #fdf6e8 0%, #f7ecd4 52%, #efdfbe 100%);
+  box-shadow: 0 20px 46px rgba(138, 108, 60, 0.22);
+}
+
+.store-css .hm-promo-strip--alt8 .hm-promo-card::before {
+  inset: 12px;
+  border-radius: 20px;
+  border-color: rgba(196, 162, 98, 0.85);
+}
+
+.store-css .hm-promo-strip--alt8 .hm-promo-card::after {
+  background:
+    linear-gradient(to top, rgba(92, 70, 38, 0.82) 0%, rgba(92, 70, 38, 0.38) 50%, rgba(92, 70, 38, 0) 80%),
+    linear-gradient(to left, rgba(255, 249, 238, 0.72) 0%, rgba(255, 249, 238, 0.18) 46%, rgba(255, 249, 238, 0) 74%),
+    radial-gradient(125% 92% at 14% 12%, rgba(222, 186, 116, 0.44), rgba(222, 186, 116, 0) 62%);
+}
+
+.store-css .hm-promo-strip--alt8 .hm-promo-card__body {
+  padding: 22px 24px 24px;
+}
+
+.store-css .hm-promo-strip--alt8 .hm-promo-card__body b {
+  font-size: 1.18rem;
+}
+
+.store-css .hm-promo-strip--alt8 .hm-promo-card__body i {
+  color: #fdf2da;
+}
+
+@media (max-width: 560px) {
+  .store-css .hm-promo-strip--alt8 .hm-promo-card {
+    height: 220px;
   }
 }
 
@@ -5765,6 +6004,26 @@
   padding: 8px;
   border: 1px solid #e4d5da;
   border-radius: 3px 10px;
+}
+
+/* Warranty line in cart (Feature 7) */
+.store-css .store-cart-item__warranty {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 6px 0 5px !important;
+  padding: 5px 10px;
+  border: 1px solid rgba(200, 162, 83, 0.38);
+  border-radius: 999px;
+  background: rgba(200, 162, 83, 0.12);
+  color: #5f4616 !important;
+  font-size: 12px !important;
+  font-weight: 700;
+}
+
+.store-css .store-cart-item__warranty-price {
+  color: #7a5a1e;
+  font-weight: 700;
 }
 
 .store-css .store-cart-item__total {
@@ -9557,11 +9816,26 @@ drawdown and the cart/wishlist counters behave exactly as before. */
   box-shadow: 0 12px 32px rgba(43, 33, 20, 0.1);
 }
 .store-css .hm-nav .main-menu .sub-menu > li > a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   padding: 9px 14px 9px 34px !important;
   border-radius: var(--hm-radius-sm);
   color: var(--hm-ink-soft) !important;
   font-size: 13px;
   transition: color 0.16s var(--hm-ease), background 0.16s var(--hm-ease);
+}
+.store-css .hm-nav__cat-icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  opacity: 0.85;
+  transition: opacity 0.16s var(--hm-ease), transform 0.16s var(--hm-ease);
+}
+.store-css .hm-nav .main-menu .sub-menu > li > a:hover .hm-nav__cat-icon {
+  opacity: 1;
+  transform: scale(1.08);
 }
 .store-css .hm-nav .main-menu .sub-menu > li > a:hover {
   color: var(--hm-bronze) !important;
@@ -9766,27 +10040,30 @@ drawdown and the cart/wishlist counters behave exactly as before. */
   align-items: center;
   gap: 10px;
   margin: 0;
-  color: var(--hm-gold-bright);
+  color: #fff6e0;
   font-size: 13px;
+  font-weight: 600;
   line-height: 1.8;
+  text-shadow: 0 1px 8px rgba(74, 52, 18, 0.55);
 }
 .store-css .hm-hero__eyebrow::before {
   content: "";
   flex: 0 0 auto;
   width: 28px;
   height: 1px;
-  background: var(--hm-gold);
+  background: #f5e3b8;
 }
 
 .store-css .hm-hero .hm-hero__title {
   max-width: 22ch;
   margin: 0;
-  color: #e8ce94;
+  color: #fff8ea;
   font-size: clamp(28px, 3.4vw, 50px);
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.35;
   letter-spacing: -0.01em;
   text-wrap: balance;
+  text-shadow: 0 2px 14px rgba(74, 52, 18, 0.6);
 }
 .store-css .hm-hero .hm-hero__title span {
   color: var(--hm-gold-bright);
@@ -10097,6 +10374,22 @@ drawdown and the cart/wishlist counters behave exactly as before. */
   white-space: nowrap;
   transition: color 0.18s var(--hm-ease), background-color 0.18s var(--hm-ease);
 }
+
+/* Category icons in the middle bar strip */
+.store-css .hm-cats__icon {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  margin-inline-end: 6px;
+  object-fit: contain;
+  opacity: 0.85;
+  transition: opacity 0.18s var(--hm-ease), transform 0.18s var(--hm-ease);
+}
+.store-css .hm-cats__link:hover .hm-cats__icon,
+.store-css .hm-cats__link:focus-visible .hm-cats__icon {
+  opacity: 1;
+  transform: scale(1.08);
+}
 .store-css .hm-cats__link:hover,
 .store-css .hm-cats__link:focus-visible {
   color: var(--hm-bronze) !important;
@@ -10106,7 +10399,7 @@ drawdown and the cart/wishlist counters behave exactly as before. */
 /* The middle bar now leads with categories, so the grid gives them a
    bounded share and lets the list scroll instead of squeezing search. */
 .store-css .hm-bar__inner {
-  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1.8fr) minmax(0, 0.55fr) auto;
 }
 
 /* ---------- Swiper hero integration ---------- */
@@ -10179,7 +10472,7 @@ drawdown and the cart/wishlist counters behave exactly as before. */
 /* ---------- Responsive ---------- */
 @media (max-width: 991px) {
   /* One header markup for every breakpoint: the middle bar keeps only
-     the category strip, which scrolls horizontally instead of overflowing. */
+     the category strip, which wraps into rows instead of overflowing. */
   .store-css .hm-bar__inner {
     display: block;
     min-height: 46px;
@@ -10195,10 +10488,21 @@ drawdown and the cart/wishlist counters behave exactly as before. */
     padding-inline: 12px;
   }
 
+  .store-css .hm-cats__list {
+    row-gap: 6px;
+    padding-block: 6px;
+  }
+
   .store-css .hm-cats__link {
     height: 36px;
     padding-inline: 10px;
     font-size: 13px;
+  }
+
+  .store-css .hm-cats__icon {
+    width: 20px;
+    height: 20px;
+    margin-inline-end: 4px;
   }
 
   .store-css .hm-brand-text {

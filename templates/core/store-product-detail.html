@@ -48,34 +48,69 @@
              data-product-title="{{ p.title }}"
              data-product-price="{% if p.is_sale and p.sale_price %}{{ p.sale_price }}{% else %}{{ p.price }}{% endif %}"
              data-product-image="{{ p.image.url }}"
-             data-cart-url="{% url 'core:add-to-cart' %}">
-            <p class="store-eyebrow">{% if p.category %}{{ p.category.title }}{% else %}ابزار مراقبت شخصی{% endif %}</p>
-            <h1 class="store-product-info__title">{{ p.title }}</h1>
-            {% if p.vendor %}<p class="store-product-info__vendor">فروشنده: {{ p.vendor.title }}</p>{% endif %}
-            <a class="store-product-info__rating" href="#panel-reviews" data-tabs-goto="panel-reviews" aria-label="رفتن به نظرهای محصول">
-                <span aria-hidden="true">★</span>
-                {% if average_rating.rating %}{{ average_rating.rating|floatformat:1 }} از ۵ · {% endif %}{{ reviews.count }} نظر
-            </a>
+             data-cart-url="{% url 'core:add-to-cart' %}"
+             data-warranty-enabled="{{ warranty_options|yesno:'true,false' }}">
+            <p class="store-eyebrow hm-product-eyebrow">{% if p.category %}{{ p.category.title }}{% else %}ابزار مراقبت شخصی{% endif %}</p>
+            <h1 class="store-product-info__title hm-product-title">{{ p.title }}</h1>
+            <div class="hm-product-title__rule" aria-hidden="true"></div>
+            <div class="hm-product-meta">
+                {% if p.vendor %}<p class="store-product-info__vendor hm-product-meta__item"><span class="hm-product-meta__icon" aria-hidden="true">🏪</span>فروشنده: {{ p.vendor.title }}</p>{% endif %}
+                <a class="store-product-info__rating hm-product-meta__item hm-product-meta__rating" href="#panel-reviews" data-tabs-goto="panel-reviews" aria-label="رفتن به نظرهای محصول">
+                    <span aria-hidden="true">★</span>
+                    {% if average_rating.rating %}{{ average_rating.rating|floatformat:1 }} از ۵ · {% endif %}{{ reviews.count }} نظر
+                </a>
+            </div>
 
-            <div class="store-product-info__price">
-                {% if "(نمونه)" in p.title %}<span class="store-product-info__price-label">قیمت نمایشی</span>{% endif %}
+            <div class="store-product-info__price hm-price-card">
+                {% if "(نمونه)" in p.title %}<span class="store-product-info__price-label hm-price-card__label">قیمت نمایشی</span>{% endif %}
                 {% if p.is_sale and p.sale_price %}
-                <del>{{ p.price|intcomma }} تومان</del>
-                <strong>{{ p.sale_price|intcomma }} <small>تومان</small></strong>
+                <div class="hm-price-card__row">
+                    <del class="hm-price-card__old">{{ p.price|intcomma }} تومان</del>
+                    {% if p.price and p.sale_price %}
+                    <span class="hm-price-card__badge">
+                                            {% widthratio p.price p.sale_price 100 as base_pct %}{{ base_pct|add:"-100" }}٪ تخفیف
+                    </span>
+                                        {% endif %}
+                </div>
+                <strong class="hm-price-card__current">{{ p.sale_price|intcomma }} <small>تومان</small></strong>
                 {% else %}
-                <strong>{{ p.price|intcomma }} <small>تومان</small></strong>
+                <strong class="hm-price-card__current">{{ p.price|intcomma }} <small>تومان</small></strong>
                 {% endif %}
             </div>
-            <p class="store-product-info__availability{% if "(نمونه)" not in p.title and not p.in_stock %} store-product-info__availability--off{% endif %}">
+            <p class="store-product-info__availability hm-availability{% if "(نمونه)" not in p.title and not p.in_stock %} store-product-info__availability--off{% endif %}">
                 {% if "(نمونه)" in p.title %}<span class="availability-dot"></span> آمادهٔ افزودن به سبد آزمایشی
                 {% elif p.in_stock %}<span class="availability-dot"></span> موجود برای ثبت سفارش
                 {% else %}<span class="availability-dot availability-dot--off"></span> ناموجود{% endif %}
             </p>
 
             {% if "(نمونه)" in p.title %}
-            <p class="store-product-sample-note">این کالا نمونهٔ نمایشی است. می‌توانید روند سبد و ثبت سفارش آزمایشی را بررسی کنید؛ قیمت فرضی است، هیچ وجهی دریافت نمی‌شود و سفارش برای ارسال واقعی نیست.</p>
+            <p class="store-product-sample-note hm-sample-note">این کالا نمونهٔ نمایشی است. می‌توانید روند سبد و ثبت سفارش آزمایشی را بررسی کنید؛ قیمت فرضی است، هیچ وجهی دریافت نمی‌شود و سفارش برای ارسال واقعی نیست.</p>
             {% endif %}
-            {% if p.description %}<div class="store-product-info__description">{{ p.description|safe|truncatechars:280 }}</div>{% endif %}
+            {% if p.description %}<div class="store-product-info__description hm-product-description">{{ p.description|safe|truncatechars:280 }}</div>{% endif %}
+
+            {% if warranty_options %}
+            <fieldset class="hm-warranty" data-warranty-wrap>
+                <legend class="hm-warranty__legend">
+                    <span class="hm-warranty__icon" aria-hidden="true">🛡️</span>
+                    گارانتی محصول
+                </legend>
+                <div class="hm-warranty__options">
+                    <label class="hm-warranty__option is-active">
+                        <input type="radio" name="warranty-{{ p.id }}" value="0" data-warranty-option data-warranty-price="0" checked>
+                        <span class="hm-warranty__name">بدون گارانتی</span>
+                        <span class="hm-warranty__price" data-warranty-price-label>رایگان</span>
+                    </label>
+                    {% for opt in warranty_options %}
+                    <label class="hm-warranty__option">
+                        <input type="radio" name="warranty-{{ p.id }}" value="{{ opt.months }}" data-warranty-option data-warranty-price="{{ opt.price }}">
+                        <span class="hm-warranty__name">گارانتی {{ opt.months }} ماه</span>
+                        <span class="hm-warranty__price" data-warranty-price-label>+ {{ opt.price|intcomma }} تومان</span>
+                    </label>
+                    {% endfor %}
+                </div>
+                <p class="hm-warranty__hint">انتخاب گارانتی اختیاری است و به قیمت نهایی افزوده می‌شود.</p>
+            </fieldset>
+            {% endif %}
 
             <div class="store-product-info__actions">
                 {% if p.in_stock or "(نمونه)" in p.title %}
@@ -87,10 +122,10 @@
                 </button>
                 <button class="beauty-button store-wishlist-button add-to-wishlist" type="button" data-product-item="{{ p.id }}" aria-label="افزودن {{ p.title }} به علاقه‌مندی‌ها">♡</button>
             </div>
-            <ul class="store-product-facts" aria-label="اطلاعات محصول">
-                {% if p.type %}<li><span>نوع کالا</span><strong>{{ p.type }}</strong></li>{% endif %}
-                {% if p.life %}<li><span>گارانتی یا مهلت</span><strong>{{ p.life }}</strong></li>{% endif %}
-                {% if p.sku %}<li><span>شناسهٔ کالا</span><strong>{{ p.sku }}</strong></li>{% endif %}
+            <ul class="store-product-facts hm-facts" aria-label="اطلاعات محصول">
+                {% if p.type %}<li><span class="hm-facts__icon" aria-hidden="true">🏷️</span><span class="hm-facts__label">نوع کالا</span><strong class="hm-facts__value">{{ p.type }}</strong></li>{% endif %}
+                {% if p.life %}<li><span class="hm-facts__icon" aria-hidden="true">🛡️</span><span class="hm-facts__label">گارانتی یا مهلت</span><strong class="hm-facts__value">{{ p.life }}</strong></li>{% endif %}
+                {% if p.sku %}<li><span class="hm-facts__icon" aria-hidden="true">🔢</span><span class="hm-facts__label">شناسهٔ کالا</span><strong class="hm-facts__value">{{ p.sku }}</strong></li>{% endif %}
             </ul>
             {% if "(نمونه)" not in p.title %}
             <p class="store-product-note">اطلاعات و قیمت این کالا بر اساس مشخصات ثبت‌شده در فروشگاه نمایش داده می‌شود.</p>
@@ -140,10 +175,10 @@
             {% else %}
             <p class="store-muted">برای این کالا هنوز مشخصات فنی ثبت نشده است.</p>
             {% endif %}
-            <ul class="store-product-facts store-product-facts--panel" aria-label="اطلاعات محصول">
-                {% if p.type %}<li><span>نوع کالا</span><strong>{{ p.type }}</strong></li>{% endif %}
-                {% if p.life %}<li><span>گارانتی یا مهلت</span><strong>{{ p.life }}</strong></li>{% endif %}
-                {% if p.sku %}<li><span>شناسهٔ کالا</span><strong>{{ p.sku }}</strong></li>{% endif %}
+            <ul class="store-product-facts store-product-facts--panel hm-facts hm-facts--panel" aria-label="اطلاعات محصول">
+                {% if p.type %}<li><span class="hm-facts__icon" aria-hidden="true">🏷️</span><span class="hm-facts__label">نوع کالا</span><strong class="hm-facts__value">{{ p.type }}</strong></li>{% endif %}
+                {% if p.life %}<li><span class="hm-facts__icon" aria-hidden="true">🛡️</span><span class="hm-facts__label">گارانتی یا مهلت</span><strong class="hm-facts__value">{{ p.life }}</strong></li>{% endif %}
+                {% if p.sku %}<li><span class="hm-facts__icon" aria-hidden="true">🔢</span><span class="hm-facts__label">شناسهٔ کالا</span><strong class="hm-facts__value">{{ p.sku }}</strong></li>{% endif %}
             </ul>
         </div>
 

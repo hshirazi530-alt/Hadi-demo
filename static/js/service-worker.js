@@ -1,4 +1,4 @@
-const CACHE_NAME = "hejrmarket-static-v2";
+const CACHE_NAME = "hejrmarket-static-v3";
 const OFFLINE_PAGE = "/static/offline.html";
 
 self.addEventListener("install", (event) => {

@@ -33,6 +33,7 @@ class NavCategory:
     cid: str
     title: str
     subcategories: tuple
+    icon: str = ""
 
     @property
     def has_children(self):
@@ -65,7 +66,14 @@ def _build_nav_categories():
             for sub in category.subcategories.all()
             if sub.is_active
         )
-        payload.append(NavCategory(cid=category.cid, title=category.title, subcategories=subs))
+        payload.append(
+            NavCategory(
+                cid=category.cid,
+                title=category.title,
+                subcategories=subs,
+                icon=category.icon.name if category.icon else "",
+            )
+        )
     return tuple(payload)
 
 

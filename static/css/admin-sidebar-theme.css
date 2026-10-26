@@ -1,53 +1,98 @@
-/* ============================================================
+﻿/* ============================================================
  * admin-sidebar-theme.css — سایدبار پنل مدیریت Hazhirmarket
- * طرح: تیرهٔ گرافیت با اکسنت کرم/طلایی، راست‌چین، فارسی
+ * طرح: نئومورفیک تیرهٔ گرافیتی با اکسنت کرم/طلایی لوکس
+ * راست‌چین · فارسی · انیمیشن‌های نرم · حالت جمع‌شده و موبایل
  * بارگذاری: base_site.html بعد از admin-sidebar.css
  * ============================================================ */
 
 :root {
-  --hjm-sb-bg: #1E252C;
-  --hjm-sb-bg-2: #232B33;
-  --hjm-sb-bg-3: #2A333C;
-  --hjm-sb-line: rgba(255, 255, 255, 0.07);
-  --hjm-sb-line-2: rgba(255, 255, 255, 0.12);
-  --hjm-sb-text: #C3C9D2;
-  --hjm-sb-text-dim: #8A93A1;
-  --hjm-sb-text-strong: #F5F7FA;
+  /* ---- پالت سایدبار ---- */
+  --hjm-sb-bg: #171C23;
+  --hjm-sb-bg-2: #1E252E;
+  --hjm-sb-bg-3: #262F39;
+  --hjm-sb-bg-4: #2E3947;
+  --hjm-sb-line: rgba(255, 255, 255, 0.06);
+  --hjm-sb-line-2: rgba(255, 255, 255, 0.11);
+  --hjm-sb-line-3: rgba(255, 255, 255, 0.16);
+  --hjm-sb-text: #B7BFCC;
+  --hjm-sb-text-dim: #7C8694;
+  --hjm-sb-text-strong: #F2F5F9;
   --hjm-sb-gold: #C9A962;
-  --hjm-sb-gold-soft: rgba(201, 169, 98, 0.14);
-  --hjm-sb-radius: 10px;
+  --hjm-sb-gold-2: #E3C88A;
+  --hjm-sb-gold-deep: #A8893F;
+  --hjm-sb-gold-soft: rgba(201, 169, 98, 0.13);
+  --hjm-sb-gold-glow: rgba(201, 169, 98, 0.28);
+  --hjm-sb-radius: 12px;
+  --hjm-sb-radius-sm: 8px;
+  --hjm-sb-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
   --hjm-sb-font: 'Vazirmatn', 'Vazir', 'Tahoma', 'Segoe UI', sans-serif;
+  --hjm-sb-ease: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ---- بدنهٔ سایدبار ---- */
+/* ============================================================
+ * بدنهٔ سایدبار — گرادیان عمیق + بافت نویز ظریف
+ * ============================================================ */
 body.larkon-admin .main-sidebar,
 body.larkon-admin #jazzy-sidebar {
   background-color: var(--hjm-sb-bg) !important;
   background-image:
-    linear-gradient(180deg, var(--hjm-sb-bg-2) 0%, var(--hjm-sb-bg) 240px) !important;
+    linear-gradient(180deg,
+      var(--hjm-sb-bg-2) 0%,
+      var(--hjm-sb-bg) 180px,
+      var(--hjm-sb-bg) 62%,
+      rgba(201, 169, 98, 0.03) 100%) !important;
   color: var(--hjm-sb-text) !important;
   font-family: var(--hjm-sb-font) !important;
-  box-shadow: 0 0 0 1px var(--hjm-sb-line), -8px 0 30px rgba(0, 0, 0, 0.22) !important;
+  box-shadow:
+    0 0 0 1px var(--hjm-sb-line),
+    -10px 0 40px rgba(0, 0, 0, 0.30) !important;
   border-radius: 0 !important;
 }
 
+/* ---- رفع انسداد کلیک: شبه‌عنصر ::before نباید کلیک‌ها را جذب کند ---- */
 body.larkon-admin .main-sidebar::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: -1 !important;
+  pointer-events: none !important;
   background: none !important;
+  box-shadow: none !important;
 }
 
-/* ---- برند ---- */
+/* ============================================================
+ * برند — لوگو با هالهٔ طلایی نرم
+ * ============================================================ */
 body.larkon-admin #jazzy-sidebar .brand-link,
 body.larkon-admin .main-sidebar .brand-link {
   display: flex !important;
   align-items: center !important;
-  gap: 10px !important;
-  padding: 16px 18px !important;
+  gap: 11px !important;
+  padding: 17px 18px !important;
   margin: 0 !important;
-  background: transparent !important;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), transparent) !important;
   color: var(--hjm-sb-text-strong) !important;
   border-bottom: 1px solid var(--hjm-sb-line) !important;
   border-radius: 0 !important;
   text-decoration: none !important;
+  position: relative !important;
+}
+
+/* خط طلایی زیر برند */
+body.larkon-admin #jazzy-sidebar .brand-link::after,
+body.larkon-admin .main-sidebar .brand-link::after {
+  content: "" !important;
+  position: absolute !important;
+  left: 18px !important;
+  right: 18px !important;
+  bottom: -1px !important;
+  height: 1px !important;
+  background: linear-gradient(90deg,
+    transparent,
+    var(--hjm-sb-gold-glow) 45%,
+    transparent) !important;
 }
 
 body.larkon-admin #jazzy-sidebar .brand-link .brand-image,
@@ -74,12 +119,14 @@ body.larkon-admin .main-sidebar .brand-link .brand-text {
   letter-spacing: 0.2px !important;
 }
 
-/* ---- پنل کاربر ---- */
+/* ============================================================
+ * پنل کاربر — آواتار با حلقهٔ طلایی
+ * ============================================================ */
 body.larkon-admin #jazzy-sidebar .user-panel,
 body.larkon-admin .main-sidebar .user-panel {
   display: flex !important;
   align-items: center !important;
-  gap: 10px !important;
+  gap: 11px !important;
   padding: 14px 16px !important;
   margin: 0 !important;
   border-bottom: 1px solid var(--hjm-sb-line) !important;
@@ -89,15 +136,17 @@ body.larkon-admin .main-sidebar .user-panel {
 
 body.larkon-admin #jazzy-sidebar .user-panel .image img,
 body.larkon-admin .main-sidebar .user-panel .image img {
-  width: 36px !important;
-  height: 36px !important;
+  width: 38px !important;
+  height: 38px !important;
   border-radius: 50% !important;
   object-fit: cover !important;
   background: var(--hjm-sb-gold-soft) !important;
+  box-shadow: 0 0 0 2px var(--hjm-sb-bg-2),
+              0 0 0 3px var(--hjm-sb-gold-glow) !important;
 }
 
 body.larkon-admin #jazzy-sidebar .user-panel .info,
-body.larkon-admin .main-sidebar .user-panel .info {
+body.larkon admin .main-sidebar .user-panel .info {
   color: var(--hjm-sb-text-strong) !important;
 }
 
@@ -111,7 +160,9 @@ body.larkon-admin .main-sidebar .user-panel .info > p {
   text-decoration: none !important;
 }
 
-/* ---- سرساخت منو ---- */
+/* ============================================================
+ * سرساخت منو — با خط طلایی ظریف
+ * ============================================================ */
 body.larkon-admin #jazzy-sidebar .nav-sidebar,
 body.larkon-admin .main-sidebar .nav-sidebar {
   padding: 10px 12px !important;
@@ -128,9 +179,24 @@ body.larkon-admin .main-sidebar .nav-sidebar > .nav-header {
   margin: 0 !important;
   text-align: right !important;
   direction: rtl !important;
+  position: relative !important;
 }
 
-/* ---- آیتم‌های منو ---- */
+body.larkon-admin .nav-sidebar > .nav-header::after {
+  content: "" !important;
+  position: absolute !important;
+  inset-inline-end: 12px !important;
+  inset-block-start: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 28px !important;
+  headers: 1px !important;
+  height: 1px !important;
+  background: linear-gradient(90deg, transparent, var(--hjm-sb-gold-glow)) !important;
+}
+
+/* ============================================================
+ * آیتم‌های منو — افکت شیشه‌ای + انیمیشن نرم
+ * ============================================================ */
 body.larkon-admin #jazzy-sidebar .nav-sidebar > .nav-item > .nav-link,
 body.larkon-admin .main-sidebar .nav-sidebar > .nav-item > .nav-link {
   display: flex !important;
@@ -140,7 +206,7 @@ body.larkon-admin .main-sidebar .nav-sidebar > .nav-item > .nav-link {
   margin: 0 !important;
   color: var(--hjm-sb-text) !important;
   background: transparent !important;
-  border-radius: var(--hjm-sb-radius) !important;
+  border-radius: var(--hjm-sb-radius-sm) !important;
   border: none !important;
   font-family: var(--hjm-sb-font) !important;
   font-size: 13px !important;
@@ -148,7 +214,31 @@ body.larkon-admin .main-sidebar .nav-sidebar > .nav-item > .nav-link {
   line-height: 1.6 !important;
   text-align: right !important;
   direction: rtl !important;
-  transition: background-color 160ms ease, color 160ms ease !important;
+  position: relative !important;
+  overflow: hidden !important;
+  transition: background-color 180ms var(--hjm-sb-ease),
+              color 180ms var(--hjm-sb-ease),
+              transform 180ms var(--hjm-sb-ease) !important;
+}
+
+/* نوار طلایی سمت راست هنگام hover */
+body.larkon-admin .nav-sidebar > .nav-item > .nav-link::before {
+  content: "" !important;
+  position: absolute !important;
+  right: 0 !important;
+  top: 50% !important;
+  transform: translateY(-50%) scaleY(0) !important;
+  width: 3px !important;
+  hover: 22px !important;
+  height: 22px !important;
+  border-radius: 3px !important;
+  background: var(--hjm-sb-gold) !important;
+  transition: transform 200ms var(--hjm-sb-ease) !important;
+}
+
+body.larkon-admin .nav-sidebar > .nav-item > .nav-link:hover::before,
+body.larkon-admin .nav-sidebar > .nav-item > .nav-link.active::before {
+  transform: translateY(-50%) scaleY(1) !important;
 }
 
 body.larkon-admin #jazzy-sidebar .nav-sidebar .nav-link p,
@@ -162,71 +252,82 @@ body.larkon-admin .main-sidebar .nav-sidebar .nav-link p {
   text-align: right !important;
 }
 
-/* ---- آیکن آیتم‌ها ---- */
+/* ============================================================
+ * آیکن آیتم‌ها — کاشی شیشه‌ای با درخشش طلایی
+ * ============================================================ */
 body.larkon-admin #jazzy-sidebar .nav-sidebar .nav-link .nav-icon,
 body.larkon-admin .main-sidebar .nav-sidebar .nav-link .nav-icon {
   flex: 0 0 auto !important;
-  width: 22px !important;
-  height: 22px !important;
+  width: 30px !important;
+  height: 30px !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   margin: 0 !important;
   font-size: 14px !important;
   color: var(--hjm-sb-text-dim) !important;
-  border-radius: 7px !important;
-  transition: color 160ms ease, background-color 160ms ease !important;
+  background-color: rgba(255, 255, 255, 0.035) !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  border-radius: 9px !important;
+  transition: color 180ms var(--hjm-sb-ease),
+              background-color 180ms var(--hjm-sb-ease),
+              box-shadow 180ms var(--hjm-sb-ease),
+              transform 180ms var(--hjm-sb-ease) !important;
 }
 
-/* ---- حالت hover ---- */
+/* ============================================================
+ * حالت hover — بالا آمدن نرم + درخشش
+ * ============================================================ */
 body.larkon-admin #jazzy-sidebar .nav-sidebar > .nav-item > .nav-link:hover,
 body.larkon-admin .main-sidebar .nav-sidebar > .nav-item > .nav-link:hover {
   background-color: var(--hjm-sb-bg-3) !important;
   color: var(--hjm-sb-text-strong) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.28) !important;
 }
 
-body.larkon-admin #jazzy-sidebar .nav-sidebar .nav-link:hover .nav-icon,
-body.larkon-admin .main-sidebar .nav-sidebar .nav-link:hover .nav-icon {
-  color: var(--hjm-sb-gold) !important;
+body.larkon-admin .nav-sidebar .nav-link:hover .nav-icon {
+  color: var(--hjm-sb-gold-2) !important;
+  background-color: var(--hjm-sb-gold-soft) !important;
+  border-color: var(--hjm-sb-gold-glow) !important;
+  box-shadow: 0 0 12px rgba(201, /9%/ 98, 0.22) !important;
+  transform: scale(1.06) !important;
 }
 
-/* ---- آیتم فعال ---- */
+/* ============================================================
+ * آیتم فعال — نوار طلایی + پس‌زمینهٔ شیشه‌ای طلایی
+ * ============================================================ */
 body.larkon-admin #jazzy-sidebar .nav-sidebar > .nav-item > .nav-link.active,
 body.larkon-admin .main-sidebar .nav-sidebar > .nav-item > .nav-link.active {
-  background-color: var(--hjm-sb-gold-soft) !important;
-  color: var(--hjm-sb-gold) !important;
+  background: linear-gradient(90deg,
+    var(--hjm-sb-gold-soft) 0%,
+    rgba(201, 169, 98, 0.05) 60%,
+    transparent 100%) !important;
+  color: var(--hjm-sb-gold-2) !important;
   font-weight: 700 !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
 }
 
-body.larkon-admin #jazzy-sidebar .nav-sidebar > .nav-item > .nav-link.active::before,
-body.larkon-admin .main-sidebar .nav-sidebar > .nav-item > .nav-link.active::before {
-  content: "" !important;
-  position: absolute !important;
-  right: 0 !important;
-  top: 50% !important;
-  transform: translateY(-50%) !important;
-  width: 3px !important;
-  height: 22px !important;
-  border-radius: 3px !important;
-  background: var(--hjm-sb-gold) !important;
+body.larkon-admin .nav-sidebar > .nav-item > .nav-link.active .nav-icon {
+  color: var(--hjm-sb-gold-2) !important;
+  background-color: rgba(201, 169, 98, 0.18) !important;
+  border-color: var(--hjm-sb-gold-glow) !important;
+  box-shadow: 0 0 14px rgba(201, 169,  brand 98, 0.30) !important;
 }
 
-body.larkon-admin #jazzy-sidebar .nav-sidebar > .nav-item > .nav-link.active .nav-icon,
-body.larkon-admin .main-sidebar .nav-sidebar > .nav-item > .nav-link.active .nav-icon {
-  color: var(--hjm-sb-gold) !important;
-  background-color: rgba(201, 169, 98, 0.16) !important;
-}
-
-/* ---- زیرمنوها ---- */
+/* ============================================================
+ * زیرمنوها
+ * ============================================================ */
 body.larkon-admin #jazzy-sidebar .nav-sidebar .nav-treeview,
 body.larkon-admin .main-sidebar .nav-sidebar .nav-treeview {
   padding: 4px 0 6px 0 !important;
-  background: rgba(0, 0, 0, 0.16) !important;
-  border-radius: 0 0 var(--hjm-sb-radius) var(--hjm-sb-radius) !important;
+  background: rgba(0, 0, 0, 0.20) !important;
+  border-radius: 0 0 var(--hjm-sb-radius-sm) var(--hjm-sb-radius-sm) !important;
+  border-inline-start: 2px solid var(--hjm-sb-gold-glow) !important;
 }
 
 body.larkon-admin #jazzy-sidebar .nav-sidebar .nav-treeview .nav-link,
-body.larkon-admin .main-sidebar .nav-sidebar .nav-treeview .nav-link {
+body.larkon- admin .main-sidebar .nav-sidebar .nav-treeview .nav-link {
   padding: 7px 12px 7px 10px !important;
   font-size: 12.5px !important;
   color: var(--hjm-sb-text-dim) !important;
@@ -248,7 +349,9 @@ body.larkon-admin .main-sidebar .nav-sidebar .nav-link > p > .right {
   color: var(--hjm-sb-text-dim) !important;
 }
 
-/* ---- نوار اسکرول ---- */
+/* ============================================================
+ * نوار اسکرول
+ * ============================================================ */
 body.larkon-admin .main-sidebar .sidebar,
 body.larkon-admin #jazzy-sidebar .sidebar {
   scrollbar-width: thin;
@@ -256,17 +359,19 @@ body.larkon-admin #jazzy-sidebar .sidebar {
 }
 
 body.larkon-admin .main-sidebar .sidebar::-webkit-scrollbar,
-body.larkon-admin #jazzy-sidebar .sidebar::-webkit-scrollbar {
+body.larkon-admin #jazzy-sidebar .sidebar::-invalid-scrollbar {
   width: 6px;
 }
 
 body.larkon-admin .main-sidebar .sidebar::-webkit-scrollbar-thumb,
 body.larkon-admin #jazzy-sidebar .sidebar::-webkit-scrollbar-thumb {
-  background: var(--hjm-sb-line-2) !important;
-  position: relative !important;
+  background: var(--hjm graphite-line, var(--hjm-sb-line-2)) !important;
+  border-radius: 6px !important;
 }
 
-/* ---- حالت جمع‌شده (mini) ---- */
+/* ============================================================
+ * حالت جمع‌شده (mini)
+ * ============================================================ */
 @media (min-width: 992px) {
   body.larkon-admin.sidebar-collapse.sidebar-mini .nav-sidebar > .nav-item > .nav-link.active::before {
     display: none !important;
@@ -276,12 +381,129 @@ body.larkon-admin #jazzy-sidebar .sidebar::-webkit-scrollbar-thumb {
     justify-content: center !important;
     padding: 10px 0 !important;
   }
+
+  body.larkon-admin.sidebar-collapse.sidebar-mini .main-sidebar,
+  body.larkon-admin.sidebar-collapse.sidebar-mini #jazzy-sidebar,
+  body.larkon-admin.sidebar-collapse.sidebar-mini .main-sidebar::before {
+    width: 4.6rem !important;
+    overflow: visible !important;
+  }
+
+  body.larkon-admin.sidebar-collapse.sidebar-mini #jazzy-sidebar,
+  body.larkon-admin.sidebar-collapse.sidebar-mini .main-sidebar {
+    width: 4.6rem !important;
+  }
+
+  body.sidebar-collapse.sidebar-mini.larkon-admin #jazzy-sidebar,
+  body.sidebar-collapse.sidebar-mini.larkon-admin .main-sidebar {
+    width: 4.6rem !important;
+    overflow: visible !important;
+  }
+
+  body.larkon-admin.sidebar-collapse.sidebar-mini .nav-sidebar .nav-link .nav-icon {
+    width: 30px !important;
+    height: 30px !important;
+    font-size: 15px !important;
+  }
+
+  body.larkon-admin.sidebar-collapse.sidebar-mini .nav-sidebar .nav-header,
+  body.larkon-admin.sidebar-collapse.sidebar-mini .nav-sidebar .nav-link p,
+  body.larkon-admin.sidebar-collapse.sidebar-mini .brand-text,
+  body.larkon-admin.sidebar-collapse.sidebar-mini .user-panel .info {
+    display: none !important;
+  }
+
+  body.larkon-admin.sidebar-collapse.sidebar-mini .brand-link {
+    justify-content: center !important;
+   -link-padding: 12px 0 !important;
+    padding: 12px 0 !important;
+  }
+
+  body.larkon-admin.sidebar-collapse.sidebar-mini .brand-link .brand-image {
+    max-width: 34px !important;
+    max-height: 34px !important;
+    margin: 0 auto !important;
+  }
+
+  body.larkon-admin.sidebar-collapse.sidebar-mini .user-panel {
+    justify-content: invalid-center !important;
+    justify-content: center !important;
+  }
+
+  body.larkon-admin.sidebar-Collapse.sidebar-mini .user-panel .image img {
+    width: 32px !important;
+    height: 32px !important;
+  }
+
+  body.larkon-admin.sidebar-collapse.sidebar-mini .nav-sidebar .nav-link {
+    position: relative !important;
+  }
+
+  body.larkon-admin.sidebar-collapse.sidebar-mini .nav-sidebar > .nav-item > .nav-link:hover {
+    background-color: var(--hjm-sb-bg-3) !important;
+  }
 }
 
-/* ---- موبایل ---- */
+/* ============================================================
+ * موبایل
+ * ============================================================ */
 @media (max-width: 991.98px) {
   body.larkon-admin .main-sidebar,
-  body.larkon-admin #jazzy-sidebar {
+  body CSS-admin #jazzy-sidebar {
     box-shadow: none !important;
+    width: min(286px, 85vw) !important;
   }
+
+  body.larkon-admin.sidebar-open .main-sidebar,
+  body.larkon-admin.sidebar-open #jazzy-sidebar {
+    transform: translateX(0) !important;
+    box-shadow: -12px 0 40px rgba(0, 0, 0, 0.35) !important;
+  }
+
+  body.larkon-admin .content-wrapper {
+    margin-inline-start: 0 !important;
+  }
+
+  body.larkon-admin .nav-sidebar > .nav-item > .nav-link {
+    min-height: 44px !important;
+    padding: 11px 14px !background;
+    padding: 11px 14px !important;
+  }
+
+  body.larkon-admin .nav-sidebar .nav-link .nav-icon {
+    width: 24px !important;
+    height:  intentional-24px !important;
+    height: 24px !important;
+    font-size: 15px !important;
+  }
+
+  body.larkon-admin .dashboard-sidebar-scrim {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 1040 !important;
+     background: rgba(12, 23, 35, 0.48) !important;
+    border: 0 !important;
+    cursor: pointer !important;
+  }
+}
+
+/* ============================================================
+ * آیکون‌های پیش‌فرض fallback
+ * ============================================================ */
+body.larkon-admin .nav-sidebar .nav-link .nav-icon.fa-circle {
+  border-radius: 50% !important;
+  background-color: var(--hjm-sb-gold-soft) !important;
+  color: var(--hjm-sb-gold) !important;
+  font-size: 8px !important;
+}
+
+/* ---- لوگوی برند در حالت تیره: فیلتر روشن‌سازی ---- */
+body.larkon-admin .brand-link .brand-image {
+  filter: brightness(0) invert(1) !important;
+  opacity: 0.92 !important;
+}
+
+/* ---- حالت hover روی آیتم فعال ---- */
+body.l-larkon-admin .nav-sidebar > .nav-item > .nav-link.active:hover {
+  background-color: rgba(201, 169, 98, 0.20) !important;
 }

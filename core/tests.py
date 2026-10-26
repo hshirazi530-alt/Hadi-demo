@@ -36,8 +36,15 @@ class StorefrontTests(TestCase):
             f'href="{reverse("core:dashboard")}#track-orders"',
         )
         self.assertContains(response, 'href="https://t.me/+989186555100"')
-        self.assertContains(response, "09186555100")
-
+        # The header prints the support number in Latin digits inside a <bdi dir="ltr">
+        # wrapper (the value comes from STORE_PROFILE["phone"]), so match that
+        # rendering instead of Persian digits.
+        self.assertContains(response, 'href="tel:+989186555100"')
+        self.assertContains(response, '<bdi class="hm-utility__number" dir="ltr">09186555100</bdi>')
+        # Current header markup: desktop brand mark inside the category bar and the
+        # brand logo inside the mobile drawer.
+        self.assertContains(response, 'class="hm-brand-mark"')
+        self.assertContains(response, 'class="store-brand-logo"')
 
     def test_sample_product_command_is_repeatable_and_publishes_personal_care_items(self):
         Category.objects.create(title="کادویی")
@@ -217,7 +224,11 @@ class StorefrontTests(TestCase):
             if item["title"] in response.content.decode()
         ]
         self.assertTrue(visible_sample_products)
-        self.assertContains(response, "(نمونه)")
+        # The demo labels moved from the homepage slider to the catalogue pages;
+        # they still have to be visible wherever sample products are listed.
+        catalogue = self.client.get(reverse("core:product-list"))
+        self.assertContains(catalogue, "نمونهٔ نمایشی")
+        self.assertContains(catalogue, "قیمت و موجودی فرضی‌اند")
         for item in visible_sample_products:
             with self.subTest(sample_title=item["title"]):
                 self.assertContains(response, item["image"])
@@ -235,7 +246,7 @@ class StorefrontTests(TestCase):
         self.assertNotContains(response, "کادویی")
         self.assertEqual(
             response.context["products"].count(),
-            min(len(SAMPLE_STORE_PRODUCTS), 24),
+            min(len(SAMPLE_STORE_PRODUCTS), 12),
         )
 
         straightener_search = self.client.get(

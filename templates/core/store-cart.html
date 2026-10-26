@@ -30,6 +30,13 @@
                 <div class="store-cart-item__details">
                     <h2><a href="{% url 'core:product-detail' item.pid %}">{{ item.title }}</a></h2>
                     <p>{% if item.is_demo_sample %}قیمت نمایشی واحد: {% else %}قیمت واحد: {% endif %}{{ item.price|floatformat:0|intcomma }} تومان</p>
+                    {% if item.warranty_months %}
+                    <p class="store-cart-item__warranty">
+                        <span aria-hidden="true">🛡️</span>
+                        گارانتی {{ item.warranty_months }} ماه
+                        <span class="store-cart-item__warranty-price">+ {{ item.warranty_price|floatformat:0|intcomma }} تومان</span>
+                    </p>
+                    {% endif %}
                     <label for="cart-qty-{{ product_id }}">تعداد</label>
                     <input id="cart-qty-{{ product_id }}" type="number" min="1" max="99" class="product-qty-{{ product_id }}" value="{{ item.qty }}" inputmode="numeric">
                 </div>

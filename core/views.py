@@ -12,6 +12,7 @@ from core.models import (
     CartOrderProducts,
     Category,
     Coupon,
+    DigitalBanner,
     FAQ,
     HeroBanner,
     PaymentAttempt,
@@ -107,7 +108,7 @@ def index(request):
             review_count=Count("نظرات", filter=Q(نظرات__is_approved=True)),
             average_rating=Avg("نظرات__rating", filter=Q(نظرات__is_approved=True)),
         )
-        .order_by("-featured", "-date")[:24]
+        .order_by("-featured", "-date")[:12]
     )
     categories = Category.objects.filter(_personal_care_category_filter()).distinct()
     comparison_products = []
@@ -129,6 +130,9 @@ def index(request):
     amazing_banners = list(
         Banner.objects.filter(is_active=True, placement="amazing_offers").order_by("sort_order", "id")
     )
+    digital_banners = list(
+        DigitalBanner.objects.filter(is_active=True).order_by("sort_order", "id")[:5]
+    )
 
     context = {
         "products": products,
@@ -136,6 +140,7 @@ def index(request):
         "home_categories": HOME_CATEGORIES,
         "store_profile": STORE_PROFILE,
         "hero_banners": HeroBanner.objects.filter(is_active=True)[:3],
+        "digital_banners": digital_banners,
         "trust_features": StoreTrustFeature.objects.filter(is_active=True)[:4],
         "bundles": ProductBundle.objects.filter(is_active=True).prefetch_related("products")[:3],
         "faqs": FAQ.objects.filter(is_active=True)[:8],
@@ -344,6 +349,8 @@ def product_detail_view(request, pid):
         "faqs": FAQ.objects.filter(is_active=True),
         "meta_product_description": product_description[:200],
         "product_schema_json": mark_safe(product_schema_json),
+        "warranty_options": product.warranty_options(),
+        "authenticity_badges": product.authenticity_badges(),
     }
 
     return render(request, "core/store-product-detail.html", context)
@@ -465,16 +472,33 @@ def _product_price(product):
     return product.sale_price if product.is_sale and product.sale_price > 0 else product.price
 
 
-def _cart_item(product, quantity):
+def _cart_item(product, quantity, warranty_months=0, warranty_price=0):
     price = _product_price(product)
+    unit_price = price + warranty_price
     return {
         "title": product.title,
         "qty": quantity,
-        "price": str(price),
+        "price": str(unit_price),
+        "base_price": str(price),
+        "warranty_months": warranty_months,
+        "warranty_price": str(warranty_price),
         "image": product.image.url if product.image else "",
         "pid": product.pid,
         "is_demo_sample": "(نمونه)" in product.title,
     }
+
+
+def _warranty_price_for(product, months):
+    """قیمت گارانتی برای تعداد ماه مشخص؛ اگر محصول گارانتی فعال ندارد، صفر برمی‌گرداند."""
+    if not product.has_warranty:
+        return 0
+    mapping = {
+        6: product.warranty_6_price,
+        12: product.warranty_12_price,
+        24: product.warranty_24_price,
+    }
+    price = mapping.get(months, 0)
+    return int(price or 0)
 
 
 def _cart_item_count(cart_data):
@@ -503,7 +527,17 @@ def _refresh_cart(request):
             continue
         product = _cart_product(product_id)
         if product:
-            refreshed[str(product.id)] = _cart_item(product, quantity)
+            warranty_months = 0
+            warranty_price = 0
+            if product.has_warranty:
+                try:
+                    warranty_months = int(item.get("warranty_months", 0) or 0)
+                except (TypeError, ValueError):
+                    warranty_months = 0
+                warranty_price = _warranty_price_for(product, warranty_months)
+            refreshed[str(product.id)] = _cart_item(
+                product, quantity, warranty_months, warranty_price
+            )
     request.session["cart_data_obj"] = refreshed
     return refreshed
 
@@ -545,7 +579,21 @@ def add_to_cart(request):
             status=400,
         )
 
-    cart_data[product_id] = _cart_item(product, quantity)
+    # گارانتی انتخابی کاربر (فقط اگر محصول گارانتی فعال داشته باشد)
+    warranty_months = 0
+    warranty_price = 0
+    if product.has_warranty:
+        try:
+            warranty_months = int(request.POST.get("warranty_months", "0") or "0")
+        except (TypeError, ValueError):
+            warranty_months = 0
+        if warranty_months not in (0, 6, 12, 24):
+            warranty_months = 0
+        warranty_price = _warranty_price_for(product, warranty_months)
+
+    cart_data[product_id] = _cart_item(
+        product, quantity, warranty_months, warranty_price
+    )
     request.session["cart_data_obj"] = cart_data
     return JsonResponse({
         "data": cart_data,
@@ -617,7 +665,19 @@ def update_cart(request):
             {"data": False, "message": "این کالا دیگر برای خرید در دسترس نیست؛ سبد را تازه‌سازی کنید."},
             status=409,
         )
-    cart_data[product_id] = _cart_item(product, quantity)
+    # حفظ گارانتی انتخابی هنگام تغییر تعداد
+    existing = cart_data[product_id] if isinstance(cart_data[product_id], dict) else {}
+    warranty_months = 0
+    warranty_price = 0
+    if product.has_warranty:
+        try:
+            warranty_months = int(existing.get("warranty_months", 0) or 0)
+        except (TypeError, ValueError):
+            warranty_months = 0
+        warranty_price = _warranty_price_for(product, warranty_months)
+    cart_data[product_id] = _cart_item(
+        product, quantity, warranty_months, warranty_price
+    )
     request.session["cart_data_obj"] = cart_data
     return JsonResponse({"data": True, "totalcartitems": _cart_item_count(cart_data)})
 

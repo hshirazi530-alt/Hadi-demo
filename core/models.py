@@ -38,6 +38,13 @@ class Category(models.Model):
                          prefix="cat", alphabet="abcdefgh12345", verbose_name="کد دسته بندی")
     title = models.CharField(max_length=100, default="عنوان دسته بندی", verbose_name="عنوان")
     image = models.ImageField(upload_to="category", default="عکس دسته بندی.jpg", verbose_name="عکس")
+    icon = models.ImageField(
+        upload_to="category_icons/",
+        blank=True,
+        null=True,
+        verbose_name="آیکون منو",
+        help_text="آیکون اختیاری برای نمایش در منوی کشویی هدر (پیشنهادی: SVG یا PNG شفاف ۴۸×۴۸).",
+    )
 
     class Meta:
         verbose_name_plural = "دسته بندی ها"
@@ -45,6 +52,11 @@ class Category(models.Model):
 
     def category_image(self):
         return mark_safe('<img src="%s" width="50" height="50" />' % (self.image.url))
+
+    def category_icon(self):
+        if self.icon:
+            return mark_safe('<img src="%s" width="24" height="24" />' % (self.icon.url))
+        return "-"
 
     def product_count(self):
         return Product.objects.filter(category=self).count()
@@ -173,6 +185,42 @@ class Product(models.Model):
     sku = ShortUUIDField(unique=True, length=4, max_length=10,
                          prefix="sku", alphabet="1234567890", verbose_name="کد پیگیری محصول")
 
+    # ---------- Warranty option (Feature 7) ----------
+    has_warranty = models.BooleanField(
+        default=False,
+        verbose_name="دارای گارانتی",
+        help_text="اگر فعال باشد، سلکتور گارانتی در صفحهٔ محصول نمایش داده می‌شود.",
+    )
+    warranty_6_price = models.DecimalField(
+        max_digits=12, decimal_places=0, default="0", blank=True,
+        verbose_name="قیمت گارانتی ۶ ماه",
+    )
+    warranty_12_price = models.DecimalField(
+        max_digits=12, decimal_places=0, default="0", blank=True,
+        verbose_name="قیمت گارانتی ۱۲ ماه",
+    )
+    warranty_24_price = models.DecimalField(
+        max_digits=12, decimal_places=0, default="0", blank=True,
+        verbose_name="قیمت گارانتی ۲۴ ماه",
+    )
+
+    # ---------- Product authenticity (Feature 9) ----------
+    authenticity_original = models.BooleanField(
+        default=False,
+        verbose_name="اورجینال",
+        help_text="نشان «اورجینال ✔» در صفحهٔ محصول نمایش داده می‌شود.",
+    )
+    authenticity_high_copy = models.BooleanField(
+        default=False,
+        verbose_name="های‌کپی",
+        help_text="نشان «های‌کپی ✔» در صفحهٔ محصول نمایش داده می‌شود.",
+    )
+    authenticity_copy = models.BooleanField(
+        default=False,
+        verbose_name="کپی",
+        help_text="نشان «کپی ✔» در صفحهٔ محصول نمایش داده می‌شود.",
+    )
+
     date = models.DateTimeField(auto_now_add=True, verbose_name="تاریخ")
     updated = models.DateTimeField(null=True, blank=True, verbose_name="به‌روزرسانی‌شده")
 
@@ -189,6 +237,30 @@ class Product(models.Model):
     def get_precentage(self):
         new_price = (self.price / self.sale_price) * 100
         return new_price
+
+    def warranty_options(self):
+        """گزینه‌های گارانتی فعال برای این محصول را برمی‌گرداند."""
+        if not self.has_warranty:
+            return []
+        options = []
+        if self.warranty_6_price and self.warranty_6_price > 0:
+            options.append({"months": 6, "price": self.warranty_6_price})
+        if self.warranty_12_price and self.warranty_12_price > 0:
+            options.append({"months": 12, "price": self.warranty_12_price})
+        if self.warranty_24_price and self.warranty_24_price > 0:
+            options.append({"months": 24, "price": self.warranty_24_price})
+        return options
+
+    def authenticity_badges(self):
+        """نشان‌های اصالت فعال برای این محصول را برمی‌گرداند."""
+        badges = []
+        if self.authenticity_original:
+            badges.append({"key": "original", "label": "اورجینال", "icon": "✅"})
+        if self.authenticity_high_copy:
+            badges.append({"key": "high_copy", "label": "های‌کپی", "icon": "✔️"})
+        if self.authenticity_copy:
+            badges.append({"key": "copy", "label": "کپی", "icon": "✔️"})
+        return badges
 
 
 class ProductImages(models.Model):
@@ -489,3 +561,27 @@ class AmazingOffersSettings(models.Model):
     def get_settings(cls):
         obj, _ = cls.objects.get_or_create(pk=1)
         return obj
+
+
+class DigitalBanner(models.Model):
+    """Banner slides for the homepage Digital Goods slider."""
+
+    eyebrow = models.CharField(max_length=80, blank=True, verbose_name="عنوان کوتاه")
+    title = models.CharField(max_length=160, verbose_name="عنوان")
+    description = models.TextField(blank=True, verbose_name="توضیحات")
+    image = models.ImageField(upload_to="storefront/digital/", blank=True, verbose_name="تصویر")
+    image_alt = models.CharField(max_length=180, blank=True, verbose_name="متن جایگزین تصویر")
+    button_label = models.CharField(max_length=60, default="مشاهده محصولات", verbose_name="متن دکمه")
+    button_url = models.CharField(max_length=300, default="/products/", verbose_name="پیوند دکمه")
+    is_active = models.BooleanField(default=True, verbose_name="فعال")
+    sort_order = models.PositiveSmallIntegerField(default=0, verbose_name="ترتیب نمایش")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="آخرین ویرایش")
+
+    class Meta:
+        ordering = ("sort_order", "id")
+        verbose_name = "بنر دیجیتال"
+        verbose_name_plural = "بنرهای دیجیتال"
+
+    def __str__(self):
+        return self.title
+

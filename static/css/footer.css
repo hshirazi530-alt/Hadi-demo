@@ -61,7 +61,6 @@
     object-fit: contain;
     display: block;
     margin-bottom: 1rem;
-    border-radius: 16px;
 }
 
 .hm-footer__about {
@@ -176,6 +175,23 @@
 .hm-footer__social svg {
     flex-shrink: 0;
     fill: currentColor;
+}
+
+/* Telegram brand color */
+.hm-footer__social--telegram {
+    color: #229ED9;
+}
+
+.hm-footer__social--telegram:hover,
+.hm-footer__social--telegram:focus-visible {
+    background: #229ED9;
+    border-color: #229ED9;
+    color: #fff;
+}
+
+.hm-footer__social--telegram:hover svg,
+.hm-footer__social--telegram:focus-visible svg {
+    fill: #fff;
 }
 
 .hm-footer__social:hover,
@@ -316,5 +332,13 @@
     flex-shrink: 0;
     display: block;
     object-fit: contain;
-    border-radius: 50%;
+}
+
+/* Logo artwork is now transparent (no badge background), so let the mark
+   breathe inside the bar without changing the header height.
+   60px is the largest size that fits all header states with transparent background:
+   desktop bar (66px), collapsed bar (54px) and mobile bar (46px). */
+.store-css .hm-brand-mark {
+    width: 3.75rem;
+    height: 3.75rem;
 }

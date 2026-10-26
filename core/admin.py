@@ -2,6 +2,7 @@ from django.contrib import admin
 from django import forms
 from django.db import transaction
 from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 import logging
 from core.models import (
     Address,
@@ -11,6 +12,7 @@ from core.models import (
     CartOrderProducts,
     Category,
     Coupon,
+    DigitalBanner,
     FAQ,
     HeroBanner,
     PaymentAttempt,
@@ -69,6 +71,11 @@ class ProductAdminForm(forms.ModelForm):
                 self.fields[field_name].required = True
             self.fields["price"].initial = None
             self.fields["stock_count"].initial = ""
+        # گروه‌بندی فیلدهای گارانتی برای نمایش بهتر در ادمین
+        for field_name in ("warranty_6_price", "warranty_12_price", "warranty_24_price"):
+            if field_name in self.fields:
+                self.fields[field_name].required = False
+                self.fields[field_name].localize = True
 
     def clean(self):
         cleaned_data = super().clean()
@@ -223,15 +230,36 @@ class ProductAdmin(admin.ModelAdmin):
             raise
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['title', 'image_preview']
+    list_display = ['image_preview', 'title', 'icon_preview', 'product_count']
+    list_display_links = ['title']
+    search_fields = ['title']
+    fieldsets = [
+        (None, {
+            "fields": ("title", "cid"),
+        }),
+        ("تصاویر", {
+            "fields": ("image", "icon"),
+            "description": "«آیکون منو» در منوی کشویی هدر نمایش داده می‌شود (اختیاری).",
+        }),
+    ]
+    readonly_fields = ["cid"]
 
     @admin.display(description="تصویر")
     def image_preview(self, obj):
         return obj.category_image()
 
+    @admin.display(description="آیکون")
+    def icon_preview(self, obj):
+        return obj.category_icon()
+
+    @admin.display(description="تعداد محصولات", ordering="product_count")
+    def product_count(self, obj):
+        return Product.objects.filter(category=obj).count()
+
 
 class SubCategoryAdmin(admin.ModelAdmin):
-    list_display = ['title', 'category', 'image_preview', 'order', 'is_active']
+    list_display = ['image_preview', 'title', 'category', 'order', 'is_active']
+    list_display_links = ['title']
     list_editable = ['order', 'is_active']
     list_filter = ['category', 'is_active']
     search_fields = ['title']
@@ -242,7 +270,9 @@ class SubCategoryAdmin(admin.ModelAdmin):
 
 
 class VendorAdmin(admin.ModelAdmin):
-    list_display = ['title', 'image_preview']
+    list_display = ['image_preview', 'title', 'user', 'date']
+    list_display_links = ['title']
+    search_fields = ['title']
 
     @admin.display(description="تصویر")
     def image_preview(self, obj):
@@ -251,11 +281,25 @@ class VendorAdmin(admin.ModelAdmin):
 
 class CartOrderAdmin(admin.ModelAdmin):
     list_editable = ['paid_status', 'product_status', 'sku']
-    list_display = ['user',  'price', 'paid_status', 'order_date','product_status', 'sku']
+    list_display = ['user', 'price', 'paid_status', 'order_date', 'product_status', 'sku']
+    list_display_links = ['user']
+    list_filter = ['paid_status', 'product_status']
+    search_fields = ['user__username', 'sku', 'oid']
 
 
 class CartOrderProductsAdmin(admin.ModelAdmin):
-    list_display = ['order', 'invoice_no', 'item', 'image','qty', 'price', 'total']
+    list_display = ['order_img', 'order', 'invoice_no', 'item', 'qty', 'price', 'total']
+    list_display_links = ['order']
+    search_fields = ['invoice_no', 'item']
+
+    @admin.display(description="تصویر")
+    def order_img(self, obj):
+        img_path = (obj.image or "").lstrip("/")
+        if img_path.startswith("media/"):
+            img_path = img_path[len("media/"):]
+        if not img_path:
+            return "—"
+        return mark_safe('<img src="/media/{}" width="50" height="50" />'.format(img_path))
 
 
 class ProductReviewAdmin(admin.ModelAdmin):
@@ -273,10 +317,21 @@ class PaymentAttemptAdmin(admin.ModelAdmin):
 
 
 class HeroBannerAdmin(admin.ModelAdmin):
-    list_display = ["title", "is_active", "sort_order", "updated_at"]
+    list_display = ["image_preview", "title", "is_active", "sort_order", "updated_at"]
+    list_display_links = ["title"]
     list_filter = ["is_active"]
     list_editable = ["is_active", "sort_order"]
     search_fields = ["title", "eyebrow", "description"]
+
+    @admin.display(description="تصویر")
+    def image_preview(self, obj):
+        if not obj.image:
+            return "—"
+        return format_html(
+            '<img class="admin-product-thumbnail" src="{}" alt="تصویر {}">',
+            obj.image.url,
+            obj.title,
+        )
 
 
 class FAQAdmin(admin.ModelAdmin):
@@ -287,11 +342,22 @@ class FAQAdmin(admin.ModelAdmin):
 
 
 class ProductBundleAdmin(admin.ModelAdmin):
-    list_display = ["title", "price", "is_active", "sort_order"]
+    list_display = ["image_preview", "title", "price", "is_active", "sort_order"]
+    list_display_links = ["title"]
     list_filter = ["is_active"]
     list_editable = ["price", "is_active", "sort_order"]
     search_fields = ["title", "description"]
     filter_horizontal = ["products"]
+
+    @admin.display(description="تصویر")
+    def image_preview(self, obj):
+        if not obj.image:
+            return "—"
+        return format_html(
+            '<img class="admin-product-thumbnail" src="{}" alt="تصویر {}">',
+            obj.image.url,
+            obj.title,
+        )
 
 
 class StoreTrustFeatureAdmin(admin.ModelAdmin):
@@ -310,12 +376,48 @@ class AddressAdmin(admin.ModelAdmin):
     list_display = ['user', 'address', 'status']
 
 
+class CouponAdmin(admin.ModelAdmin):
+    list_display = ['code', 'discount', 'active']
+    list_editable = ['discount', 'active']
+    search_fields = ['code']
+
+
 class BannerAdmin(admin.ModelAdmin):
-    list_display = ['title', 'placement', 'is_active', 'sort_order', 'updated_at']
+    list_display = ['image_preview', 'title', 'placement', 'is_active', 'sort_order', 'updated_at']
+    list_display_links = ['title']
     list_editable = ['is_active', 'sort_order']
     list_filter = ['placement', 'is_active']
     search_fields = ['title', 'subtitle']
     ordering = ['sort_order', 'id']
+
+    @admin.display(description="تصویر")
+    def image_preview(self, obj):
+        if not obj.image:
+            return "—"
+        return format_html(
+            '<img class="admin-product-thumbnail" src="{}" alt="تصویر {}">',
+            obj.image.url,
+            obj.title,
+        )
+
+
+class DigitalBannerAdmin(admin.ModelAdmin):
+    list_display = ["image_preview", "title", "is_active", "sort_order", "updated_at"]
+    list_display_links = ["title"]
+    list_filter = ["is_active"]
+    list_editable = ["is_active", "sort_order"]
+    search_fields = ["title", "eyebrow", "description"]
+    ordering = ["sort_order", "id"]
+
+    @admin.display(description="تصویر")
+    def image_preview(self, obj):
+        if not obj.image:
+            return "—"
+        return format_html(
+            '<img class="admin-product-thumbnail" src="{}" alt="تصویر {}">',
+            obj.image.url,
+            obj.title,
+        )
 
 
 @admin.register(AmazingOffersSettings)
@@ -338,6 +440,7 @@ class AmazingOffersSettingsAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Banner, BannerAdmin)
+admin.site.register(DigitalBanner, DigitalBannerAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(SubCategory, SubCategoryAdmin)
@@ -352,4 +455,4 @@ admin.site.register(ProductBundle, ProductBundleAdmin)
 admin.site.register(StoreTrustFeature, StoreTrustFeatureAdmin)
 admin.site.register(wishlist_model, wishlistAdmin)
 admin.site.register(Address, AddressAdmin)
-admin.site.register(Coupon)
+admin.site.register(Coupon, CouponAdmin)
