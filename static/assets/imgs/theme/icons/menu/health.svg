@@ -1,0 +1,8 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- سلامت: قلب + نبض -->
+  <g stroke="#7a5a1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M24 38s-13-8.2-13-16.5A7.5 7.5 0 0 1 24 16a7.5 7.5 0 0 1 13 5.5C37 29.8 24 38 24 38Z"/>
+    <path d="M17 24h4l2.5-4 3 7 2.5-3h4"/>
+  </g>
+  <circle cx="24" cy="24" r="1.5" fill="#c8a253"/>
+</svg>
