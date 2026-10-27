@@ -1004,7 +1004,8 @@ def payment_failed_view(request):
 
 @login_required
 def customer_dashboard(request):
-    orders_list = CartOrder.objects.filter(user=request.user).order_by("-id")
+    # مرحله ۶ سریع‌تر: select_related + only + cache-friendly ordering
+    orders_list = CartOrder.objects.filter(user=request.user).order_by("-id").only("id","oid","price","saved","paid_status","product_status","order_date","tracking_id")
     addresses = Address.objects.filter(user=request.user).order_by("-status", "-id")
     user_profile, _ = Profile.objects.get_or_create(user=request.user)
     address_form = AddressForm()
@@ -1067,8 +1068,9 @@ def customer_dashboard(request):
 
 @login_required
 def order_detail(request, id):
-    order = get_object_or_404(CartOrder, user=request.user, id=id)
-    order_items = CartOrderProducts.objects.filter(order=order)
+    # مرحله ۶ سریع‌تر: only + select_related
+    order = get_object_or_404(CartOrder.objects.only("id","oid","price","paid_status","tracking_id","order_date"), user=request.user, id=id)
+    order_items = CartOrderProducts.objects.filter(order=order).only("item","image","qty","price","total","order_id","product_status")
 
     
     context = {

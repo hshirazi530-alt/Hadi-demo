@@ -1,4 +1,4 @@
-const CACHE_NAME = "hejrmarket-static-v4"; // مرحله ۵ سریع‌تر: bump for new icons
+const CACHE_NAME = "hejrmarket-static-v5" // مرحله ۶ سریع‌تر; // مرحله ۵ سریع‌تر: bump for new icons
 const OFFLINE_PAGE = "/static/offline.html";
 const PRECACHE_ICONS = [
   "/static/assets/imgs/icons/purchase-step-5.png",
@@ -6,6 +6,7 @@ const PRECACHE_ICONS = [
   "/static/assets/imgs/icons/purchase-step-2.png",
   "/static/assets/imgs/icons/purchase-step-3.png",
   "/static/assets/imgs/icons/purchase-step-4.png",
+  "/static/assets/imgs/icons/purchase-step-6.png",
 ];
 
 self.addEventListener("install", (event) => {

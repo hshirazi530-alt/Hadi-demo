@@ -2,12 +2,14 @@
 {% load static %}
 {% block title %}راهنمای خرید مطمئن | هژیر مارکت{% endblock %}
 {% block extra_head %}
-{# مرحله ۵ سریع‌تر: Preload critical icon for step 5 #}
+{# مرحله ۵ و ۶ سریع‌تر: Preload critical icons #}
 <link rel="preload" as="image" href="{% static 'assets/imgs/icons/purchase-step-5.png' %}" fetchpriority="high">
-<link rel="prefetch" as="image" href="{% static 'assets/imgs/icons/purchase-step-6.png' %}">
+<link rel="preload" as="image" href="{% static 'assets/imgs/icons/purchase-step-6.png' %}" fetchpriority="high">
 <link rel="prefetch" as="image" href="{% static 'assets/imgs/icons/purchase-step-7.png' %}">
+<link rel="preconnect" href="https://tracking.post.ir" crossorigin>
+<link rel="dns-prefetch" href="//tracking.post.ir">
 <style>
-  /* Fast rendering for step 5: content-visibility + contain */
+  /* Fast rendering for steps 5-7: content-visibility + contain */
   .purchase-guide-step[data-step="5"],
   .purchase-guide-step[data-step="6"],
   .purchase-guide-step[data-step="7"] {
@@ -15,7 +17,8 @@
     contain-intrinsic-size: 0 320px;
     contain: layout paint;
   }
-  .purchase-guide-step[data-step="5"] {
+  .purchase-guide-step[data-step="5"],
+  .purchase-guide-step[data-step="6"] {
     content-visibility: visible;
     will-change: transform;
   }
@@ -68,10 +71,16 @@
                     <p class="purchase-guide-hero__eyebrow">راهنمای خرید مطمئن</p>
                     <h1 class="purchase-guide-hero__title">از انتخاب تا تحویل، با اطمینان خرید کنید</h1>
                     <p class="purchase-guide-hero__sub">راهنمای ۷ مرحله‌ای برای خرید ابزارهای زیبایی و مراقبت شخصی در ایران. قیمت‌ها و قوانین ممکن است تغییر کنند؛ تاریخ بررسی: <strong>مهر ۱۴۰۵</strong>.</p>
-                    <a href="#step-5" class="pg-fast-jump" id="pg-jump-step5" aria-label="پرش سریع به مرحله ۵ پرداخت امن">
-                        <span>⚡ رفتن سریع به مرحله ۵: پرداخت امن</span>
-                        <span aria-hidden="true">←</span>
-                    </a>
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
+                        <a href="#step-5" class="pg-fast-jump" id="pg-jump-step5" aria-label="پرش سریع به مرحله ۵ پرداخت امن">
+                            <span>⚡ رفتن سریع به مرحله ۵: پرداخت امن</span>
+                            <span aria-hidden="true">←</span>
+                        </a>
+                        <a href="#step-6" class="pg-fast-jump" id="pg-jump-step6" aria-label="پرش سریع به مرحله ۶ پیگیری ارسال" style="background:linear-gradient(120deg,#7fb8a7 0%,#c9e8df 100%)">
+                            <span>🚚 رفتن سریع به مرحله ۶: پیگیری ارسال</span>
+                            <span aria-hidden="true">←</span>
+                        </a>
+                    </div>
                 </div>
                 <div class="purchase-guide-hero__visual">
                     <div class="purchase-guide-hero__ring"></div>
@@ -157,9 +166,9 @@
                     </div>
                 </div>
 
-                <div class="purchase-guide-step" data-step="6">
+                <div class="purchase-guide-step" id="step-6" data-step="6" tabindex="-1">
                     <div class="purchase-guide-step__icon">
-                        <img src="{% static 'assets/imgs/icons/purchase-step-6.png' %}" alt="پیگیری ارسال" width="64" height="64" decoding="async" loading="lazy">
+                        <img src="{% static 'assets/imgs/icons/purchase-step-6.png' %}" alt="پیگیری ارسال" width="64" height="64" decoding="async" fetchpriority="high" loading="eager">
                     </div>
                     <div class="purchase-guide-step__body">
                         <h3>۶. پیگیری ارسال و تحویل</h3>
@@ -168,6 +177,12 @@
                             <div class="purchase-guide-step__action"><strong>اقدام:</strong> هر ۲۴ ساعت وضعیت ارسال را چک کنید.</div>
                             <div class="purchase-guide-step__warning"><strong>⚠ هشدار:</strong> عدم به‌روزرسانی وضعیت پس از ۴۸ ساعت یا آدرس اشتباه در سیستم.</div>
                             <div class="purchase-guide-step__checklist"><strong>چک‌لیست:</strong> ☐ کد رهگیری دریافت شد ☐ وضعیت در tracking.post.ir چک شد ☐ آدرس تحویل تأیید شد</div>
+                            <div class="purchase-guide-step__action" style="margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+                                <strong style="white-space:nowrap">رهگیری سریع:</strong>
+                                <input id="pg-track-input" type="text" inputmode="numeric" placeholder="کد ۲۴ رقمی پست را وارد کنید" style="flex:1;min-width:160px;padding:8px 12px;border:1.5px solid #c9a96e;border-radius:999px;font-size:13px" maxlength="24">
+                                <button id="pg-track-btn" type="button" class="pg-fast-jump" style="padding:8px 16px;margin:0;cursor:pointer;border:none">پیگیری در post.ir ↗</button>
+                                <span id="pg-track-hint" style="font-size:11px;color:#6b6258;display:none"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -205,47 +220,54 @@
     </div>
 </main>
 <script>
-// مرحله ۵ سریع‌تر: instant jump + highlight
+// مرحله ۵ و ۶ سریع‌تر: instant jump + highlight + رهگیری سریع
 (function() {
-  const step5 = document.getElementById('step-5');
-  const btn = document.getElementById('pg-jump-step5');
-  function jumpToStep5(e) {
-    if (e) e.preventDefault();
-    if (!step5) return;
-    // Instant scroll (no smooth) for speed
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const behavior = prefersReduced ? 'instant' : 'auto';
-    // Try instant; fallback to auto
-    try {
-      step5.scrollIntoView({ behavior: behavior, block: 'start' });
-    } catch(_) {
-      step5.scrollIntoView();
-    }
-    // Highlight
-    step5.classList.remove('is-fast-target');
-    void step5.offsetWidth; // reflow
-    step5.classList.add('is-fast-target');
-    step5.focus({ preventScroll: true });
-    history.replaceState(null, '', '#step-5');
-    // Remove highlight after animation
-    setTimeout(() => step5.classList.remove('is-fast-target'), 1000);
+  function makeJumper(stepId, hash) {
+    const el = document.getElementById(stepId);
+    return function(e) {
+      if (e) e.preventDefault();
+      if (!el) return;
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const behavior = prefersReduced ? 'instant' : 'auto';
+      try { el.scrollIntoView({ behavior: behavior, block: 'start' }); } catch(_) { el.scrollIntoView(); }
+      el.classList.remove('is-fast-target');
+      void el.offsetWidth;
+      el.classList.add('is-fast-target');
+      el.focus({ preventScroll: true });
+      history.replaceState(null, '', hash);
+      setTimeout(() => el.classList.remove('is-fast-target'), 1000);
+      const img = el.querySelector('img');
+      if (img && img.decode) img.decode().catch(()=>{});
+    };
   }
-  if (btn) btn.addEventListener('click', jumpToStep5);
-  // Auto-jump if URL has ?step=5 or #step-5
+  const jump5 = makeJumper('step-5', '#step-5');
+  const jump6 = makeJumper('step-6', '#step-6');
+  const btn5 = document.getElementById('pg-jump-step5');
+  const btn6 = document.getElementById('pg-jump-step6');
+  if (btn5) btn5.addEventListener('click', jump5);
+  if (btn6) btn6.addEventListener('click', jump6);
   const params = new URLSearchParams(location.search);
-  if (params.get('step') === '5' || location.hash === '#step-5') {
-    // Delay until paint, then instant jump
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => setTimeout(jumpToStep5, 30));
-    } else {
-      setTimeout(jumpToStep5, 30);
-    }
+  const hash = location.hash;
+  const target = params.get('step') === '6' || hash === '#step-6' ? jump6 : (params.get('step') === '5' || hash === '#step-5' ? jump5 : null);
+  if (target) {
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => setTimeout(target, 30));
+    else setTimeout(target, 30);
   }
-  // Prefetch step 5 image already via <link rel=preload>, but also ensure decoded
-  const img = step5 ? step5.querySelector('img') : null;
-  if (img && img.decode) {
-    img.decode().catch(() => {});
+  const input = document.getElementById('pg-track-input');
+  const btn = document.getElementById('pg-track-btn');
+  const hint = document.getElementById('pg-track-hint');
+  function doTrack() {
+    const code = (input.value || '').replace(/\s+/g,'').trim();
+    if (!code) { hint.textContent='کد را وارد کنید.'; hint.style.display='inline'; return; }
+    if (!/^\d{10,24}$/.test(code)) { hint.textContent='کد باید ۱۰ تا ۲۴ رقم باشد.'; hint.style.display='inline'; return; }
+    hint.style.display='none';
+    const url = 'https://tracking.post.ir/search.aspx?archived=0&id=' + encodeURIComponent(code);
+    window.open(url, '_blank', 'noopener');
+    hint.textContent='در تب جدید باز شد — ۲ تا ۵ روز کاری معمول است.';
+    hint.style.display='inline';
   }
+  if (btn) btn.addEventListener('click', doTrack);
+  if (input) input.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ e.preventDefault(); doTrack(); }});
 })();
 </script>
 {% endblock %}
