@@ -18,8 +18,8 @@ from django.db.models import Q
 
 from core.storefront import HOME_CATEGORIES, HOME_PRODUCT_TERMS
 
-CACHE_KEY = "hm:navigation:categories:v1"
-CACHE_TTL = 180  # seconds
+CACHE_KEY = "hm:navigation:categories:v2"
+CACHE_TTL = 600  # seconds — افزایش برای مرحله ۵ سریع‌تر
 
 
 @dataclass(frozen=True)

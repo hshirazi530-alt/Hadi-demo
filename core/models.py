@@ -227,6 +227,12 @@ class Product(models.Model):
     class Meta:
         verbose_name_plural = "محصولات"
         verbose_name = "محصول"
+        indexes = [
+            models.Index(fields=["product_status", "status"], name="prod_status_idx"),
+            models.Index(fields=["featured", "date"], name="prod_feat_date_idx"),
+            models.Index(fields=["product_status", "status", "featured"], name="prod_list_idx"),
+            models.Index(fields=["price"], name="prod_price_idx"),
+        ]
 
     def product_image(self):
         return mark_safe('<img src="%s" width="50" height="50" />' % (self.image.url))
@@ -313,6 +319,11 @@ class CartOrder(models.Model):
     class Meta:
         verbose_name_plural = "سفارشات سبد خرید"
         verbose_name = "سفارش سبد خرید"
+        indexes = [
+            models.Index(fields=["oid"], name="cart_oid_idx"),
+            models.Index(fields=["user", "paid_status"], name="cart_user_paid_idx"),
+            models.Index(fields=["order_date"], name="cart_date_idx"),
+        ]
 
 
 class PaymentAttempt(models.Model):
@@ -344,6 +355,10 @@ class PaymentAttempt(models.Model):
         ordering = ("-created_at",)
         verbose_name = "تلاش پرداخت"
         verbose_name_plural = "تلاش‌های پرداخت"
+        indexes = [
+            models.Index(fields=["order", "status"], name="pay_order_status_idx"),
+            models.Index(fields=["authority"], name="pay_auth_idx"),
+        ]
 
     def __str__(self):
         return f"{self.order_id} · {self.authority}"

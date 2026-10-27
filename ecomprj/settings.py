@@ -251,6 +251,18 @@ PRODUCT_IMAGE_SOURCE_DIR = Path(
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Cache for fast step-5 (locmem for dev, can be overridden via env)
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "hm-cache",
+        "TIMEOUT": 600,
+    }
+}
+# Session also benefits from cache
+SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
+
+
 
 JAZZMIN_SETTINGS = {
     'site_header': "Hazhirmarket",

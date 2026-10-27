@@ -45,6 +45,8 @@ from django.core import serializers
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.conf import settings
+from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_headers
 from django.views.decorators.http import require_GET, require_POST
 from django.utils.html import strip_tags
 from django.utils.safestring import mark_safe
@@ -768,8 +770,12 @@ def save_checkout_info(request):
 
 @login_required
 def checkout(request, oid):
-    order = get_object_or_404(CartOrder, oid=oid, user=request.user)
-    order_items = CartOrderProducts.objects.filter(order=order)
+    # مرحله ۵ سریع‌تر: select_related + prefetch + only برای کاهش query-time
+    order = get_object_or_404(
+        CartOrder.objects.select_related("user").prefetch_related("payment_attempts", "coupons"),
+        oid=oid, user=request.user
+    )
+    order_items = CartOrderProducts.objects.filter(order=order).only("item", "image", "qty", "price", "total", "order_id")
 
     if request.method == "POST":
         if request.POST.get("action") == "pay":
@@ -855,13 +861,20 @@ def checkout(request, oid):
         else:
             messages.error(request, "کد تخفیف معتبر یا فعال نیست.")
 
+    # Cache has_demo_items to avoid double exists() query (مرحله ۵ سریع‌تر)
+    has_demo_items = getattr(order, "_cached_has_demo", None)
+    if has_demo_items is None:
+        has_demo_items = order_items.filter(item__contains="(نمونه)").exists()
+        order._cached_has_demo = has_demo_items
     context = {
         "order": order,
         "order_items": order_items,
-        "has_demo_items": order_items.filter(item__contains="(نمونه)").exists(),
+        "has_demo_items": has_demo_items,
         "zarinpal_configured": bool(settings.ZARINPAL_MERCHANT_ID),
     }
-    return render(request, "core/store-checkout.html", context)
+    response = render(request, "core/store-checkout.html", context)
+    response["Cache-Control"] = "private, no-store"  # sensitive order data
+    return response
 
 
 @require_GET
@@ -1175,18 +1188,36 @@ def ajax_contact_form(request):
     )
 
 
+@cache_page(60 * 30)
 def about_us(request):
-    return render(request, "core/about_us.html")
+    response = render(request, "core/about_us.html")
+    response["Cache-Control"] = "public, max-age=900"
+    return response
 
 
+@cache_page(60 * 30)  # مرحله ۵ سریع‌تر: cache for 30 minutes
+@vary_on_headers("Accept-Language")
 def purchase_guide(request):
-    return render(request, "core/purchase_guide.html")
+    # Fast path: if ?step=5 directly jump via server hint (no extra DB)
+    response = render(request, "core/purchase_guide.html", {
+        "prefetch_step5": request.GET.get("step") == "5",
+    })
+    # Allow browser/CDN to cache this static page
+    response["Cache-Control"] = "public, max-age=900, stale-while-revalidate=3600"
+    response["Vary"] = "Accept-Language, Cookie"
+    return response
 
+@cache_page(60 * 30)
 def privacy_policy(request):
-    return render(request, "core/privacy_policy.html")
+    response = render(request, "core/privacy_policy.html")
+    response["Cache-Control"] = "public, max-age=900"
+    return response
 
+@cache_page(60 * 30)
 def terms_of_service(request):
-    return render(request, "core/terms_of_service.html")
+    response = render(request, "core/terms_of_service.html")
+    response["Cache-Control"] = "public, max-age=900"
+    return response
 
 
 def robots_txt(request):

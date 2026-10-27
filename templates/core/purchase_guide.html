@@ -1,5 +1,55 @@
-﻿{% extends 'partials/base.html' %}
+{% extends 'partials/base.html' %}
 {% load static %}
+{% block title %}راهنمای خرید مطمئن | هژیر مارکت{% endblock %}
+{% block extra_head %}
+{# مرحله ۵ سریع‌تر: Preload critical icon for step 5 #}
+<link rel="preload" as="image" href="{% static 'assets/imgs/icons/purchase-step-5.png' %}" fetchpriority="high">
+<link rel="prefetch" as="image" href="{% static 'assets/imgs/icons/purchase-step-6.png' %}">
+<link rel="prefetch" as="image" href="{% static 'assets/imgs/icons/purchase-step-7.png' %}">
+<style>
+  /* Fast rendering for step 5: content-visibility + contain */
+  .purchase-guide-step[data-step="5"],
+  .purchase-guide-step[data-step="6"],
+  .purchase-guide-step[data-step="7"] {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 320px;
+    contain: layout paint;
+  }
+  .purchase-guide-step[data-step="5"] {
+    content-visibility: visible;
+    will-change: transform;
+  }
+  /* Quick-jump button */
+  .pg-fast-jump {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 14px;
+    padding: 10px 18px;
+    background: linear-gradient(120deg, #c9a96e 0%, #e8d3a1 100%);
+    color: #2b2620;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 8px 20px rgba(201,169,110,.3);
+    transition: transform .15s ease;
+  }
+  .pg-fast-jump:hover { transform: translateY(-2px); color: #2b2620; }
+  .pg-fast-jump:active { transform: translateY(0); }
+  /* Highlight step 5 when targeted */
+  .purchase-guide-step.is-fast-target {
+    animation: pg-fast-highlight 900ms ease;
+  }
+  @keyframes pg-fast-highlight {
+    0% { transform: scale(1.02); box-shadow: 0 0 0 0 rgba(201,169,110,.5); }
+    100% { transform: scale(1); box-shadow: 0 0 0 12px rgba(201,169,110,0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .purchase-guide-step.is-fast-target { animation: none; }
+  }
+</style>
+{% endblock %}
 {% block content %}
 <main class="main pages purchase-guide-page" dir="rtl">
     <div class="page-header breadcrumb-wrap">
@@ -18,11 +68,15 @@
                     <p class="purchase-guide-hero__eyebrow">راهنمای خرید مطمئن</p>
                     <h1 class="purchase-guide-hero__title">از انتخاب تا تحویل، با اطمینان خرید کنید</h1>
                     <p class="purchase-guide-hero__sub">راهنمای ۷ مرحله‌ای برای خرید ابزارهای زیبایی و مراقبت شخصی در ایران. قیمت‌ها و قوانین ممکن است تغییر کنند؛ تاریخ بررسی: <strong>مهر ۱۴۰۵</strong>.</p>
+                    <a href="#step-5" class="pg-fast-jump" id="pg-jump-step5" aria-label="پرش سریع به مرحله ۵ پرداخت امن">
+                        <span>⚡ رفتن سریع به مرحله ۵: پرداخت امن</span>
+                        <span aria-hidden="true">←</span>
+                    </a>
                 </div>
                 <div class="purchase-guide-hero__visual">
                     <div class="purchase-guide-hero__ring"></div>
                     <div class="purchase-guide-hero__badge">
-                        <img src="{% static 'assets/imgs/theme/hejrmarket-logo-240.png' %}" alt="هژیر مارکت" width="48" height="48" decoding="async">
+                        <img src="{% static 'assets/imgs/theme/hejrmarket-logo-240.png' %}" alt="هژیر مارکت" width="48" height="48" decoding="async" fetchpriority="high">
                     </div>
                 </div>
             </div>
@@ -30,7 +84,7 @@
             <div class="purchase-guide-timeline">
                 <div class="purchase-guide-step" data-step="1">
                     <div class="purchase-guide-step__icon">
-                        <img src="{% static 'assets/imgs/icons/purchase-step-1.png' %}" alt="مشخص کردن نیازها" width="64" height="64">
+                        <img src="{% static 'assets/imgs/icons/purchase-step-1.png' %}" alt="مشخص کردن نیازها" width="64" height="64" decoding="async" fetchpriority="high">
                     </div>
                     <div class="purchase-guide-step__body">
                         <h3>۱. مشخص‌کردن نیازها و معیارهای انتخاب</h3>
@@ -45,7 +99,7 @@
 
                 <div class="purchase-guide-step" data-step="2">
                     <div class="purchase-guide-step__icon">
-                        <img src="{% static 'assets/imgs/icons/purchase-step-2.png' %}" alt="بررسی ویژگی‌ها" width="64" height="64">
+                        <img src="{% static 'assets/imgs/icons/purchase-step-2.png' %}" alt="بررسی ویژگی‌ها" width="64" height="64" decoding="async" fetchpriority="high">
                     </div>
                     <div class="purchase-guide-step__body">
                         <h3>۲. بررسی ویژگی‌ها، کیفیت، قیمت و گزینه‌های جایگزین</h3>
@@ -60,7 +114,7 @@
 
                 <div class="purchase-guide-step" data-step="3">
                     <div class="purchase-guide-step__icon">
-                        <img src="{% static 'assets/imgs/icons/purchase-step-3.png' %}" alt="ارزیابی اعتبار" width="64" height="64">
+                        <img src="{% static 'assets/imgs/icons/purchase-step-3.png' %}" alt="ارزیابی اعتبار" width="64" height="64" decoding="async" loading="lazy">
                     </div>
                     <div class="purchase-guide-step__body">
                         <h3>۳. ارزیابی اعتبار فروشنده و اصالت کالا</h3>
@@ -75,7 +129,7 @@
 
                 <div class="purchase-guide-step" data-step="4">
                     <div class="purchase-guide-step__icon">
-                        <img src="{% static 'assets/imgs/icons/purchase-step-4.png' %}" alt="هزینه‌های نهایی" width="64" height="64">
+                        <img src="{% static 'assets/imgs/icons/purchase-step-4.png' %}" alt="هزینه‌های نهایی" width="64" height="64" decoding="async" loading="lazy">
                     </div>
                     <div class="purchase-guide-step__body">
                         <h3>۴. بررسی هزینه‌های نهایی، شرایط پرداخت، ضمانت و امکان مرجوعی</h3>
@@ -88,9 +142,9 @@
                     </div>
                 </div>
 
-                <div class="purchase-guide-step" data-step="5">
+                <div class="purchase-guide-step" id="step-5" data-step="5" tabindex="-1">
                     <div class="purchase-guide-step__icon">
-                        <img src="{% static 'assets/imgs/icons/purchase-step-5.png' %}" alt="پرداخت امن" width="64" height="64">
+                        <img src="{% static 'assets/imgs/icons/purchase-step-5.png' %}" alt="پرداخت امن" width="64" height="64" decoding="async" fetchpriority="high" loading="eager">
                     </div>
                     <div class="purchase-guide-step__body">
                         <h3>۵. پرداخت امن و نکاتی برای ثبت سفارش</h3>
@@ -105,7 +159,7 @@
 
                 <div class="purchase-guide-step" data-step="6">
                     <div class="purchase-guide-step__icon">
-                        <img src="{% static 'assets/imgs/icons/purchase-step-6.png' %}" alt="پیگیری ارسال" width="64" height="64">
+                        <img src="{% static 'assets/imgs/icons/purchase-step-6.png' %}" alt="پیگیری ارسال" width="64" height="64" decoding="async" loading="lazy">
                     </div>
                     <div class="purchase-guide-step__body">
                         <h3>۶. پیگیری ارسال و تحویل</h3>
@@ -120,7 +174,7 @@
 
                 <div class="purchase-guide-step" data-step="7">
                     <div class="purchase-guide-step__icon">
-                        <img src="{% static 'assets/imgs/icons/purchase-step-7.png' %}" alt="بررسی کالا" width="64" height="64">
+                        <img src="{% static 'assets/imgs/icons/purchase-step-7.png' %}" alt="بررسی کالا" width="64" height="64" decoding="async" loading="lazy">
                     </div>
                     <div class="purchase-guide-step__body">
                         <h3>۷. بررسی کالا هنگام دریافت و اقدام در صورت مغایرت، آسیب یا تأخیر</h3>
@@ -150,4 +204,48 @@
         </div>
     </div>
 </main>
+<script>
+// مرحله ۵ سریع‌تر: instant jump + highlight
+(function() {
+  const step5 = document.getElementById('step-5');
+  const btn = document.getElementById('pg-jump-step5');
+  function jumpToStep5(e) {
+    if (e) e.preventDefault();
+    if (!step5) return;
+    // Instant scroll (no smooth) for speed
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const behavior = prefersReduced ? 'instant' : 'auto';
+    // Try instant; fallback to auto
+    try {
+      step5.scrollIntoView({ behavior: behavior, block: 'start' });
+    } catch(_) {
+      step5.scrollIntoView();
+    }
+    // Highlight
+    step5.classList.remove('is-fast-target');
+    void step5.offsetWidth; // reflow
+    step5.classList.add('is-fast-target');
+    step5.focus({ preventScroll: true });
+    history.replaceState(null, '', '#step-5');
+    // Remove highlight after animation
+    setTimeout(() => step5.classList.remove('is-fast-target'), 1000);
+  }
+  if (btn) btn.addEventListener('click', jumpToStep5);
+  // Auto-jump if URL has ?step=5 or #step-5
+  const params = new URLSearchParams(location.search);
+  if (params.get('step') === '5' || location.hash === '#step-5') {
+    // Delay until paint, then instant jump
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => setTimeout(jumpToStep5, 30));
+    } else {
+      setTimeout(jumpToStep5, 30);
+    }
+  }
+  // Prefetch step 5 image already via <link rel=preload>, but also ensure decoded
+  const img = step5 ? step5.querySelector('img') : null;
+  if (img && img.decode) {
+    img.decode().catch(() => {});
+  }
+})();
+</script>
 {% endblock %}
