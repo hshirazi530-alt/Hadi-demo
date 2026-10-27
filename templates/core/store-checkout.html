@@ -1,7 +1,55 @@
 {% extends 'partials/base.html' %}
-{% load humanize %}
+{% load humanize static %}
 
 {% block title %}بررسی سفارش | Hazhirmarkett{% endblock %}
+
+{% block extra_head %}
+{# مرحله ۵ سریع‌تر: preconnect به زرین‌پال + preload #}
+<link rel="preconnect" href="https://sandbox.zarinpal.com" crossorigin>
+<link rel="preconnect" href="https://payment.zarinpal.com" crossorigin>
+<link rel="dns-prefetch" href="//sandbox.zarinpal.com">
+<link rel="dns-prefetch" href="//payment.zarinpal.com">
+<style>
+  /* یک‌کلیکه سریع: دکمه پرداخت */
+  .hm-pay-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 48px;
+    transition: opacity .15s ease, transform .15s ease;
+  }
+  .hm-pay-btn.is-loading {
+    opacity: .85;
+    pointer-events: none;
+  }
+  .hm-pay-btn__spinner {
+    display: none;
+    width: 18px;
+    height: 18px;
+    border: 2.5px solid rgba(255,255,255,.35);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: hm-spin .7s linear infinite;
+  }
+  .hm-pay-btn.is-loading .hm-pay-btn__spinner { display: inline-block; }
+  .hm-pay-btn.is-loading .hm-pay-btn__label { opacity: .95; }
+  @keyframes hm-spin { to { transform: rotate(360deg); } }
+  .hm-pay-status {
+    margin-top: 10px;
+    font-size: 13px;
+    line-height: 1.7;
+    padding: 10px 14px;
+    border-radius: 12px;
+    display: none;
+  }
+  .hm-pay-status.is-visible { display: block; }
+  .hm-pay-status--info { background: rgba(201,169,110,.1); border-right: 3px solid #c9a96e; color: #2b2620; }
+  .hm-pay-status--error { background: rgba(163,72,87,.08); border-right: 3px solid #a34857; color: #2b2620; }
+  .hm-pay-status--success { background: rgba(52,120,70,.08); border-right: 3px solid #347846; color: #1b4332; }
+</style>
+{% endblock %}
 
 {% block content %}
 <main class="store-page store-checkout-page" dir="rtl">
@@ -22,14 +70,15 @@
     <header class="store-page-heading">
         <p class="store-eyebrow">پیش از نهایی‌کردن، مرور کن</p>
         <h1>بررسی سفارش</h1>
-        <p>اطلاعات سفارش را مرور کنید. پرداخت امن از مسیر زرین‌پال انجام می‌شود؛ شناسهٔ پذیرنده تا زمان دریافت از فروشگاه تنظیم نشده است.</p>
+        <p>اطلاعات سفارش را مرور کنید. پرداخت امن از مسیر زرین‌پال انجام می‌شود؛ مبلغ به ریال به درگاه ارسال می‌شود و فقط پس از تأیید سمت سرور، سفارش پرداخت‌شده ثبت خواهد شد.</p>
     </header>
 
     {% if messages %}
-    <div class="store-checkout-messages" role="status">
+    <div class="store-checkout-messages" role="status" id="hm-server-messages">
         {% for message in messages %}<p>{{ message }}</p>{% endfor %}
     </div>
     {% endif %}
+    <div id="hm-pay-status" class="hm-pay-status" role="status" aria-live="polite"></div>
     {% if has_demo_items %}
     <div class="store-payment-notice" role="status">این سفارش شامل کالای نمونه است؛ قیمت‌ها فرضی‌اند، سفارش برای ارسال واقعی نیست و هیچ وجهی دریافت نمی‌شود.</div>
     {% endif %}
@@ -39,7 +88,7 @@
             <h2>اقلام سفارش</h2>
             {% for item in order_items %}
             <article class="store-checkout-item">
-                <img src="{{ item.image }}" alt="{{ item.item }}" loading="lazy">
+                <img src="{{ item.image }}" alt="{{ item.item }}" loading="lazy" decoding="async">
                 <div>
                     <h3>{{ item.item }}</h3>
                     <p>{% if "(نمونه)" in item.item %}قیمت نمایشی · {% endif %}{{ item.qty }} عدد × {{ item.price|floatformat:0|intcomma }} تومان</p>
@@ -55,30 +104,34 @@
             <h2>خلاصهٔ سفارش</h2>
             <p><span>شناسهٔ سفارش</span><strong>{{ order.oid }}</strong></p>
             <p><span>وضعیت پرداخت</span><strong>{% if order.paid_status %}پرداخت‌شده{% else %}پرداخت‌نشده{% endif %}</strong></p>
-            <p><span>تخفیف</span><strong>{{ order.saved|floatformat:0|intcomma }} تومان</strong></p>
-            <div class="store-checkout-total"><span>{% if has_demo_items %}مبلغ نمایشی سفارش{% else %}مبلغ سفارش{% endif %}</span><strong>{{ order.price|floatformat:0|intcomma }} تومان</strong></div>
+            <p><span>تخفیف</span><strong id="hm-order-saved">{{ order.saved|floatformat:0|intcomma }} تومان</strong></p>
+            <div class="store-checkout-total"><span>{% if has_demo_items %}مبلغ نمایشی سفارش{% else %}مبلغ سفارش{% endif %}</span><strong id="hm-order-price">{{ order.price|floatformat:0|intcomma }} تومان</strong></div>
 
-            <form class="store-coupon-form" method="post">
+            <form class="store-coupon-form" method="post" id="hm-coupon-form" data-ajax="1">
                 {% csrf_token %}
                 <label for="coupon-code">کد تخفیف</label>
                 <div>
-                    <input id="coupon-code" type="text" name="code" placeholder="کد تخفیف را وارد کنید">
-                    <button type="submit">اعمال</button>
+                    <input id="coupon-code" type="text" name="code" placeholder="کد تخفیف را وارد کنید" autocomplete="off" enterkeyhint="done">
+                    <button type="submit" id="hm-coupon-btn">اعمال</button>
                 </div>
             </form>
 
             {% if order.paid_status %}
             <p class="store-payment-notice">پرداخت این سفارش قبلاً ثبت شده است.</p>
+            <a class="beauty-button beauty-button--primary" href="{% url 'core:payment-completed' order.oid %}">مشاهده سفارش</a>
             {% elif has_demo_items %}
             <p class="store-payment-notice">این سفارش نمونه است؛ پرداخت واقعی برای آن انجام نمی‌شود.</p>
             <a class="beauty-button beauty-button--primary" href="{% url 'core:payment-demo' order.oid %}">مشاهدهٔ پرداخت آزمایشی</a>
             {% elif zarinpal_configured %}
-            <form method="post" action="{% url 'core:checkout' order.oid %}">
+            <form method="post" action="{% url 'core:checkout' order.oid %}" id="hm-pay-form" data-pay-url="{% url 'core:checkout' order.oid %}">
                 {% csrf_token %}
                 <input type="hidden" name="action" value="pay">
-                <button class="beauty-button beauty-button--primary" type="submit">پرداخت امن با زرین‌پال</button>
+                <button class="beauty-button beauty-button--primary hm-pay-btn" type="submit" id="hm-pay-btn" data-oid="{{ order.oid }}">
+                    <span class="hm-pay-btn__spinner" aria-hidden="true"></span>
+                    <span class="hm-pay-btn__label">پرداخت امن با زرین‌پال — یک‌کلیکه ⚡</span>
+                </button>
             </form>
-            <p class="store-payment-notice">مبلغ سفارش در درگاه به ریال ارسال می‌شود و فقط پس از تأیید سمت سرور، سفارش پرداخت‌شده ثبت خواهد شد.</p>
+            <p class="store-payment-notice">مبلغ سفارش در درگاه به ریال ارسال می‌شود و فقط پس از تأیید سمت سرور، سفارش پرداخت‌شده ثبت خواهد شد. کلیک کنید و بدون رفرش به درگاه می‌روید.</p>
             {% else %}
             <p class="store-payment-notice">اتصال زرین‌پال آماده است، اما شناسهٔ پذیرنده عمداً خالی گذاشته شده. پس از دریافت شناسه، مقدار <code>ZARINPAL_MERCHANT_ID</code> را در فایل محیطی سرور تنظیم کنید. در حال حاضر هیچ وجهی دریافت نمی‌شود.</p>
             <a class="beauty-button beauty-button--primary" href="{% url 'core:payment-demo' order.oid %}">مشاهدهٔ نتیجهٔ پرداخت آزمایشی</a>
@@ -87,4 +140,171 @@
         </aside>
     </div>
 </main>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function() {
+  // CSRF helper (Django)
+  function getCookie(name) {
+    const v = `; ${document.cookie}`.split(`; ${name}=`).pop();
+    return v ? v.split(';').shift() : '';
+  }
+  function getCsrf() {
+    const inp = document.querySelector('#hm-pay-form [name=csrfmiddlewaretoken], #hm-coupon-form [name=csrfmiddlewaretoken]');
+    if (inp && inp.value) return inp.value;
+    const hidden = document.querySelector('form[hidden] [name=csrfmiddlewaretoken]');
+    if (hidden) return hidden.value;
+    return getCookie('csrftoken') || '';
+  }
+
+  const payForm = document.getElementById('hm-pay-form');
+  const payBtn = document.getElementById('hm-pay-btn');
+  const statusEl = document.getElementById('hm-pay-status');
+
+  function showStatus(msg, kind) {
+    if (!statusEl) return;
+    statusEl.textContent = msg;
+    statusEl.className = 'hm-pay-status is-visible hm-pay-status--' + (kind || 'info');
+    statusEl.style.display = 'block';
+  }
+  function clearStatusSoon() {
+    setTimeout(() => { if (statusEl) { statusEl.textContent=''; statusEl.className='hm-pay-status'; } }, 6000);
+  }
+
+  if (payForm && payBtn) {
+    let inFlight = false;
+    payForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      if (inFlight) return;
+      inFlight = true;
+
+      const originalLabel = payBtn.querySelector('.hm-pay-btn__label').textContent;
+      payBtn.classList.add('is-loading');
+      payBtn.querySelector('.hm-pay-btn__label').textContent = 'در حال اتصال به درگاه…';
+      payBtn.disabled = true;
+      showStatus('در حال آماده‌سازی پرداخت امن… لطفاً شکیبا باشید.', 'info');
+
+      // فوری: بهینه‌سازی ادراکی — پیام را در 50ms نشان بده، سپس fetch
+      const url = payForm.getAttribute('data-pay-url') || payForm.action;
+      const formData = new FormData(payForm);
+
+      try {
+        const resp = await fetch(url, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'X-HM-Ajax': '1',
+            'X-Requested-With': 'XMLHttpRequest',
+            'Accept': 'application/json',
+            'X-CSRFToken': getCsrf(),
+          },
+          credentials: 'same-origin',
+        });
+
+        const data = await resp.json().catch(() => null);
+
+        if (resp.ok && data && data.ok && data.payment_url) {
+          showStatus('✅ اتصال برقرار شد — در حال انتقال به درگاه زرین‌پال…', 'success');
+          // Prefetch درگاه برای سرعت بیشتر
+          try {
+            const link = document.createElement('link');
+            link.rel = 'prefetch';
+            link.href = data.payment_url;
+            document.head.appendChild(link);
+          } catch(_) {}
+          // کوچک‌ترین تاخیر برای نمایش موفقیت، سپس ریدایرکت فوری (بدون رفرش صفحه چک‌اوت)
+          setTimeout(() => { window.location.href = data.payment_url; }, 120);
+          return;
+        }
+
+        // خطا
+        let msg = (data && data.error) ? data.error : 'اتصال به درگاه ممکن نشد. دوباره تلاش کنید.';
+        if (resp.status === 409 && data && data.already_paid) {
+          msg = 'پرداخت قبلاً تأیید شده است.';
+          showStatus('ℹ️ ' + msg, 'info');
+        } else {
+          showStatus('⚠️ ' + msg, 'error');
+        }
+        payBtn.classList.remove('is-loading');
+        payBtn.querySelector('.hm-pay-btn__label').textContent = originalLabel;
+        payBtn.disabled = false;
+        inFlight = false;
+        clearStatusSoon();
+
+      } catch (err) {
+        showStatus('⚠️ خطای شبکه — اتصال را بررسی و دوباره تلاش کنید.', 'error');
+        payBtn.classList.remove('is-loading');
+        payBtn.querySelector('.hm-pay-btn__label').textContent = originalLabel;
+        payBtn.disabled = false;
+        inFlight = false;
+      }
+    });
+
+    // ایمنی: اگر کاربر بدون JS یا fetch خراب POST کرد، فرم عادی کار می‌کند (fallback)
+  }
+
+  // کد تخفیف هم بدون رفرش (اختیاری سریع‌تر)
+  const couponForm = document.getElementById('hm-coupon-form');
+  if (couponForm) {
+    couponForm.addEventListener('submit', async function(e) {
+      // فقط اگر fetch پشتیبانی شود، جلوی رفرش را بگیر
+      if (!window.fetch) return;
+      e.preventDefault();
+      const btn = document.getElementById('hm-coupon-btn');
+      const codeInput = document.getElementById('coupon-code');
+      const code = (codeInput.value || '').trim();
+      if (!code) { showStatus('کد تخفیف را وارد کنید.', 'error'); return; }
+      btn.disabled = true;
+      const orig = btn.textContent;
+      btn.textContent = '…';
+      showStatus('در حال بررسی کد تخفیف…', 'info');
+
+      try {
+        const fd = new FormData(couponForm);
+        const resp = await fetch(window.location.href, {
+          method: 'POST',
+          body: fd,
+          headers: { 'X-HM-Ajax': '1', 'Accept': 'application/json', 'X-CSRFToken': getCsrf() },
+          credentials: 'same-origin'
+        });
+        const ct = resp.headers.get('Content-Type') || '';
+        if (ct.includes('application/json')) {
+          const data = await resp.json();
+          if (data.ok) {
+            showStatus('✅ ' + (data.message || 'کد تخفیف اعمال شد.'), 'success');
+            // به‌روزرسانی مبلغ بدون رفرش — سریع‌تر
+            try {
+              const priceEl = document.getElementById('hm-order-price');
+              const savedEl = document.getElementById('hm-order-saved');
+              if (priceEl && data.price) {
+                const n = Number(data.price);
+                priceEl.textContent = new Intl.NumberFormat('fa-IR').format(Math.round(n)) + ' تومان';
+              }
+              if (savedEl && data.saved) {
+                const s = Number(data.saved);
+                savedEl.textContent = new Intl.NumberFormat('fa-IR').format(Math.round(s)) + ' تومان';
+              }
+              // پاک کردن ورودی
+              codeInput.value = '';
+            } catch(_) {}
+            btn.disabled = false; btn.textContent = orig;
+          } else {
+            showStatus('⚠️ ' + (data.error || 'کد تخفیف معتبر نیست.'), 'error');
+            btn.disabled = false; btn.textContent = orig;
+          }
+        } else {
+          window.location.reload();
+        }
+      } catch(_) {
+        showStatus('⚠️ خطا در بررسی کد — دوباره تلاش کنید.', 'error');
+        btn.disabled = false; btn.textContent = orig;
+      }
+    });
+  }
+
+  // View-Transition-like: ذخیره oid برای برگشت سریع
+  try { sessionStorage.setItem('hm_last_oid', '{{ order.oid }}'); } catch(_) {}
+})();
+</script>
 {% endblock %}

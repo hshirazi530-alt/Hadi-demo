@@ -768,6 +768,14 @@ def save_checkout_info(request):
 
 
 
+def _is_ajax_pay_request(request):
+    # تشخیص درخواست AJAX یک‌کلیکه مرحله ۵ (fetch)
+    return (
+        request.headers.get("X-Requested-With") == "XMLHttpRequest"
+        or "application/json" in request.headers.get("Accept", "")
+        or request.headers.get("X-HM-Ajax") == "1"
+    )
+
 @login_required
 def checkout(request, oid):
     # مرحله ۵ سریع‌تر: select_related + prefetch + only برای کاهش query-time
@@ -779,38 +787,45 @@ def checkout(request, oid):
 
     if request.method == "POST":
         if request.POST.get("action") == "pay":
+            is_ajax = _is_ajax_pay_request(request)
+
+            def _json_error(msg, status=400):
+                if is_ajax:
+                    return JsonResponse({"ok": False, "error": msg}, status=status)
+                messages.error(request, msg)
+                return redirect("core:checkout", order.oid)
+
+            def _json_ok(url, authority=None):
+                if is_ajax:
+                    return JsonResponse({"ok": True, "payment_url": url, "authority": authority})
+                return redirect(url)
+
             if order.paid_status:
+                if is_ajax:
+                    return JsonResponse({"ok": False, "error": "پرداخت این سفارش قبلاً تأیید شده است.", "already_paid": True}, status=409)
                 messages.info(request, "پرداخت این سفارش قبلاً تأیید شده است.")
                 return redirect("core:checkout", order.oid)
             if order_items.filter(item__contains="(نمونه)").exists():
-                messages.error(request, "برای کالاهای نمونه امکان پرداخت واقعی وجود ندارد.")
-                return redirect("core:checkout", order.oid)
+                return _json_error("برای کالاهای نمونه امکان پرداخت واقعی وجود ندارد.", 403)
             if not settings.ZARINPAL_MERCHANT_ID:
-                messages.error(
-                    request,
-                    "درگاه زرین‌پال آمادهٔ اتصال است؛ شناسهٔ پذیرنده هنوز تنظیم نشده است.",
-                )
-                return redirect("core:checkout", order.oid)
+                return _json_error("درگاه زرین‌پال آمادهٔ اتصال است؛ شناسهٔ پذیرنده هنوز تنظیم نشده است.", 503)
 
             amount_rial = int((order.price * Decimal("10")).to_integral_value())
             if amount_rial <= 0:
-                messages.error(request, "مبلغ سفارش برای پرداخت معتبر نیست.")
-                return redirect("core:checkout", order.oid)
+                return _json_error("مبلغ سفارش برای پرداخت معتبر نیست.", 422)
 
+            # سریع: اگر پرداخت.pending از قبل هست، فوری برگردان (بدون صدا زدن API)
             pending_attempt = order.payment_attempts.filter(status="pending").first()
             if pending_attempt:
                 if pending_attempt.amount_rial != amount_rial:
-                    messages.error(
-                        request,
-                        "برای این سفارش یک پرداخت ناتمام با مبلغ دیگری وجود دارد؛ پیش از تلاش دوباره با پشتیبانی تماس بگیرید.",
-                    )
-                    return redirect("core:checkout", order.oid)
+                    return _json_error("برای این سفارش یک پرداخت ناتمام با مبلغ دیگری وجود دارد؛ پیش از تلاش دوباره با پشتیبانی تماس بگیرید.", 409)
                 sandbox_host = (
                     "https://sandbox.zarinpal.com"
                     if settings.ZARINPAL_SANDBOX
                     else "https://payment.zarinpal.com"
                 )
-                return redirect(f"{sandbox_host}/pg/StartPay/{pending_attempt.authority}")
+                pay_url = f"{sandbox_host}/pg/StartPay/{pending_attempt.authority}"
+                return _json_ok(pay_url, pending_attempt.authority)
 
             callback_url = request.build_absolute_uri(
                 reverse("core:zarinpal-callback", args=[order.oid])
@@ -826,40 +841,52 @@ def checkout(request, oid):
                     sandbox=settings.ZARINPAL_SANDBOX,
                 )
             except ZarinpalError as exc:
-                messages.error(request, str(exc))
-                return redirect("core:checkout", order.oid)
+                return _json_error(str(exc), 502)
 
-            PaymentAttempt.objects.create(
-                order=order,
+            # جلوگیری از دوبل‌کلیک همزمان: get_or_create با authority یکتا
+            attempt, created = PaymentAttempt.objects.get_or_create(
                 authority=payment["authority"],
-                amount_rial=amount_rial,
+                defaults={"order": order, "amount_rial": amount_rial, "status": "pending"},
             )
-            return redirect(payment["payment_url"])
+            # اگر race بود، attempt قبلی را برگردان
+            return _json_ok(payment["payment_url"], payment["authority"])
 
         code = request.POST.get("code")
+        is_coupon_ajax = _is_ajax_pay_request(request)
+        def _coupon_json_error(msg, status=400):
+            if is_coupon_ajax:
+                return JsonResponse({"ok": False, "error": msg}, status=status)
+            messages.error(request, msg)
+            return redirect("core:checkout", order.oid)
+        def _coupon_json_ok(msg, price=None, saved=None):
+            if is_coupon_ajax:
+                return JsonResponse({
+                    "ok": True,
+                    "message": msg,
+                    "price": str(price) if price is not None else str(order.price),
+                    "saved": str(saved) if saved is not None else str(order.saved),
+                })
+            messages.success(request, msg)
+            return redirect("core:checkout", order.oid)
+
         coupon = Coupon.objects.filter(code=code, active=True).first()
         if coupon:
             if order.payment_attempts.filter(status="pending").exists():
-                messages.error(
-                    request,
-                    "تا تعیین تکلیف پرداخت درحال‌انتظار، امکان تغییر مبلغ سفارش وجود ندارد.",
-                )
-                return redirect("core:checkout", order.oid)
+                return _coupon_json_error("تا تعیین تکلیف پرداخت درحال‌انتظار، امکان تغییر مبلغ سفارش وجود ندارد.", 409)
             if coupon in order.coupons.all():
+                if is_coupon_ajax:
+                    return JsonResponse({"ok": False, "error": "این کد تخفیف پیش‌تر برای سفارش اعمال شده است."}, status=409)
                 messages.warning(request, "این کد تخفیف پیش‌تر برای سفارش اعمال شده است.")
                 return redirect("core:checkout", order.oid)
             else:
                 discount = order.price * coupon.discount / 100 
-
                 order.coupons.add(coupon)
                 order.price -= discount
                 order.saved += discount
-                order.save()
-
-                messages.success(request, "کد تخفیف با موفقیت اعمال شد.")
-                return redirect("core:checkout", order.oid)
+                order.save(update_fields=["price", "saved"])
+                return _coupon_json_ok("کد تخفیف با موفقیت اعمال شد.", price=order.price, saved=order.saved)
         else:
-            messages.error(request, "کد تخفیف معتبر یا فعال نیست.")
+            return _coupon_json_error("کد تخفیف معتبر یا فعال نیست.", 404)
 
     # Cache has_demo_items to avoid double exists() query (مرحله ۵ سریع‌تر)
     has_demo_items = getattr(order, "_cached_has_demo", None)
