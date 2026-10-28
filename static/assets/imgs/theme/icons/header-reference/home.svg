@@ -1,0 +1,9 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- لوازم خانگی: خانه با سقف شیروانی -->
+  <g stroke="#7a5a1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M8 22 24 8l16 14"/>
+    <path d="M12 20v18a2 2 0 0 0 2 2h20a2 2 0 0 0 2-2V20"/>
+    <path d="M20 40V28h8v12"/>
+  </g>
+  <path d="M8 22h4M36 22h4" stroke="#c8a253" stroke-width="2" stroke-linecap="round"/>
+</svg>

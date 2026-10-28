@@ -1,0 +1,10 @@
+<section class="hm-spec-auth" aria-labelledby="hm-spec-auth-title" data-spec-authenticity>
+  <h3 class="hm-spec-auth__title" id="hm-spec-auth-title"><span aria-hidden="true">⌕</span> اصالت کالا</h3>
+  <fieldset class="hm-spec-auth__choices" disabled>
+    <legend class="hm-spec-auth__sr">وضعیت ثبت‌شدهٔ اصالت کالا</legend>
+    <label class="hm-spec-auth__choice{% if authenticity_badges.0.key == 'original' %} is-selected{% endif %}"><input type="radio" name="display-authenticity" value="original" {% if authenticity_badges.0.key == 'original' %}checked{% endif %}><span>اورجینال</span></label>
+    <label class="hm-spec-auth__choice{% if authenticity_badges.0.key == 'high_copy' %} is-selected{% endif %}"><input type="radio" name="display-authenticity" value="high_copy" {% if authenticity_badges.0.key == 'high_copy' %}checked{% endif %}><span>های‌کپی</span></label>
+    <label class="hm-spec-auth__choice{% if authenticity_badges.0.key == 'copy' %} is-selected{% endif %}"><input type="radio" name="display-authenticity" value="copy" {% if authenticity_badges.0.key == 'copy' %}checked{% endif %}><span>کپی</span></label>
+  </fieldset>
+  {% if not authenticity_badges %}<p class="hm-spec-auth__note">وضعیت اصالت برای این کالا ثبت یا تأیید نشده است.</p>{% endif %}
+</section>

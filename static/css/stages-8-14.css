@@ -1,0 +1,88 @@
+/* Stages 8–14: local, scoped enhancements. Existing hero slides are unchanged. */
+.store-css .hm-header-social { display:flex; align-items:center; gap:4px; direction:ltr; }
+.store-css .hm-header-social a {
+  display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px;
+  color:#725319 !important; background:#fff8dc; border:1px solid #ddca93; border-radius:50%;
+  text-decoration:none; transition:background-color .18s ease,border-color .18s ease,color .18s ease;
+}
+.store-css .hm-header-social a:hover,.store-css .hm-header-social a:focus-visible {
+  background:#d4af37; border-color:#a77e16; color:#302000 !important;
+}
+.store-css .hm-header-social a:focus-visible { outline:2px solid #65480d; outline-offset:2px; }
+.store-css .hm-header-social svg { width:18px; height:18px; flex:none; }
+.store-css .hm-header-social svg:not([fill="none"]) { fill:currentColor; }
+.store-css .mobile-menu .hm-mobile-cat-icon { width:22px; height:22px; object-fit:contain; margin-inline-end:7px; vertical-align:middle; }
+@media(max-width:991px) {
+  .store-css .hm-utility .hm-utility__zone--end { display:flex; }
+  .store-css .hm-utility__zone--end .hm-utility__link--tracking,
+  .store-css .hm-utility__zone--end > .hm-utility__sep { display:none; }
+  .store-css .hm-utility .hm-utility__inner { gap:4px; }
+  .store-css .hm-utility__zone { gap:6px; }
+  .store-css .hm-header-social a { width:38px; height:38px; }
+}
+@media(max-width:520px) {
+  .store-css .hm-utility__number,.store-css .hm-wholesale__tag { display:none; }
+  .store-css .hm-wholesale { padding-inline:7px; gap:4px; }
+  .store-css .hm-header-social { gap:2px; }
+  .store-css .hm-utility__zone > .hm-utility__sep { display:none; }
+}
+@media(max-width:360px) {
+  .store-css .hm-utility .hm-utility__inner { padding-inline:8px; }
+  .store-css .hm-utility__link { font-size:11.5px; }
+  .store-css .hm-header-social a { width:35px; height:35px; }
+}
+
+/* Keep tall product photos fully inside the grid's bounded image track. */
+.store-css .beauty-product-card__image { grid-template-rows:minmax(0,1fr); min-width:0; }
+.store-css .beauty-product-card__image img { min-width:0; min-height:0; max-width:100%; max-height:100%; }
+
+/* Full bleed within the full-width main, not 100vw or negative margins. */
+.store-css .home-page > #hm-collection-banner {
+  width:100%; max-width:100%; margin-inline:0; border-radius:0; box-sizing:border-box;
+}
+.store-css #hm-collection-banner .perfume-banner__media img {
+  height:clamp(360px, 39vw, 600px); min-height:0; aspect-ratio:auto; object-fit:cover;
+}
+.store-css #hm-collection-banner .perfume-banner__content { max-width:100%; }
+@media(max-width:768px) {
+  .store-css #hm-collection-banner .perfume-banner__media img { height:520px; }
+  .store-css #hm-collection-banner .perfume-banner__content { padding:24px 20px 30px; }
+}
+
+/* A single, explicit authenticity classification; never assert it by default. */
+.store-css .hm-authenticity__badge--original,
+.store-css .hm-authenticity__badge--high_copy,
+.store-css .hm-authenticity__badge--copy {
+  color:#513b0e; background:#fff8dc; border:1px solid #ddc272;
+}
+.store-css .hm-authenticity__mark { color:#89640b; }
+.store-css .hm-authenticity__mark svg { display:block; width:18px; height:18px; }
+
+/* Fixed Iranian prefix and a separate, accessible nine-digit input. */
+.store-css .hm-phone { display:flex; align-items:center; direction:ltr; min-width:0; border:1px solid #ded2b7; border-radius:10px; background:#fff; overflow:hidden; }
+.store-css .hm-phone:focus-within { outline:2px solid #a27c1f; outline-offset:2px; }
+.store-css .hm-phone__prefix { direction:ltr; flex:0 0 auto; padding:0 12px; color:#614a17; font-weight:700; border-inline-end:1px solid #ded2b7; white-space:nowrap; }
+.store-css .hm-phone input { border:0 !important; outline:0; background:transparent; min-width:0; width:100%; direction:ltr; text-align:left; }
+.store-css .hm-phone-help { display:block; color:#605746; font-size:12px; margin-top:4px; }
+
+/* Offline, rule-based shopping guide; it is explicitly not an AI or live chat. */
+.store-css .hm-helper { position:fixed; right:max(16px,env(safe-area-inset-right)); bottom:max(16px,env(safe-area-inset-bottom)); z-index:990; direction:rtl; }
+.store-css .hm-helper__toggle { display:flex; align-items:center; gap:8px; border:1px solid #b99537; border-radius:999px; padding:11px 16px; color:#302300; background:#f9e8ae; box-shadow:0 8px 25px #33240b35; font-weight:700; cursor:pointer; }
+.store-css .hm-helper__toggle svg { width:22px; height:22px; }
+.store-css .hm-helper__toggle:hover,.store-css .hm-helper__toggle:focus-visible { background:#d4af37; }
+.store-css .hm-helper button:focus-visible,.store-css .hm-helper a:focus-visible { outline:2px solid #70500d; outline-offset:2px; }
+.store-css .hm-helper__panel { position:absolute; bottom:calc(100% + 10px); right:0; width:min(340px,calc(100vw - 32px)); max-height:min(520px,70vh); overflow:auto; border:1px solid #d9c692; border-radius:18px; background:#fffdf7; box-shadow:0 16px 48px #32200033; }
+.store-css .hm-helper__panel[hidden],.store-css .hm-helper__answer [hidden] { display:none !important; }
+.store-css .hm-helper__header { display:flex; justify-content:space-between; align-items:center; gap:10px; padding:14px 16px; color:#342400; background:#f4e4b3; }
+.store-css .hm-helper__header strong,.store-css .hm-helper__header small { display:block; }
+.store-css .hm-helper__header small { margin-top:2px; font-size:11px; color:#665224; }
+.store-css .hm-helper__close { border:0; background:transparent; font-size:26px; line-height:1; color:#342400; cursor:pointer; padding:4px; }
+.store-css .hm-helper__body { padding:15px; font-size:13px; line-height:1.9; color:#29251e; }
+.store-css .hm-helper__body p { margin:0 0 10px; }
+.store-css .hm-helper__choices { display:flex; flex-wrap:wrap; gap:7px; }
+.store-css .hm-helper__choices button { padding:7px 10px; background:#fff8dc; border:1px solid #e0c98d; border-radius:999px; color:#513b0e; cursor:pointer; }
+.store-css .hm-helper__choices button:hover { background:#f5e5b9; }
+.store-css .hm-helper__answer { margin-top:12px; }
+.store-css .hm-helper__answer a { color:#725000; text-decoration:underline; }
+.store-css .hm-helper__privacy { margin-top:12px !important; color:#665f52; font-size:11px; }
+@media(prefers-reduced-motion:reduce) { .store-css .hm-header-social a { transition:none; } }

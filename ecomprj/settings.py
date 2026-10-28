@@ -179,6 +179,8 @@ else:
         }
     }
 
+# Optional public Goftino widget identifier; no third-party script is loaded when empty.
+GOFTINO_WIDGET_ID = os.environ.get("GOFTINO_WIDGET_ID", "").strip()
 ZARINPAL_MERCHANT_ID = os.environ.get("ZARINPAL_MERCHANT_ID", "").strip()
 ZARINPAL_SANDBOX = _environment_bool("ZARINPAL_SANDBOX", default=True)
 SITE_DOMAIN = os.environ.get(
@@ -263,7 +265,7 @@ JAZZMIN_SETTINGS = {
     'site_logo_classes': "admin-brand-logo",
     'login_logo': "assets/imgs/theme/hejrmarket-logo-192.png",
     'copyright': "Hazhirmarket",
-    'custom_css': "css/admin-luxury-light.css",
+    'custom_css': "css/admin-jazzmin-rtl.css",
     'custom_js': "js/admin-loading.js",
     'search_model': "core.Product",
     'topmenu_links': [

@@ -1,10 +1,17 @@
 from django import forms
+from decimal import Decimal
 
 from core.models import Product
 from core.upload_forms import ProductImageFormField
 
 
 class AddProductForm(forms.ModelForm):
+    authenticity_level = forms.ChoiceField(
+        required=False, label="وضعیت اصالت کالا",
+        choices=(("", "نامشخص — بدون نشان"), ("original", "اورجینال"),
+                 ("high_copy", "های‌کپی"), ("copy", "کپی")),
+        widget=forms.RadioSelect,
+    )
     approval = forms.BooleanField(
         required=True,
         label="اطلاعات و تطبیق تصاویر را بررسی کرده‌ام و ثبت را تأیید می‌کنم.",
@@ -73,6 +80,10 @@ class AddProductForm(forms.ModelForm):
             "mfd",
             "tags",
             "digital",
+            "has_warranty",
+            "warranty_6_price",
+            "warranty_12_price",
+            "warranty_24_price",
             "category",
             "subcategory",
             "product_status",
@@ -129,12 +140,25 @@ class AddProductForm(forms.ModelForm):
             "in_stock": forms.CheckboxInput(attrs={"class": "form-check-input"}),
             "featured": forms.CheckboxInput(attrs={"class": "form-check-input"}),
             "digital": forms.CheckboxInput(attrs={"class": "form-check-input"}),
+            "has_warranty": forms.CheckboxInput(attrs={"class": "form-check-input"}),
+            "warranty_6_price": forms.NumberInput(attrs={"class": "form-control", "min": 0, "step": 1}),
+            "warranty_12_price": forms.NumberInput(attrs={"class": "form-control", "min": 0, "step": 1}),
+            "warranty_24_price": forms.NumberInput(attrs={"class": "form-control", "min": 0, "step": 1}),
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["price"].required = False
         if self.instance.pk:
+            levels = [key for key in ("original", "high_copy", "copy")
+                      if getattr(self.instance, "authenticity_" + key)]
+            if len(levels) == 1:
+                self.initial["authenticity_level"] = levels[0]
+            elif len(levels) > 1:
+                # Do not silently clear contradictory legacy data on an
+                # unrelated product edit: require an explicit choice.
+                self.initial["authenticity_level"] = "__needs_review__"
+                self.fields["authenticity_level"].help_text = "وضعیت‌های قبلی متناقض‌اند؛ لطفاً پس از بررسی یک گزینه را انتخاب کنید."
             self.fields.pop("approval")
             self.fields["description"].required = False
             self.fields["price"].widget.attrs["min"] = 0
@@ -170,11 +194,36 @@ class AddProductForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
+        if (self.instance.pk and "authenticity_stage9_present" in self.data
+                and "authenticity_level" not in self.data
+                and sum(bool(getattr(self.instance, "authenticity_" + key))
+                        for key in ("original", "high_copy", "copy")) > 1):
+            self.add_error("authenticity_level", "مقادیر قبلی متناقض‌اند؛ گزینهٔ درست یا نامشخص را انتخاب کنید.")
         price = cleaned_data.get("price")
         sale_price = cleaned_data.get("sale_price")
         is_sale = cleaned_data.get("is_sale")
         price_pending_confirmation = cleaned_data.get("price_pending_confirmation")
         product_status = cleaned_data.get("product_status")
+
+        warranty_fields = ("warranty_6_price", "warranty_12_price", "warranty_24_price")
+        if self.instance.pk and "warranty_stage7_present" not in self.data:
+            # Older product-edit clients do not send these fields: preserve them.
+            cleaned_data["has_warranty"] = self.instance.has_warranty
+            for field in warranty_fields:
+                cleaned_data[field] = getattr(self.instance, field)
+        else:
+            for field in warranty_fields:
+                if field in self.errors:
+                    continue
+                amount = cleaned_data.get(field)
+                if amount is None:
+                    cleaned_data[field] = Decimal("0")
+                elif amount < 0:
+                    self.add_error(field, "هزینهٔ گارانتی نمی‌تواند منفی باشد.")
+            if cleaned_data.get("has_warranty") and not any(
+                field in self.errors for field in warranty_fields
+            ) and not any(cleaned_data.get(field, 0) > 0 for field in warranty_fields):
+                self.add_error("has_warranty", "برای فعال‌کردن گارانتی، هزینهٔ حداقل یک مدت را مثبت وارد کنید.")
 
         if sale_price is None:
             cleaned_data["sale_price"] = sale_price = 0
@@ -205,3 +254,16 @@ class AddProductForm(forms.ModelForm):
         if is_sale and price is not None and sale_price is not None and sale_price >= price:
             self.add_error("sale_price", "قیمت با تخفیف باید کمتر از قیمت اصلی باشد.")
         return cleaned_data
+
+
+    def save(self, commit=True):
+        product = super().save(commit=False)
+        # Earlier clients did not send this marker; preserve all legacy values.
+        if "authenticity_stage9_present" in self.data:
+            chosen = self.cleaned_data.get("authenticity_level", "")
+            for key in ("original", "high_copy", "copy"):
+                setattr(product, "authenticity_" + key, chosen == key)
+        if commit:
+            product.save()
+            self.save_m2m()
+        return product

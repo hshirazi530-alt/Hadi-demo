@@ -1,4 +1,6 @@
 from ast import Add
+import re
+from django.conf import settings
 from core.models import Product, Category, Vendor, CartOrder, ProductImages, ProductReview, wishlist_model, Address
 from django.db.models import Min, Max, Q
 from django.contrib import messages
@@ -43,6 +45,10 @@ def default(request):
     except:
         address = None
 
+    widget_id = str(getattr(settings, 'GOFTINO_WIDGET_ID', '') or '')
+    if not re.fullmatch(r'[a-zA-Z0-9_-]{6,64}', widget_id):
+        widget_id = ''
+
     return {
         'categories':categories,
         'nav_categories': get_nav_categories(),
@@ -52,4 +58,5 @@ def default(request):
         'min_max_price':min_max_price,
         'store_profile': STORE_PROFILE,
         'cart_item_count': cart_item_count,
+        'goftino_widget_id': widget_id,
     }

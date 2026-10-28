@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="{% static 'assets2/css/vendors/material-icon-round.css' %}" />
         <link rel="stylesheet" href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" />
         <link rel="stylesheet" href="{% static 'css/admin-dashboard.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/admin-rtl-modern.css' %}?v=1" />
         {% block extra_head %}{% endblock %}
     </head>
     <body class="admin-console">
@@ -44,6 +45,8 @@
                                 <li><a class="admin-nav__link{% if request.resolver_match.url_name == 'dashboard-products' or request.resolver_match.url_name == 'dashboard-edit-products' %} is-active{% endif %}" href="{% url 'useradmin:dashboard-products' %}" title="محصولات"><span>محصولات</span></a></li>
                                 <li><a class="admin-nav__link{% if request.resolver_match.url_name == 'dashboard-add-products' %} is-active{% endif %}" href="{% url 'useradmin:dashboard-add-products' %}" title="افزودن محصول"><span>افزودن محصول</span></a></li>
                                 <li><a class="admin-nav__link" href="{% url 'admin:core_category_changelist' %}" title="دسته‌بندی‌ها"><span>دسته‌بندی‌ها</span><i class="fas fa-external-link-alt admin-nav__external" aria-hidden="true"></i></a></li>
+                                <li><a class="admin-nav__link" href="{% url 'admin:core_subcategory_changelist' %}" title="زیرمجموعه‌ها"><span>زیرمجموعه‌ها</span><i class="fas fa-external-link-alt admin-nav__external" aria-hidden="true"></i></a></li>
+                                <li><a class="admin-nav__link" href="{% url 'admin:core_product_changelist' %}" title="مشاهدهٔ وضعیت موجودی"><span>وضعیت موجودی</span><i class="fas fa-external-link-alt admin-nav__external" aria-hidden="true"></i></a></li>
                             </ul>
                         </details>
                     </li>
@@ -55,6 +58,8 @@
                             <ul class="admin-subnav">
                                 <li><a class="admin-nav__link{% if request.resolver_match.url_name == 'orders' or request.resolver_match.url_name == 'order_detail' or request.resolver_match.url_name == 'change_order_status' %} is-active{% endif %}" href="{% url 'useradmin:orders' %}" title="سفارش‌ها"><span>سفارش‌ها</span></a></li>
                                 <li><a class="admin-nav__link" href="{% url 'admin:core_cartorder_changelist' %}" title="مدیریت سفارش‌ها"><span>مدیریت سفارش‌ها</span><i class="fas fa-external-link-alt admin-nav__external" aria-hidden="true"></i></a></li>
+                                <li><a class="admin-nav__link" href="{% url 'admin:core_cartorderproducts_changelist' %}" title="اقلام سفارش‌ها"><span>اقلام سفارش‌ها</span><i class="fas fa-external-link-alt admin-nav__external" aria-hidden="true"></i></a></li>
+                                <li><a class="admin-nav__link" href="{% url 'admin:core_paymentattempt_changelist' %}" title="تراکنش‌های پرداخت"><span>تراکنش‌های پرداخت</span><i class="fas fa-external-link-alt admin-nav__external" aria-hidden="true"></i></a></li>
                                 <li><a class="admin-nav__link" href="{% url 'admin:core_coupon_changelist' %}" title="تخفیف‌ها"><span>تخفیف‌ها</span><i class="fas fa-external-link-alt admin-nav__external" aria-hidden="true"></i></a></li>
                             </ul>
                         </details>
@@ -67,6 +72,8 @@
                             <ul class="admin-subnav">
                                 <li><a class="admin-nav__link{% if request.resolver_match.url_name == 'reviews' %} is-active{% endif %}" href="{% url 'useradmin:reviews' %}" title="دیدگاه‌ها"><span>دیدگاه‌ها</span></a></li>
                                 <li><a class="admin-nav__link" href="{% url 'admin:userauths_user_changelist' %}" title="مشتریان"><span>مشتریان</span><i class="fas fa-external-link-alt admin-nav__external" aria-hidden="true"></i></a></li>
+                                <li><a class="admin-nav__link" href="{% url 'admin:core_address_changelist' %}" title="نشانی‌های ثبت‌شده"><span>نشانی‌های ثبت‌شده</span><i class="fas fa-external-link-alt admin-nav__external" aria-hidden="true"></i></a></li>
+                                <li><a class="admin-nav__link" href="{% url 'admin:core_wishlist_model_changelist' %}" title="علاقه‌مندی‌ها"><span>علاقه‌مندی‌ها</span><i class="fas fa-external-link-alt admin-nav__external" aria-hidden="true"></i></a></li>
                             </ul>
                         </details>
                     </li>
@@ -85,7 +92,22 @@
 
                 <p class="admin-nav__caption">فروشگاه و حساب</p>
                 <ul class="admin-nav">
-                    <li><a class="admin-nav__link{% if request.resolver_match.url_name == 'shop_page' %} is-active{% endif %}" href="{% url 'useradmin:shop_page' %}" title="محتوای فروشگاه"><i class="admin-nav-icon fas fa-store" aria-hidden="true"></i><span>محتوای فروشگاه</span></a></li>
+                    <li>
+                        <details class="admin-nav-group" data-sidebar-group{% if request.resolver_match.url_name == 'shop_page' %} open{% endif %}>
+                            <summary class="admin-nav__link{% if request.resolver_match.url_name == 'shop_page' %} is-active{% endif %}" title="محتوای فروشگاه"><i class="admin-nav-icon fas fa-store" aria-hidden="true"></i><span>محتوای فروشگاه</span><i class="fas fa-chevron-down admin-nav__chevron" aria-hidden="true"></i></summary>
+                            <ul class="admin-subnav">
+                                <li><a class="admin-nav__link" href="{% url 'useradmin:shop_page' %}"><span>نمای فروشگاه</span></a></li>
+                                <li><a class="admin-nav__link" href="{% url 'admin:core_herobanner_changelist' %}"><span>اسلایدرهای اصلی</span><i class="fas fa-external-link-alt admin-nav__external" aria-hidden="true"></i></a></li>
+                                <li><a class="admin-nav__link" href="{% url 'admin:core_banner_changelist' %}"><span>بنرها</span><i class="fas fa-external-link-alt admin-nav__external" aria-hidden="true"></i></a></li>
+                                <li><a class="admin-nav__link" href="{% url 'admin:core_digitalbanner_changelist' %}"><span>بنرهای دیجیتال</span><i class="fas fa-external-link-alt admin-nav__external" aria-hidden="true"></i></a></li>
+                                <li><a class="admin-nav__link" href="{% url 'admin:core_amazingofferssettings_changelist' %}"><span>پیشنهادهای شگفت‌انگیز</span><i class="fas fa-external-link-alt admin-nav__external" aria-hidden="true"></i></a></li>
+                                <li><a class="admin-nav__link" href="{% url 'admin:core_productbundle_changelist' %}"><span>بسته‌های پیشنهادی</span><i class="fas fa-external-link-alt admin-nav__external" aria-hidden="true"></i></a></li>
+                                <li><a class="admin-nav__link" href="{% url 'admin:core_storetrustfeature_changelist' %}"><span>مزایا و اعتماد فروشگاه</span><i class="fas fa-external-link-alt admin-nav__external" aria-hidden="true"></i></a></li>
+                                <li><a class="admin-nav__link" href="{% url 'admin:core_faq_changelist' %}"><span>پرسش‌های متداول</span><i class="fas fa-external-link-alt admin-nav__external" aria-hidden="true"></i></a></li>
+                            </ul>
+                        </details>
+                    </li>
+                    <li><a class="admin-nav__link" href="{% url 'admin:core_vendor_changelist' %}" title="فروشندگان"><i class="admin-nav-icon fas fa-truck" aria-hidden="true"></i><span>فروشندگان</span></a></li>
                     <li><a class="admin-nav__link{% if request.resolver_match.url_name == 'settings' %} is-active{% endif %}" href="{% url 'useradmin:settings' %}" title="تنظیمات فروشگاه"><i class="admin-nav-icon fas fa-cog" aria-hidden="true"></i><span>تنظیمات فروشگاه</span></a></li>
                 </ul>
             </nav>
@@ -140,7 +162,7 @@
                     {% for message in messages %}
                         <div class="admin-flash admin-flash--{{ message.tags|default:'info' }}" role="{% if message.tags == 'error' %}alert{% else %}status{% endif %}">
                             <span>{{ message }}</span>
-                            <button type="button" data-dismiss-flash aria-label="بستن پیام"><span class="material-icons-round" aria-hidden="true">close</span></button>
+                            <button type="button" data-dismiss-flash aria-label="بستن پیام"><i class="fas fa-times" aria-hidden="true"></i></button>
                         </div>
                     {% endfor %}
                 </div>

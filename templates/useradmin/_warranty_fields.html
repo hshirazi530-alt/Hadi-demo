@@ -1,0 +1,25 @@
+<section class="border rounded p-3 mb-4" aria-labelledby="warranty-settings-title">
+    <h4 id="warranty-settings-title">گارانتی اختیاری</h4>
+    <p class="text-muted">مشتری می‌تواند بدون گارانتی یا با یکی از مدت‌های زیر خرید کند. مبلغ به قیمت هر عدد اضافه می‌شود.</p>
+    <input type="hidden" name="warranty_stage7_present" value="1">
+    <div class="form-check mb-3">
+        {{ form.has_warranty }}
+        <label class="form-check-label" for="{{ form.has_warranty.id_for_label }}">ارائهٔ گارانتی اختیاری برای این محصول</label>
+        {{ form.has_warranty.errors }}
+    </div>
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <label class="form-label" for="{{ form.warranty_6_price.id_for_label }}">۶ ماه (تومان)</label>
+            {{ form.warranty_6_price }}{{ form.warranty_6_price.errors }}
+        </div>
+        <div class="col-md-4 mb-3">
+            <label class="form-label" for="{{ form.warranty_12_price.id_for_label }}">۱۲ ماه (تومان)</label>
+            {{ form.warranty_12_price }}{{ form.warranty_12_price.errors }}
+        </div>
+        <div class="col-md-4 mb-3">
+            <label class="form-label" for="{{ form.warranty_24_price.id_for_label }}">۲۴ ماه (تومان)</label>
+            {{ form.warranty_24_price }}{{ form.warranty_24_price.errors }}
+        </div>
+    </div>
+    <small class="text-muted">صفر یا خالی یعنی آن مدت ارائه نمی‌شود؛ برای فعال‌سازی حداقل یک مبلغ مثبت وارد کنید.</small>
+</section>

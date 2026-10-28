@@ -1,5 +1,9 @@
 {% extends 'useradmin/base.html' %}
 
+{% block title %}ویرایش محصول{% endblock %}
+{% block breadcrumb %}محصولات / ویرایش محصول{% endblock %}
+{% block page_heading %}ویرایش محصول{% endblock %}
+
 {% block extra_head %}
     {{ form.media }}
 {% endblock %}
@@ -54,10 +58,18 @@
                                 {{ form.sale_price.errors }}
                             </div>
                         </div>
+                        <div class="form-check mb-3">
+                            {{ form.price_pending_confirmation }}
+                            <label class="form-check-label" for="{{ form.price_pending_confirmation.id_for_label }}">{{ form.price_pending_confirmation.label }}</label>
+                            <small class="text-muted d-block">برای قیمت نامشخص، محصول را در وضعیت پیش‌نویس نگه دارید.</small>
+                            {{ form.price_pending_confirmation.errors }}
+                        </div>
                         <div class="form-check mb-4">
                             {{ form.is_sale }}
                             <label class="form-check-label" for="{{ form.is_sale.id_for_label }}">این محصول تخفیف دارد</label>
                         </div>
+                        {% include 'useradmin/_warranty_fields.html' %}
+                        {% include 'useradmin/_authenticity_fields.html' %}
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label" for="{{ form.type.id_for_label }}">نوع محصول</label>

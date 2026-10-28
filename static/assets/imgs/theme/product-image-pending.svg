@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="تصویر محصول ثبت نشده است">
+  <rect width="600" height="600" rx="30" fill="#faf8ee"/>
+  <rect x="190" y="185" width="220" height="170" rx="24" fill="#fffdf7" stroke="#d6c69a" stroke-width="7"/>
+  <circle cx="345" cy="230" r="19" fill="#e6d5a9"/>
+  <path d="M213 328l65-64 45 41 24-21 40 44" fill="none" stroke="#cfba7e" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="300" y="410" text-anchor="middle" fill="#7d6f4f" font-family="Tahoma,Arial,sans-serif" font-size="23" direction="rtl">تصویر محصول ثبت نشده است</text>
+</svg>

@@ -73,7 +73,7 @@
                                                                     <p><img src="{{ o.image }}" style="width: 60px; height: 60px; object-fit: cover;" alt=""></p>
                                                                 </td>
 
-                                                                <td>{{o.item}}</td>
+                                                                <td>{{ o.item }}{% if o.warranty_months %}<br><small>گارانتی {{ o.warranty_months }} ماه · {{ o.warranty_price }} تومان برای هر عدد</small>{% endif %}</td>
                                                                 <td>{{o.price}}</td>
                                                                 
                                                                 <td>{{o.qty}}عدد</td>

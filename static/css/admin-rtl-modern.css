@@ -1,0 +1,50 @@
+/* رابط اختصاصی مدیریت هژیر مارکت؛ ساختار RTL الهام‌گرفته از نمونهٔ درخواستی. */
+body.admin-console{--admin-forest:#232b34;--admin-forest-deep:#19212a;--admin-forest-soft:#edf0f4;--admin-gold:#c49a48;--admin-gold-soft:#fcf0d8;--admin-ink:#253044;--admin-muted:#768193;--admin-line:#e8ebef;--admin-paper:#fff;--admin-canvas:#f6f7f9;background:#f6f7f9;direction:rtl;text-align:right}
+.admin-console .admin-sidebar{background:#232b34;box-shadow:-8px 0 25px rgba(28,38,51,.05)}
+.admin-console .admin-brand{min-height:62px;border-bottom-color:rgba(255,255,255,.09)}
+.admin-console .admin-brand__link{font-size:15px;letter-spacing:-.2px}
+.admin-console .admin-nav__caption{color:#8b99a9;font-weight:700}
+.admin-console .admin-nav__link{color:#c3cbd4}
+.admin-console .admin-nav__link.is-active{background:#343b43;color:#fff;box-shadow:inset -3px 0 #d4af61}
+.admin-console .admin-nav__link.is-active>.admin-nav-icon{color:#e6c479}
+.admin-console .admin-subnav .admin-nav__link.is-active{background:#323b45}
+.admin-console .admin-topbar{min-height:76px;background:rgba(255,255,255,.98);border-color:#edf0f2;box-shadow:0 2px 15px rgba(38,51,74,.03)}
+.admin-console .admin-topbar__heading h1,.admin-console .admin-content-heading h2{color:#293751}
+.admin-console .admin-page{padding-top:28px}
+.admin-console .admin-card,.admin-console .content-main .card{border:1px solid #ebedf1;border-radius:12px;background:#fff;box-shadow:0 4px 16px rgba(39,54,73,.035)}
+.admin-console .admin-stat{min-height:130px;padding:21px}
+.admin-console .admin-stat__value{color:#34425b;font-size:24px}
+.admin-console .admin-stat__icon{width:45px;height:45px;flex-basis:45px;border-radius:12px;background:#f9edd9;color:#ab7a22}
+.admin-console .admin-panel__header{padding:18px 20px;border-bottom-color:#f0f2f5}
+.admin-console .admin-panel__header h3{color:#34425b;font-size:14px}
+.admin-console .admin-table th{background:#f7f8fa;color:#6c7890}
+.admin-console .admin-table td,.admin-console .admin-table th{text-align:right;vertical-align:middle}
+.admin-console .admin-button:not(.admin-button--light):not(.admin-button--danger){background:#bd9547;color:white!important}
+.admin-console .admin-button:not(.admin-button--light):not(.admin-button--danger):hover{background:#a87d30}
+.admin-console .btn-primary{border-color:#bd9547;background:#bd9547;color:#fff}
+.admin-console .btn-primary:hover,.admin-console .btn-primary:focus{border-color:#a77e34;background:#a77e34}
+.admin-console .content-main{max-width:none;direction:rtl;text-align:right}
+.admin-console .content-main .card-header{background:#fff;border-color:#edf0f4}
+.admin-console .content-main .content-header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px}
+.admin-console .form-control,.admin-console .form-select,.admin-console .admin-control{border-color:#e2e6ec;border-radius:8px;min-height:41px;color:#354154;background-color:#fff}
+.admin-console textarea.form-control{min-height:110px}
+.admin-console .form-control:focus,.admin-console .form-select:focus,.admin-console .admin-control:focus{border-color:#c9a560;box-shadow:0 0 0 .18rem rgba(201,165,96,.18)}
+.admin-console .table-responsive{max-width:100%;overflow-x:auto}
+.admin-console .admin-table-wrap{overscroll-behavior-inline:contain}
+.admin-authenticity{margin:18px 0 22px;padding:20px;border:1px solid #ead7ae;border-radius:14px;background:#fffdf7;min-width:0}
+.admin-authenticity legend{float:none;width:auto;margin:0 0 7px;padding:0;color:#6e5121;font-size:16px;font-weight:800}
+.admin-authenticity p{margin:0 0 14px;color:#86765c;font-size:12px}
+.admin-authenticity__choices{display:flex;flex-wrap:wrap;gap:9px}
+.admin-authenticity__choice{display:inline-flex;align-items:center;gap:7px;margin:0;padding:9px 13px;border:1px solid #eadfc8;border-radius:999px;background:#fff;color:#5f5b50;cursor:pointer;font-size:13px;font-weight:700}
+.admin-authenticity__choice:has(input:checked){border-color:#caa758;background:#fff4d7;color:#785923}
+.admin-authenticity__choice input{width:16px;height:16px;margin:0;accent-color:#bd9547}
+.admin-authenticity .errorlist{margin:10px 0 0;color:#a72b2b}
+.admin-console .auth-page-shell{max-width:740px;margin:0 auto}
+.admin-console .auth-page-shell label{display:block;margin-bottom:6px;font-weight:700}
+.admin-console .auth-page-shell .field{margin-bottom:20px}
+.admin-console .auth-page-shell .errorlist{padding-right:18px;color:#a72b2b}
+@media(max-width:767px){.admin-console .admin-page{padding:20px 14px 28px}.admin-console .admin-content-heading,.admin-console .content-main .content-header{align-items:stretch;flex-direction:column}.admin-console .admin-stat{min-height:110px;padding:15px}.admin-console .admin-stat__value{font-size:20px}.admin-authenticity{padding:15px}.admin-authenticity__choice{font-size:12px;padding:8px 10px}}
+@media(prefers-reduced-motion:reduce){.admin-console *{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important}}
+.admin-console .admin-pagination{display:flex;align-items:center;justify-content:center;gap:16px;padding:18px;color:#66748a;font-size:13px}.admin-console .admin-pagination a{color:#9b752d;font-weight:700}.admin-console .admin-order-status{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-bottom:18px;border-bottom:1px solid #edf0f4}.admin-console .admin-order-status .admin-control{width:auto;min-width:170px}.admin-console .admin-order-info{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;padding-top:20px}.admin-console .admin-order-info h3{font-size:14px;color:#35415a}.admin-console .admin-order-info p{font-size:13px;color:#687588;line-height:2}.admin-console .admin-order-total{display:flex;justify-content:flex-end;gap:20px;flex-wrap:wrap;padding:20px;color:#506078}.admin-console .auth-page-shell input{display:block;width:100%;min-height:42px;padding:8px 12px;border:1px solid #e2e6ec;border-radius:8px}.admin-console .auth-page-shell small{display:block;margin-top:7px;color:#788598}@media(max-width:767px){.admin-console .admin-order-info{grid-template-columns:1fr;gap:8px}.admin-console .admin-order-status .admin-control{flex:1 1 100%}}
+/* The closed off-canvas RTL menu must not create horizontal page scrolling. */
+html:has(body.admin-console){overflow-x:clip}.admin-console{overflow-x:clip}

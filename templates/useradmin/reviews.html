@@ -1,46 +1,6 @@
 {% extends 'useradmin/base.html' %}
-{% load static %}
-{% load humanize %}
-{% block content %}    
-
-<section class="content-main">
-    <div class="content-header">
-        <div>
-            <h2 class="content-title card-title">بررسی ها</h2>
-            <p>تمام بررسی های محصول را مدیریت کنید</p>
-        </div>
-    </div>
-    <div class="card mb-4">
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>کد</th>
-                            <th>محصولات</th>
-                            <th>نام</th>
-                            <th>بازدید</th>
-                            <th>رتبه بندی</th>
-                            <th>تاریخ</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        
-                        {% for r in reviews %}
-                            <tr>
-                                <td>{{forloop.counter}}</td>
-                                <td><b>{{r.product.title}}</b></td>
-                                <td>{{r.user.username|title}}</td>
-                                <td>{{r.review}}</td>
-                                <td>{{r.rating}} Stars</td>
-                                <td>{{r.date|date:"m M, Y"}}</td>
-                            </tr>
-                        {% endfor %}
-
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</section>
-{% endblock content %}    
+{% block title %}دیدگاه‌ها{% endblock %}{% block breadcrumb %}دیدگاه‌ها{% endblock %}{% block page_heading %}دیدگاه‌ها{% endblock %}
+{% block content %}
+<section aria-labelledby="reviews-title"><div class="admin-content-heading"><div><h2 id="reviews-title">دیدگاه‌های مشتریان</h2><p>نظرات ثبت‌شده و وضعیت تأیید آن‌ها</p></div><a class="admin-button" href="{% url 'admin:core_productreview_changelist' %}">مدیریت و تأیید دیدگاه‌ها</a></div>
+<section class="admin-card"><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>محصول</th><th>کاربر</th><th>دیدگاه</th><th>امتیاز</th><th>وضعیت</th><th>تاریخ</th></tr></thead><tbody>{% for review in reviews %}<tr><td>{{ review.product.title|default:"محصول حذف‌شده" }}</td><td>{{ review.user.username|default:"کاربر حذف‌شده" }}</td><td>{{ review.review|truncatechars:100 }}</td><td>{{ review.rating }} از ۵</td><td>{% if review.is_approved %}<span class="admin-status admin-status--paid">تأییدشده</span>{% else %}<span class="admin-status admin-status--unpaid">در انتظار تأیید</span>{% endif %}</td><td>{{ review.date|date:"Y/m/d" }}</td></tr>{% empty %}<tr><td colspan="6" class="admin-table__empty">هنوز دیدگاهی ثبت نشده است.</td></tr>{% endfor %}</tbody></table></div>{% if page_obj.paginator.num_pages > 1 %}<nav class="admin-pagination" aria-label="صفحه‌های دیدگاه‌ها">{% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}">صفحهٔ قبل</a>{% endif %}<span>صفحهٔ {{ page_obj.number }} از {{ page_obj.paginator.num_pages }}</span>{% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}">صفحهٔ بعد</a>{% endif %}</nav>{% endif %}</section></section>
+{% endblock %}

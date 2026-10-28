@@ -13,7 +13,7 @@
             <p><span data-fa-number="{{ total_products }}">{{ total_products|intcomma }}</span> محصول در سامانه</p>
         </div>
         <a href="{% url 'useradmin:dashboard-add-products' %}" class="admin-button">
-            <span class="material-icons-round" aria-hidden="true">add</span>
+            <i class="fas fa-plus" aria-hidden="true"></i>
             افزودن محصول
         </a>
     </div>
@@ -50,7 +50,7 @@
                 </select>
             </div>
             <div class="admin-product-filters">
-                <button class="admin-button" type="submit"><span class="material-icons-round" aria-hidden="true">filter_list</span>اعمال فیلتر</button>
+                <button class="admin-button" type="submit"><i class="fas fa-filter" aria-hidden="true"></i>اعمال فیلتر</button>
                 {% if query or status_filter or category_filter %}
                     <a class="admin-button admin-button--light" href="{% url 'useradmin:dashboard-products' %}">پاک‌کردن فیلتر</a>
                 {% endif %}
@@ -61,7 +61,7 @@
             {% csrf_token %}
             <div class="admin-bulk-bar" data-bulk-bar>
                 <span><strong data-selected-count>۰</strong> محصول انتخاب شده است.</span>
-                <button class="admin-button admin-button--danger" type="submit"><span class="material-icons-round" aria-hidden="true">delete</span>حذف انتخاب‌شده‌ها</button>
+                <button class="admin-button admin-button--danger" type="submit"><i class="fas fa-trash" aria-hidden="true"></i>حذف انتخاب‌شده‌ها</button>
             </div>
             <div class="admin-table-wrap">
                 <table class="admin-table admin-products-table">
@@ -84,7 +84,7 @@
                                 <td class="admin-select-cell"><input type="checkbox" data-product-select value="{{ product.pid }}" aria-label="انتخاب {{ product.title }}" /></td>
                                 <td>
                                     <div class="admin-product-name">
-                                        {% if product.image %}<img class="admin-product-image" src="{{ product.image.url }}" alt="" loading="lazy" />{% else %}<span class="admin-product-image admin-product-image--empty" aria-hidden="true"><span class="material-icons-round">image</span></span>{% endif %}
+                                        {% if product.image %}<img class="admin-product-image" src="{{ product.image.url }}" alt="" loading="lazy" />{% else %}<span class="admin-product-image admin-product-image--empty" aria-hidden="true"><i class="fas fa-image" aria-hidden="true"></i></span>{% endif %}
                                         <div><a class="admin-product-title" href="{% url 'useradmin:dashboard-edit-products' product.pid %}">{{ product.title }}</a><span class="admin-table__muted">{{ product.sku }}</span></div>
                                     </div>
                                 </td>
@@ -108,9 +108,9 @@
                                 <td>{{ product.date|date:"Y/m/d" }}</td>
                                 <td>
                                     <div class="admin-product-actions">
-                                        <a class="admin-action-link" href="{% url 'core:product-detail' product.pid %}" target="_blank" rel="noopener" aria-label="مشاهدهٔ {{ product.title }}"><span class="material-icons-round" aria-hidden="true">visibility</span></a>
-                                        <a class="admin-action-link" href="{% url 'useradmin:dashboard-edit-products' product.pid %}" aria-label="ویرایش {{ product.title }}"><span class="material-icons-round" aria-hidden="true">edit</span></a>
-                                        <button class="admin-action-button admin-action-button--danger" type="submit" formmethod="post" formaction="{% url 'useradmin:dashboard-delete-products' product.pid %}" formnovalidate data-confirm-delete data-confirm-message="«{{ product.title }}» حذف شود؟ این کار قابل بازگشت نیست." aria-label="حذف {{ product.title }}"><span class="material-icons-round" aria-hidden="true">delete_outline</span></button>
+                                        <a class="admin-action-link" href="{% url 'core:product-detail' product.pid %}" target="_blank" rel="noopener" aria-label="مشاهدهٔ {{ product.title }}"><i class="fas fa-eye" aria-hidden="true"></i></a>
+                                        <a class="admin-action-link" href="{% url 'useradmin:dashboard-edit-products' product.pid %}" aria-label="ویرایش {{ product.title }}"><i class="fas fa-pen" aria-hidden="true"></i></a>
+                                        <button class="admin-action-button admin-action-button--danger" type="submit" formmethod="post" formaction="{% url 'useradmin:dashboard-delete-products' product.pid %}" formnovalidate data-confirm-delete data-confirm-message="«{{ product.title }}» حذف شود؟ این کار قابل بازگشت نیست." aria-label="حذف {{ product.title }}"><i class="fas fa-trash-alt" aria-hidden="true"></i></button>
                                     </div>
                                 </td>
                             </tr>

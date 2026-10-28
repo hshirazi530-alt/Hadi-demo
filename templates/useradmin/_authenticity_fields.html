@@ -1,0 +1,7 @@
+<fieldset class="admin-authenticity" aria-describedby="authenticity-help">
+    <legend>اصالت کالا</legend><input type="hidden" name="authenticity_stage9_present" value="1">
+    <p id="authenticity-help">تنها یک گزینه را بر اساس اطلاعات تأییدشده انتخاب کنید. برای حذف نشان، «نامشخص» را بزنید.</p>
+    {% if form.authenticity_level.help_text %}<p role="alert">{{ form.authenticity_level.help_text }}</p>{% endif %}
+    <div class="admin-authenticity__choices">{% for radio in form.authenticity_level %}<label class="admin-authenticity__choice" for="{{ radio.id_for_label }}">{{ radio.tag }}<span>{{ radio.choice_label }}</span></label>{% endfor %}</div>
+    {{ form.authenticity_level.errors }}
+</fieldset>

@@ -1,0 +1,28 @@
+<div class="hm-helper" data-shopping-assistant dir="rtl">
+    <section class="hm-helper__panel" id="hm-helper-panel" aria-labelledby="hm-helper-title" hidden>
+        <header class="hm-helper__header">
+            <div><strong id="hm-helper-title">راهنمای خرید هژیر مارکت</strong><small>پاسخ‌های آماده، بدون هوش مصنوعی</small></div>
+            <button class="hm-helper__close" type="button" data-helper-close aria-label="بستن راهنمای خرید">×</button>
+        </header>
+        <div class="hm-helper__body">
+            <p>سلام! موضوع موردنظرتان را انتخاب کنید.</p>
+            <div class="hm-helper__choices" aria-label="موضوعات راهنمای خرید">
+                <button type="button" data-helper-choice="products">انتخاب محصول</button>
+                <button type="button" data-helper-choice="warranty">گارانتی</button>
+                <button type="button" data-helper-choice="delivery">ارسال و پیگیری</button>
+                <button type="button" data-helper-choice="support">ارتباط با فروشگاه</button>
+            </div>
+            <div class="hm-helper__answer" role="status" aria-live="polite">
+                <div data-helper-answer="products" hidden>محصولات را بررسی کنید و برای مشاوره با پشتیبانی تماس بگیرید. <a href="{% url 'core:product-list' %}">مشاهده محصولات</a></div>
+                <div data-helper-answer="warranty" hidden>اگر برای کالایی گارانتی ارائه شود، مدت و هزینهٔ آن در صفحهٔ همان کالا نمایش داده می‌شود.</div>
+                <div data-helper-answer="delivery" hidden>برای زمان و هزینهٔ ارسال یا پیگیری سفارش، با پشتیبانی فروشگاه تماس بگیرید. <a href="tel:{{ store_profile.phone_link }}">تماس تلفنی</a></div>
+                <div data-helper-answer="support" hidden>برای گفت‌وگو با پشتیبانی از <a href="{{ store_profile.telegram_channel }}" target="_blank" rel="noopener noreferrer">تلگرام</a>، <a href="{{ store_profile.whatsapp_channel }}" target="_blank" rel="noopener noreferrer">واتساپ</a> یا <a href="tel:{{ store_profile.phone_link }}">تماس تلفنی</a> استفاده کنید.</div>
+            </div>
+            <p class="hm-helper__privacy">این راهنما پیام شما را ذخیره یا برای سرویس دیگری ارسال نمی‌کند.</p>
+        </div>
+    </section>
+    <button class="hm-helper__toggle" type="button" data-helper-toggle aria-controls="hm-helper-panel" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M5 4h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-6l-5 3v-3H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M7.5 9h9M7.5 12h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        <span>راهنمای خرید</span>
+    </button>
+</div>

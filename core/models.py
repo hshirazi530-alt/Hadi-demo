@@ -254,6 +254,12 @@ class Product(models.Model):
     def authenticity_badges(self):
         """نشان‌های اصالت فعال برای این محصول را برمی‌گرداند."""
         badges = []
+        # Mutually contradictory legacy classifications remain in the database
+        # for review; do not display a potentially misleading public claim.
+        if sum(bool(value) for value in (
+            self.authenticity_original, self.authenticity_high_copy, self.authenticity_copy,
+        )) != 1:
+            return badges
         if self.authenticity_original:
             badges.append({"key": "original", "label": "اورجینال", "icon": "✅"})
         if self.authenticity_high_copy:
@@ -291,8 +297,8 @@ class CartOrder(models.Model):
     state = models.CharField(max_length=100, null=True, blank=True, verbose_name="فعال")
     country = models.CharField(max_length=100, null=True, blank=True, verbose_name="کشور")
 
-    price = models.DecimalField(max_digits=12, decimal_places=3, default="0.000", verbose_name="قیمت")
-    saved = models.DecimalField(max_digits=12, decimal_places=3, default="0.000", verbose_name="تخفیف")
+    price = models.DecimalField(max_digits=20, decimal_places=3, default="0.000", verbose_name="قیمت")
+    saved = models.DecimalField(max_digits=20, decimal_places=3, default="0.000", verbose_name="تخفیف")
     coupons = models.ManyToManyField("core.Coupon", blank=True, verbose_name="کد تخفیف")
 
     shipping_method = models.CharField(max_length=100, null=True, blank=True, verbose_name="روش حمل و نقل")
@@ -356,8 +362,11 @@ class CartOrderProducts(models.Model):
     item = models.CharField(max_length=200, verbose_name="آیتم_محصول")
     image = models.CharField(max_length=200, verbose_name="عکس")
     qty = models.IntegerField(default=0, verbose_name="تعداد")
-    price = models.DecimalField(max_digits=12, decimal_places=3, default="0.000", verbose_name="قیمت")
-    total = models.DecimalField(max_digits=12, decimal_places=3, default="0.000", verbose_name="قیمت کل")
+    price = models.DecimalField(max_digits=20, decimal_places=3, default="0.000", verbose_name="قیمت")
+    total = models.DecimalField(max_digits=20, decimal_places=3, default="0.000", verbose_name="قیمت کل")
+    # Immutable-at-checkout snapshot: later product changes do not rewrite an order.
+    warranty_months = models.PositiveSmallIntegerField(default=0, verbose_name="مدت گارانتی (ماه)")
+    warranty_price = models.DecimalField(max_digits=12, decimal_places=0, default="0", verbose_name="هزینهٔ گارانتی هر واحد")
 
     class Meta:
         verbose_name_plural = "تعداد سفارش سبد خرید"

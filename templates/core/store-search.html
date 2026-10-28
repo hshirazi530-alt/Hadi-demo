@@ -41,7 +41,7 @@
                 {% if product.image %}
                 <img src="{{ product.image.url }}" alt="{{ product.title }}" loading="lazy">
                 {% else %}
-                <img src="{% static 'assets/imgs/beauty/barber-shop.jpg' %}" alt="" loading="lazy">
+                <img src="{% static 'assets/imgs/theme/product-image-pending.svg' %}" alt="تصویر محصول ثبت نشده است" loading="lazy">
                 {% endif %}
                 {% if "(نمونه)" in product.title %}<span class="store-badge">نمونهٔ نمایشی</span>{% elif product.is_sale and product.sale_price %}<span class="store-badge">تخفیف ویژه</span>{% endif %}
             </a>

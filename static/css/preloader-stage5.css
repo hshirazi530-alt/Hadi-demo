@@ -1,0 +1,210 @@
+/* Task 5: cream-and-gold brand loading screen.
+   This stylesheet only changes #hm-preloader and leaves the logo asset,
+   existing JavaScript, site layout and product data untouched. */
+.store-css #hm-preloader {
+  --hm-loader-gold: #d4af37;
+  --hm-loader-ink: #755a21;
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  isolation: isolate;
+  padding: max(12px, env(safe-area-inset-top, 0px))
+           max(12px, env(safe-area-inset-right, 0px))
+           max(12px, env(safe-area-inset-bottom, 0px))
+           max(12px, env(safe-area-inset-left, 0px));
+  background:
+    radial-gradient(ellipse at 50% 38%, rgba(255, 215, 0, 0.11), transparent 42%),
+    linear-gradient(145deg, #fffef6 0%, #fff8dc 54%, #f5f5dc 100%);
+  transition: opacity 620ms ease, visibility 620ms ease;
+  /* A CSS-only escape hatch if JavaScript fails or the load event stalls. */
+  animation: hm-stage5-dismiss 720ms ease 3.6s forwards;
+}
+
+.store-css #hm-preloader::before {
+  position: absolute;
+  z-index: -1;
+  inset: clamp(12px, 2.4vw, 28px);
+  border: 1px solid rgba(172, 137, 43, 0.25);
+  border-radius: clamp(18px, 3vw, 32px);
+  background: transparent;
+  box-shadow: inset 0 0 38px rgba(212, 175, 55, 0.04);
+  content: "";
+  pointer-events: none;
+}
+
+.store-css #hm-preloader::after {
+  position: absolute;
+  bottom: clamp(26px, 5vh, 44px);
+  left: 50%;
+  width: 34px;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, #d4af37, transparent);
+  transform: translateX(-50%);
+  content: "";
+  pointer-events: none;
+}
+
+.store-css #hm-preloader.is-done {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.store-css #hm-preloader .hm-preloader__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: min(100%, 500px);
+  max-height: 100%;
+  padding: 8px 12px;
+  text-align: center;
+  transform: none;
+}
+
+.store-css #hm-preloader .hm-preloader__logo {
+  position: relative;
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: min(52vw, 29vh, 250px);
+  height: min(52vw, 29vh, 250px);
+  margin: 12px 0 0;
+  border-radius: 50%;
+}
+
+.store-css #hm-preloader .hm-preloader__logo::before,
+.store-css #hm-preloader .hm-preloader__logo::after {
+  position: absolute;
+  inset: -12px;
+  border: 1px solid rgba(183, 145, 44, 0.25);
+  border-radius: 50%;
+  content: "";
+  pointer-events: none;
+}
+
+.store-css #hm-preloader .hm-preloader__logo::before {
+  border-top-color: #d4af37;
+  border-right-color: rgba(212, 175, 55, 0.68);
+  animation: hm-stage5-orbit 3.8s linear infinite;
+}
+
+.store-css #hm-preloader .hm-preloader__logo::after {
+  inset: -20px;
+  border-color: rgba(183, 145, 44, 0.12);
+}
+
+.store-css #hm-preloader .hm-preloader__logo img {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 5px 9px rgba(155, 119, 61, 0.12));
+}
+
+.store-css #hm-preloader .hm-preloader__title {
+  width: auto;
+  margin: 32px 0 0;
+  padding-left: 0.22em;
+  color: #795b1c;
+  font: 700 clamp(14px, 2.1vmin, 18px)/1.35 Arial, Helvetica, sans-serif;
+  letter-spacing: 0.22em;
+  white-space: nowrap;
+  background: none;
+  -webkit-text-fill-color: currentColor;
+}
+
+.store-css #hm-preloader .hm-preloader__sub {
+  margin: 9px 0 0;
+  color: #625b4e;
+  font-family: "Vazir", "Vazirmatn", Tahoma, sans-serif;
+  font-size: clamp(13px, 1.9vmin, 16px);
+  font-weight: 500;
+  line-height: 1.7;
+}
+
+.store-css #hm-preloader .hm-preloader__bar {
+  position: relative;
+  display: block;
+  width: min(56vw, 220px);
+  height: 4px;
+  margin-top: 25px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e7dbbb;
+}
+
+.store-css #hm-preloader .hm-preloader__bar i {
+  position: absolute;
+  inset-block: 0;
+  left: -40%;
+  width: 40%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, transparent, #b78d24 35%, #ffd700 70%, transparent);
+  animation: hm-stage5-progress 1.8s ease-in-out infinite;
+}
+
+.store-css #hm-preloader .hm-preloader__status {
+  display: flex;
+  align-items: center;
+  margin: 13px 0 0;
+  color: var(--hm-loader-ink);
+  font-family: "Vazir", "Vazirmatn", Tahoma, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+@keyframes hm-stage5-dismiss {
+  to { opacity: 0; visibility: hidden; pointer-events: none; }
+}
+
+@keyframes hm-stage5-orbit {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes hm-stage5-progress {
+  to { transform: translateX(350%); }
+}
+
+@media (max-height: 360px) {
+  .store-css #hm-preloader .hm-preloader__inner { padding-block: 0; }
+  .store-css #hm-preloader .hm-preloader__logo {
+    width: min(34vh, 35vw, 130px);
+    height: min(34vh, 35vw, 130px);
+    margin-top: 2px;
+  }
+  .store-css #hm-preloader .hm-preloader__logo::before { inset: -7px; }
+  .store-css #hm-preloader .hm-preloader__logo::after { inset: -12px; }
+  .store-css #hm-preloader .hm-preloader__title { margin-top: 16px; font-size: 12px; }
+  .store-css #hm-preloader .hm-preloader__sub { margin-top: 3px; font-size: 12px; line-height: 1.3; }
+  .store-css #hm-preloader .hm-preloader__bar { margin-top: 9px; }
+  .store-css #hm-preloader .hm-preloader__status { margin-top: 6px; font-size: 12px; }
+  .store-css #hm-preloader::after { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .store-css #hm-preloader {
+    transition-duration: 1ms;
+    animation: hm-stage5-dismiss 1ms linear 3.6s forwards;
+  }
+  .store-css #hm-preloader .hm-preloader__logo::before,
+  .store-css #hm-preloader .hm-preloader__bar i { animation: none; }
+  .store-css #hm-preloader .hm-preloader__bar i { left: 30%; width: 40%; }
+}
+
+@media (forced-colors: active) {
+  .store-css #hm-preloader { background: Canvas; color: CanvasText; }
+  .store-css #hm-preloader::before,
+  .store-css #hm-preloader .hm-preloader__logo::before,
+  .store-css #hm-preloader .hm-preloader__logo::after { border-color: CanvasText; }
+  .store-css #hm-preloader .hm-preloader__title,
+  .store-css #hm-preloader .hm-preloader__sub,
+  .store-css #hm-preloader .hm-preloader__status { color: CanvasText; }
+  .store-css #hm-preloader .hm-preloader__bar { background: CanvasText; }
+}

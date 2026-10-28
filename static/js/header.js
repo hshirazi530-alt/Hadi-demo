@@ -48,3 +48,99 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 })();
+
+// Category links can overflow on narrow screens. Bring the focused link into
+// view without scrolling the page away from the header.
+(function () {
+  'use strict';
+  var list = document.querySelector('.hm-cats__list');
+  if (!list) return;
+  list.addEventListener('focusin', function (event) {
+    var link = event.target.closest('.hm-cats__link');
+    if (link && list.contains(link)) {
+      link.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'auto' });
+    }
+  });
+})();
+
+// Two-column category navigation. Details/summary provides the basic click
+// and keyboard interaction even without this enhancement.
+(function () {
+  'use strict';
+  var menu = document.querySelector('[data-category-menu]');
+  if (!menu) return;
+  var trigger = menu.querySelector('summary');
+  var links = Array.prototype.slice.call(menu.querySelectorAll('[data-category-target]'));
+  var panels = Array.prototype.slice.call(menu.querySelectorAll('.hm-category-flyout__panel'));
+  var openedByHover = false;
+  var pinnedOpen = false;
+  var pointerInside = false;
+
+  function syncExpanded() {
+    trigger.setAttribute('aria-expanded', menu.open ? 'true' : 'false');
+  }
+  menu.addEventListener('toggle', syncExpanded);
+  syncExpanded();
+
+  function activate(link) {
+    var target = document.getElementById(link.getAttribute('data-category-target'));
+    if (!target || !menu.contains(target)) return;
+    links.forEach(function (item) { item.classList.toggle('is-current', item === link); });
+    panels.forEach(function (panel) { panel.hidden = panel !== target; });
+  }
+
+  function closeMenu() {
+    menu.open = false;
+    openedByHover = false;
+    pinnedOpen = false;
+  }
+
+  menu.addEventListener('pointerenter', function (event) {
+    if (event.pointerType !== 'mouse') return;
+    pointerInside = true;
+    if (!menu.open) {
+      openedByHover = true;
+      menu.open = true;
+    }
+  });
+  menu.addEventListener('pointerleave', function (event) {
+    if (event.pointerType !== 'mouse') return;
+    pointerInside = false;
+    if (openedByHover && !pinnedOpen && !menu.contains(document.activeElement)) closeMenu();
+  });
+  trigger.addEventListener('click', function (event) {
+    if (menu.open && openedByHover && !pinnedOpen) {
+      // A click on a hover-open menu pins it instead of immediately closing it.
+      event.preventDefault();
+      pinnedOpen = true;
+      openedByHover = false;
+    } else {
+      pinnedOpen = !menu.open;
+      openedByHover = false;
+    }
+  });
+  menu.addEventListener('pointerover', function (event) {
+    if (event.pointerType !== 'mouse') return;
+    var active = document.activeElement;
+    if (active && active.closest && active.closest('.hm-category-flyout__panel')) return;
+    var link = event.target.closest('[data-category-target]');
+    if (link && menu.contains(link)) activate(link);
+  });
+  menu.addEventListener('focusin', function (event) {
+    var link = event.target.closest('[data-category-target]');
+    if (link && menu.contains(link)) activate(link);
+  });
+  menu.addEventListener('focusout', function (event) {
+    if (!menu.contains(event.relatedTarget) && !pointerInside) closeMenu();
+  });
+  document.addEventListener('pointerdown', function (event) {
+    if (menu.open && !menu.contains(event.target)) closeMenu();
+  });
+  document.addEventListener('keydown', function (event) {
+    if (event.key !== 'Escape' || !menu.open) return;
+    closeMenu();
+    trigger.focus({ preventScroll: true });
+    event.preventDefault();
+    event.stopPropagation();
+  });
+})();

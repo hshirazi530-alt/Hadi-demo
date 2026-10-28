@@ -42,9 +42,10 @@
                 <img src="{{ item.image }}" alt="{{ item.item }}" loading="lazy">
                 <div>
                     <h3>{{ item.item }}</h3>
-                    <p>{% if "(نمونه)" in item.item %}قیمت نمایشی · {% endif %}{{ item.qty }} عدد × {{ item.price|floatformat:0|intcomma }} تومان</p>
+                    <p>{% if "(نمونه)" in item.item %}قیمت نمایشی · {% endif %}{{ item.qty }} عدد × {{ item.price|floatformat:0|intcomma:False }} تومان{% if item.warranty_months %} با گارانتی{% endif %}</p>
+                    {% if item.warranty_months %}<p>گارانتی {{ item.warranty_months }} ماه · {{ item.warranty_price|floatformat:0|intcomma:False }} تومان برای هر عدد</p>{% endif %}
                 </div>
-                <strong>{% if "(نمونه)" in item.item %}جمع نمایشی: {% endif %}{{ item.total|floatformat:0|intcomma }} تومان</strong>
+                <strong>{% if "(نمونه)" in item.item %}جمع نمایشی: {% endif %}{{ item.total|floatformat:0|intcomma:False }} تومان</strong>
             </article>
             {% empty %}
             <p class="store-muted">برای این سفارش کالایی ثبت نشده است.</p>
@@ -55,8 +56,8 @@
             <h2>خلاصهٔ سفارش</h2>
             <p><span>شناسهٔ سفارش</span><strong>{{ order.oid }}</strong></p>
             <p><span>وضعیت پرداخت</span><strong>{% if order.paid_status %}پرداخت‌شده{% else %}پرداخت‌نشده{% endif %}</strong></p>
-            <p><span>تخفیف</span><strong>{{ order.saved|floatformat:0|intcomma }} تومان</strong></p>
-            <div class="store-checkout-total"><span>{% if has_demo_items %}مبلغ نمایشی سفارش{% else %}مبلغ سفارش{% endif %}</span><strong>{{ order.price|floatformat:0|intcomma }} تومان</strong></div>
+            <p><span>تخفیف</span><strong>{{ order.saved|floatformat:0|intcomma:False }} تومان</strong></p>
+            <div class="store-checkout-total"><span>{% if has_demo_items %}مبلغ نمایشی سفارش{% else %}مبلغ سفارش{% endif %}</span><strong>{{ order.price|floatformat:0|intcomma:False }} تومان</strong></div>
 
             <form class="store-coupon-form" method="post">
                 {% csrf_token %}

@@ -1,6 +1,10 @@
 {% extends 'useradmin/base.html' %}
 {% load static %}
 
+{% block title %}افزودن محصول{% endblock %}
+{% block breadcrumb %}محصولات / افزودن محصول{% endblock %}
+{% block page_heading %}افزودن محصول{% endblock %}
+
 {% block extra_head %}
     <link rel="stylesheet" href="{% static 'css/product-upload.css' %}">
     {{ form.media }}
@@ -69,6 +73,8 @@
                             <label class="form-check-label" for="{{ form.is_sale.id_for_label }}">این محصول تخفیف دارد</label>
                             {{ form.is_sale.errors }}
                         </div>
+                        {% include 'useradmin/_warranty_fields.html' %}
+                        {% include 'useradmin/_authenticity_fields.html' %}
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -113,7 +119,7 @@
                     <div class="card-header"><h4>تصاویر محصول</h4></div>
                     <div class="card-body">
                         <label class="product-upload__picker" for="product-images-input">
-                            <span class="material-icons" aria-hidden="true">add_photo_alternate</span>
+                            <i class="fas fa-image" aria-hidden="true"></i>
                             <span>انتخاب پوشه یا چند تصویر از دستگاه</span>
                             <small>در مرورگرهای پشتیبان، پنجرهٔ انتخاب‌گر پوشه باز می‌شود؛ در غیر این صورت چند تصویر را هم‌زمان انتخاب کنید.</small>
                         </label>

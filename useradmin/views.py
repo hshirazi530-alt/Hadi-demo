@@ -12,9 +12,9 @@ from django.utils import timezone
 import logging
 import mimetypes
 from decimal import Decimal
-from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from django.contrib.auth.hashers import check_password
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 from django.core.files.storage import default_storage
 from PIL import Image, UnidentifiedImageError
 
@@ -388,33 +388,43 @@ def bulk_delete_products(request):
 
 @admin_required
 def orders(request):
-    orders = CartOrder.objects.all()
-    context = {
-        'orders':orders,
-    }
-    return render(request, "useradmin/orders.html", context)
+    query = (request.GET.get("q") or "").strip()[:100]
+    status = (request.GET.get("status") or "").strip()
+    choices = CartOrder._meta.get_field("product_status").choices
+    orders = CartOrder.objects.select_related("user").order_by("-order_date", "-pk")
+    if query:
+        orders = orders.filter(Q(oid__icontains=query) | Q(full_name__icontains=query) | Q(phone__icontains=query))
+    if status in dict(choices):
+        orders = orders.filter(product_status=status)
+    else:
+        status = ""
+    page_obj = Paginator(orders, 20).get_page(request.GET.get("page"))
+    return render(request, "useradmin/orders.html", {
+        "orders": page_obj.object_list, "page_obj": page_obj,
+        "query": query, "status_filter": status, "status_choices": choices,
+    })
 
 @admin_required
 def order_detail(request, id):
-    order = CartOrder.objects.get(id=id)
+    order = get_object_or_404(CartOrder.objects.select_related("user"), id=id)
     order_items = CartOrderProducts.objects.filter(order=order)
-    context = {
-        'order':order,
-        'order_items':order_items
-    }
-    return render(request, "useradmin/order_detail.html", context)
+    return render(request, "useradmin/order_detail.html", {
+        "order": order, "order_items": order_items,
+        "status_choices": CartOrder._meta.get_field("product_status").choices,
+    })
 
 @admin_required
-@csrf_exempt
+@require_POST
 def change_order_status(request, oid):
-    order = CartOrder.objects.get(oid=oid)
-    if request.method == "POST":
-        status = request.POST.get("status")
-        print("status =======", status)
-        messages.success(request, f"Order status changed to {status}")
+    order = get_object_or_404(CartOrder, oid=oid)
+    status = request.POST.get("status", "")
+    allowed = dict(CartOrder._meta.get_field("product_status").choices)
+    if status not in allowed:
+        messages.error(request, "وضعیت سفارش معتبر نیست.")
+    else:
         order.product_status = status
-        order.save()
-    
+        order.save(update_fields=["product_status"])
+        messages.success(request, "وضعیت سفارش به‌روزرسانی شد.")
     return redirect("useradmin:order_detail", order.id)
 
 @admin_required
@@ -432,11 +442,9 @@ def shop_page(request):
 
 @admin_required
 def reviews(request):
-    reviews = ProductReview.objects.all()
-    context = {
-        'reviews':reviews,
-    }
-    return render(request, "useradmin/reviews.html", context)
+    reviews = ProductReview.objects.select_related("product", "user").order_by("-date", "-pk")
+    page_obj = Paginator(reviews, 20).get_page(request.GET.get("page"))
+    return render(request, "useradmin/reviews.html", {"reviews": page_obj.object_list, "page_obj": page_obj})
 
 @admin_required
 def settings(request):
@@ -469,24 +477,10 @@ def settings(request):
 
 @admin_required
 def change_password(request):
-    user = request.user
-
-    if request.method == "POST":
-        old_password = request.POST.get("old_password")
-        new_password = request.POST.get("new_password")
-        confirm_new_password = request.POST.get("confirm_new_password")
-
-        if confirm_new_password != new_password:
-            messages.error(request, "Confirm Password and New Password Does Not Match")
-            return redirect("useradmin:change_password")
-        
-        if check_password(old_password, user.password):
-            user.set_password(new_password)
-            user.save()
-            messages.success(request, "Password Changed Successfully")
-            return redirect("useradmin:change_password")
-        else:
-            messages.error(request, "Old password is not correct")
-            return redirect("useradmin:change_password")
-    
-    return render(request, "useradmin/change_password.html")
+    form = PasswordChangeForm(user=request.user, data=request.POST or None)
+    if request.method == "POST" and form.is_valid():
+        user = form.save()
+        update_session_auth_hash(request, user)
+        messages.success(request, "گذرواژه با موفقیت تغییر کرد.")
+        return redirect("useradmin:change_password")
+    return render(request, "useradmin/change_password.html", {"form": form})

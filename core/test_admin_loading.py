@@ -1,3 +1,6 @@
+from pathlib import Path
+
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
@@ -29,17 +32,39 @@ class AdminLoadingTemplateTests(TestCase):
     def test_admin_login_loads_shared_persian_assets(self):
         response = self.client.get(reverse("admin:login"))
 
-        # The public login screen renders through Jazzmin's own shell, which only
-        # pulls the single JAZZMIN_SETTINGS["custom_css"] file (the luxury light
-        # theme). The full RTL stack is injected by templates/admin/base_site.html
-        # for authenticated pages, so it is asserted on the index response above.
+        # Jazzmin loads a single custom CSS file on login. It imports the
+        # original luxury theme and adds the RTL redesign without losing it.
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Hazhirmarket")
         self.assertContains(response, '<html lang="fa-ir" dir="rtl">')
-        self.assertContains(response, "/static/css/admin-luxury-light.css")
-        self.assertEqual(response.content.count(b"/static/css/admin-luxury-light.css"), 1)
+        self.assertContains(response, "/static/css/admin-jazzmin-rtl.css", count=1)
+        self.assertContains(response, 'placeholder="ایمیل"')
+        self.assertContains(response, 'placeholder="گذرواژه"')
+        self.assertNotContains(response, 'placeholder="Email"')
+        jazzmin_css = (Path(settings.BASE_DIR) / 'static/css/admin-jazzmin-rtl.css').read_text(encoding='utf8')
+        self.assertIn('@import url("admin-luxury-light.css")', jazzmin_css)
         self.assertContains(response, "/static/js/admin-loading.js")
         self.assertNotContains(response, "fonts.googleapis.com")
+
+    def test_admin_login_still_authenticates_with_email_and_password(self):
+        admin = get_user_model().objects.create_user(
+            username="login-check", email="login-check@example.com", password="test-password",
+            is_staff=True, is_superuser=True,
+        )
+        response = self.client.post(reverse("admin:login"), {
+            "username": admin.email, "password": "test-password", "next": reverse("admin:index"),
+        })
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(int(self.client.session["_auth_user_id"]), admin.pk)
+        self.assertEqual(self.client.get(reverse("admin:index")).status_code, 200)
+
+    def test_admin_login_shows_error_for_wrong_credentials(self):
+        response = self.client.post(reverse("admin:login"), {
+            "username": "not-a-user@example.com", "password": "wrong-password",
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "callout-danger")
+        self.assertNotIn("_auth_user_id", self.client.session)
 
     def test_storefront_does_not_render_admin_loader(self):
         response = self.client.get(reverse("core:index"))

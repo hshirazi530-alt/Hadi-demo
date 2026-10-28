@@ -13,7 +13,7 @@
             <p>آمار بر پایهٔ سفارش‌ها و اطلاعات ثبت‌شده در سامانه است.</p>
         </div>
         <a href="{% url 'useradmin:dashboard-add-products' %}" class="admin-button">
-            <span class="material-icons-round" aria-hidden="true">add</span>
+            <i class="fas fa-plus" aria-hidden="true"></i>
             افزودن محصول
         </a>
     </div>
@@ -25,7 +25,7 @@
                 <strong class="admin-stat__value"><span data-fa-number="{{ revenue.price|default:0|floatformat:0 }}">{{ revenue.price|default:0|floatformat:0|intcomma }}</span><small> تومان</small></strong>
                 <span class="admin-stat__note">بر اساس سفارش‌های پرداخت‌شده</span>
             </div>
-            <span class="admin-stat__icon admin-stat__icon--gold"><span class="material-icons-round" aria-hidden="true">payments</span></span>
+            <span class="admin-stat__icon admin-stat__icon--gold"><i class="fas fa-coins" aria-hidden="true"></i></span>
         </article>
         <article class="admin-card admin-stat">
             <div>
@@ -33,7 +33,7 @@
                 <strong class="admin-stat__value" data-fa-number="{{ orders_count }}">{{ orders_count|intcomma }}</strong>
                 <span class="admin-stat__note"><span data-fa-number="{{ paid_orders_count }}">{{ paid_orders_count|intcomma }}</span> پرداخت‌شده</span>
             </div>
-            <span class="admin-stat__icon"><span class="material-icons-round" aria-hidden="true">receipt_long</span></span>
+            <span class="admin-stat__icon"><i class="fas fa-receipt" aria-hidden="true"></i></span>
         </article>
         <article class="admin-card admin-stat">
             <div>
@@ -41,7 +41,7 @@
                 <strong class="admin-stat__value" data-fa-number="{{ product_count }}">{{ product_count|intcomma }}</strong>
                 <span class="admin-stat__note"><span data-fa-number="{{ pending_products_count }}">{{ pending_products_count|intcomma }}</span> در انتظار بررسی</span>
             </div>
-            <span class="admin-stat__icon admin-stat__icon--blue"><span class="material-icons-round" aria-hidden="true">inventory_2</span></span>
+            <span class="admin-stat__icon admin-stat__icon--blue"><i class="fas fa-box-open" aria-hidden="true"></i></span>
         </article>
         <article class="admin-card admin-stat">
             <div>
@@ -49,7 +49,7 @@
                 <strong class="admin-stat__value" data-fa-number="{{ customer_count }}">{{ customer_count|intcomma }}</strong>
                 <span class="admin-stat__note">حساب‌های مشتریان ثبت‌شده</span>
             </div>
-            <span class="admin-stat__icon admin-stat__icon--rose"><span class="material-icons-round" aria-hidden="true">group</span></span>
+            <span class="admin-stat__icon admin-stat__icon--rose"><i class="fas fa-users" aria-hidden="true"></i></span>
         </article>
     </div>
 
@@ -76,7 +76,7 @@
                 </div>
             {% else %}
                 <div class="admin-empty">
-                    <span class="admin-empty__icon"><span class="material-icons-round" aria-hidden="true">monitoring</span></span>
+                    <span class="admin-empty__icon"><i class="fas fa-chart-line" aria-hidden="true"></i></span>
                     <h3>هنوز فروش پرداخت‌شده‌ای ثبت نشده است</h3>
                     <p>پس از ثبت سفارش‌های پرداخت‌شده، روند ماهانه در این بخش نمایش داده می‌شود.</p>
                 </div>
@@ -101,11 +101,11 @@
                 </a>
                 <a class="admin-summary-row" href="{% url 'admin:core_category_changelist' %}">
                     <span>مدیریت دسته‌بندی‌ها</span>
-                    <span class="material-icons-round" aria-hidden="true">arrow_back</span>
+                    <i class="fas fa-arrow-left" aria-hidden="true"></i>
                 </a>
                 <a class="admin-summary-row" href="{% url 'useradmin:settings' %}">
                     <span>تنظیمات حساب مدیر</span>
-                    <span class="material-icons-round" aria-hidden="true">arrow_back</span>
+                    <i class="fas fa-arrow-left" aria-hidden="true"></i>
                 </a>
             </div>
         </section>
@@ -147,7 +147,7 @@
                                 {% endif %}
                             </td>
                             <td><span class="admin-status admin-status--{{ order.product_status }}">{{ order.get_product_status_display }}</span></td>
-                            <td><a class="admin-action-link" href="{% url 'useradmin:order_detail' order.id %}" aria-label="جزئیات سفارش {{ order.oid }}"><span class="material-icons-round" aria-hidden="true">open_in_new</span><span>مشاهده</span></a></td>
+                            <td><a class="admin-action-link" href="{% url 'useradmin:order_detail' order.id %}" aria-label="جزئیات سفارش {{ order.oid }}"><i class="fas fa-external-link-alt" aria-hidden="true"></i><span>مشاهده</span></a></td>
                         </tr>
                     {% empty %}
                         <tr><td class="admin-table__empty" colspan="7">هنوز سفارشی ثبت نشده است.</td></tr>

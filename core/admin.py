@@ -1,8 +1,10 @@
 from django.contrib import admin
 from django import forms
 from django.db import transaction
+from django.db.models import Count
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
+from decimal import Decimal
 import logging
 from core.models import (
     Address,
@@ -44,6 +46,13 @@ class ProductImagesAdminForm(forms.ModelForm):
 
 
 class ProductAdminForm(forms.ModelForm):
+    authenticity_level = forms.ChoiceField(
+        label="اصالت کالا", required=False,
+        choices=(("", "نامشخص — بدون نشان"), ("original", "اورجینال"),
+                 ("high_copy", "های‌کپی"), ("copy", "کپی")),
+        widget=forms.RadioSelect,
+        help_text="فقط یک گزینه و فقط بر اساس اطلاعات تأییدشده انتخاب کنید.",
+    )
     image = ProductImageFormField(label="عکس محصول")
     gallery_images = ProductGalleryFormField(
         required=False,
@@ -66,6 +75,16 @@ class ProductAdminForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["price"].required = False
+        if self.instance.pk:
+            levels = [key for key in ("original", "high_copy", "copy")
+                      if getattr(self.instance, "authenticity_" + key)]
+            if len(levels) == 1:
+                self.initial["authenticity_level"] = levels[0]
+            elif len(levels) > 1:
+                self.initial["authenticity_level"] = "__needs_review__"
+                self.fields["authenticity_level"].help_text = (
+                    "مقادیر متناقض قبلی وجود دارد؛ گزینهٔ درست را پس از بررسی انتخاب کنید."
+                )
         if not self.instance.pk:
             for field_name in ("description", "stock_count", "category", "tags"):
                 self.fields[field_name].required = True
@@ -76,9 +95,20 @@ class ProductAdminForm(forms.ModelForm):
             if field_name in self.fields:
                 self.fields[field_name].required = False
                 self.fields[field_name].localize = True
+                self.fields[field_name].help_text = "هزینهٔ اضافه برای هر عدد، به تومان؛ صفر یا خالی یعنی این مدت ارائه نمی‌شود."
+        if "has_warranty" in self.fields:
+            self.fields["has_warranty"].help_text = "برای ارائهٔ گارانتی اختیاری فعال کنید؛ حداقل یکی از مدت‌ها باید قیمت مثبت داشته باشد."
 
     def clean(self):
         cleaned_data = super().clean()
+        if (self.instance.pk and "authenticity_original" not in self.fields
+                and "authenticity_level" not in self.data
+                and sum(bool(getattr(self.instance, "authenticity_" + key))
+                        for key in ("original", "high_copy", "copy")) > 1):
+            self.add_error("authenticity_level", "مقادیر قبلی متناقض‌اند؛ گزینهٔ درست یا نامشخص را انتخاب کنید.")
+        authenticity_fields = ("authenticity_original", "authenticity_high_copy", "authenticity_copy")
+        if sum(bool(cleaned_data.get(field)) for field in authenticity_fields) > 1:
+            self.add_error(None, "فقط یکی از وضعیت‌های اورجینال، های‌کپی یا کپی را انتخاب کنید.")
         gallery_images = cleaned_data.get("gallery_images", [])
         cover_image = cleaned_data.get("image")
         title = cleaned_data.get("title", "").strip()
@@ -86,6 +116,20 @@ class ProductAdminForm(forms.ModelForm):
         price_pending_confirmation = cleaned_data.get("price_pending_confirmation")
         product_status = cleaned_data.get("product_status")
         description = cleaned_data.get("description")
+
+        warranty_fields = ("warranty_6_price", "warranty_12_price", "warranty_24_price")
+        for field_name in warranty_fields:
+            if field_name in self.errors:
+                continue
+            amount = cleaned_data.get(field_name)
+            if amount is None:
+                cleaned_data[field_name] = Decimal("0")
+            elif amount < 0:
+                self.add_error(field_name, "هزینهٔ گارانتی نمی‌تواند منفی باشد.")
+        if cleaned_data.get("has_warranty") and not any(
+            field in self.errors for field in warranty_fields
+        ) and not any(cleaned_data.get(field, 0) > 0 for field in warranty_fields):
+            self.add_error("has_warranty", "برای فعال‌کردن گارانتی، هزینهٔ حداقل یک مدت را مثبت وارد کنید.")
 
         if title:
             duplicates = Product.objects.filter(title__iexact=title)
@@ -127,13 +171,32 @@ class ProductAdminForm(forms.ModelForm):
                 f"تصویر اصلی و گالری در مجموع حداکثر {MAX_PRODUCT_IMAGE_COUNT} تصویر باشند.",
             )
 
+        # Count only files uploaded in this request. The existing cover can be
+        # stored remotely or temporarily missing; merely editing authenticity
+        # must not read its size or turn that into a server error.
+        new_images = list(gallery_images)
+        if self.files.get(self.add_prefix("image")) and cover_image:
+            new_images.insert(0, cover_image)
         image_sizes = [
-            getattr(image, "_hjm_source_size", image.size)
-            for image in ([cover_image] if cover_image else []) + gallery_images
+            image._hjm_source_size if hasattr(image, "_hjm_source_size") else image.size
+            for image in new_images
         ]
         if sum(image_sizes) > MAX_PRODUCT_IMAGE_TOTAL_SIZE:
             self.add_error("gallery_images", "حجم مجموع تصاویر باید حداکثر ۶۰ مگابایت باشد.")
         return cleaned_data
+
+
+    def save(self, commit=True):
+        product = super().save(commit=False)
+        # An older client without the new field never resets existing values.
+        if "authenticity_level" in self.data:
+            chosen = self.cleaned_data.get("authenticity_level", "")
+            for key in ("original", "high_copy", "copy"):
+                setattr(product, "authenticity_" + key, chosen == key)
+        if commit:
+            product.save()
+            self.save_m2m()
+        return product
 
 
 class ProductImagesAdmin(admin.TabularInline):
@@ -145,6 +208,9 @@ class ProductImagesAdmin(admin.TabularInline):
 
 class ProductAdmin(admin.ModelAdmin):
     form = ProductAdminForm
+    # The single field above is the only visible editing control. Existing
+    # database columns are retained for backwards compatibility.
+    exclude = ("authenticity_original", "authenticity_high_copy", "authenticity_copy")
     inlines = [ProductImagesAdmin]
     list_display = (
         "product_image_preview",
@@ -246,15 +312,18 @@ class CategoryAdmin(admin.ModelAdmin):
 
     @admin.display(description="تصویر")
     def image_preview(self, obj):
-        return obj.category_image()
+        return obj.category_image() if obj.image else "—"
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).annotate(admin_product_count=Count("category"))
 
     @admin.display(description="آیکون")
     def icon_preview(self, obj):
         return obj.category_icon()
 
-    @admin.display(description="تعداد محصولات", ordering="product_count")
+    @admin.display(description="تعداد محصولات", ordering="admin_product_count")
     def product_count(self, obj):
-        return Product.objects.filter(category=obj).count()
+        return obj.admin_product_count
 
 
 class SubCategoryAdmin(admin.ModelAdmin):
@@ -266,7 +335,7 @@ class SubCategoryAdmin(admin.ModelAdmin):
 
     @admin.display(description="تصویر")
     def image_preview(self, obj):
-        return obj.subcategory_image()
+        return obj.subcategory_image() if obj.image else "—"
 
 
 class VendorAdmin(admin.ModelAdmin):
@@ -276,7 +345,7 @@ class VendorAdmin(admin.ModelAdmin):
 
     @admin.display(description="تصویر")
     def image_preview(self, obj):
-        return obj.vendor_image()
+        return obj.vendor_image() if obj.image else "—"
 
 
 class CartOrderAdmin(admin.ModelAdmin):
@@ -288,8 +357,9 @@ class CartOrderAdmin(admin.ModelAdmin):
 
 
 class CartOrderProductsAdmin(admin.ModelAdmin):
-    list_display = ['order_img', 'order', 'invoice_no', 'item', 'qty', 'price', 'total']
+    list_display = ['order_img', 'order', 'invoice_no', 'item', 'qty', 'price', 'warranty_months', 'warranty_price', 'total']
     list_display_links = ['order']
+    readonly_fields = ('warranty_months', 'warranty_price')
     search_fields = ['invoice_no', 'item']
 
     @admin.display(description="تصویر")

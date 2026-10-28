@@ -475,7 +475,10 @@
       price: card.dataset.productPrice || '',
       image: card.dataset.productImage || '',
       qty: (card.querySelector('[class*="product-quantity-"]') || {}).value || '1',
-      warranty_months: warrantyMonths
+      warranty_months: warrantyMonths,
+      // These values only detect a stale page; the server owns the prices.
+      expected_base_price: card.dataset.warrantyEnabled === 'true' ? (card.dataset.productPrice || '') : '',
+      expected_warranty_price: warrantyInput ? (warrantyInput.dataset.warrantyPrice || '0') : ''
     }).then(function (data) {
         updateCartBadges(data.totalcartitems);
         button.textContent = 'به سبد خرید اضافه شد';

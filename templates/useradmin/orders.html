@@ -1,99 +1,24 @@
-{% extends 'useradmin/base.html' %}
-{% load static %}
-{% load humanize %}
-{% block content %}    
-
-<section class="content-main">
-    <div class="content-header">
-        <div>
-            <h2 class="content-title card-title">لیست سفارش</h2>
-            <p>تمام سفارشات خود را اینجا مدیریت کنید</p>
-        </div>
-        <div>
-            <input type="text" placeholder="Search order ID" class="form-control bg-white" />
-        </div>
-    </div>
-    <div class="card mb-4">
-        <header class="card-header">
-            <div class="row gx-3">
-                <div class="col-lg-4 col-md-6 me-auto">
-                    <input type="text" placeholder="جستجو..." class="form-control" />
-                </div>
-                <div class="col-lg-2 col-6 col-md-3">
-                    <select class="form-select">
-                        <option>وضعیت</option>
-                        <option>فعال</option>
-                        <option>غیرفعال</option>
-                        <option>نمایش همه</option>
-                    </select>
-                </div>
-                <div class="col-lg-2 col-6 col-md-3">
-                    <select class="form-select">
-                        <option>نمایش 20</option>
-                        <option>نمایش 30</option>
-                        <option>نمایش 40</option>
-                    </select>
-                </div>
-            </div>
-        </header>
-        <!-- card-header end// -->
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
-                            <tr>
-                            <th>#کد</th>
-                            <th scope="col">نام</th>
-                            <th scope="col">ایمیل</th>
-                            <th scope="col">مجموع</th>
-                            <th scope="col">وضعیت سفارش</th>
-                            <th scope="col">وضعیت پرداخت</th>
-                            <th scope="col">عمل</th>
-                        </tr>
-                            
-                    </thead>
-                    <tbody>
-                        {% for c in orders %}
-                            <tr>
-                                <td>#{{c.oid}}</td>
-                                <td><b>{{c.full_name|title}}</b></td>
-                                <td>{{c.email}}</td>
-                                <td>${{c.price}}</td>
-                                <td><span class="badge alert-secondary">در انتظار</span></td>
-                                {% if c.paid_status == True %}
-                                    <td><span class="badge alert-success"></span>پرداخت شده است</td>
-                                {% else %}
-                                    <td><span class="badge alert-danger">پرداخت نشده است</span></td>
-                                {% endif %}
-                                <td>
-                                    <a href="{% url 'useradmin:order_detail' c.id %}" class="btn btn-md rounded font-sm">مشاهده جزئیات</a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        
-                    </tbody>
-                </table>
-            </div>
-            <!-- table-responsive //end -->
-        </div>
-        <!-- card-body end// -->
-    </div>
-    <!-- card end// -->
-    <!-- <div class="pagination-area mt-15 mb-50">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-start">
-                <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                <li class="page-item"><a class="page-link" href="#">02</a></li>
-                <li class="page-item"><a class="page-link" href="#">03</a></li>
-                <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                <li class="page-item"><a class="page-link" href="#">16</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
-                </li>
-            </ul>
-        </nav>
-    </div> -->
+{% extends 'useradmin/base.html' %}{% load humanize %}
+{% block title %}سفارش‌ها{% endblock %}{% block breadcrumb %}سفارش‌ها{% endblock %}{% block page_heading %}سفارش‌ها{% endblock %}
+{% block content %}
+<section aria-labelledby="orders-title">
+  <div class="admin-content-heading"><div><h2 id="orders-title">مدیریت سفارش‌ها</h2><p>سفارش‌های ثبت‌شده در سامانه را بررسی کنید.</p></div></div>
+  <section class="admin-card" aria-label="فهرست سفارش‌ها">
+    <form class="admin-product-toolbar" method="get" action="{% url 'useradmin:orders' %}">
+      <div class="admin-product-filters">
+        <label class="visually-hidden" for="order-search">جست‌وجوی سفارش</label>
+        <input class="admin-control admin-control--search" id="order-search" type="search" name="q" value="{{ query }}" placeholder="شناسه، نام یا شماره تماس">
+        <label class="visually-hidden" for="order-status">وضعیت سفارش</label>
+        <select class="admin-control" id="order-status" name="status"><option value="">همهٔ وضعیت‌ها</option>{% for value,label in status_choices %}<option value="{{ value }}"{% if status_filter == value %} selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+        <button class="admin-button" type="submit">جست‌وجو</button>
+        {% if query or status_filter %}<a class="admin-button admin-button--light" href="{% url 'useradmin:orders' %}">پاک‌کردن</a>{% endif %}
+      </div>
+    </form>
+    <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>شناسه</th><th>مشتری</th><th>تاریخ</th><th>مبلغ</th><th>وضعیت سفارش</th><th>پرداخت</th><th>جزئیات</th></tr></thead><tbody>
+      {% for order in orders %}<tr><td dir="ltr">#{{ order.oid|default:order.pk }}</td><td>{{ order.full_name|default:"—" }}</td><td>{{ order.order_date|date:"Y/m/d"|default:"—" }}</td><td>{{ order.price|floatformat:0|intcomma }} تومان</td><td>{{ order.get_product_status_display }}</td><td>{% if order.paid_status %}<span class="admin-status admin-status--paid">پرداخت‌شده</span>{% else %}<span class="admin-status admin-status--unpaid">پرداخت‌نشده</span>{% endif %}</td><td><a class="admin-text-link" href="{% url 'useradmin:order_detail' order.id %}">مشاهده</a></td></tr>
+      {% empty %}<tr><td class="admin-table__empty" colspan="7">سفارشی برای نمایش پیدا نشد.</td></tr>{% endfor %}
+    </tbody></table></div>
+    {% if page_obj.paginator.num_pages > 1 %}<nav class="admin-pagination" aria-label="صفحه‌های سفارش‌ها">{% if page_obj.has_previous %}<a href="?q={{ query|urlencode }}&amp;status={{ status_filter|urlencode }}&amp;page={{ page_obj.previous_page_number }}">صفحهٔ قبل</a>{% endif %}<span>صفحهٔ {{ page_obj.number }} از {{ page_obj.paginator.num_pages }}</span>{% if page_obj.has_next %}<a href="?q={{ query|urlencode }}&amp;status={{ status_filter|urlencode }}&amp;page={{ page_obj.next_page_number }}">صفحهٔ بعد</a>{% endif %}</nav>{% endif %}
+  </section>
 </section>
-
-
-{% endblock content %}
+{% endblock %}

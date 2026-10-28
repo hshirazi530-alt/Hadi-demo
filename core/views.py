@@ -29,6 +29,7 @@ from core.storefront import SAMPLE_STORE_PRODUCTS
 from core.payments import ZarinpalError, create_payment, verify_payment
 from userauths.models import ContactUs, Profile
 from core.forms import AccountDetailsForm, AddressForm, ProductReviewForm
+from core.phone import normalize_iranian_mobile
 from django.template.loader import render_to_string
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
@@ -39,7 +40,7 @@ from django.db import transaction
 from paypal.standard.forms import PayPalPaymentsForm
 from django.contrib.auth.decorators import login_required
 
-from decimal import Decimal
+from decimal import Decimal, ROUND_HALF_UP
 from django.db.models import Count, Avg, Q
 from django.core import serializers
 from django.core.exceptions import ValidationError
@@ -134,7 +135,20 @@ def index(request):
         DigitalBanner.objects.filter(is_active=True).order_by("sort_order", "id")[:5]
     )
 
+    # Look up actual category IDs rather than embedding sandbox IDs. Query
+    # the current database directly so a deleted category cannot leave a
+    # stale hero link while the separate header-navigation cache expires.
+    category_directory = reverse("core:category-list")
+    hero_category_urls = {}
+    featured_categories = Category.objects.filter(
+        title__in=("لوازم شخصی", "قطعات و لوازم دیجیتال")
+    ).order_by("id").values_list("title", "cid")
+    for title, cid in featured_categories:
+        hero_category_urls.setdefault(title, reverse("core:category-product-list", args=[cid]))
+
     context = {
+        "hero_personal_category_url": hero_category_urls.get("لوازم شخصی", category_directory),
+        "hero_digital_category_url": hero_category_urls.get("قطعات و لوازم دیجیتال", category_directory),
         "products": products,
         "categories": categories,
         "home_categories": HOME_CATEGORIES,
@@ -256,7 +270,17 @@ def product_detail_view(request, pid):
     if not request.user.is_superuser:
         product_lookup.update(product_status="published", status=True)
     product = get_object_or_404(Product, **product_lookup)
-    products = Product.objects.filter(category=product.category).exclude(pid=pid)
+    # Related cards must never expose disabled or unpublished products.
+    products = Product.objects.filter(
+        category=product.category, product_status="published", status=True
+    ).exclude(pid=pid)
+
+    # The discount is based on the regular price, not on the sale price.
+    discount_percent = None
+    if product.is_sale and product.price and product.sale_price:
+        if Decimal("0") < product.sale_price < product.price:
+            percent = (product.price - product.sale_price) * Decimal("100") / product.price
+            discount_percent = min(99, int(percent.quantize(Decimal("1"), rounding=ROUND_HALF_UP))) or None
 
     # Getting all reviews related to a product
     reviews = ProductReview.objects.filter(
@@ -349,6 +373,7 @@ def product_detail_view(request, pid):
         "faqs": FAQ.objects.filter(is_active=True),
         "meta_product_description": product_description[:200],
         "product_schema_json": mark_safe(product_schema_json),
+        "discount_percent": discount_percent,
         "warranty_options": product.warranty_options(),
         "authenticity_badges": product.authenticity_badges(),
     }
@@ -461,7 +486,7 @@ def _cart_product(product_id):
             product_status="published",
             status=True,
         )
-    except (Product.DoesNotExist, ValueError, TypeError):
+    except (Product.DoesNotExist, ValueError, TypeError, OverflowError):
         return None
     if not product.in_stock and "(نمونه)" not in product.title:
         return None
@@ -488,17 +513,54 @@ def _cart_item(product, quantity, warranty_months=0, warranty_price=0):
     }
 
 
-def _warranty_price_for(product, months):
-    """قیمت گارانتی برای تعداد ماه مشخص؛ اگر محصول گارانتی فعال ندارد، صفر برمی‌گرداند."""
-    if not product.has_warranty:
-        return 0
-    mapping = {
-        6: product.warranty_6_price,
-        12: product.warranty_12_price,
-        24: product.warranty_24_price,
-    }
-    price = mapping.get(months, 0)
-    return int(price or 0)
+class WarrantyUnavailable(ValueError):
+    """The requested warranty is malformed, disabled or no longer offered."""
+
+
+class PriceChanged(ValueError):
+    """The cart snapshot no longer matches the current server price."""
+
+
+def _cart_line_product_id(line_key):
+    """Accept legacy product-id keys and stage-7 warranty-specific keys."""
+    text = str(line_key)
+    parts = text.split('-w')
+    if len(parts) > 2 or not parts[0].isascii() or not parts[0].isdigit():
+        return None
+    if len(parts) == 2 and parts[1] not in ('0', '6', '12', '24'):
+        return None
+    try:
+        value = int(parts[0])
+    except ValueError:
+        return None
+    return value if value > 0 else None
+
+
+def _warranty_selection(product, raw_months):
+    """Resolve the choice and price from the database, never from the client."""
+    text = str(raw_months if raw_months not in (None, "") else 0)
+    if text not in ("0", "6", "12", "24"):
+        raise WarrantyUnavailable
+    months = int(text)
+    if months == 0:
+        return 0, 0
+    prices = {6: product.warranty_6_price, 12: product.warranty_12_price, 24: product.warranty_24_price}
+    price = prices.get(months)
+    if not product.has_warranty or price is None or price <= 0:
+        raise WarrantyUnavailable
+    return months, int(price)
+
+
+def _price_differs(old_item, new_item):
+    """Detect a changed server snapshot; older sessions may lack these fields."""
+    for key in ('base_price', 'warranty_price'):
+        if key in old_item:
+            try:
+                if Decimal(str(old_item[key])) != Decimal(str(new_item[key])):
+                    return True
+            except (TypeError, ValueError, ArithmeticError):
+                return True
+    return False
 
 
 def _cart_item_count(cart_data):
@@ -518,26 +580,38 @@ def _refresh_cart(request):
     if not isinstance(cart_data, dict):
         cart_data = {}
     refreshed = {}
-    for product_id, item in cart_data.items():
+    for line_key, item in cart_data.items():
+        if not isinstance(item, dict):
+            continue
+        product_id = _cart_line_product_id(line_key)
         try:
             quantity = int(item["qty"])
-        except (KeyError, TypeError, ValueError):
+        except (KeyError, TypeError, ValueError, OverflowError):
             continue
-        if not 1 <= quantity <= 99:
+        if product_id is None or not 1 <= quantity <= 99:
             continue
         product = _cart_product(product_id)
-        if product:
-            warranty_months = 0
-            warranty_price = 0
-            if product.has_warranty:
-                try:
-                    warranty_months = int(item.get("warranty_months", 0) or 0)
-                except (TypeError, ValueError):
-                    warranty_months = 0
-                warranty_price = _warranty_price_for(product, warranty_months)
-            refreshed[str(product.id)] = _cart_item(
-                product, quantity, warranty_months, warranty_price
-            )
+        if not product:
+            continue
+        raw_months = item.get("warranty_months", 0)
+        try:
+            months, warranty_price = _warranty_selection(product, raw_months)
+            if item.get("warranty_unavailable") and months == 0:
+                raise WarrantyUnavailable
+            if '-w' in str(line_key) and int(str(line_key).split('-w')[1]) != months:
+                raise WarrantyUnavailable
+            current = _cart_item(product, quantity, months, warranty_price)
+            if _price_differs(item, current):
+                current["price_changed"] = True
+        except WarrantyUnavailable:
+            # Preserve the row and block checkout instead of silently dropping warranty.
+            try:
+                months = int(raw_months or 0)
+            except (TypeError, ValueError, OverflowError):
+                months = 0
+            current = _cart_item(product, quantity, months, 0)
+            current["warranty_unavailable"] = True
+        refreshed[str(line_key)] = current
     request.session["cart_data_obj"] = refreshed
     return refreshed
 
@@ -547,59 +621,49 @@ def add_to_cart(request):
     product = _cart_product(request.POST.get("id"))
     if product is None:
         return JsonResponse(
-            {"data": False, "message": "این کالا در حال حاضر برای خرید در دسترس نیست."},
-            status=404,
+            {"data": False, "message": "این کالا در حال حاضر برای خرید در دسترس نیست."}, status=404,
         )
     try:
         quantity = int(request.POST.get("qty", "1"))
-    except (TypeError, ValueError):
-        return JsonResponse(
-            {"data": False, "message": "تعداد واردشده معتبر نیست."},
-            status=400,
-        )
-    if quantity < 1 or quantity > 99:
-        return JsonResponse(
-            {"data": False, "message": "تعداد باید بین ۱ تا ۹۹ باشد."},
-            status=400,
-        )
+    except (TypeError, ValueError, OverflowError):
+        return JsonResponse({"data": False, "message": "تعداد واردشده معتبر نیست."}, status=400)
+    if not 1 <= quantity <= 99:
+        return JsonResponse({"data": False, "message": "تعداد باید بین ۱ تا ۹۹ باشد."}, status=400)
+    try:
+        months, warranty_price = _warranty_selection(product, request.POST.get("warranty_months", "0"))
+    except WarrantyUnavailable:
+        return JsonResponse({"data": False, "message": "این گزینهٔ گارانتی در دسترس نیست؛ صفحه را تازه‌سازی کنید."}, status=409)
+
+    # The optional values only detect a stale display. The server sets the price.
+    for field, actual in (("expected_base_price", _product_price(product)), ("expected_warranty_price", warranty_price)):
+        shown = request.POST.get(field)
+        if shown not in (None, ""):
+            try:
+                if Decimal(shown) != Decimal(actual):
+                    raise ValueError
+            except (TypeError, ValueError, ArithmeticError):
+                return JsonResponse({"data": False, "message": "قیمت یا گارانتی تغییر کرده است؛ صفحه را تازه‌سازی کنید."}, status=409)
 
     cart_data = _refresh_cart(request)
     product_id = str(product.id)
-    if product_id in cart_data:
-        try:
-            quantity += int(cart_data[product_id]["qty"])
-        except (KeyError, TypeError, ValueError):
-            return JsonResponse(
-                {"data": False, "message": "اطلاعات سبد خرید نامعتبر است؛ صفحه را دوباره بارگذاری کنید."},
-                status=400,
-            )
+    line_key = next((key for key, item in cart_data.items()
+                     if _cart_line_product_id(key) == product.id
+                     and item.get("warranty_months", 0) == months
+                     and not item.get("warranty_unavailable")), None)
+    if line_key is not None:
+        quantity += int(cart_data[line_key]["qty"])
+    else:
+        line_key = product_id if months == 0 else f"{product_id}-w{months}"
+        # A legacy cart can have a warranty under the plain product ID.
+        if line_key in cart_data:
+            line_key = f"{product_id}-w{months}"
+            if line_key in cart_data:
+                return JsonResponse({"data": False, "message": "ردیف گارانتی نیاز به بازبینی دارد؛ آن را از سبد حذف کنید."}, status=409)
     if quantity > 99:
-        return JsonResponse(
-            {"data": False, "message": "حداکثر تعداد هر کالا در سبد ۹۹ عدد است."},
-            status=400,
-        )
-
-    # گارانتی انتخابی کاربر (فقط اگر محصول گارانتی فعال داشته باشد)
-    warranty_months = 0
-    warranty_price = 0
-    if product.has_warranty:
-        try:
-            warranty_months = int(request.POST.get("warranty_months", "0") or "0")
-        except (TypeError, ValueError):
-            warranty_months = 0
-        if warranty_months not in (0, 6, 12, 24):
-            warranty_months = 0
-        warranty_price = _warranty_price_for(product, warranty_months)
-
-    cart_data[product_id] = _cart_item(
-        product, quantity, warranty_months, warranty_price
-    )
+        return JsonResponse({"data": False, "message": "حداکثر تعداد هر ردیف کالا در سبد ۹۹ عدد است."}, status=400)
+    cart_data[line_key] = _cart_item(product, quantity, months, warranty_price)
     request.session["cart_data_obj"] = cart_data
-    return JsonResponse({
-        "data": cart_data,
-        "totalcartitems": _cart_item_count(cart_data),
-    })
-
+    return JsonResponse({"data": cart_data, "totalcartitems": _cart_item_count(cart_data)})
 
 
 def cart_view(request):
@@ -609,15 +673,22 @@ def cart_view(request):
         for product_id, item in _refresh_cart(request).items()
     }
     for item in cart_data.values():
-        item["line_total"] = Decimal(str(item["price"])) * int(item["qty"])
-        item["line_total_display"] = f"{item['line_total']:,.0f}"
-        cart_total_amount += item["line_total"]
+        if item.get("warranty_unavailable"):
+            item["line_total"] = None
+            item["line_total_display"] = "نیازمند بازبینی"
+        else:
+            item["line_total"] = Decimal(str(item["price"])) * int(item["qty"])
+            item["line_total_display"] = f"{item['line_total']:,.0f}"
+            cart_total_amount += item["line_total"]
+    has_warranty_issues = any(item.get("warranty_unavailable") for item in cart_data.values())
     return render(request, "core/store-cart.html", {
         "cart_data": cart_data,
         "totalcartitems": _cart_item_count(cart_data),
         "cart_line_count": len(cart_data),
         "cart_total_amount": cart_total_amount,
-        "cart_total_display": f"{cart_total_amount:,.0f}",
+        "cart_total_display": "نیازمند بازبینی" if has_warranty_issues else f"{cart_total_amount:,.0f}",
+        "has_warranty_issues": has_warranty_issues,
+        "cart_price_changed": any(item.get("price_changed") for item in cart_data.values()),
         "has_demo_items": any(
             item.get("is_demo_sample", False) for item in cart_data.values()
         ),
@@ -659,25 +730,26 @@ def update_cart(request):
             {"data": False, "message": "تعداد باید بین ۱ تا ۹۹ باشد."},
             status=400,
         )
-    product = _cart_product(product_id)
+    db_id = _cart_line_product_id(product_id)
+    product = _cart_product(db_id) if db_id is not None else None
     if product is None:
         return JsonResponse(
             {"data": False, "message": "این کالا دیگر برای خرید در دسترس نیست؛ سبد را تازه‌سازی کنید."},
             status=409,
         )
-    # حفظ گارانتی انتخابی هنگام تغییر تعداد
     existing = cart_data[product_id] if isinstance(cart_data[product_id], dict) else {}
-    warranty_months = 0
-    warranty_price = 0
-    if product.has_warranty:
-        try:
-            warranty_months = int(existing.get("warranty_months", 0) or 0)
-        except (TypeError, ValueError):
-            warranty_months = 0
-        warranty_price = _warranty_price_for(product, warranty_months)
-    cart_data[product_id] = _cart_item(
-        product, quantity, warranty_months, warranty_price
-    )
+    try:
+        if existing.get("warranty_unavailable"):
+            raise WarrantyUnavailable
+        months, warranty_price = _warranty_selection(product, existing.get("warranty_months", 0))
+        if '-w' in product_id and int(product_id.split('-w')[1]) != months:
+            raise WarrantyUnavailable
+    except WarrantyUnavailable:
+        return JsonResponse({"data": False, "message": "گارانتی دیگر در دسترس نیست؛ ردیف را حذف و مجدداً انتخاب کنید."}, status=409)
+    updated = _cart_item(product, quantity, months, warranty_price)
+    if _price_differs(existing, updated):
+        messages.warning(request, "قیمت کالا یا گارانتی تغییر کرده است؛ مبلغ جدید را بررسی کنید.")
+    cart_data[product_id] = updated
     request.session["cart_data_obj"] = cart_data
     return JsonResponse({"data": True, "totalcartitems": _cart_item_count(cart_data)})
 
@@ -706,6 +778,12 @@ def save_checkout_info(request):
         return redirect("core:cart")
 
     try:
+        customer["phone"] = normalize_iranian_mobile(customer["phone"])
+    except ValidationError as error:
+        messages.error(request, error.messages[0])
+        return redirect("core:cart")
+
+    try:
         validate_email(customer["email"])
     except ValidationError:
         messages.error(request, "نشانی ایمیل واردشده معتبر نیست.")
@@ -715,38 +793,44 @@ def save_checkout_info(request):
         order_items = []
         total_amount = Decimal("0")
         product_ids = []
-        for product_id, item in cart_data.items():
-            quantity = int(item["qty"])
-            if quantity < 1 or quantity > 99:
+        for line_key, item in cart_data.items():
+            product_id = _cart_line_product_id(line_key)
+            if product_id is None or not isinstance(item, dict):
                 raise ValueError
-            product_ids.append(int(product_id))
+            quantity = int(item["qty"])
+            if not 1 <= quantity <= 99:
+                raise ValueError
+            product_ids.append(product_id)
         with transaction.atomic():
             products_by_id = {
                 product.id: product
                 for product in Product.objects.select_for_update().filter(
-                    id__in=product_ids,
-                    product_status="published",
-                    status=True,
+                    id__in=product_ids, product_status="published", status=True,
                 )
             }
-            for product_id, item in cart_data.items():
+            for line_key, item in cart_data.items():
                 quantity = int(item["qty"])
-                product = products_by_id.get(int(product_id))
-                if product is None or (
-                    not product.in_stock and "(نمونه)" not in product.title
-                ):
+                product = products_by_id.get(_cart_line_product_id(line_key))
+                if product is None or (not product.in_stock and "(نمونه)" not in product.title):
                     raise ValueError
-                price = _product_price(product)
+                if item.get("warranty_unavailable"):
+                    raise WarrantyUnavailable
+                months, warranty_price = _warranty_selection(product, item.get("warranty_months", 0))
+                if '-w' in str(line_key) and int(str(line_key).split('-w')[1]) != months:
+                    raise WarrantyUnavailable
+                current = _cart_item(product, quantity, months, warranty_price)
+                # Never silently bill a different amount after the shopper reviewed the cart.
+                if _price_differs(item, current):
+                    raise PriceChanged
+                price = _product_price(product) + Decimal(warranty_price)
                 line_total = price * quantity
                 total_amount += line_total
-                order_items.append((product, quantity, price, line_total))
+                if price < 0 or line_total < 0 or total_amount > Decimal("99999999999999999"):
+                    raise ValueError
+                order_items.append((product, quantity, price, line_total, months, warranty_price))
 
-            order = CartOrder.objects.create(
-                user=request.user,
-                price=total_amount,
-                **customer,
-            )
-            for product, quantity, price, line_total in order_items:
+            order = CartOrder.objects.create(user=request.user, price=total_amount, **customer)
+            for product, quantity, price, line_total, months, warranty_price in order_items:
                 CartOrderProducts.objects.create(
                     order=order,
                     invoice_no=f"INVOICE_NO-{order.id}",
@@ -756,9 +840,17 @@ def save_checkout_info(request):
                     qty=quantity,
                     price=price,
                     total=line_total,
+                    warranty_months=months,
+                    warranty_price=warranty_price,
                 )
-    except (KeyError, TypeError, ValueError, ArithmeticError):
-        messages.error(request, "قیمت یا موجودی یکی از کالاها تغییر کرده است؛ سبد خرید را بررسی کنید.")
+    except WarrantyUnavailable:
+        messages.error(request, "گارانتی انتخاب‌شده دیگر ارائه نمی‌شود؛ ردیف را حذف و دوباره انتخاب کنید.")
+        return redirect("core:cart")
+    except PriceChanged:
+        messages.warning(request, "قیمت کالا یا گارانتی تغییر کرده است؛ سبد را بررسی و دوباره تأیید کنید.")
+        return redirect("core:cart")
+    except (KeyError, TypeError, ValueError, ArithmeticError, OverflowError):
+        messages.error(request, "قیمت یا موجودی یکی از کالاها تغییر کرده یا از سقف قابل ثبت بیشتر است؛ سبد را بررسی کنید.")
         return redirect("core:cart")
 
     request.session["cart_data_obj"] = {}
@@ -1146,12 +1238,10 @@ def ajax_contact_form(request):
     if not subject:
         subject = "درخواست مشاوره خرید"
 
-    normalized_phone = ''.join(character for character in phone if character.isdigit())
-    if not 8 <= len(normalized_phone) <= 15:
-        return JsonResponse(
-            {"status": "error", "message": "شمارهٔ تماس واردشده معتبر نیست."},
-            status=400,
-        )
+    try:
+        normalized_phone = normalize_iranian_mobile(phone)
+    except ValidationError as error:
+        return JsonResponse({"status": "error", "message": error.messages[0]}, status=400)
 
     if email:
         try:
@@ -1197,13 +1287,5 @@ def robots_txt(request):
     )
 
 
-def auto_login(request):
-    """Temporary view for auto-login to admin panel"""
-    from django.contrib.auth import get_user_model
-    User = get_user_model()
-    try:
-        user = User.objects.get(username='admin')
-        login(request, user)
-        return redirect('/admin/')
-    except User.DoesNotExist:
-        return HttpResponse("Admin user not found. Please create a superuser first.")
+# The former passwordless auto-login view was removed. Administrators must use
+# the normal authenticated login flow.

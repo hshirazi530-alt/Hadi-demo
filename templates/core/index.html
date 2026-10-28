@@ -42,9 +42,9 @@
                 <div class="hm-hero__bg" aria-hidden="true"></div>
                 <div class="hm-hero__media">
                     {% if banner.image %}
-                    <img src="{{ banner.image.url }}" alt="{{ banner.image_alt|default:banner.title }}" width="1600" height="900" {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %} decoding="async">
+                    <img src="{{ banner.image.url }}" alt="{{ banner.image_alt|default:banner.title }}" width="1600" height="900" {% if forloop.first and not digital_banners %}fetchpriority="high"{% else %}loading="lazy"{% endif %} decoding="async">
                     {% else %}
-                    <img src="{% static 'assets/imgs/beauty/barber-hero.jpg' %}" alt="{{ banner.image_alt|default:banner.title }}" width="1600" height="900" {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %} decoding="async">
+                    <img src="{% static 'assets/imgs/beauty/barber-hero.jpg' %}" alt="{{ banner.image_alt|default:banner.title }}" width="1600" height="900" {% if forloop.first and not digital_banners %}fetchpriority="high"{% else %}loading="lazy"{% endif %} decoding="async">
                     {% endif %}
                 </div>
                 <div class="hm-hero__content">
@@ -77,6 +77,39 @@
             </article>
             {% endfor %}
             {% endif %}
+            {# Additional editorial slides are appended; existing admin banners stay unchanged. #}
+            <article class="swiper-slide hm-hero__slide hm-hero__slide--showcase hm-hero__slide--personal" data-hero-showcase="personal" aria-label="لوازم شخصی و اصلاح">
+                <div class="hm-hero__media">
+                    <img src="{% static 'assets/imgs/beauty/hero/hero-feature-personal-v2.webp' %}" alt="مجموعه ماشین‌های اصلاح، محصولات مراقبت شخصی و عطر" width="2400" height="1187" loading="lazy" decoding="async">
+                </div>
+                <div class="hm-hero__content">
+                    <div class="hm-hero__copy">
+                        <p class="hm-hero__eyebrow">اصلاح و مراقبت شخصی</p>
+                        <h2 class="hm-hero__title">اصلاح دقیق،<br><span>آراستگی بی‌نقص</span></h2>
+                        <p class="hm-hero__description">ماشین‌های اصلاح و لوازم مراقبت شخصی، برای آراستگی هر روز.</p>
+                        <div class="hm-hero__actions">
+                            <a class="hm-hero__cta" href="{{ hero_personal_category_url }}">مشاهده لوازم شخصی</a>
+                            <a class="hm-hero__cta hm-hero__cta--quiet" href="{% url 'core:category-list' %}">همهٔ دسته‌بندی‌ها</a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <article class="swiper-slide hm-hero__slide hm-hero__slide--showcase hm-hero__slide--digital-showcase" data-hero-showcase="digital" aria-label="قطعات و لوازم دیجیتال">
+                <div class="hm-hero__media">
+                    <img src="{% static 'assets/imgs/beauty/hero/hero-feature-digital-v2.webp' %}" alt="لپ‌تاپ، تبلت، کنسول بازی، تلفن همراه و هدفون" width="1568" height="672" loading="lazy" decoding="async">
+                </div>
+                <div class="hm-hero__content">
+                    <div class="hm-hero__copy">
+                        <p class="hm-hero__eyebrow">قطعات و لوازم دیجیتال</p>
+                        <h2 class="hm-hero__title">دنیای دیجیتال،<br><span>همراه هر روز</span></h2>
+                        <p class="hm-hero__description">لوازم جانبی و قطعات مناسب دستگاه‌های روزمره‌ات را پیدا کن.</p>
+                        <div class="hm-hero__actions">
+                            <a class="hm-hero__cta" href="{{ hero_digital_category_url }}">مشاهده لوازم دیجیتال</a>
+                            <a class="hm-hero__cta hm-hero__cta--quiet" href="{% url 'core:category-list' %}">همهٔ دسته‌بندی‌ها</a>
+                        </div>
+                    </div>
+                </div>
+            </article>
         </div>
         <nav class="hm-hero__controls" data-hero-controls aria-label="کنترل اسلایدر">
             <div class="hm-hero__dots" data-hero-dots></div>
@@ -140,7 +173,7 @@
                         {% if product.image %}
                         <img src="{{ product.image.url }}" alt="{{ product.title }}" loading="lazy" decoding="async">
                         {% else %}
-                        <img src="{% static 'assets/imgs/beauty/hero/hair-model.webp' %}" alt="{{ product.title }}" loading="lazy" decoding="async">
+                        <img src="{% static 'assets/imgs/theme/product-image-pending.svg' %}" alt="تصویر محصول ثبت نشده است" loading="lazy" decoding="async">
                         {% endif %}
                         {% if product.is_sale and product.sale_price %}
                         <span class="beauty-product-card__discount">پیشنهاد ویژه</span>
@@ -260,7 +293,7 @@
                             {% if product.image %}
                             <img src="{{ product.image.url }}" alt="{{ product.title }}" loading="lazy" decoding="async">
                             {% else %}
-                            <img src="{% static 'assets/imgs/beauty/hero/hair-model.webp' %}" alt="{{ product.title }}" loading="lazy" decoding="async">
+                            <img src="{% static 'assets/imgs/theme/product-image-pending.svg' %}" alt="تصویر محصول ثبت نشده است" loading="lazy" decoding="async">
                             {% endif %}
                             {% if product.is_sale and product.sale_price and product.price %}
                             {% with saved=product.price|minus:product.sale_price %}
@@ -421,7 +454,7 @@
     </section>
 
     <!-- Perfume & Oud banner -->
-    <section class="beauty-section perfume-banner" aria-labelledby="perfume-banner-title">
+    <section class="beauty-section perfume-banner" id="hm-collection-banner" aria-labelledby="perfume-banner-title">
         <div class="perfume-banner__media">
             <img src="{% static 'assets/imgs/beauty/perfume-banner.jpg' %}?v=3" alt="بنر تبلیغاتی عطر و ادکلن" loading="lazy">
         </div>
@@ -430,11 +463,11 @@
             <h2 class="perfume-banner__title" id="perfume-banner-title">عطر و ادکلن</h2>
             <p class="perfume-banner__sub">رایحه‌ای ماندگار برای لحظه‌های خاص؛ از عود و عنبرِ شرقی تا ترکیبات کلاسیکِ فرانسوی — عطری که مثل خودت به یاد می‌ماند.</p>
             <ul class="perfume-banner__points">
-                <li>ضمانت اصالت کالا</li>
+                <li>اطلاعات اصالت در صفحهٔ هر کالا</li>
                 <li>ارسال سریع به سراسر کشور</li>
                 <li>بسته‌بندی هدیه</li>
             </ul>
-            <a class="perfume-banner__cta" href="{% url 'core:search' %}">مشاهدهٔ کالکشِن عطر <span aria-hidden="true">←</span></a>
+            <a class="perfume-banner__cta" href="{% url 'core:search' %}?q=%D8%B9%D8%B7%D8%B1">مشاهدهٔ کالکشِن عطر <span aria-hidden="true">←</span></a>
         </div>
     </section>
 
@@ -639,26 +672,6 @@
         </div>
     </section>
 
-    {% if faqs %}
-    <section class="beauty-section faq-section" aria-labelledby="faq-title">
-        <div class="beauty-section__heading">
-            <div>
-                <p class="eyebrow">پاسخ پرسش‌ها</p>
-                <h2 id="faq-title">سؤالات متداول</h2>
-            </div>
-            <a class="text-link" href="{% url 'core:purchase_guide' %}">راهنمای خرید <span aria-hidden="true">←</span></a>
-        </div>
-        <div class="faq-list">
-            {% for faq in faqs %}
-            <details class="faq-item">
-                <summary>{{ faq.question }}</summary>
-                <p>{{ faq.answer|linebreaksbr }}</p>
-            </details>
-            {% endfor %}
-        </div>
-    </section>
-    {% endif %}
-
     {% if customer_reviews %}
     <section class="beauty-section testimonial-section" aria-labelledby="testimonial-title">
         <div class="beauty-section__heading">
@@ -780,7 +793,8 @@
             <input id="contact-name" name="full_name" type="text" autocomplete="name" required maxlength="120" placeholder="مثلاً نازنین احمدی">
             <input type="hidden" name="subject" value="درخواست مشاوره خرید">
             <label for="contact-phone">شمارهٔ تماس <span aria-hidden="true">*</span></label>
-            <input id="contact-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required maxlength="20" pattern="[0-9۰-۹٠-٩+\s()-]{7,20}" placeholder="مثلاً ۰۹۱۲۱۲۳۴۵۶۷">
+            <div class="hm-phone"><span class="hm-phone__prefix" aria-hidden="true">+989</span><input id="contact-phone" name="phone" type="tel" autocomplete="tel-national" inputmode="numeric" required maxlength="16" pattern="[0-9۰-۹٠-٩]{9}" placeholder="۱۲۳۴۵۶۷۸۹" aria-describedby="contact-phone-help" data-iran-mobile-suffix></div>
+            <small class="hm-phone-help" id="contact-phone-help">پس از پیش‌شمارهٔ ثابت +989، ۹ رقم شمارهٔ همراه را وارد کنید.</small>
             <label for="contact-email">ایمیل <span class="consultation-form__optional">(اختیاری)</span></label>
             <input id="contact-email" name="email" type="email" autocomplete="email" maxlength="254" placeholder="name@example.com">
             <label for="contact-message">چه محصولی مدنظرت است؟ <span aria-hidden="true">*</span></label>

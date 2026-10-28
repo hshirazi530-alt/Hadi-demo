@@ -1,0 +1,46 @@
+/* Task 7: product-specific warranty choices; no global brand or header changes. */
+.store-css .store-product-info .hm-warranty {
+  border: 1px solid #e6d8b1;
+  border-radius: 14px;
+  background: #fffdf7;
+}
+.store-css .store-product-info .hm-warranty__legend {
+  width: auto;
+  padding: 0 6px;
+  color: #674d12;
+}
+.store-css .store-product-info .hm-warranty__option {
+  min-width: 0;
+  min-height: 50px;
+  border-radius: 10px;
+}
+.store-css .store-product-info .hm-warranty__option:focus-within {
+  outline: 3px solid #a47e1c;
+  outline-offset: 3px;
+}
+.store-css .store-product-info .hm-warranty__price {
+  text-align: end;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.store-css .store-product-info .hm-warranty__hint { color: #605746; }
+@supports selector(label:has(input:checked)) {
+  .store-css .store-product-info .hm-warranty__option.is-active:not(:has(input:checked)) {
+    border-color: var(--hm-line);
+    background: #fff;
+    box-shadow: none;
+  }
+  .store-css .store-product-info .hm-warranty__option:has(input:checked) {
+    border-color: #bd962e;
+    background: #fff8dc;
+    box-shadow: 0 0 0 1px #d4af37;
+  }
+}
+@media (max-width: 400px) {
+  .store-css .store-product-info .hm-warranty__option { gap: 6px; padding-inline: 9px; }
+  .store-css .store-product-info .hm-warranty__name,
+  .store-css .store-product-info .hm-warranty__price { font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .store-css .store-product-info .hm-warranty__option { transition: none; }
+}

@@ -1,0 +1,22 @@
+@import url("admin-luxury-light.css");
+/* Jazzmin system-admin: retain functionality and orient visual controls RTL. */
+body{font-family:'Vazir Admin',Vazirmatn,Tahoma,sans-serif!important;direction:rtl;text-align:right}
+body .main-sidebar,body .main-sidebar::before{background:#232b34!important}
+body .main-sidebar .brand-link{border-bottom:1px solid rgba(255,255,255,.09)!important}
+body .main-sidebar .brand-text,body .main-sidebar .nav-link p{color:#d8dee6!important}
+body .main-sidebar .nav-icon{color:#aeb8c4!important}
+body .main-sidebar .nav-link.active{background:#343c46!important;color:#fff!important;box-shadow:inset -3px 0 #d2ae5e!important}
+body .main-header,body .main-footer{background:#fff!important;border-color:#edf0f2!important}
+body .content-wrapper{background:#f6f7f9!important}
+body .content-wrapper .card{border:1px solid #ebedf1!important;border-radius:12px!important;box-shadow:0 4px 16px rgba(39,54,73,.035)!important}
+body .content-wrapper .card-header{background:#fff!important;border-bottom:1px solid #edf0f2!important}
+body .content-wrapper h1,body .content-wrapper h2,body .content-wrapper h3{color:#293751!important}
+body .content-wrapper .table th,body .content-wrapper .table td{text-align:right;vertical-align:middle}
+body .content-wrapper .table-responsive{max-width:100%;overflow-x:auto}
+body .content-wrapper input:not([type=checkbox]):not([type=radio]):not([type=file]),body .content-wrapper select,body .content-wrapper textarea{border-radius:7px!important;border-color:#dfe5ec!important}
+body .content-wrapper .btn-primary,body .content-wrapper input[type=submit]{background:#bd9547!important;border-color:#bd9547!important;color:#fff!important}
+body .field-authenticity_level #id_authenticity_level{display:flex;flex-wrap:wrap;gap:10px;list-style:none;margin:0;padding:0}
+body .field-authenticity_level #id_authenticity_level label{display:inline-flex!important;align-items:center;gap:7px;padding:8px 12px;border:1px solid #eadfc8;border-radius:99px;background:#fffdf7;color:#5f523a;cursor:pointer}
+body .field-authenticity_level input[type=radio]{accent-color:#bd9547}
+body .field-authenticity_level #id_authenticity_level label:has(input:checked){border-color:#caa758;background:#fff4d7}
+body a:focus-visible,body button:focus-visible,body input:focus-visible,body select:focus-visible{outline:3px solid rgba(195,147,65,.48)!important;outline-offset:2px}

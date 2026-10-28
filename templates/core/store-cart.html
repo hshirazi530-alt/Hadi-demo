@@ -17,6 +17,9 @@
         <p>{{ cart_line_count }} ردیف کالا · {{ totalcartitems }} عدد</p>
     </header>
 
+    {% if messages %}<div class="store-payment-notice" role="status">{% for message in messages %}<p>{{ message }}</p>{% endfor %}</div>{% endif %}
+    {% if cart_price_changed %}<div class="store-payment-notice" role="status">قیمت کالا یا گارانتی تغییر کرده است؛ مبلغ جدید را بررسی کنید.</div>{% endif %}
+    {% if has_warranty_issues %}<div class="store-payment-notice" role="alert">گارانتی یکی از ردیف‌ها دیگر ارائه نمی‌شود؛ آن ردیف را حذف و دوباره کالا را انتخاب کنید.</div>{% endif %}
     {% if totalcartitems %}
     <form action="{% url 'core:save_checkout_info' %}" method="post" class="store-cart-layout">
         {% csrf_token %}
@@ -29,19 +32,24 @@
                 <a class="store-cart-item__image" href="{% url 'core:product-detail' item.pid %}"><img src="{{ item.image }}" alt="{{ item.title }}"></a>
                 <div class="store-cart-item__details">
                     <h2><a href="{% url 'core:product-detail' item.pid %}">{{ item.title }}</a></h2>
-                    <p>{% if item.is_demo_sample %}قیمت نمایشی واحد: {% else %}قیمت واحد: {% endif %}{{ item.price|floatformat:0|intcomma }} تومان</p>
+                    {% if item.warranty_unavailable %}
+                    <p>قیمت پایهٔ کالا: {{ item.base_price|floatformat:0|intcomma:False }} تومان</p>
+                    <p class="store-cart-item__warranty">گارانتی انتخاب‌شده دیگر در دسترس نیست.</p>
+                    {% else %}
+                    <p>{% if item.is_demo_sample %}قیمت نمایشی واحد{% else %}قیمت واحد{% endif %}{% if item.warranty_months %} با گارانتی{% endif %}: {{ item.price|floatformat:0|intcomma:False }} تومان</p>
                     {% if item.warranty_months %}
                     <p class="store-cart-item__warranty">
                         <span aria-hidden="true">🛡️</span>
                         گارانتی {{ item.warranty_months }} ماه
-                        <span class="store-cart-item__warranty-price">+ {{ item.warranty_price|floatformat:0|intcomma }} تومان</span>
+                        <span class="store-cart-item__warranty-price">+ {{ item.warranty_price|floatformat:0|intcomma:False }} تومان برای هر عدد</span>
                     </p>
+                    {% endif %}
                     {% endif %}
                     <label for="cart-qty-{{ product_id }}">تعداد</label>
                     <input id="cart-qty-{{ product_id }}" type="number" min="1" max="99" class="product-qty-{{ product_id }}" value="{{ item.qty }}" inputmode="numeric">
                 </div>
                 <div class="store-cart-item__total">
-                    <strong>{% if item.is_demo_sample %}جمع نمایشی: {% endif %}{{ item.line_total_display }} تومان</strong>
+                    <strong>{% if item.is_demo_sample %}جمع نمایشی: {% endif %}{{ item.line_total_display }}{% if not item.warranty_unavailable %} تومان{% endif %}</strong>
                     <button class="store-cart-action" type="button" data-cart-action="update" data-product="{{ product_id }}">به‌روزرسانی تعداد</button>
                     <button class="store-cart-action store-cart-action--remove" type="button" data-cart-action="remove" data-product="{{ product_id }}">حذف کالا</button>
                 </div>
@@ -53,7 +61,7 @@
                 <div class="store-cart-form-grid">
                     <div><label for="checkout-name">نام و نام خانوادگی *</label><input id="checkout-name" type="text" name="full_name" required autocomplete="name" value="{% if request.user.is_authenticated %}{{ request.user.username }}{% endif %}"></div>
                     <div><label for="checkout-email">ایمیل *</label><input id="checkout-email" type="email" name="email" required autocomplete="email" value="{% if request.user.is_authenticated %}{{ request.user.email }}{% endif %}"></div>
-                    <div><label for="checkout-mobile">شمارهٔ همراه *</label><input id="checkout-mobile" type="tel" name="mobile" required autocomplete="tel" inputmode="tel"></div>
+                    <div><label for="checkout-mobile">شمارهٔ همراه *</label><div class="hm-phone"><span class="hm-phone__prefix" aria-hidden="true">+989</span><input id="checkout-mobile" type="tel" name="mobile" required autocomplete="tel-national" inputmode="numeric" maxlength="16" pattern="[0-9۰-۹٠-٩]{9}" aria-describedby="checkout-mobile-help" data-iran-mobile-suffix></div><small class="hm-phone-help" id="checkout-mobile-help">بعد از +989، ۹ رقم شمارهٔ همراه را وارد کنید.</small></div>
                     <div><label for="checkout-address">نشانی *</label><input id="checkout-address" type="text" name="address" required autocomplete="street-address"></div>
                     <div><label for="checkout-city">شهر *</label><input id="checkout-city" type="text" name="city" required autocomplete="address-level2"></div>
                     <div><label for="checkout-state">استان *</label><input id="checkout-state" type="text" name="state" required autocomplete="address-level1"></div>
@@ -65,9 +73,11 @@
             <h2>خلاصهٔ سبد</h2>
             <div class="store-cart-summary__row"><span>تعداد کالا</span><strong>{{ totalcartitems }}</strong></div>
             <div class="store-cart-summary__row"><span>هزینهٔ ارسال</span><span>در مرحلهٔ بعد مشخص می‌شود</span></div>
-            <div class="store-cart-summary__total"><span>{% if has_demo_items %}جمع نمایشی کالاها{% else %}جمع کالاها{% endif %}</span><strong>{{ cart_total_display }} تومان</strong></div>
+            <div class="store-cart-summary__total"><span>{% if has_demo_items %}جمع نمایشی کالاها{% else %}جمع کالاها{% endif %}</span><strong>{{ cart_total_display }}{% if not has_warranty_issues %} تومان{% endif %}</strong></div>
             <p>با ادامه، اطلاعات تماس و نشانی برای ثبت سفارش استفاده می‌شود. مرحلهٔ بعد فقط پرداخت نمایشی است و هیچ مبلغی دریافت نمی‌شود.</p>
-            {% if request.user.is_authenticated %}
+            {% if has_warranty_issues %}
+            <button class="beauty-button beauty-button--primary" type="button" disabled>ابتدا گارانتی را بازبینی کنید</button>
+            {% elif request.user.is_authenticated %}
             <button class="beauty-button beauty-button--primary" type="submit">ادامهٔ ثبت سفارش</button>
             {% else %}
             <a class="beauty-button beauty-button--primary" href="{% url 'userauths:sign-in' %}?next={{ request.path|urlencode }}">برای ادامه وارد حساب شوید</a>

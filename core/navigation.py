@@ -18,8 +18,22 @@ from django.db.models import Q
 
 from core.storefront import HOME_CATEGORIES, HOME_PRODUCT_TERMS
 
-CACHE_KEY = "hm:navigation:categories:v1"
+CACHE_KEY = "hm:navigation:categories:v2"
 CACHE_TTL = 180  # seconds
+
+# Match the storefront category strip without changing the order or content
+# of categories in the database. Unknown categories retain their original
+# order after the familiar storefront categories.
+_NAV_CATEGORY_ORDER = {
+    item["name"]: position for position, item in enumerate(HOME_CATEGORIES)
+}
+_NAV_FALLBACK_ICONS = {
+    "لوازم شخصی": "assets/imgs/theme/icons/header-reference/personal-care.svg",
+    "سلامت": "assets/imgs/theme/icons/header-reference/health.svg",
+    "عطر و ادکلن": "assets/imgs/theme/icons/header-reference/perfume.svg",
+    "لوازم خانگی": "assets/imgs/theme/icons/header-reference/home.svg",
+    "قطعات و لوازم دیجیتال": "assets/imgs/theme/icons/header-reference/digital.svg",
+}
 
 
 @dataclass(frozen=True)
@@ -34,6 +48,7 @@ class NavCategory:
     title: str
     subcategories: tuple
     icon: str = ""
+    fallback_icon: str = ""
 
     @property
     def has_children(self):
@@ -72,8 +87,10 @@ def _build_nav_categories():
                 title=category.title,
                 subcategories=subs,
                 icon=category.icon.name if category.icon else "",
+                fallback_icon=_NAV_FALLBACK_ICONS.get(category.title, "") if not category.icon else "",
             )
         )
+    payload.sort(key=lambda item: _NAV_CATEGORY_ORDER.get(item.title, len(_NAV_CATEGORY_ORDER)))
     return tuple(payload)
 
 
