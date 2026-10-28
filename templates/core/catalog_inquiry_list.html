@@ -1,0 +1,37 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block title %}کاتالوگ در حال بررسی | هژیر مارکت{% endblock %}
+{% block meta_description %}کاتالوگ ثبت‌شدهٔ فروشگاه در انتظار بررسی اطلاعات کالا، قیمت و موجودی.{% endblock %}
+{% block meta_robots %}noindex,nofollow{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/hazhir-catalog-inquiry.css' %}?v=20261028-1">{% endblock %}
+{% block content %}
+<main class="hm-review-shell" dir="rtl">
+    <nav class="hm-review-breadcrumb" aria-label="مسیر صفحه"><a href="{% url 'core:index' %}">خانه</a> / کاتالوگ در حال بررسی</nav>
+    <div class="hm-review-heading"><div><p>هژیر مارکت · نسخهٔ در حال بررسی</p><h1>کاتالوگ کالاها</h1><p>{{ total_count }} عنوان ثبت‌شده</p></div></div>
+    <p class="hm-inquiry-notice" role="note">عنوان‌ها از خروجی فروشگاه در ۲۷ اکتبر ۲۰۲۶ هستند و هنوز باید بررسی شوند. قیمت، موجودی، اصالت و مشخصات این کالاها تأیید نشده است. امکان خرید این کالاها تا تأیید غیرفعال است. فقط عکس‌های تأییدشده نمایش داده می‌شوند.</p>
+    <form class="hm-review-search" action="{% url 'core:catalog-inquiry-list' %}" method="get" role="search">
+        <label class="visually-hidden" for="hm-review-query">جست‌وجوی عنوان کالا</label>
+        <input id="hm-review-query" type="search" name="q" maxlength="100" value="{{ query }}" placeholder="نام یا مدل کالا را جست‌وجو کنید">
+        {% if category %}<input type="hidden" name="category" value="{{ category }}">{% endif %}
+        <button type="submit">جست‌وجو</button>
+    </form>
+    <nav class="hm-review-filters" aria-label="فیلتر دسته‌های کاتالوگ">
+        <a href="{% url 'core:catalog-inquiry-list' %}{% if query %}?q={{ query|urlencode }}{% endif %}" {% if not category %}aria-current="true"{% endif %}>همه</a>
+        {% for key, label in category_labels %}<a href="{% url 'core:catalog-inquiry-list' %}?category={{ key }}{% if query %}&amp;q={{ query|urlencode }}{% endif %}" {% if category == key %}aria-current="true"{% endif %}>{{ label }}</a>{% endfor %}
+    </nav>
+    <section class="hm-review-grid" aria-label="عنوان‌های در حال بررسی">
+        {% for item in items %}
+        <article class="hm-review-card">
+            <a class="hm-review-media" href="{% url 'core:catalog-inquiry-detail' item.id %}" aria-label="بررسی {{ item.title }}">{% include 'partials/catalog-inquiry-image.html' %}</a>
+            <div class="hm-review-body"><small>{{ item.category_label }} · عنوان ثبت‌شده</small><h2><a href="{% url 'core:catalog-inquiry-detail' item.id %}">{{ item.title }}</a></h2><p class="hm-inquiry-status">قیمت و موجودی در انتظار تأیید</p><a class="hm-inquiry-cta" href="{% url 'core:catalog-inquiry-detail' item.id %}">اطلاعات و استعلام ←</a></div>
+        </article>
+        {% empty %}<p class="hm-review-empty">عنوانی برای این جست‌وجو پیدا نشد.</p>{% endfor %}
+    </section>
+    {% if page_obj.paginator.num_pages > 1 %}
+    <nav class="hm-review-pagination" aria-label="صفحه‌های کاتالوگ">
+        {% if page_obj.has_previous %}<a href="?{% if query_prefix %}{{ query_prefix }}&amp;{% endif %}page={{ page_obj.previous_page_number }}">صفحهٔ قبل</a>{% endif %}
+        <span>صفحهٔ {{ page_obj.number }} از {{ page_obj.paginator.num_pages }}</span>
+        {% if page_obj.has_next %}<a href="?{% if query_prefix %}{{ query_prefix }}&amp;{% endif %}page={{ page_obj.next_page_number }}">صفحهٔ بعد</a>{% endif %}
+    </nav>{% endif %}
+</main>
+{% endblock %}

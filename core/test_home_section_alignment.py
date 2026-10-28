@@ -18,7 +18,9 @@ class HomeSectionAlignmentTests(TestCase):
         self.assertIn('id="categories-title"', categories)
         self.assertEqual(categories.count('class="category-card category-card--'), len(HOME_CATEGORIES))
         self.assertIn('id="products-title"', products)
-        self.assertIn('class="catalog-empty"', products)
+        self.assertIn('class="swiper-slide hm-product-card beauty-product-card hm-inquiry-card"', products)
+        self.assertIn('قیمت و موجودی در انتظار تأیید', products)
+        self.assertNotIn('data-product-price=', products)
         self.assertIn('/static/css/store.css?v=100', html)
 
     def test_product_slider_and_category_links_still_render(self):

@@ -1,0 +1,20 @@
+/* Bundle concept and inquiry-safe selection cards. Real DB records remain untouched. */
+.store-css .hm-amazing__notice{margin:14px clamp(18px,3vw,30px) 0;padding:9px 12px;border:1px solid #e7d3a6;border-radius:11px;background:#fff9e9;color:#6d5a38;font-size:12px;line-height:1.8}
+.store-css .hm-amazing .hm-amazing-card{border-color:#eadfc9;background:#fffdf8}
+.store-css .hm-amazing .hm-amazing-card__image{display:block;height:clamp(190px,16vw,240px);background:#f8f2e7}
+.store-css .hm-amazing .hm-amazing-card__image img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.store-css .hm-amazing .hm-offer-inquiry .hm-amazing-card__image img{padding:0;object-fit:cover}
+.store-css .hm-amazing .hm-amazing-card__body{min-height:250px}
+.store-css .hm-amazing .hm-amazing-card__body h3{overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.store-css .hm-amazing .hm-offer-inquiry .hm-amazing-card__body small{color:#98783b;font-size:10px;line-height:1.7}
+.store-css .hm-amazing .hm-offer-inquiry .hm-inquiry-status{font-size:11px}
+.store-css .hm-amazing .hm-offer-inquiry .hm-inquiry-cta{margin-top:10px;font-size:11px}
+.store-css .hm-amazing .hm-offer-inquiry .hm-inquiry-placeholder{min-height:100%;padding:15px}
+.store-css .hm-amazing .hm-offer-inquiry .hm-inquiry-placeholder svg{width:52px;height:52px}
+.store-css .hm-bundle-concept .bundle-card__media{background:#f5eedc}
+.store-css .hm-bundle-concept .bundle-card__media::after{background:linear-gradient(180deg,transparent 50%,rgba(57,44,28,.35) 100%)}
+.store-css .hm-bundle-concept .bundle-card__media-tag{background:rgba(255,250,235,.94);border-color:#ead7a6;color:#665028;backdrop-filter:none}
+.store-css .hm-bundle-concept .bundle-card__body{background:linear-gradient(140deg,#fffbef,#f5e9cb)}
+.store-css .hm-bundle-concept .hm-bundle-caution{padding:10px 12px;border-right:3px solid #c4a56a;background:#fff9ea;color:#6d5b3c;font-size:12px;line-height:1.9}
+.store-css .hm-bundle-concept .bundle-card__purchase{justify-content:flex-start}
+@media(max-width:640px){.store-css .hm-amazing .hm-amazing-card__image{height:190px}.store-css .hm-amazing .hm-amazing-card__body{min-height:264px}.store-css .hm-amazing__notice{font-size:11px}}

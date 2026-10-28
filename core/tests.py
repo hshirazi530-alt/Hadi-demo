@@ -244,10 +244,10 @@ class StorefrontTests(TestCase):
             with self.subTest(category_image=image_name):
                 self.assertContains(response, image_name)
         self.assertNotContains(response, "کادویی")
-        self.assertEqual(
-            response.context["products"].count(),
-            min(len(SAMPLE_STORE_PRODUCTS), 12),
-        )
+        # Demo records still exist and remain visible elsewhere, but are no
+        # longer placed in the homepage product slider.
+        self.assertEqual(response.context["products"].count(), 0)
+        self.assertEqual(len(response.context["catalog_inquiry_items"]), 12)
 
         straightener_search = self.client.get(
             reverse("core:search"),
@@ -768,7 +768,8 @@ class StorefrontCompletionTests(TestCase):
 
                 response = self.client.get(reverse("core:index"))
                 self.assertContains(response, banner.image.url)
-                self.assertContains(response, "پک ویرایش‌شده توسط مدیر")
+                self.assertNotContains(response, "پک ویرایش‌شده توسط مدیر")
+                self.assertContains(response, "تصویر مفهومی")
 
 
 class CustomerDashboardTests(TestCase):

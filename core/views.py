@@ -50,6 +50,7 @@ from django.views.decorators.http import require_GET, require_POST
 from django.utils.html import strip_tags
 from django.utils.safestring import mark_safe
 from core.storefront import HOME_CATEGORIES, HOME_PRODUCT_TERMS, STORE_PROFILE
+from core.catalog_inquiry import featured_items as inquiry_featured_items
 from django.views.decorators.http import require_POST
 from userauths.forms import ProfileForm
 from django.contrib.auth import login
@@ -78,6 +79,7 @@ def _amazing_offers_products():
             is_sale=True,
             sale_price__gt=0,
         )
+        .exclude(title__contains="(نمونه)")
         .annotate(
             review_count=Count("نظرات", filter=Q(نظرات__is_approved=True)),
             average_rating=Avg("نظرات__rating", filter=Q(نظرات__is_approved=True)),
@@ -93,6 +95,7 @@ def _amazing_offers_products():
             status=True,
             featured=True,
         )
+        .exclude(title__contains="(نمونه)")
         .annotate(
             review_count=Count("نظرات", filter=Q(نظرات__is_approved=True)),
             average_rating=Avg("نظرات__rating", filter=Q(نظرات__is_approved=True)),
@@ -103,14 +106,18 @@ def _amazing_offers_products():
 
 
 def index(request):
+    # Show already-published real products first; only hide demo rows from
+    # this slider. No product, price, stock, or media record is changed.
     products = (
         Product.objects.filter(product_status="published", status=True)
+        .exclude(title__contains="(نمونه)")
         .annotate(
             review_count=Count("نظرات", filter=Q(نظرات__is_approved=True)),
             average_rating=Avg("نظرات__rating", filter=Q(نظرات__is_approved=True)),
         )
         .order_by("-featured", "-date")[:12]
     )
+    catalog_inquiry_items = inquiry_featured_items(max(0, 12 - len(products)))
     categories = Category.objects.filter(_personal_care_category_filter()).distinct()
     comparison_products = []
     for home_category in HOME_CATEGORIES:
@@ -127,6 +134,9 @@ def index(request):
             comparison_products.append(matching_product)
 
     amazing_products, amazing_is_sale = _amazing_offers_products()
+    # Fill only vacant selection-card slots with the separate read-only archive.
+    # Its IDs and images are never used as Product IDs or connected to the cart.
+    amazing_inquiry_items = inquiry_featured_items(max(0, 6 - len(amazing_products)))
     amazing_settings = AmazingOffersSettings.get_settings()
     amazing_banners = list(
         Banner.objects.filter(is_active=True, placement="amazing_offers").order_by("sort_order", "id")
@@ -150,16 +160,24 @@ def index(request):
         "hero_personal_category_url": hero_category_urls.get("لوازم شخصی", category_directory),
         "hero_digital_category_url": hero_category_urls.get("قطعات و لوازم دیجیتال", category_directory),
         "products": products,
+        "catalog_inquiry_items": catalog_inquiry_items,
         "categories": categories,
         "home_categories": HOME_CATEGORIES,
         "store_profile": STORE_PROFILE,
         "hero_banners": HeroBanner.objects.filter(is_active=True)[:3],
         "digital_banners": digital_banners,
         "trust_features": StoreTrustFeature.objects.filter(is_active=True)[:4],
-        "bundles": ProductBundle.objects.filter(is_active=True).prefetch_related("products")[:3],
+        # Hide explicit demonstration bundles only; never edit or delete them.
+        "bundles": (
+            ProductBundle.objects.filter(is_active=True)
+            .exclude(products__title__contains="(نمونه)")
+            .exclude(description__contains="صرفاً نمونه")
+            .distinct().prefetch_related("products")[:3]
+        ),
         "faqs": FAQ.objects.filter(is_active=True)[:8],
         "comparison_products": comparison_products,
         "amazing_products": amazing_products,
+        "amazing_inquiry_items": amazing_inquiry_items,
         "amazing_is_sale": amazing_is_sale,
         "amazing_settings": amazing_settings,
         "amazing_banners": amazing_banners,

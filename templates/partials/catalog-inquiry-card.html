@@ -1,0 +1,10 @@
+<article class="swiper-slide hm-product-card beauty-product-card hm-inquiry-card">
+    <a class="beauty-product-card__image" href="{% url 'core:catalog-inquiry-detail' item.id %}" aria-label="مشاهدهٔ اطلاعات در حال بررسی برای {{ item.title }}">{% include 'partials/catalog-inquiry-image.html' %}</a>
+    <div class="beauty-product-card__body">
+        <p class="beauty-product-card__category">{{ item.category_label }} · در حال بررسی</p>
+        <h3><a href="{% url 'core:catalog-inquiry-detail' item.id %}">{{ item.title }}</a></h3>
+        {% if item.note %}<p class="hm-inquiry-note">{{ item.note }}</p>{% endif %}
+        <p class="hm-inquiry-status">قیمت و موجودی در انتظار تأیید</p>
+        <a class="hm-inquiry-cta" href="{% url 'core:catalog-inquiry-detail' item.id %}">اطلاعات و استعلام ←</a>
+    </div>
+</article>

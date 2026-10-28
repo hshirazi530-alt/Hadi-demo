@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="{% static 'build/product-slider.css' %}?v=1">
     <link rel="stylesheet" href="{% static 'build/amazing-slider.css' %}?v=1">
     <link rel="stylesheet" href="{% static 'css/hazhir-visual-refresh.css' %}?v=20261028">
+    <link rel="stylesheet" href="{% static 'css/hazhir-catalog-inquiry.css' %}?v=20261028-1">
+    <link rel="stylesheet" href="{% static 'css/hazhir-sections-refresh.css' %}?v=20261028-1">
 {% endblock %}
 
 {% block content %}
@@ -171,12 +173,14 @@
                 <p class="eyebrow">محصولات اصلی هژیر مارکت</p>
                 <h2 id="products-title">تازه‌ترین محصولات فروشگاه</h2>
             </div>
-            <a class="text-link" href="{% url 'core:product-list' %}">مشاهدهٔ همهٔ کالاها <span aria-hidden="true">←</span></a>
+            <a class="text-link" href="{% if catalog_inquiry_items %}{% url 'core:catalog-inquiry-list' %}{% else %}{% url 'core:product-list' %}{% endif %}">{% if catalog_inquiry_items %}دیدن کاتالوگ در حال بررسی{% else %}مشاهدهٔ همهٔ کالاها{% endif %} <span aria-hidden="true">←</span></a>
         </div>
 
-        {% if products %}
+        {% if catalog_inquiry_items %}<p class="hm-inquiry-notice" role="note">کارت‌های دارای برچسب «در حال بررسی» از خروجی فروشگاه هستند؛ قیمت، موجودی، اصالت و مشخصات آنها تأیید نشده و امکان خریدشان غیرفعال است. کالاهای ثبت‌شدهٔ واقعی فروشگاه بدون تغییر باقی مانده‌اند.</p>{% endif %}
+        {% if products or catalog_inquiry_items %}
         <div class="hm-product-slider swiper" data-product-slider role="region" aria-label="اسلایدر محصولات اصلی هژیر مارکت">
             <div class="swiper-wrapper hm-product-slider__wrapper">
+                {% for item in catalog_inquiry_items|slice:":1" %}{% include 'partials/catalog-inquiry-card.html' %}{% endfor %}
                 {% for product in products %}
                 <article class="swiper-slide hm-product-card beauty-product-card product-cart-wrap"
                          data-product-id="{{ product.id }}"
@@ -215,6 +219,7 @@
                     </div>
                 </article>
                 {% endfor %}
+                {% for item in catalog_inquiry_items|slice:"1:" %}{% include 'partials/catalog-inquiry-card.html' %}{% endfor %}
             </div>
 
             <nav class="hm-product-slider__controls" data-product-controls aria-label="کنترل اسلایدر محصولات اصلی">
@@ -259,7 +264,7 @@
         </div>
     </section>
 
-    {% if amazing_products %}
+    {% if amazing_products or amazing_inquiry_items %}
     <section class="beauty-section hm-amazing" id="amazing-offers" aria-labelledby="amazing-title">
         <div class="hm-amazing__panel">
             <header class="hm-amazing__header">
@@ -270,8 +275,9 @@
                             <path d="M8.5 8V6a3.5 3.5 0 0 1 7 0v2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
                         </svg>
                     </span>
-                    <h2 id="amazing-title">شگفت‌انگیزهای هژیر مارکت</h2>
+                    <h2 id="amazing-title">{% if amazing_is_sale and not amazing_inquiry_items %}شگفت‌انگیزهای هژیر مارکت{% else %}گزیده‌های هژیر مارکت{% endif %}</h2>
                 </div>
+                {% if amazing_is_sale and not amazing_inquiry_items and amazing_settings.deadline %}
                 <div class="hm-amazing__timer" data-amazing-timer data-amazing-deadline="{{ amazing_settings.deadline|date:'c' }}" role="timer" aria-live="off" aria-label="مهلت شگفت‌انگیزها">
                     <span class="hm-amazing__timer-label">پایان مهلت تا</span>
                     <span class="hm-amazing__timer-digits" data-amazing-digits>
@@ -279,12 +285,15 @@
                     </span>
                     <span class="hm-amazing__timer-ended" data-amazing-ended hidden>مهلت به پایان رسید</span>
                 </div>
-                <a class="hm-amazing__all" href="{% url 'core:product-list' %}">
+                {% endif %}
+                <a class="hm-amazing__all" href="{% if amazing_inquiry_items %}{% url 'core:catalog-inquiry-list' %}{% else %}{% url 'core:product-list' %}{% endif %}">
                     مشاهدهٔ همه <span aria-hidden="true">←</span>
                 </a>
             </header>
+            {% if amazing_inquiry_items %}<p class="hm-amazing__notice">کارت‌های «در حال بررسی» از خروجی فروشگاه‌اند؛ مشخصات، قیمت و موجودی آنها تأیید نشده است و امکان خرید یا اعلام تخفیف ندارند.</p>{% endif %}
             <div class="hm-amazing__slider swiper" data-amazing-slider role="region" aria-label="اسلایدر محصولات شگفت‌انگیز">
                 <div class="swiper-wrapper hm-amazing__wrapper">
+                    {% for item in amazing_inquiry_items|slice:":1" %}{% include 'partials/catalog-offer-card.html' %}{% endfor %}
                     {% for product in amazing_products %}
                     <article class="swiper-slide hm-amazing-card product-cart-wrap"
                              data-product-id="{{ product.id }}"
@@ -321,6 +330,7 @@
                         </div>
                     </article>
                     {% endfor %}
+                    {% for item in amazing_inquiry_items|slice:"1:" %}{% include 'partials/catalog-offer-card.html' %}{% endfor %}
                     {% for banner in amazing_banners %}
                     <a class="swiper-slide hm-amazing-banner" href="{{ banner.link_url|default:'#' }}"{% if banner.link_url %} target="_blank" rel="noopener noreferrer"{% endif %} aria-label="{{ banner.title }}">
                         {% if banner.image %}
@@ -539,25 +549,24 @@
         </div>
     </section>
 
-    {% if bundles %}
     <section class="beauty-section bundle-section" aria-labelledby="bundle-title">
         <div class="beauty-section__heading">
             <div>
                 <p class="eyebrow"><span aria-hidden="true">✦</span> پیشنهادهای ویژه</p>
-                <h2 id="bundle-title">پک‌های مراقبت شخصی</h2>
+                <h2 id="bundle-title">{% if bundles %}پک‌های مراقبت شخصی{% else %}ایده‌های مراقبت شخصی{% endif %}</h2>
             </div>
-            <p>ترکیب‌های پیشنهادی فروشگاه برای ساختن یک روتین کامل.</p>
+            <p>{% if bundles %}ترکیب‌های پیشنهادی فروشگاه برای ساختن یک روتین کامل.{% else %}الهام برای انتخاب ابزارهای مراقبت روزانه.{% endif %}</p>
         </div>
         <div class="bundle-grid">
             {% for bundle in bundles %}
-            <article class="bundle-card" aria-label="پک پیشنهادی {{ bundle.title }}">
+            <article class="bundle-card{% if not bundle.image %} hm-bundle-concept{% endif %}" aria-label="پک پیشنهادی {{ bundle.title }}">
                 <div class="bundle-card__media">
                     {% if bundle.image %}
                     <img src="{{ bundle.image.url }}" alt="{{ bundle.title }}" loading="lazy">
                     {% else %}
-                    <img src="{% static 'assets/imgs/beauty/barber-shop.jpg' %}" alt="فضای یک آرایشگاه مردانه" loading="lazy">
+                    <img src="{% static 'assets/imgs/hazhir-catalog-inquiry/bundle-concept.webp' %}" alt="تصویر مفهومی ابزارهای مراقبت شخصی؛ مدل‌ها و اقلام واقعی تأیید نشده‌اند" width="1200" height="896" loading="lazy" decoding="async">
                     {% endif %}
-                    <span class="bundle-card__media-tag"><span aria-hidden="true">✦</span> روتین کامل، انتخاب هوشمند</span>
+                    <span class="bundle-card__media-tag"><span aria-hidden="true">✦</span> {% if bundle.image %}روتین کامل، انتخاب هوشمند{% else %}تصویر مفهومی{% endif %}</span>
                 </div>
                 <div class="bundle-card__body">
                     <p class="bundle-card__eyebrow"><span aria-hidden="true">✦</span> انتخاب ویژهٔ Hazhirmarket</p>
@@ -584,10 +593,23 @@
                     </div>
                 </div>
             </article>
+            {% empty %}
+            <article class="bundle-card hm-bundle-concept" aria-label="ایدهٔ مفهومی مراقبت روزانه">
+                <div class="bundle-card__media">
+                    <img src="{% static 'assets/imgs/hazhir-catalog-inquiry/bundle-concept.webp' %}" alt="تصویر مفهومی ابزارهای مراقبت شخصی؛ مدل‌ها و اقلام واقعی تأیید نشده‌اند" width="1200" height="896" loading="lazy" decoding="async">
+                    <span class="bundle-card__media-tag"><span aria-hidden="true">✦</span> تصویر مفهومی</span>
+                </div>
+                <div class="bundle-card__body">
+                    <p class="bundle-card__eyebrow"><span aria-hidden="true">✦</span> ایدهٔ مراقبت روزانه</p>
+                    <h3>روتین روزانه، ساده و زیبا</h3>
+                    <p>برای انتخاب ابزارهای مراقبت شخصی، عنوان‌های فروشگاه را ببینید و پیش از انتخاب، اطلاعات هر کالا را بررسی کنید.</p>
+                    <p class="hm-bundle-caution">این تصویر مفهومی است؛ اقلام و قیمت پک باید تأیید شود.</p>
+                    <div class="bundle-card__purchase"><a class="beauty-button beauty-button--primary" href="{% url 'core:catalog-inquiry-list' %}?category=personal">مشاهدهٔ کاتالوگ در حال بررسی <span aria-hidden="true">←</span></a></div>
+                </div>
+            </article>
             {% endfor %}
         </div>
     </section>
-    {% endif %}
 
     <!-- Promo banners set 6: cream / gold theme -->
     <section class="beauty-section hm-promo-strip hm-promo-strip--alt5" id="promo-banners-6" aria-label="گزیدهٔ دسته‌های هژیر مارکت">
