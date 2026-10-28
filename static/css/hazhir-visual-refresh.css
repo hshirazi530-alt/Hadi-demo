@@ -1,0 +1,20 @@
+/* Scoped to the existing homepage; no checkout, admin, or database changes. */
+.store-css .hm-real-promo{height:246px;border-radius:24px;background:#fff8ed;box-shadow:0 12px 30px rgba(45,48,35,.11)}
+.store-css .hm-real-promo::before{inset:9px;border-radius:17px;border:1px solid rgba(171,142,88,.28)}
+.store-css .hm-real-promo::after{background:linear-gradient(to left,rgba(255,253,245,.94) 0%,rgba(255,253,245,.76) 34%,rgba(255,253,245,.12) 68%,transparent 100%)}
+.store-css .hm-real-promo img{width:100%;height:100%;object-fit:cover;object-position:left center;transform:none}
+.store-css .hm-real-promo:hover img{transform:scale(1.035)}
+.store-css .hm-real-promo .hm-promo-card__body{inset:0 0 0 auto;width:56%;padding:18px clamp(12px,1.3vw,22px);justify-content:center;align-items:flex-start;text-align:right;color:#23332b;gap:7px}
+.store-css .hm-real-promo .hm-promo-card__body b{color:#24352d;text-shadow:none;font-size:clamp(14px,1.12vw,18px);line-height:1.55;overflow-wrap:anywhere}
+.store-css .hm-real-promo .hm-promo-card__body i{color:#536458;text-shadow:none;font-size:clamp(11px,.85vw,13px);line-height:1.5}
+.store-css .hm-real-eyebrow{font-size:10px;color:#876a35;font-weight:800;letter-spacing:.02em}
+.store-css .hm-real-arrow{display:inline-flex;gap:5px;align-items:center;font-size:11px;font-weight:800;color:#715322;border-bottom:1px solid rgba(113,83,34,.4);padding-bottom:2px}
+.store-css .hm-real-caption{font-size:9px;line-height:1.4;color:#647369}
+.store-css .category-card__visual-note{position:absolute;z-index:2;left:10px;bottom:9px;padding:3px 9px;border-radius:999px;background:rgba(255,255,255,.9);color:#4f6157;font-size:10px;line-height:1.6;box-shadow:0 1px 7px rgba(24,40,32,.08);pointer-events:none}
+.store-css .category-card__media img{object-position:center}
+.store-css .hm-visual-collection .perfume-banner__media::after{background:linear-gradient(to left,rgba(255,252,242,.91),rgba(255,252,242,.45) 44%,transparent 72%)}
+.store-css .hm-visual-collection .perfume-banner__sub{max-width:480px}
+@media(max-width:767px){.store-css .hm-real-promo{height:220px}.store-css .hm-real-promo .hm-promo-card__body{width:58%;padding:14px}.store-css .hm-real-promo .hm-promo-card__body b{font-size:15px}}
+@media(max-width:400px){.store-css .hm-real-promo{height:190px}.store-css .hm-real-promo .hm-promo-card__body b{font-size:13px}.store-css .hm-real-promo .hm-promo-card__body i{font-size:10px}.store-css .hm-real-promo .hm-promo-card__body{gap:4px}.store-css .category-card__visual-note{font-size:9px;left:6px;bottom:6px;padding:2px 6px}}
+@media(max-width:560px){.store-css .hm-visual-collection .perfume-banner__media::after{background:linear-gradient(to top,rgba(255,252,242,.94),rgba(255,252,242,.36) 60%,transparent)}}
+@media(prefers-reduced-motion:reduce){.store-css .hm-real-promo,.store-css .hm-real-promo img{transition:none}}

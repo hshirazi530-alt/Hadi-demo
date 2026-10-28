@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{% static 'build/hero-slider.css' %}?v=1">
     <link rel="stylesheet" href="{% static 'build/product-slider.css' %}?v=1">
     <link rel="stylesheet" href="{% static 'build/amazing-slider.css' %}?v=1">
+    <link rel="stylesheet" href="{% static 'css/hazhir-visual-refresh.css' %}?v=20261028">
 {% endblock %}
 
 {% block content %}
@@ -128,18 +129,33 @@
         <div class="beauty-section__heading">
             <div>
                 <p class="eyebrow">از کجا شروع کنیم؟</p>
-                <h2 id="categories-title">دسته‌بندی‌های مراقبت شخصی</h2>
+                <h2 id="categories-title">دسته‌بندی‌های هژیر مارکت</h2>
             </div>
             <p>دستهٔ موردنظرت را انتخاب کن تا کالاهای مرتبط را در فروشگاه ببینی.</p>
         </div>
         <div class="category-grid">
             {% for category in home_categories %}
-            <a class="category-card category-card--{{ category.tone }}" href="{% url 'core:search' %}?q={{ category.query|urlencode }}">
+            <a class="category-card category-card--{{ category.tone }}" href="{% if category.tone == 'gold' %}{{ hero_digital_category_url }}{% else %}{% url 'core:search' %}?q={{ category.query|urlencode }}{% endif %}">
                 <span class="category-card__media">
+                    {% if category.tone == 'rose' %}
+                    <img src="{% static 'assets/imgs/hazhir-visual-2026/categories/category-personal-care.webp' %}" alt="{{ category.alt }}" width="1200" height="600" loading="lazy" decoding="async">
+                    {% elif category.tone == 'sage' %}
+                    <img src="{% static 'assets/imgs/hazhir-visual-2026/categories/category-health.webp' %}" alt="{{ category.alt }}" width="1200" height="600" loading="lazy" decoding="async">
+                    {% elif category.tone == 'amber' %}
+                    <img src="{% static 'assets/imgs/hazhir-visual-2026/categories/category-perfume.webp' %}" alt="{{ category.alt }}" width="1200" height="600" loading="lazy" decoding="async">
+                    {% elif category.tone == 'sky' %}
+                    <img src="{% static 'assets/imgs/hazhir-visual-2026/categories/category-home.webp' %}" alt="{{ category.alt }}" width="1200" height="600" loading="lazy" decoding="async">
+                    {% elif category.tone == 'gold' %}
+                    <img src="{% static 'assets/imgs/hazhir-visual-2026/categories/category-digital.webp' %}" alt="{{ category.alt }}" width="1200" height="600" loading="lazy" decoding="async">
+                    {% elif category.tone == 'lilac' %}
+                    <img src="{% static 'assets/imgs/hazhir-visual-2026/categories/category-shaver.webp' %}" alt="{{ category.alt }}" width="1200" height="600" loading="lazy" decoding="async">
+                    {% else %}
                     <img src="{% static category.image %}?v=3" alt="{{ category.alt }}" loading="lazy">
+                    {% endif %}
+                    {% if category.tone == 'sage' or category.tone == 'amber' or category.tone == 'gold' %}<span class="category-card__visual-note">تصویر نمادین</span>{% endif %}
                 </span>
                 <span class="category-card__body">
-                    <span class="category-card__eyebrow">دسته‌بندی ابزارهای زیبایی</span>
+                    <span class="category-card__eyebrow">دسته‌بندی فروشگاه</span>
                     <strong>{{ category.name }}</strong>
                     <span>{{ category.description }}</span>
                     <span class="category-card__link">جست‌وجوی این دسته <span aria-hidden="true">←</span></span>
@@ -222,35 +238,23 @@
     </section>
 
     <!-- Promo banners: cream / gold theme -->
-    <section class="beauty-section hm-promo-strip" id="promo-banners" aria-label="بنرهای پیشنهاد ویژه هژیر مارکت">
+    <section class="beauty-section hm-promo-strip" id="promo-banners" aria-label="گزیدهٔ دسته‌های هژیر مارکت">
         <div class="hm-promo-strip__grid">
-            <a class="hm-promo-card hm-promo-card--grooming" href="{% url 'core:category-list' %}">
-                <img src="{% static 'assets/imgs/beauty/promo/promo-grooming.jpg' %}" alt="بنر لوازم اصلاح و شخصی" loading="lazy" decoding="async">
-                <span class="hm-promo-card__body">
-                    <b>اصلاح و پیرایش حرفه‌ای</b>
-                    <i>ماشین‌های اصلاح، ریش‌تراش و لوازم شخصی با طراحی ماندگار</i>
-                </span>
+            <a class="hm-promo-card hm-real-promo" href="{% url 'core:search' %}?q=%D8%A7%D8%B5%D9%84%D8%A7%D8%AD" aria-label="جست‌وجوی لوازم اصلاح">
+                <img src="{% static 'assets/imgs/hazhir-visual-2026/banners/banner-01.webp' %}" alt="تصویر طراحی‌شدهٔ لوازم اصلاح" width="800" height="520" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><span class="hm-real-eyebrow">هژیر مارکت</span><b>مراقبت شخصی برای هر روز</b><i>لوازم اصلاح</i><span class="hm-real-arrow">جست‌وجوی کالا <span aria-hidden="true">←</span></span><small class="hm-real-caption">تصویر طراحی‌شده</small></span>
             </a>
-            <a class="hm-promo-card hm-promo-card--haircare" href="{% url 'core:category-list' %}">
-                <img src="{% static 'assets/imgs/beauty/promo/promo-haircare.jpg' %}" alt="بنر لوازم آرایش و سلامت مو" loading="lazy" decoding="async">
-                <span class="hm-promo-card__body">
-                    <b>آرایش و سلامت مو</b>
-                    <i>اتو مو، سشوار و ابزارهای فانتزی برای هر روز شما</i>
-                </span>
+            <a class="hm-promo-card hm-real-promo" href="{% url 'core:search' %}?q=%D8%A7%D8%B5%D9%84%D8%A7%D8%AD" aria-label="جست‌وجوی ابزارهای مراقبت">
+                <img src="{% static 'assets/imgs/hazhir-visual-2026/banners/banner-02.webp' %}" alt="تصویر طراحی‌شدهٔ ابزارهای مراقبت" width="800" height="520" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><span class="hm-real-eyebrow">هژیر مارکت</span><b>انتخابی برای مراقبت شخصی</b><i>ابزارهای مراقبت</i><span class="hm-real-arrow">جست‌وجوی کالا <span aria-hidden="true">←</span></span><small class="hm-real-caption">تصویر طراحی‌شده</small></span>
             </a>
-            <a class="hm-promo-card hm-promo-card--perfume" href="{% url 'core:category-list' %}">
-                <img src="{% static 'assets/imgs/beauty/promo/promo-perfume.jpg' %}" alt="بنر عطر و ادکلن" loading="lazy" decoding="async">
-                <span class="hm-promo-card__body">
-                    <b>عطر و ادکلن</b>
-                    <i>رایحه‌های ماندگار شرقی و کلاسیک با ضمانت اصالت</i>
-                </span>
+            <a class="hm-promo-card hm-real-promo" href="{% url 'core:search' %}?q=%D9%85%D8%A7%D8%B4%DB%8C%D9%86%20%D8%A7%D8%B5%D9%84%D8%A7%D8%AD" aria-label="جست‌وجوی ماشین‌های اصلاح">
+                <img src="{% static 'assets/imgs/hazhir-visual-2026/banners/banner-03.webp' %}" alt="تصویر طراحی‌شدهٔ ماشین‌های اصلاح" width="800" height="520" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><span class="hm-real-eyebrow">هژیر مارکت</span><b>اصلاح و پیرایش</b><i>ماشین‌های اصلاح</i><span class="hm-real-arrow">جست‌وجوی کالا <span aria-hidden="true">←</span></span><small class="hm-real-caption">تصویر طراحی‌شده</small></span>
             </a>
-            <a class="hm-promo-card hm-promo-card--home" href="{% url 'core:category-list' %}">
-                <img src="{% static 'assets/imgs/beauty/promo/promo-homeappliance.jpg' %}" alt="بنر لوازم خانگی" loading="lazy" decoding="async">
-                <span class="hm-promo-card__body">
-                    <b>لوازم خانگی هوشمند</b>
-                    <i>زودپز، مخلوط‌کن و فلاسک استیل برای آشپزخانه شما</i>
-                </span>
+            <a class="hm-promo-card hm-real-promo" href="{% url 'core:search' %}?q=%D9%85%D8%AE%D9%84%D9%88%D8%B7" aria-label="جست‌وجوی لوازم کاربردی خانه">
+                <img src="{% static 'assets/imgs/hazhir-visual-2026/banners/banner-04.webp' %}" alt="تصویر طراحی‌شدهٔ لوازم کاربردی خانه" width="800" height="520" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><span class="hm-real-eyebrow">هژیر مارکت</span><b>برای آشپزخانهٔ شما</b><i>لوازم کاربردی خانه</i><span class="hm-real-arrow">جست‌وجوی کالا <span aria-hidden="true">←</span></span><small class="hm-real-caption">تصویر طراحی‌شده</small></span>
             </a>
         </div>
     </section>
@@ -345,35 +349,23 @@
     {% endif %}
 
     <!-- Promo banners set 2: cream / gold theme -->
-    <section class="beauty-section hm-promo-strip hm-promo-strip--alt" id="promo-banners-2" aria-label="بنرهای پیشنهاد ویژه هژیر مارکت">
+    <section class="beauty-section hm-promo-strip hm-promo-strip--alt" id="promo-banners-2" aria-label="گزیدهٔ دسته‌های هژیر مارکت">
         <div class="hm-promo-strip__grid">
-            <a class="hm-promo-card hm-promo-card--barber" href="{% url 'core:category-list' %}">
-                <img src="{% static 'assets/imgs/beauty/promo/promo2-barber.jpg' %}" alt="بنر لوازم آرایشگاه و پیرایش" loading="lazy" decoding="async">
-                <span class="hm-promo-card__body">
-                    <b>تجهیزات سالن و آرایشگاه</b>
-                    <i>ابزار حرفه‌ای برای سرویس‌های مردانه و زنانه</i>
-                </span>
+            <a class="hm-promo-card hm-real-promo" href="{% url 'core:search' %}?q=%D8%A7%D8%AA%D9%88%20%D9%85%D9%88" aria-label="جست‌وجوی ابزارهای آرایش مو">
+                <img src="{% static 'assets/imgs/hazhir-visual-2026/banners/banner-05.webp' %}" alt="تصویر طراحی‌شدهٔ ابزارهای آرایش مو" width="800" height="520" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><span class="hm-real-eyebrow">هژیر مارکت</span><b>حالت‌دهی مو</b><i>ابزارهای آرایش مو</i><span class="hm-real-arrow">جست‌وجوی کالا <span aria-hidden="true">←</span></span><small class="hm-real-caption">تصویر طراحی‌شده</small></span>
             </a>
-            <a class="hm-promo-card hm-promo-card--spa" href="{% url 'core:category-list' %}">
-                <img src="{% static 'assets/imgs/beauty/promo/promo2-spa.jpg' %}" alt="بنر محصولات اسپا و مراقبت پوست" loading="lazy" decoding="async">
-                <span class="hm-promo-card__body">
-                    <b>اسپا و مراقبت از پوست</b>
-                    <i>محصولات تخصصی برای روتین پوستی شما</i>
-                </span>
+            <a class="hm-promo-card hm-real-promo" href="{% url 'core:search' %}?q=%D8%B3%D8%B4%D9%88%D8%A7%D8%B1" aria-label="جست‌وجوی سشوار و حالت‌دهنده">
+                <img src="{% static 'assets/imgs/hazhir-visual-2026/banners/banner-06.webp' %}" alt="تصویر طراحی‌شدهٔ سشوار و حالت‌دهنده" width="800" height="520" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><span class="hm-real-eyebrow">هژیر مارکت</span><b>آرایش و مراقبت مو</b><i>سشوار و حالت‌دهنده</i><span class="hm-real-arrow">جست‌وجوی کالا <span aria-hidden="true">←</span></span><small class="hm-real-caption">تصویر طراحی‌شده</small></span>
             </a>
-            <a class="hm-promo-card hm-promo-card--giftbox" href="{% url 'core:category-list' %}">
-                <img src="{% static 'assets/imgs/beauty/promo/promo2-giftbox.jpg' %}" alt="بنر ست‌های هدیه" loading="lazy" decoding="async">
-                <span class="hm-promo-card__body">
-                    <b>ست‌های هدیه هژیر مارکت</b>
-                    <i>بسته‌بندی لوکس برای لحظه‌های خاص</i>
-                </span>
+            <a class="hm-promo-card hm-real-promo" href="{% url 'core:search' %}?q=%D8%B3%D8%B4%D9%88%D8%A7%D8%B1" aria-label="جست‌وجوی ابزارهای آرایش مو">
+                <img src="{% static 'assets/imgs/hazhir-visual-2026/banners/banner-07.webp' %}" alt="تصویر طراحی‌شدهٔ ابزارهای آرایش مو" width="800" height="520" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><span class="hm-real-eyebrow">هژیر مارکت</span><b>سشوار برای سلیقه‌های مختلف</b><i>ابزارهای آرایش مو</i><span class="hm-real-arrow">جست‌وجوی کالا <span aria-hidden="true">←</span></span><small class="hm-real-caption">تصویر طراحی‌شده</small></span>
             </a>
-            <a class="hm-promo-card hm-promo-card--trimmer" href="{% url 'core:category-list' %}">
-                <img src="{% static 'assets/imgs/beauty/promo/promo2-trimmer.jpg' %}" alt="بنر ماشین اصلاح و تریمر" loading="lazy" decoding="async">
-                <span class="hm-promo-card__body">
-                    <b>ماشین اصلاح و تریمر</b>
-                    <i>طراحی ارگونومیک با عملکرد بی‌صدا و دقت بالا</i>
-                </span>
+            <a class="hm-promo-card hm-real-promo" href="{% url 'core:search' %}?q=%D8%B3%D8%B4%D9%88%D8%A7%D8%B1" aria-label="جست‌وجوی سشوار و لوازم مو">
+                <img src="{% static 'assets/imgs/hazhir-visual-2026/banners/banner-08.webp' %}" alt="تصویر طراحی‌شدهٔ سشوار و لوازم مو" width="800" height="520" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><span class="hm-real-eyebrow">هژیر مارکت</span><b>ابزارهای مراقبت مو</b><i>سشوار و لوازم مو</i><span class="hm-real-arrow">جست‌وجوی کالا <span aria-hidden="true">←</span></span><small class="hm-real-caption">تصویر طراحی‌شده</small></span>
             </a>
         </div>
     </section>
@@ -420,87 +412,58 @@
     </section>
 
     <!-- Promo banners set 3: cream / gold theme -->
-    <section class="beauty-section hm-promo-strip hm-promo-strip--alt2" id="promo-banners-3" aria-label="بنرهای پیشنهاد ویژه هژیر مارکت">
+    <section class="beauty-section hm-promo-strip hm-promo-strip--alt2" id="promo-banners-3" aria-label="گزیدهٔ دسته‌های هژیر مارکت">
         <div class="hm-promo-strip__grid">
-            <a class="hm-promo-card hm-promo-card--cosmetics" href="{% url 'core:category-list' %}">
-                <img src="{% static 'assets/imgs/beauty/promo/promo3-cosmetics.jpg' %}" alt="بنر لوازم آرایشی" loading="lazy" decoding="async">
-                <span class="hm-promo-card__body">
-                    <b>لوازم آرایشی</b>
-                    <i>رنگ‌های ماندگار با ترکیبات ملایم و ایمن برای پوست</i>
-                </span>
+            <a class="hm-promo-card hm-real-promo" href="{% url 'core:search' %}?q=%D8%B3%D8%B4%D9%88%D8%A7%D8%B1" aria-label="جست‌وجوی انتخاب متناسب با نیاز">
+                <img src="{% static 'assets/imgs/hazhir-visual-2026/banners/banner-09.webp' %}" alt="تصویر طراحی‌شدهٔ انتخاب متناسب با نیاز" width="800" height="520" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><span class="hm-real-eyebrow">هژیر مارکت</span><b>لوازم آرایش مو</b><i>انتخاب متناسب با نیاز</i><span class="hm-real-arrow">جست‌وجوی کالا <span aria-hidden="true">←</span></span><small class="hm-real-caption">تصویر طراحی‌شده</small></span>
             </a>
-            <a class="hm-promo-card hm-promo-card--cream" href="{% url 'core:category-list' %}">
-                <img src="{% static 'assets/imgs/beauty/promo/promo3-cream.jpg' %}" alt="بنر کرم‌ها و لوسیون‌های مراقبت پوست" loading="lazy" decoding="async">
-                <span class="hm-promo-card__body">
-                    <b>مراقبت تخصصی پوست</b>
-                    <i>کرم‌ها و سرم‌های مغذی برای هر نوع پوست</i>
-                </span>
+            <a class="hm-promo-card hm-real-promo" href="{% url 'core:search' %}?q=%D8%B3%D8%B4%D9%88%D8%A7%D8%B1" aria-label="جست‌وجوی سشوار و لوازم مو">
+                <img src="{% static 'assets/imgs/hazhir-visual-2026/banners/banner-10.webp' %}" alt="تصویر طراحی‌شدهٔ سشوار و لوازم مو" width="800" height="520" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><span class="hm-real-eyebrow">هژیر مارکت</span><b>حالت‌دهی هر روز</b><i>سشوار و لوازم مو</i><span class="hm-real-arrow">جست‌وجوی کالا <span aria-hidden="true">←</span></span><small class="hm-real-caption">تصویر طراحی‌شده</small></span>
             </a>
-            <a class="hm-promo-card hm-promo-card--perfume2" href="{% url 'core:category-list' %}">
-                <img src="{% static 'assets/imgs/beauty/promo/promo3-perfume2.jpg' %}" alt="بنر کلکسیون عطر و ادکلن" loading="lazy" decoding="async">
-                <span class="hm-promo-card__body">
-                    <b>کلکسیون عطر و ادکلن</b>
-                    <i>رایحه‌های لوکس با ماندگاری بالا و بسته‌بندی خاص</i>
-                </span>
+            <a class="hm-promo-card hm-real-promo" href="{% url 'core:search' %}?q=%D8%B3%D8%B4%D9%88%D8%A7%D8%B1" aria-label="جست‌وجوی ابزارهای حالت‌دهی">
+                <img src="{% static 'assets/imgs/hazhir-visual-2026/banners/banner-11.webp' %}" alt="تصویر طراحی‌شدهٔ ابزارهای حالت‌دهی" width="800" height="520" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><span class="hm-real-eyebrow">هژیر مارکت</span><b>انتخاب برای مراقبت مو</b><i>ابزارهای حالت‌دهی</i><span class="hm-real-arrow">جست‌وجوی کالا <span aria-hidden="true">←</span></span><small class="hm-real-caption">تصویر طراحی‌شده</small></span>
             </a>
-            <a class="hm-promo-card hm-promo-card--skincare2" href="{% url 'core:category-list' %}">
-                <img src="{% static 'assets/imgs/beauty/promo/promo3-skincare2.jpg' %}" alt="بنر روتین پوستی و آبرسانی" loading="lazy" decoding="async">
-                <span class="hm-promo-card__body">
-                    <b>روتین پوستی روزانه</b>
-                    <i>محصولات آبرسان و بازسازی‌کنندهٔ پوست</i>
-                </span>
+            <a class="hm-promo-card hm-real-promo" href="{% url 'core:search' %}?q=%D8%A7%D8%B5%D9%84%D8%A7%D8%AD" aria-label="جست‌وجوی ابزارهای اصلاح">
+                <img src="{% static 'assets/imgs/hazhir-visual-2026/banners/banner-12.webp' %}" alt="تصویر طراحی‌شدهٔ ابزارهای اصلاح" width="800" height="520" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><span class="hm-real-eyebrow">هژیر مارکت</span><b>لوازم مراقبت شخصی</b><i>ابزارهای اصلاح</i><span class="hm-real-arrow">جست‌وجوی کالا <span aria-hidden="true">←</span></span><small class="hm-real-caption">تصویر طراحی‌شده</small></span>
             </a>
         </div>
     </section>
 
     <!-- Perfume & Oud banner -->
-    <section class="beauty-section perfume-banner" id="hm-collection-banner" aria-labelledby="perfume-banner-title">
+    <section class="beauty-section perfume-banner hm-visual-collection" id="hm-collection-banner" aria-labelledby="perfume-banner-title">
         <div class="perfume-banner__media">
-            <img src="{% static 'assets/imgs/beauty/perfume-banner.jpg' %}?v=3" alt="بنر تبلیغاتی عطر و ادکلن" loading="lazy">
+            <picture><source media="(max-width: 560px)" srcset="{% static 'assets/imgs/hazhir-visual-2026/banners/collection-products-mobile.webp' %}"><img src="{% static 'assets/imgs/hazhir-visual-2026/banners/collection-products.webp' %}" alt="تصویر طراحی‌شدهٔ مجموعه‌ای از لوازم خانه و مراقبت شخصی" width="1800" height="780" loading="lazy" decoding="async"></picture>
         </div>
         <div class="perfume-banner__content">
-            <p class="perfume-banner__eyebrow">کلکسیون جدید Hazhirmarket</p>
-            <h2 class="perfume-banner__title" id="perfume-banner-title">عطر و ادکلن</h2>
-            <p class="perfume-banner__sub">رایحه‌ای ماندگار برای لحظه‌های خاص؛ از عود و عنبرِ شرقی تا ترکیبات کلاسیکِ فرانسوی — عطری که مثل خودت به یاد می‌ماند.</p>
-            <ul class="perfume-banner__points">
-                <li>اطلاعات اصالت در صفحهٔ هر کالا</li>
-                <li>ارسال سریع به سراسر کشور</li>
-                <li>بسته‌بندی هدیه</li>
-            </ul>
-            <a class="perfume-banner__cta" href="{% url 'core:search' %}?q=%D8%B9%D8%B7%D8%B1">مشاهدهٔ کالکشِن عطر <span aria-hidden="true">←</span></a>
+            <p class="perfume-banner__eyebrow">مجموعهٔ هژیر مارکت</p>
+            <h2 class="perfume-banner__title" id="perfume-banner-title">انتخابی برای هر روز</h2>
+            <p class="perfume-banner__sub">دسته‌های فروشگاه را مرور کنید و انتخاب مناسب نیاز خود را پیدا کنید.</p>
+            <a class="perfume-banner__cta" href="{% url 'core:product-list' %}">مشاهدهٔ محصولات <span aria-hidden="true">←</span></a>
         </div>
     </section>
 
     <!-- Promo banners set 4: cream / gold theme -->
-    <section class="beauty-section hm-promo-strip hm-promo-strip--alt3" id="promo-banners-4" aria-label="بنرهای پیشنهاد ویژه هژیر مارکت">
+    <section class="beauty-section hm-promo-strip hm-promo-strip--alt3" id="promo-banners-4" aria-label="گزیدهٔ دسته‌های هژیر مارکت">
         <div class="hm-promo-strip__grid">
-            <a class="hm-promo-card hm-promo-card--nail" href="{% url 'core:category-list' %}">
-                <img src="{% static 'assets/imgs/beauty/promo/promo4-nail.jpg' %}" alt="بنر لوازم پدیکور و ناخن" loading="lazy" decoding="async">
-                <span class="hm-promo-card__body">
-                    <b>لوازم پدیکور و ناخن</b>
-                    <i>ابزار حرفه‌ای برای زیبایی و سلامت ناخن‌ها</i>
-                </span>
+            <a class="hm-promo-card hm-real-promo" href="{% url 'core:search' %}?q=%D8%B3%D8%B4%D9%88%D8%A7%D8%B1" aria-label="جست‌وجوی ابزارهای آرایش مو">
+                <img src="{% static 'assets/imgs/hazhir-visual-2026/banners/banner-13.webp' %}" alt="تصویر طراحی‌شدهٔ ابزارهای آرایش مو" width="800" height="520" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><span class="hm-real-eyebrow">هژیر مارکت</span><b>سشوار برای سلیقه‌های مختلف</b><i>ابزارهای آرایش مو</i><span class="hm-real-arrow">جست‌وجوی کالا <span aria-hidden="true">←</span></span><small class="hm-real-caption">تصویر طراحی‌شده</small></span>
             </a>
-            <a class="hm-promo-card hm-promo-card--spa2" href="{% url 'core:category-list' %}">
-                <img src="{% static 'assets/imgs/beauty/promo/promo4-spa2.jpg' %}" alt="بنر محصولات اسپا و ریلکسیشن" loading="lazy" decoding="async">
-                <span class="hm-promo-card__body">
-                    <b>اسپا و ریلکسیشن</b>
-                    <i>محصولات آرامش‌بخش برای مراقبت از بدن</i>
-                </span>
+            <a class="hm-promo-card hm-real-promo" href="{% url 'core:search' %}?q=%D8%A7%D8%B5%D9%84%D8%A7%D8%AD" aria-label="جست‌وجوی ابزارهای مراقبت">
+                <img src="{% static 'assets/imgs/hazhir-visual-2026/banners/banner-14.webp' %}" alt="تصویر طراحی‌شدهٔ ابزارهای مراقبت" width="800" height="520" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><span class="hm-real-eyebrow">هژیر مارکت</span><b>انتخابی برای مراقبت شخصی</b><i>ابزارهای مراقبت</i><span class="hm-real-arrow">جست‌وجوی کالا <span aria-hidden="true">←</span></span><small class="hm-real-caption">تصویر طراحی‌شده</small></span>
             </a>
-            <a class="hm-promo-card hm-promo-card--towel" href="{% url 'core:category-list' %}">
-                <img src="{% static 'assets/imgs/beauty/promo/promo4-towel.jpg' %}" alt="بنر حوله و لوازم حمام" loading="lazy" decoding="async">
-                <span class="hm-promo-card__body">
-                    <b>لوازم حمام و حوله</b>
-                    <i>پارچه‌های نرم و جذب‌کنندهٔ مرغوب</i>
-                </span>
+            <a class="hm-promo-card hm-real-promo" href="{% url 'core:search' %}?q=%D8%A7%D8%AA%D9%88%20%D9%85%D9%88" aria-label="جست‌وجوی ابزارهای آرایش مو">
+                <img src="{% static 'assets/imgs/hazhir-visual-2026/banners/banner-15.webp' %}" alt="تصویر طراحی‌شدهٔ ابزارهای آرایش مو" width="800" height="520" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><span class="hm-real-eyebrow">هژیر مارکت</span><b>حالت‌دهی مو</b><i>ابزارهای آرایش مو</i><span class="hm-real-arrow">جست‌وجوی کالا <span aria-hidden="true">←</span></span><small class="hm-real-caption">تصویر طراحی‌شده</small></span>
             </a>
-            <a class="hm-promo-card hm-promo-card--giftbox2" href="{% url 'core:category-list' %}">
-                <img src="{% static 'assets/imgs/beauty/promo/promo2-giftbox.jpg' %}" alt="بنر ست‌های هدیه لوکس" loading="lazy" decoding="async">
-                <span class="hm-promo-card__body">
-                    <b>ست‌های هدیه لوکس</b>
-                    <i>بسته‌بندی ویژه برای مناسبت‌های شما</i>
-                </span>
+            <a class="hm-promo-card hm-real-promo" href="{% url 'core:search' %}?q=%D9%85%D8%A7%D8%B4%DB%8C%D9%86%20%D8%A7%D8%B5%D9%84%D8%A7%D8%AD" aria-label="جست‌وجوی ماشین‌های اصلاح">
+                <img src="{% static 'assets/imgs/hazhir-visual-2026/banners/banner-16.webp' %}" alt="تصویر طراحی‌شدهٔ ماشین‌های اصلاح" width="800" height="520" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><span class="hm-real-eyebrow">هژیر مارکت</span><b>اصلاح و پیرایش</b><i>ماشین‌های اصلاح</i><span class="hm-real-arrow">جست‌وجوی کالا <span aria-hidden="true">←</span></span><small class="hm-real-caption">تصویر طراحی‌شده</small></span>
             </a>
         </div>
     </section>
@@ -555,35 +518,23 @@
     {% endif %}
 
     <!-- Promo banners set 5: cream / gold theme -->
-    <section class="beauty-section hm-promo-strip hm-promo-strip--alt4" id="promo-banners-5" aria-label="بنرهای پیشنهاد ویژه هژیر مارکت">
+    <section class="beauty-section hm-promo-strip hm-promo-strip--alt4" id="promo-banners-5" aria-label="گزیدهٔ دسته‌های هژیر مارکت">
         <div class="hm-promo-strip__grid">
-            <a class="hm-promo-card hm-promo-card--salt" href="{% url 'core:category-list' %}">
-                <img src="{% static 'assets/imgs/beauty/promo/promo5-salt.jpg' %}" alt="بنر لوازم اسپا و نمک‌های درمانی" loading="lazy" decoding="async">
-                <span class="hm-promo-card__body">
-                    <b>اسپا و نمک‌های درمانی</b>
-                    <i>محصولات آرامش‌بخش برای ریلکسیشن بدن</i>
-                </span>
+            <a class="hm-promo-card hm-real-promo" href="{% url 'core:search' %}?q=%D8%B3%D8%B4%D9%88%D8%A7%D8%B1" aria-label="جست‌وجوی سشوار و لوازم مو">
+                <img src="{% static 'assets/imgs/hazhir-visual-2026/banners/banner-17.webp' %}" alt="تصویر طراحی‌شدهٔ سشوار و لوازم مو" width="800" height="520" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><span class="hm-real-eyebrow">هژیر مارکت</span><b>ابزارهای مراقبت مو</b><i>سشوار و لوازم مو</i><span class="hm-real-arrow">جست‌وجوی کالا <span aria-hidden="true">←</span></span><small class="hm-real-caption">تصویر طراحی‌شده</small></span>
             </a>
-            <a class="hm-promo-card hm-promo-card--bath" href="{% url 'core:category-list' %}">
-                <img src="{% static 'assets/imgs/beauty/promo/promo5-bath.jpg' %}" alt="بنر لوازم حمام و ریلکسیشن" loading="lazy" decoding="async">
-                <span class="hm-promo-card__body">
-                    <b>لوازم حمام و ریلکسیشن</b>
-                    <i>تجهیزات آرامش‌بخش برای لحظات استراحت شما</i>
-                </span>
+            <a class="hm-promo-card hm-real-promo" href="{% url 'core:search' %}?q=%D8%B3%D8%B4%D9%88%D8%A7%D8%B1" aria-label="جست‌وجوی انتخاب متناسب با نیاز">
+                <img src="{% static 'assets/imgs/hazhir-visual-2026/banners/banner-18.webp' %}" alt="تصویر طراحی‌شدهٔ انتخاب متناسب با نیاز" width="800" height="520" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><span class="hm-real-eyebrow">هژیر مارکت</span><b>لوازم آرایش مو</b><i>انتخاب متناسب با نیاز</i><span class="hm-real-arrow">جست‌وجوی کالا <span aria-hidden="true">←</span></span><small class="hm-real-caption">تصویر طراحی‌شده</small></span>
             </a>
-            <a class="hm-promo-card hm-promo-card--cosmetics2" href="{% url 'core:category-list' %}">
-                <img src="{% static 'assets/imgs/beauty/promo/promo5-cosmetics2.jpg' %}" alt="بنر لوازم آرایشی و روتین پوستی" loading="lazy" decoding="async">
-                <span class="hm-promo-card__body">
-                    <b>آرایش و روتین پوستی</b>
-                    <i>ترکیبات ملایم و ایمن برای هر نوع پوست</i>
-                </span>
+            <a class="hm-promo-card hm-real-promo" href="{% url 'core:search' %}?q=%D9%85%D8%AE%D9%84%D9%88%D8%B7" aria-label="جست‌وجوی لوازم کاربردی خانه">
+                <img src="{% static 'assets/imgs/hazhir-visual-2026/banners/banner-19.webp' %}" alt="تصویر طراحی‌شدهٔ لوازم کاربردی خانه" width="800" height="520" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><span class="hm-real-eyebrow">هژیر مارکت</span><b>برای آشپزخانهٔ شما</b><i>لوازم کاربردی خانه</i><span class="hm-real-arrow">جست‌وجوی کالا <span aria-hidden="true">←</span></span><small class="hm-real-caption">تصویر طراحی‌شده</small></span>
             </a>
-            <a class="hm-promo-card hm-promo-card--spa3" href="{% url 'core:category-list' %}">
-                <img src="{% static 'assets/imgs/beauty/promo/promo5-spa3.jpg' %}" alt="بنر مراقبت تخصصی بدن" loading="lazy" decoding="async">
-                <span class="hm-promo-card__body">
-                    <b>مراقبت تخصصی بدن</b>
-                    <i>محصولات مغذی و بازسازی‌کنندهٔ پوست بدن</i>
-                </span>
+            <a class="hm-promo-card hm-real-promo" href="{% url 'core:search' %}?q=%D8%A7%D8%B5%D9%84%D8%A7%D8%AD" aria-label="جست‌وجوی لوازم اصلاح">
+                <img src="{% static 'assets/imgs/hazhir-visual-2026/banners/banner-20.webp' %}" alt="تصویر طراحی‌شدهٔ لوازم اصلاح" width="800" height="520" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><span class="hm-real-eyebrow">هژیر مارکت</span><b>مراقبت شخصی برای هر روز</b><i>لوازم اصلاح</i><span class="hm-real-arrow">جست‌وجوی کالا <span aria-hidden="true">←</span></span><small class="hm-real-caption">تصویر طراحی‌شده</small></span>
             </a>
         </div>
     </section>
@@ -639,35 +590,23 @@
     {% endif %}
 
     <!-- Promo banners set 6: cream / gold theme -->
-    <section class="beauty-section hm-promo-strip hm-promo-strip--alt5" id="promo-banners-6" aria-label="بنرهای پیشنهاد ویژه هژیر مارکت">
+    <section class="beauty-section hm-promo-strip hm-promo-strip--alt5" id="promo-banners-6" aria-label="گزیدهٔ دسته‌های هژیر مارکت">
         <div class="hm-promo-strip__grid">
-            <a class="hm-promo-card hm-promo-card--cream2" href="{% url 'core:category-list' %}">
-                <img src="{% static 'assets/imgs/beauty/promo/promo6-cream2.jpg' %}" alt="بنر کرم‌ها و لوسیون‌های مغذی" loading="lazy" decoding="async">
-                <span class="hm-promo-card__body">
-                    <b>کرم‌ها و لوسیون‌های مغذی</b>
-                    <i>مراقبت عمیق برای پوست‌های خشک و حساس</i>
-                </span>
+            <a class="hm-promo-card hm-real-promo" href="{% url 'core:search' %}?q=%D8%B3%D8%B4%D9%88%D8%A7%D8%B1" aria-label="جست‌وجوی سشوار و حالت‌دهنده">
+                <img src="{% static 'assets/imgs/hazhir-visual-2026/banners/banner-21.webp' %}" alt="تصویر طراحی‌شدهٔ سشوار و حالت‌دهنده" width="800" height="520" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><span class="hm-real-eyebrow">هژیر مارکت</span><b>آرایش و مراقبت مو</b><i>سشوار و حالت‌دهنده</i><span class="hm-real-arrow">جست‌وجوی کالا <span aria-hidden="true">←</span></span><small class="hm-real-caption">تصویر طراحی‌شده</small></span>
             </a>
-            <a class="hm-promo-card hm-promo-card--perfume3" href="{% url 'core:category-list' %}">
-                <img src="{% static 'assets/imgs/beauty/promo/promo6-perfume3.jpg' %}" alt="بنر عطر و ادکلن لوکس" loading="lazy" decoding="async">
-                <span class="hm-promo-card__body">
-                    <b>عطر و ادکلن لوکس</b>
-                    <i>رایحه‌های شرقی و کلاسیک با ماندگاری بالا</i>
-                </span>
+            <a class="hm-promo-card hm-real-promo" href="{% url 'core:search' %}?q=%D8%A7%D8%B5%D9%84%D8%A7%D8%AD" aria-label="جست‌وجوی ابزارهای اصلاح">
+                <img src="{% static 'assets/imgs/hazhir-visual-2026/banners/banner-22.webp' %}" alt="تصویر طراحی‌شدهٔ ابزارهای اصلاح" width="800" height="520" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><span class="hm-real-eyebrow">هژیر مارکت</span><b>لوازم مراقبت شخصی</b><i>ابزارهای اصلاح</i><span class="hm-real-arrow">جست‌وجوی کالا <span aria-hidden="true">←</span></span><small class="hm-real-caption">تصویر طراحی‌شده</small></span>
             </a>
-            <a class="hm-promo-card hm-promo-card--spa4" href="{% url 'core:category-list' %}">
-                <img src="{% static 'assets/imgs/beauty/promo/promo6-spa4.jpg' %}" alt="بنر محصولات اسپا و آرامش" loading="lazy" decoding="async">
-                <span class="hm-promo-card__body">
-                    <b>اسپا و آرامش</b>
-                    <i>محصولات ریلکسیشن برای بدن و روح</i>
-                </span>
+            <a class="hm-promo-card hm-real-promo" href="{% url 'core:search' %}?q=%D8%B3%D8%B4%D9%88%D8%A7%D8%B1" aria-label="جست‌وجوی سشوار و لوازم مو">
+                <img src="{% static 'assets/imgs/hazhir-visual-2026/banners/banner-23.webp' %}" alt="تصویر طراحی‌شدهٔ سشوار و لوازم مو" width="800" height="520" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><span class="hm-real-eyebrow">هژیر مارکت</span><b>حالت‌دهی هر روز</b><i>سشوار و لوازم مو</i><span class="hm-real-arrow">جست‌وجوی کالا <span aria-hidden="true">←</span></span><small class="hm-real-caption">تصویر طراحی‌شده</small></span>
             </a>
-            <a class="hm-promo-card hm-promo-card--skincare3" href="{% url 'core:category-list' %}">
-                <img src="{% static 'assets/imgs/beauty/promo/promo6-skincare3.jpg' %}" alt="بنر روتین پوستی و آبرسانی" loading="lazy" decoding="async">
-                <span class="hm-promo-card__body">
-                    <b>روتین پوستی و آبرسانی</b>
-                    <i>سرم‌ها و آبرسان‌های تخصصی برای پوست</i>
-                </span>
+            <a class="hm-promo-card hm-real-promo" href="{% url 'core:search' %}?q=%D8%B3%D8%B4%D9%88%D8%A7%D8%B1" aria-label="جست‌وجوی ابزارهای حالت‌دهی">
+                <img src="{% static 'assets/imgs/hazhir-visual-2026/banners/banner-24.webp' %}" alt="تصویر طراحی‌شدهٔ ابزارهای حالت‌دهی" width="800" height="520" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><span class="hm-real-eyebrow">هژیر مارکت</span><b>انتخاب برای مراقبت مو</b><i>ابزارهای حالت‌دهی</i><span class="hm-real-arrow">جست‌وجوی کالا <span aria-hidden="true">←</span></span><small class="hm-real-caption">تصویر طراحی‌شده</small></span>
             </a>
         </div>
     </section>
@@ -693,35 +632,23 @@
     </section>
     {% endif %}
 
-    <section class="beauty-section hm-promo-strip hm-promo-strip--alt6" id="promo-banners-7" aria-label="بنرهای پیشنهاد ویژه هژیر مارکت">
+    <section class="beauty-section hm-promo-strip hm-promo-strip--alt6" id="promo-banners-7" aria-label="گزیدهٔ دسته‌های هژیر مارکت">
         <div class="hm-promo-strip__grid">
-            <a class="hm-promo-card hm-promo-card--giftbox2" href="{% url 'core:category-list' %}">
-                <img src="{% static 'assets/imgs/beauty/promo/promo7-giftbox2.jpg' %}" alt="بنر پک‌های هدیه لوکس" loading="lazy" decoding="async">
-                <span class="hm-promo-card__body">
-                    <b>پک‌های هدیه لوکس</b>
-                    <i>ست‌های آماده برای هدیه دادن</i>
-                </span>
+            <a class="hm-promo-card hm-real-promo" href="{% url 'core:search' %}?q=%D8%A7%D8%B5%D9%84%D8%A7%D8%AD" aria-label="جست‌وجوی ابزارهای مراقبت">
+                <img src="{% static 'assets/imgs/hazhir-visual-2026/banners/banner-25.webp' %}" alt="تصویر طراحی‌شدهٔ ابزارهای مراقبت" width="800" height="520" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><span class="hm-real-eyebrow">هژیر مارکت</span><b>انتخابی برای مراقبت شخصی</b><i>ابزارهای مراقبت</i><span class="hm-real-arrow">جست‌وجوی کالا <span aria-hidden="true">←</span></span><small class="hm-real-caption">تصویر طراحی‌شده</small></span>
             </a>
-            <a class="hm-promo-card hm-promo-card--trimmer2" href="{% url 'core:category-list' %}">
-                <img src="{% static 'assets/imgs/beauty/promo/promo7-trimmer2.jpg' %}" alt="بنر بیوتی‌تریمرها" loading="lazy" decoding="async">
-                <span class="hm-promo-card__body">
-                    <b>بیوتی‌تریمرها</b>
-                    <i>اصلاح‌کننده‌های دقیق و ایمن</i>
-                </span>
+            <a class="hm-promo-card hm-real-promo" href="{% url 'core:search' %}?q=%D8%A7%D8%AA%D9%88%20%D9%85%D9%88" aria-label="جست‌وجوی ابزارهای آرایش مو">
+                <img src="{% static 'assets/imgs/hazhir-visual-2026/banners/banner-26.webp' %}" alt="تصویر طراحی‌شدهٔ ابزارهای آرایش مو" width="800" height="520" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><span class="hm-real-eyebrow">هژیر مارکت</span><b>حالت‌دهی مو</b><i>ابزارهای آرایش مو</i><span class="hm-real-arrow">جست‌وجوی کالا <span aria-hidden="true">←</span></span><small class="hm-real-caption">تصویر طراحی‌شده</small></span>
             </a>
-            <a class="hm-promo-card hm-promo-card--barber2" href="{% url 'core:category-list' %}">
-                <img src="{% static 'assets/imgs/beauty/promo/promo7-barber2.jpg' %}" alt="بنر لوازم آرایشی" loading="lazy" decoding="async">
-                <span class="hm-promo-card__body">
-                    <b>لوازم آرایشی</b>
-                    <i>ابزار حرفه‌ای برای آرایش</i>
-                </span>
+            <a class="hm-promo-card hm-real-promo" href="{% url 'core:search' %}?q=%D8%B3%D8%B4%D9%88%D8%A7%D8%B1" aria-label="جست‌وجوی ابزارهای آرایش مو">
+                <img src="{% static 'assets/imgs/hazhir-visual-2026/banners/banner-27.webp' %}" alt="تصویر طراحی‌شدهٔ ابزارهای آرایش مو" width="800" height="520" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><span class="hm-real-eyebrow">هژیر مارکت</span><b>سشوار برای سلیقه‌های مختلف</b><i>ابزارهای آرایش مو</i><span class="hm-real-arrow">جست‌وجوی کالا <span aria-hidden="true">←</span></span><small class="hm-real-caption">تصویر طراحی‌شده</small></span>
             </a>
-            <a class="hm-promo-card hm-promo-card--spa5" href="{% url 'core:category-list' %}">
-                <img src="{% static 'assets/imgs/beauty/promo/promo7-spa5.jpg' %}" alt="بنر مراقبت اسپا" loading="lazy" decoding="async">
-                <span class="hm-promo-card__body">
-                    <b>مراقبت اسپا</b>
-                    <i>آرامش و ریلکسیشن در خانه</i>
-                </span>
+            <a class="hm-promo-card hm-real-promo" href="{% url 'core:search' %}?q=%D9%85%D8%AE%D9%84%D9%88%D8%B7" aria-label="جست‌وجوی لوازم کاربردی خانه">
+                <img src="{% static 'assets/imgs/hazhir-visual-2026/banners/banner-28.webp' %}" alt="تصویر طراحی‌شدهٔ لوازم کاربردی خانه" width="800" height="520" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><span class="hm-real-eyebrow">هژیر مارکت</span><b>برای آشپزخانهٔ شما</b><i>لوازم کاربردی خانه</i><span class="hm-real-arrow">جست‌وجوی کالا <span aria-hidden="true">←</span></span><small class="hm-real-caption">تصویر طراحی‌شده</small></span>
             </a>
         </div>
     </section>
@@ -739,35 +666,23 @@
     </section>
 
     <!-- Promo banners set 8: cream / gold theme -->
-    <section class="beauty-section hm-promo-strip hm-promo-strip--alt7" id="promo-banners-8" aria-label="بنرهای پیشنهاد ویژه هژیر مارکت">
+    <section class="beauty-section hm-promo-strip hm-promo-strip--alt7" id="promo-banners-8" aria-label="گزیدهٔ دسته‌های هژیر مارکت">
         <div class="hm-promo-strip__grid">
-            <a class="hm-promo-card hm-promo-card--towel2" href="{% url 'core:category-list' %}">
-                <img src="{% static 'assets/imgs/beauty/promo/promo8-towel2.jpg' %}" alt="بنر حوله و لوازم حمام" loading="lazy" decoding="async">
-                <span class="hm-promo-card__body">
-                    <b>حوله و لوازم حمام</b>
-                    <i>پارچه‌های نرم و جذب‌کنندهٔ مرغوب</i>
-                </span>
+            <a class="hm-promo-card hm-real-promo" href="{% url 'core:search' %}?q=%D8%B3%D8%B4%D9%88%D8%A7%D8%B1" aria-label="جست‌وجوی انتخاب متناسب با نیاز">
+                <img src="{% static 'assets/imgs/hazhir-visual-2026/banners/banner-29.webp' %}" alt="تصویر طراحی‌شدهٔ انتخاب متناسب با نیاز" width="800" height="520" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><span class="hm-real-eyebrow">هژیر مارکت</span><b>لوازم آرایش مو</b><i>انتخاب متناسب با نیاز</i><span class="hm-real-arrow">جست‌وجوی کالا <span aria-hidden="true">←</span></span><small class="hm-real-caption">تصویر طراحی‌شده</small></span>
             </a>
-            <a class="hm-promo-card hm-promo-card--cream3" href="{% url 'core:category-list' %}">
-                <img src="{% static 'assets/imgs/beauty/promo/promo8-cream3.jpg' %}" alt="بنر کرم و مراقبت پوست" loading="lazy" decoding="async">
-                <span class="hm-promo-card__body">
-                    <b>کرم و مراقبت پوست</b>
-                    <i>محصولات مغذی برای پوست‌های حساس</i>
-                </span>
+            <a class="hm-promo-card hm-real-promo" href="{% url 'core:search' %}?q=%D8%B3%D8%B4%D9%88%D8%A7%D8%B1" aria-label="جست‌وجوی سشوار و حالت‌دهنده">
+                <img src="{% static 'assets/imgs/hazhir-visual-2026/banners/banner-30.webp' %}" alt="تصویر طراحی‌شدهٔ سشوار و حالت‌دهنده" width="800" height="520" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><span class="hm-real-eyebrow">هژیر مارکت</span><b>آرایش و مراقبت مو</b><i>سشوار و حالت‌دهنده</i><span class="hm-real-arrow">جست‌وجوی کالا <span aria-hidden="true">←</span></span><small class="hm-real-caption">تصویر طراحی‌شده</small></span>
             </a>
-            <a class="hm-promo-card hm-promo-card--spa6" href="{% url 'core:category-list' %}">
-                <img src="{% static 'assets/imgs/beauty/promo/promo8-spa6.jpg' %}" alt="بنر محصولات اسپا" loading="lazy" decoding="async">
-                <span class="hm-promo-card__body">
-                    <b>محصولات اسپا</b>
-                    <i>آرامش و ریلکسیشن در خانه</i>
-                </span>
+            <a class="hm-promo-card hm-real-promo" href="{% url 'core:search' %}?q=%D9%85%D8%A7%D8%B4%DB%8C%D9%86%20%D8%A7%D8%B5%D9%84%D8%A7%D8%AD" aria-label="جست‌وجوی ماشین‌های اصلاح">
+                <img src="{% static 'assets/imgs/hazhir-visual-2026/banners/banner-31.webp' %}" alt="تصویر طراحی‌شدهٔ ماشین‌های اصلاح" width="800" height="520" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><span class="hm-real-eyebrow">هژیر مارکت</span><b>اصلاح و پیرایش</b><i>ماشین‌های اصلاح</i><span class="hm-real-arrow">جست‌وجوی کالا <span aria-hidden="true">←</span></span><small class="hm-real-caption">تصویر طراحی‌شده</small></span>
             </a>
-            <a class="hm-promo-card hm-promo-card--giftbox3" href="{% url 'core:category-list' %}">
-                <img src="{% static 'assets/imgs/beauty/promo/promo8-giftbox3.jpg' %}" alt="بنر ست‌های هدیه" loading="lazy" decoding="async">
-                <span class="hm-promo-card__body">
-                    <b>ست‌های هدیه</b>
-                    <i>بسته‌بندی لوکس برای مناسبت‌های شما</i>
-                </span>
+            <a class="hm-promo-card hm-real-promo" href="{% url 'core:search' %}?q=%D8%B3%D8%B4%D9%88%D8%A7%D8%B1" aria-label="جست‌وجوی سشوار و لوازم مو">
+                <img src="{% static 'assets/imgs/hazhir-visual-2026/banners/banner-32.webp' %}" alt="تصویر طراحی‌شدهٔ سشوار و لوازم مو" width="800" height="520" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><span class="hm-real-eyebrow">هژیر مارکت</span><b>ابزارهای مراقبت مو</b><i>سشوار و لوازم مو</i><span class="hm-real-arrow">جست‌وجوی کالا <span aria-hidden="true">←</span></span><small class="hm-real-caption">تصویر طراحی‌شده</small></span>
             </a>
         </div>
     </section>
@@ -805,23 +720,23 @@
         </form>
     </section>
 
-    <section class="beauty-section hm-promo-strip hm-promo-strip--alt8" id="promo-banners-9" aria-label="بنرهای پیشنهاد ویژه هژیر مارکت">
+    <section class="beauty-section hm-promo-strip hm-promo-strip--alt8" id="promo-banners-9" aria-label="گزیدهٔ دسته‌های هژیر مارکت">
         <div class="hm-promo-strip__grid">
-            <a class="hm-promo-card hm-promo-card--oil" href="{% url 'core:category-list' %}">
-                <img src="{% static 'assets/imgs/beauty/promo/promo9-oil.jpg' %}" alt="روغن‌های مراقبتی و آرایشی" loading="lazy" decoding="async">
-                <span class="hm-promo-card__body"><b>روغن‌های مراقبتی</b><i>ترکیبات طبیعی برای پوست و مو</i></span>
+            <a class="hm-promo-card hm-real-promo" href="{% url 'core:search' %}?q=%D8%A7%D8%B5%D9%84%D8%A7%D8%AD" aria-label="جست‌وجوی لوازم اصلاح">
+                <img src="{% static 'assets/imgs/hazhir-visual-2026/banners/banner-33.webp' %}" alt="تصویر طراحی‌شدهٔ لوازم اصلاح" width="800" height="520" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><span class="hm-real-eyebrow">هژیر مارکت</span><b>مراقبت شخصی برای هر روز</b><i>لوازم اصلاح</i><span class="hm-real-arrow">جست‌وجوی کالا <span aria-hidden="true">←</span></span><small class="hm-real-caption">تصویر طراحی‌شده</small></span>
             </a>
-            <a class="hm-promo-card hm-promo-card--mirror" href="{% url 'core:category-list' %}">
-                <img src="{% static 'assets/imgs/beauty/promo/promo9-mirror.jpg' %}" alt="آینه و لوازم جانبی آرایش" loading="lazy" decoding="async">
-                <span class="hm-promo-card__body"><b>لوازم آرایشی</b><i>آینه، دسته آرایش و اکسسوری</i></span>
+            <a class="hm-promo-card hm-real-promo" href="{% url 'core:search' %}?q=%D8%B3%D8%B4%D9%88%D8%A7%D8%B1" aria-label="جست‌وجوی ابزارهای حالت‌دهی">
+                <img src="{% static 'assets/imgs/hazhir-visual-2026/banners/banner-34.webp' %}" alt="تصویر طراحی‌شدهٔ ابزارهای حالت‌دهی" width="800" height="520" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><span class="hm-real-eyebrow">هژیر مارکت</span><b>انتخاب برای مراقبت مو</b><i>ابزارهای حالت‌دهی</i><span class="hm-real-arrow">جست‌وجوی کالا <span aria-hidden="true">←</span></span><small class="hm-real-caption">تصویر طراحی‌شده</small></span>
             </a>
-            <a class="hm-promo-card hm-promo-card--leaf" href="{% url 'core:category-list' %}">
-                <img src="{% static 'assets/imgs/beauty/promo/promo9-leaf.jpg' %}" alt="محصولات گیاهی و طبیعی" loading="lazy" decoding="async">
-                <span class="hm-promo-card__body"><b>محصولات گیاهی</b><i>مراقبت طبیعی با عصاره‌های گیاهی</i></span>
+            <a class="hm-promo-card hm-real-promo" href="{% url 'core:search' %}?q=%D8%B3%D8%B4%D9%88%D8%A7%D8%B1" aria-label="جست‌وجوی سشوار و لوازم مو">
+                <img src="{% static 'assets/imgs/hazhir-visual-2026/banners/banner-35.webp' %}" alt="تصویر طراحی‌شدهٔ سشوار و لوازم مو" width="800" height="520" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><span class="hm-real-eyebrow">هژیر مارکت</span><b>حالت‌دهی هر روز</b><i>سشوار و لوازم مو</i><span class="hm-real-arrow">جست‌وجوی کالا <span aria-hidden="true">←</span></span><small class="hm-real-caption">تصویر طراحی‌شده</small></span>
             </a>
-            <a class="hm-promo-card hm-promo-card--spa7" href="{% url 'core:category-list' %}">
-                <img src="{% static 'assets/imgs/beauty/promo/promo9-spa7.jpg' %}" alt="لوازم اسپا و ریلکسیشن" loading="lazy" decoding="async">
-                <span class="hm-promo-card__body"><b>لوازم اسپا</b><i>آرامش و ریلکسیشن در منزل</i></span>
+            <a class="hm-promo-card hm-real-promo" href="{% url 'core:search' %}?q=%D8%A7%D8%B5%D9%84%D8%A7%D8%AD" aria-label="جست‌وجوی ابزارهای اصلاح">
+                <img src="{% static 'assets/imgs/hazhir-visual-2026/banners/banner-36.webp' %}" alt="تصویر طراحی‌شدهٔ ابزارهای اصلاح" width="800" height="520" loading="lazy" decoding="async">
+                <span class="hm-promo-card__body"><span class="hm-real-eyebrow">هژیر مارکت</span><b>لوازم مراقبت شخصی</b><i>ابزارهای اصلاح</i><span class="hm-real-arrow">جست‌وجوی کالا <span aria-hidden="true">←</span></span><small class="hm-real-caption">تصویر طراحی‌شده</small></span>
             </a>
         </div>
     </section>
