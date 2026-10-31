@@ -1,16 +1,36 @@
 {% extends 'partials/base.html' %}
 {% load static %}
 {% block title %}{{ item.title }} | کاتالوگ در حال بررسی{% endblock %}
-{% block meta_description %}عنوان کالا در کاتالوگ هژیر مارکت در انتظار بررسی است.{% endblock %}
+{% block meta_description %}اطلاعات {{ item.title }} در کاتالوگ هژیر مارکت؛ مشخصات و موجودی نیازمند بررسی.{% endblock %}
 {% block meta_robots %}noindex,nofollow{% endblock %}
-{% block extra_head %}<link rel="stylesheet" href="{% static 'css/hazhir-catalog-inquiry.css' %}?v=20261028-1">{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/hazhir-catalog-inquiry.css' %}?v=20261031-3">{% endblock %}
 {% block content %}
 <main class="hm-review-shell" dir="rtl">
     <nav class="hm-review-breadcrumb" aria-label="مسیر صفحه"><a href="{% url 'core:index' %}">خانه</a> / <a href="{% url 'core:catalog-inquiry-list' %}">کاتالوگ در حال بررسی</a> / {{ item.title }}</nav>
-    <p class="hm-inquiry-notice" role="note">عنوان این کالا از خروجی فروشگاه در ۲۷ اکتبر ۲۰۲۶ است و باید بررسی شود. قیمت، موجودی، اصالت و مشخصات آن تأیید نشده و خرید از این صفحه غیرفعال است.</p>
+    <p class="hm-inquiry-notice" role="note">این صفحه پیش‌نمایش است. تطبیق مدل، تصویر، قیمت، موجودی و اصالت باید پیش از فروش تأیید شود؛ خرید از این صفحه غیرفعال است.</p>
     <section class="hm-review-detail">
-        <div><small>{{ item.category_label }} · شناسهٔ خروجی {{ item.id }}</small><h1>{{ item.title }}</h1><p class="hm-inquiry-status">قیمت و موجودی در انتظار تأیید</p>{% if item.note %}<p>{{ item.note }}</p>{% endif %}<p>برای پرسش دربارهٔ این کالا با فروشگاه تماس بگیرید. پیش از خرید، اطلاعات کالا و قیمت روز باید تأیید شود.</p><a class="hm-inquiry-cta" href="{% url 'core:contact' %}">تماس با فروشگاه برای استعلام ←</a><a class="hm-inquiry-cta" href="{% url 'core:catalog-inquiry-list' %}">بازگشت به کاتالوگ</a></div>
-        <div class="hm-review-media">{% include 'partials/catalog-inquiry-image.html' %}</div>
+        <div class="hm-review-media hm-inquiry-zoom" data-inquiry-zoom>
+            {% include 'partials/catalog-inquiry-image.html' %}
+            {% if item.image %}<button type="button" class="hm-inquiry-zoom__button" data-inquiry-zoom-button aria-label="بزرگ‌نمایی تصویر {{ item.title }}">⌕ <span>بزرگ‌نمایی تصویر</span></button>{% endif %}
+        </div>
+        <div class="hm-review-detail__info">
+            <small>{{ item.category_label }} · شناسهٔ کاتالوگ {{ item.id }}</small><h1>{{ item.title }}</h1>
+{% if source_record %}
+            <section class="hm-inquiry-features" aria-labelledby="feature-preview-title"><h2 id="feature-preview-title">ویژگی‌ها</h2>
+                <div class="hm-inquiry-features__cards">{% for feature in spec_rows|slice:":2" %}<div class="hm-inquiry-features__card"><span>{{ feature.label }}</span><strong>{{ feature.value }}</strong></div>{% endfor %}</div>
+                <a class="hm-inquiry-features__link" href="#inquiry-specs">مشاهده همه ویژگی‌ها <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            </section>
+{% endif %}
+            <p class="hm-inquiry-status">قیمت و موجودی در انتظار تأیید</p>{% if item.note %}<p>{{ item.note }}</p>{% endif %}
+            <a class="hm-inquiry-cta" href="{% url 'core:contact' %}">تماس با فروشگاه برای استعلام ←</a><a class="hm-inquiry-cta" href="{% url 'core:catalog-inquiry-list' %}">بازگشت به کاتالوگ</a>
+        </div>
+    </section>
+    <section class="hm-inquiry-specs" id="inquiry-specs" aria-labelledby="inquiry-specs-heading" tabindex="-1">
+        <h2 id="inquiry-specs-heading">مشخصات محصول</h2>
+        <dl>{% for feature in spec_rows %}<div class="hm-inquiry-specs__row"><dt>{{ feature.label }}</dt><dd>{{ feature.value }}</dd></div>{% endfor %}</dl>
+        {% if source_record %}<p class="hm-inquiry-specs__note">مشخصات فنی بالا از منبع زیر گردآوری شده‌اند؛ تطبیق مدل و نسخهٔ موجود در فروشگاه هنوز باید تأیید شود.</p><p><a href="{{ source_record.source }}" rel="noopener noreferrer" target="_blank">مشاهدهٔ منبع مشخصات ↗</a>{% if 'http://' in source_record.source %} <small>این وب‌سایت از اتصال رمزگذاری‌نشده استفاده می‌کند.</small>{% endif %}</p>
+        {% else %}<p class="hm-inquiry-specs__note">مشخصات فنی این کالا هنوز بررسی و تکمیل نشده است.</p>{% endif %}
     </section>
 </main>
+<script src="{% static 'js/catalog-inquiry-zoom.js' %}?v=1" defer></script>
 {% endblock %}

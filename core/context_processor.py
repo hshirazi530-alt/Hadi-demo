@@ -59,4 +59,5 @@ def default(request):
         'store_profile': STORE_PROFILE,
         'cart_item_count': cart_item_count,
         'goftino_widget_id': widget_id,
+        'preview_tab_enabled': getattr(settings, 'PREVIEW_TAB_ENABLED', False),
     }

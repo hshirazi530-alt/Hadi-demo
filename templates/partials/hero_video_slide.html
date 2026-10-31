@@ -1,0 +1,13 @@
+{% load static %}
+<article class="swiper-slide hm-hero__slide hm-hero-video" data-hero-video-slide data-swiper-autoplay="11000" aria-label="ویدئوی معرفی محصول">
+    <div class="hm-hero-video__frame">
+        <video class="hm-hero-video__video" data-hero-video muted playsinline loop preload="metadata" poster="{% static 'assets/video/hero-feature-poster.webp' %}" aria-label="ویدئوی معرفی محصول">
+            <source src="{% static 'assets/video/hero-feature.mp4' %}" type="video/mp4">
+            مرورگر شما امکان پخش ویدئو را ندارد.
+        </video>
+        <div class="hm-hero-video__controls" aria-label="کنترل ویدئو">
+            <button type="button" data-video-play aria-label="توقف ویدئو">توقف ویدئو</button>
+            <button type="button" data-video-sound aria-pressed="false" aria-label="فعال کردن صدای ویدئو">فعال‌کردن صدا</button>
+        </div>
+    </div>
+</article>

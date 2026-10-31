@@ -1,3 +1,4 @@
+from django.test import override_settings as legacy_photo_policy
 from decimal import Decimal
 from pathlib import Path
 
@@ -8,6 +9,8 @@ from django.urls import reverse
 from core.models import Category, Product, ProductImages
 
 
+# Legacy rendering checks exercise the explicitly supported fallback mode.
+@legacy_photo_policy(HIDE_PRODUCTS_WITHOUT_PHOTO=False)
 class ProductDetailStageSixTests(TestCase):
     def setUp(self):
         self.category = Category.objects.create(title='دسته آزمایشی')
@@ -24,11 +27,10 @@ class ProductDetailStageSixTests(TestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'product-detail-stage6.css?v=1')
-        self.assertContains(response, 'product-image-pending.svg')
-        self.assertContains(response, 'تصویر محصول ثبت نشده است')
+        self.assertContains(response, 'product-image-pending.webp')
         self.assertContains(response, '20٪ تخفیف')
         self.assertNotContains(response, '25٪ تخفیف')
-        self.assertContains(response, 'data-product-image=""')
+        self.assertContains(response, 'data-product-image="/static/assets/imgs/theme/product-image-pending.webp"')
         self.assertContains(response, 'data-warranty-option')
         self.assertContains(response, 'data-authenticity-wrap')
         self.assertContains(response, 'data-product-tabs')

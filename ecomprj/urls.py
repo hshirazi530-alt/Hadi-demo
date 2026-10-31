@@ -43,6 +43,9 @@ urlpatterns = [
     path("ckeditor5/", include('django_ckeditor_5.urls')),
 ]
 
+if settings.DEBUG and getattr(settings, "PREVIEW_TAB_ENABLED", False):
+    urlpatterns += [path("__reload__/", include("django_browser_reload.urls"))]
+
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

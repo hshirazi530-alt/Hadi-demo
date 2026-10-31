@@ -142,6 +142,9 @@ class Product(models.Model):
     title = models.CharField(max_length=100, default="عنوان محصول", verbose_name="عنوان")
     image = models.ImageField(
         upload_to=user_directory_path, default="product.jpg", verbose_name="عکس محصول")
+    image_webp = models.ImageField(upload_to="products/webp/", blank=True, verbose_name="تصویر WebP")
+    image_webp_source = models.CharField(max_length=500, blank=True, editable=False)
+
     # description = models.TextField(null=True, blank=True, default="This is the product")
     description = CKEditor5Field(config_name='extends', null=True, blank=True, verbose_name= "توضیحات" )
 
@@ -228,8 +231,31 @@ class Product(models.Model):
         verbose_name_plural = "محصولات"
         verbose_name = "محصول"
 
+    def save(self, *args, **kwargs):
+        update_fields = kwargs.get("update_fields")
+        super().save(*args, **kwargs)
+        # Avoid expensive image processing for unrelated partial updates.
+        if update_fields is not None and "image" not in update_fields:
+            return
+        if self.image and self.image.name and not self.image.name.lower().endswith(".webp") and (not self.image_webp or self.image_webp_source != self.image.name):
+            from core.product_webp import create_webp
+            create_webp(self)
+
+    @property
+    def display_image_url(self):
+        from django.templatetags.static import static
+        # Never serve a derivative of an older upload.
+        files = ([self.image_webp] if self.image_webp and self.image_webp_source == self.image.name else []) + ([self.image] if self.image else [])
+        for field in files:
+            try:
+                if field.storage.exists(field.name):
+                    return field.url
+            except (OSError, ValueError):
+                continue
+        return static("assets/imgs/theme/product-image-pending.webp")
+
     def product_image(self):
-        return mark_safe('<img src="%s" width="50" height="50" />' % (self.image.url))
+        return mark_safe('<img src="%s" width="50" height="50" />' % (self.display_image_url))
 
     def __str__(self):
         return self.title

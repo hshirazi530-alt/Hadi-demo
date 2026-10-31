@@ -1,3 +1,4 @@
+from django.test import override_settings as legacy_photo_policy
 from decimal import Decimal
 from io import BytesIO
 
@@ -11,6 +12,8 @@ from core.admin import ProductAdminForm
 from core.models import CartOrder, CartOrderProducts, Category, Product, Vendor
 
 
+# Legacy rendering checks exercise the explicitly supported fallback mode.
+@legacy_photo_policy(HIDE_PRODUCTS_WITHOUT_PHOTO=False)
 class WarrantyStageSevenTests(TestCase):
     def setUp(self):
         self.category = Category.objects.create(title='دسته گارانتی آزمایشی')

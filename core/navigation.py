@@ -18,7 +18,7 @@ from django.db.models import Q
 
 from core.storefront import HOME_CATEGORIES, HOME_PRODUCT_TERMS
 
-CACHE_KEY = "hm:navigation:categories:v2"
+CACHE_KEY = "hm:navigation:categories:v4"
 CACHE_TTL = 180  # seconds
 
 # Match the storefront category strip without changing the order or content
@@ -33,6 +33,8 @@ _NAV_FALLBACK_ICONS = {
     "عطر و ادکلن": "assets/imgs/theme/icons/header-reference/perfume.svg",
     "لوازم خانگی": "assets/imgs/theme/icons/header-reference/home.svg",
     "قطعات و لوازم دیجیتال": "assets/imgs/theme/icons/header-reference/digital.svg",
+    "قطعات": "assets/imgs/theme/icons/header-reference/shaver-parts.svg",
+    "لوازم جانبی": "assets/imgs/theme/icons/header-reference/digital.svg",
 }
 
 
@@ -69,6 +71,7 @@ def _build_nav_categories():
 
     rows = (
         Category.objects.filter(build_category_filter())
+        .exclude(title="قطعات و لوازم دیجیتال")
         .prefetch_related("subcategories")
         .order_by("id")
         .distinct()

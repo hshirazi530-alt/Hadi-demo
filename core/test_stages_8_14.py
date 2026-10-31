@@ -1,3 +1,4 @@
+from django.test import override_settings as legacy_photo_policy
 from decimal import Decimal
 from io import BytesIO
 
@@ -58,6 +59,8 @@ class IranianMobileTests(TestCase):
         self.assertEqual(CartOrder.objects.get().phone, '09121234567')
 
 
+# Legacy rendering checks exercise the explicitly supported fallback mode.
+@legacy_photo_policy(HIDE_PRODUCTS_WITHOUT_PHOTO=False)
 class FinalStageRenderingTests(TestCase):
     def setUp(self):
         invalidate_nav_cache()
@@ -105,8 +108,9 @@ class FinalStageRenderingTests(TestCase):
             with self.subTest(url=url):
                 response = self.client.get(url, query)
                 self.assertContains(response, self.product.title)
-                self.assertContains(response, 'product-image-pending.svg')
-                self.assertContains(response, 'تصویر محصول ثبت نشده است')
+                # Homepage retains the SVG fallback; the other pages use WebP.
+                expected = 'product-image-pending.svg' if url == reverse('core:index') else 'product-image-pending.webp'
+                self.assertContains(response, expected)
                 if url != reverse('core:index'):
                     self.assertNotContains(response, 'assets/imgs/beauty/barber-shop.jpg')
                 else:

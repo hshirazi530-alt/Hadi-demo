@@ -1,0 +1,7 @@
+.store-css .hm-hero .hm-hero-video{background:#19170f;overflow:hidden}
+.store-css .hm-hero-video__frame{position:absolute;inset:0;background:#19170f;display:flex;align-items:center;justify-content:center}
+.store-css .hm-hero-video__video{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+.store-css .hm-hero-video__controls{position:absolute;z-index:5;top:16px;left:16px;display:flex;gap:8px;flex-wrap:wrap;direction:rtl}
+.store-css .hm-hero-video__controls button{border:1px solid #e5d293;border-radius:999px;background:rgba(255,248,220,.96);color:#30250c;padding:9px 13px;font-size:13px;font-weight:700;line-height:1.4;cursor:pointer;box-shadow:0 3px 12px #0003}
+.store-css .hm-hero-video__controls button:hover{background:#d4af37}.store-css .hm-hero-video__controls button:focus-visible{outline:3px solid white;outline-offset:3px}
+@media(max-width:600px){.store-css .hm-hero-video__controls{top:10px;left:10px;gap:6px}.store-css .hm-hero-video__controls button{font-size:12px;padding:7px 10px}}

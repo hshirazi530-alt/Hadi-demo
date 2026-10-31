@@ -1,3 +1,4 @@
+from django.test import override_settings as legacy_photo_policy
 from pathlib import Path
 
 from PIL import Image
@@ -10,6 +11,8 @@ from core.navigation import invalidate_nav_cache
 from core.storefront import HOME_CATEGORIES
 
 
+# Legacy rendering checks exercise the explicitly supported fallback mode.
+@legacy_photo_policy(HIDE_PRODUCTS_WITHOUT_PHOTO=False)
 class HeroShowcaseTests(TestCase):
     def setUp(self):
         # A data migration may pre-create a digital category in test databases.
@@ -40,7 +43,7 @@ class HeroShowcaseTests(TestCase):
         expected = ["بنر دیجیتال قبلی", "بنر قدیمی اول", "بنر قدیمی دوم", 'data-hero-showcase="personal"', 'data-hero-showcase="digital"']
         offsets = [html.index(item) for item in expected]
         self.assertEqual(offsets, sorted(offsets))
-        self.assertEqual(html.count('<article class="swiper-slide hm-hero__slide'), 5)
+        self.assertEqual(html.count('<article class="swiper-slide hm-hero__slide'), 6)
         self.assertNotIn("نباید دیده شود", html)
         self.assertIn('href="/search/?q=one">دکمهٔ اول</a>', html)
         digital.refresh_from_db()
@@ -54,7 +57,7 @@ class HeroShowcaseTests(TestCase):
         response = self.client.get(reverse("core:index"))
         self.assertEqual(response.status_code, 200)
         html = self.hero_html(response)
-        self.assertEqual(html.count('<article class="swiper-slide hm-hero__slide'), len(HOME_CATEGORIES) + 2)
+        self.assertEqual(html.count('<article class="swiper-slide hm-hero__slide'), len(HOME_CATEGORIES) + 3)
         for category in HOME_CATEGORIES:
             self.assertIn(category["hero_title"], html)
             self.assertLess(html.index(category["hero_title"]), html.index('data-hero-showcase="personal"'))

@@ -1,5 +1,6 @@
-﻿{% extends 'partials/base.html' %}
+{% extends 'partials/base.html' %}
 {% load static %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/shipping-info-task14.css' %}?v=1">{% endblock %}
 {% block content %}
 <main class="main pages purchase-guide-page" dir="rtl">
     <div class="page-header breadcrumb-wrap">
@@ -109,11 +110,10 @@
                     </div>
                     <div class="purchase-guide-step__body">
                         <h3>۶. پیگیری ارسال و تحویل</h3>
-                        <p>کد رهگیری پستی را در سایت پست ایران (tracking.post.ir) پیگیری کنید. زمان تحویل معمولاً ۲ تا ۵ روز کاری است.</p>
-                        <div class="purchase-guide-step__details">
-                            <div class="purchase-guide-step__action"><strong>اقدام:</strong> هر ۲۴ ساعت وضعیت ارسال را چک کنید.</div>
-                            <div class="purchase-guide-step__warning"><strong>⚠ هشدار:</strong> عدم به‌روزرسانی وضعیت پس از ۴۸ ساعت یا آدرس اشتباه در سیستم.</div>
-                            <div class="purchase-guide-step__checklist"><strong>چک‌لیست:</strong> ☐ کد رهگیری دریافت شد ☐ وضعیت در tracking.post.ir چک شد ☐ آدرس تحویل تأیید شد</div>
+                        <div class="hm-shipping-info" id="shipping-info">
+                            <p>برای اطلاع از امکان ارسال پستی، روش ارسال، زمان تحویل و هزینهٔ سفارش خود، پیش از نهایی‌کردن سفارش با فروشگاه هماهنگ کنید. این موارد به مقصد و شرایط سفارش وابسته‌اند.</p>
+                            <p>اگر سفارش از طریق پست ارسال شد و کد رهگیری دریافت کردید، می‌توانید آن را در <a href="https://tracking.post.ir/" target="_blank" rel="noopener noreferrer">سامانهٔ رهگیری شرکت ملی پست</a> بررسی کنید.</p>
+                            <p>پیش از ارسال، نام، شمارهٔ تماس، نشانی و کد پستی را بررسی کنید. در صورت مغایرت یا پرسش دربارهٔ مرسوله با <a href="{% url 'core:contact' %}">پشتیبانی فروشگاه</a> تماس بگیرید.</p>
                         </div>
                     </div>
                 </div>

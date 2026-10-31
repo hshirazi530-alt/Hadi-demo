@@ -2,7 +2,7 @@ STORE_PROFILE = {
     "name": "Hazhirmarket",
     "phone": "09186555100",
     "phone_link": "+989186555100",
-    "email": "info@hejrmarket.com",
+    "email": "markethazhir@gmail.com",
     "address": "کردستان، بانه، میدان چومان، پاساژ شهرآفتاب، طبقهٔ زیرزمین",
     "hours": "شنبه تا جمعه، ساعت ۱۰ تا ۱۸",
     "wholesale_channel": "https://t.me/hazhirmarket_omdeh",
@@ -91,6 +91,26 @@ HOME_CATEGORIES = [
         "hero_description": "ماشین‌های اصلاح و ریش‌تراش موجود را بر حسب نوع کاربرد و مشخصاتشان بررسی کن؛ برای انتخاب مناسب می‌توانی از ما راهنمایی بخواهی.",
     },
 ]
+# Separate storefront destinations; the original combined category remains
+# available so existing product assignments and links are not changed.
+for _category_title, _description in (
+    ("قطعات", "قطعات یدکی ریش‌تراش و سشوار را جداگانه بررسی کنید."),
+    ("لوازم جانبی", "لوازم جانبی را جداگانه بررسی کنید."),
+):
+    HOME_CATEGORIES.append({
+        "name": _category_title,
+        "description": _description,
+        "image": "assets/imgs/beauty/photos/cat-digital.jpg",
+        "alt": _category_title,
+        "query": _category_title,
+        "product_category": _category_title,
+        "tone": "gold",
+        "hero_eyebrow": "دسته‌بندی محصولات",
+        "hero_title": "انتخابی مناسب برای",
+        "hero_highlight": _category_title,
+        "hero_description": _description,
+    })
+
 HOME_PRODUCT_TERMS = (
     "ریش‌تراش",
     "ریش تراش",
@@ -397,7 +417,7 @@ STORE_SUBCATEGORIES = {
         {"title": "فلاسک", "image": "products/flask.jpg"},
     ),
     "قطعات و لوازم دیجیتال": (
-        {"title": "لوازم جانبی موبایل", "image": "products/digital-accessories.jpg"},
+        {"title": "لوازم جانبی", "image": "products/digital-accessories.jpg"},
         {"title": "کابل و شارژر", "image": "products/digital-cables.jpg"},
         {"title": "هندزفری و هدفون", "image": "products/digital-headphones.jpg"},
         {"title": "پاوربانک", "image": "products/digital-powerbank.jpg"},

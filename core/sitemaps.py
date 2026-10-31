@@ -3,6 +3,7 @@ from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
 
 from core.models import Product
+from core.photo_visibility import with_product_photo
 
 
 class ProductSitemap(Sitemap):
@@ -12,10 +13,10 @@ class ProductSitemap(Sitemap):
     domain = settings.SITE_DOMAIN
 
     def items(self):
-        return Product.objects.filter(
+        return with_product_photo(Product.objects.filter(
             product_status="published",
             status=True,
-        ).order_by("pid")
+        ).order_by("pid"))
 
     def location(self, item):
         return reverse("core:product-detail", args=[item.pid])

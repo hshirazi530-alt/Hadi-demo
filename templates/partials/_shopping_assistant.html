@@ -1,28 +1,56 @@
 <div class="hm-helper" data-shopping-assistant dir="rtl">
-    <section class="hm-helper__panel" id="hm-helper-panel" aria-labelledby="hm-helper-title" hidden>
-        <header class="hm-helper__header">
-            <div><strong id="hm-helper-title">راهنمای خرید هژیر مارکت</strong><small>پاسخ‌های آماده، بدون هوش مصنوعی</small></div>
+    <section class="hm-helper__panel hm-chat-panel" id="hm-helper-panel" aria-labelledby="hm-helper-title" hidden>
+        <header class="hm-helper__header hm-chat-header">
+            <div class="hm-chat-header__content">
+                <span class="hm-chat-header__badge" aria-hidden="true">✦</span>
+                <strong id="hm-helper-title">راهنمای خرید هژیر مارکت</strong>
+                <small>پاسخ‌های آماده و راه‌های ارتباط با فروشگاه</small>
+            </div>
             <button class="hm-helper__close" type="button" data-helper-close aria-label="بستن راهنمای خرید">×</button>
         </header>
-        <div class="hm-helper__body">
-            <p>سلام! موضوع موردنظرتان را انتخاب کنید.</p>
+        <div class="hm-helper__body hm-chat-body">
+            <p class="hm-chat-bubble">سلام! چطور می‌توانیم در انتخاب محصول به شما کمک کنیم؟ یک موضوع را انتخاب کنید.</p>
             <div class="hm-helper__choices" aria-label="موضوعات راهنمای خرید">
                 <button type="button" data-helper-choice="products">انتخاب محصول</button>
                 <button type="button" data-helper-choice="warranty">گارانتی</button>
                 <button type="button" data-helper-choice="delivery">ارسال و پیگیری</button>
                 <button type="button" data-helper-choice="support">ارتباط با فروشگاه</button>
             </div>
-            <div class="hm-helper__answer" role="status" aria-live="polite">
-                <div data-helper-answer="products" hidden>محصولات را بررسی کنید و برای مشاوره با پشتیبانی تماس بگیرید. <a href="{% url 'core:product-list' %}">مشاهده محصولات</a></div>
+            <div class="hm-helper__answer hm-chat-answer" role="status" aria-live="polite">
+                <div data-helper-answer="products" hidden>محصولات را بررسی کنید و برای مشاوره از راه‌های ارتباطی پایین استفاده کنید. <a href="{% url 'core:product-list' %}">مشاهده محصولات</a></div>
                 <div data-helper-answer="warranty" hidden>اگر برای کالایی گارانتی ارائه شود، مدت و هزینهٔ آن در صفحهٔ همان کالا نمایش داده می‌شود.</div>
-                <div data-helper-answer="delivery" hidden>برای زمان و هزینهٔ ارسال یا پیگیری سفارش، با پشتیبانی فروشگاه تماس بگیرید. <a href="tel:{{ store_profile.phone_link }}">تماس تلفنی</a></div>
-                <div data-helper-answer="support" hidden>برای گفت‌وگو با پشتیبانی از <a href="{{ store_profile.telegram_channel }}" target="_blank" rel="noopener noreferrer">تلگرام</a>، <a href="{{ store_profile.whatsapp_channel }}" target="_blank" rel="noopener noreferrer">واتساپ</a> یا <a href="tel:{{ store_profile.phone_link }}">تماس تلفنی</a> استفاده کنید.</div>
+                <div data-helper-answer="delivery" hidden>برای زمان و هزینهٔ ارسال یا پیگیری سفارش از راه‌های ارتباطی پایین استفاده کنید.</div>
+                <div data-helper-answer="support" hidden>برای ارتباط با فروشگاه، یکی از راه‌های زیر را انتخاب کنید.</div>
             </div>
-            <p class="hm-helper__privacy">این راهنما پیام شما را ذخیره یا برای سرویس دیگری ارسال نمی‌کند.</p>
+            <div class="hm-chat-contacts" aria-label="راه‌های ارتباط با فروشگاه">
+                <a class="hm-chat-contact hm-chat-contact--email" href="mailto:markethazhir@gmail.com" aria-label="ارسال ایمیل به markethazhir@gmail.com"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="1.8"/></svg><span dir="ltr">markethazhir@gmail.com</span></a>
+                <div class="hm-chat-social">
+                    <a href="{{ store_profile.instagram_channel }}" target="_blank" rel="noopener noreferrer" aria-label="اینستاگرام هژیر مارکت"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg><span>اینستاگرام</span></a>
+                    <a href="{{ store_profile.telegram_channel }}" target="_blank" rel="noopener noreferrer" aria-label="تلگرام هژیر مارکت"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M21.2 4.1 2.8 11.2c-1.2.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.6c.2.6.1.8.7.8.4 0 .6-.2.9-.5l2.3-2.2 4.8 3.5c.9.5 1.5.2 1.7-.9l3.1-14.7c.3-1.3-.5-2-1.4-1.7zM9.7 13.9l8.9-5.6c.4-.2.7-.1.4.2l-7.4 6.7-.3 3.2z"/></svg><span>تلگرام</span></a>
+                    <a href="{{ store_profile.whatsapp_channel }}" target="_blank" rel="noopener noreferrer" aria-label="واتس‌اپ هژیر مارکت"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none"><path d="M20 11.6a8 8 0 0 1-11.8 7L4 20l1.3-4a8 8 0 1 1 14.7-4.4Z" stroke="currentColor" stroke-width="1.8"/><path d="M9 8.3c.5 2.7 2.3 4.5 5.1 5.7l1.2-1.1 1.5.8c-.3 1.3-1.2 1.9-2.4 1.7-3.3-.7-6.3-3.6-6.8-6.5-.2-1.1.4-1.8 1.4-2l.8 1.4Z" fill="currentColor"/></svg><span>واتس‌اپ</span></a>
+                </div>
+            </div>
+            <div class="hm-chat-phone">
+                <label for="hm-chat-mobile">شماره موبایل <span aria-hidden="true">*</span></label>
+                <div class="hm-chat-phone__control" dir="ltr"><span aria-hidden="true">+989</span><input id="hm-chat-mobile" type="tel" inputmode="numeric" autocomplete="off" required maxlength="9" pattern="[0-9]{9}" data-helper-mobile aria-describedby="hm-chat-mobile-help hm-chat-mobile-error" placeholder="186555100"></div>
+                <small id="hm-chat-mobile-help">وارد کردن ۹ رقم بعد از <bdi dir="ltr">+989</bdi> الزامی است. این شماره فعلاً ارسال یا ذخیره نمی‌شود.</small>
+                <small id="hm-chat-mobile-error" class="hm-chat-phone__error" role="status" hidden>لطفاً ۹ رقم شماره موبایل را وارد کنید.</small>
+            </div>
+            <p class="hm-helper__privacy">این راهنما فقط پاسخ آماده دارد؛ گفت‌وگوی زنده و ارسال پیام در آن فعال نیست.</p>
         </div>
     </section>
     <button class="hm-helper__toggle" type="button" data-helper-toggle aria-controls="hm-helper-panel" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M5 4h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-6l-5 3v-3H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M7.5 9h9M7.5 12h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        <svg class="hm-chat-launcher-icon" viewBox="0 0 48 48" aria-hidden="true" focusable="false" style="width:40px;height:40px;padding:0;background:none;box-shadow:none;flex:none">
+  <defs>
+    <linearGradient id="hm-launcher-gold" x1="5" y1="3" x2="42" y2="45" gradientUnits="userSpaceOnUse"><stop stop-color="#F9EAB5"/><stop offset=".48" stop-color="#D4AF37"/><stop offset="1" stop-color="#A67D18"/></linearGradient>
+    <linearGradient id="hm-launcher-cream" x1="17" y1="12" x2="31" y2="33" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFDF1"/><stop offset="1" stop-color="#EADBA6"/></linearGradient>
+  </defs>
+  <circle cx="24" cy="24" r="22.5" fill="url(#hm-launcher-gold)" stroke="#A27D26"/>
+  <circle cx="24" cy="24" r="19.5" fill="none" stroke="#FFF8DC" opacity=".48"/>
+  <path d="M14.5 14.7h19a3 3 0 0 1 3 3v10.5a3 3 0 0 1-3 3h-6l-3.8 4.5a1 1 0 0 1-1.7-.6v-3.9h-7.5a3 3 0 0 1-3-3V17.7a3 3 0 0 1 3-3Z" fill="#704F0D" opacity=".24" transform="translate(0 1.4)"/>
+  <path d="M14.5 13.7h19a3 3 0 0 1 3 3v10.5a3 3 0 0 1-3 3h-6l-3.8 4.5a1 1 0 0 1-1.7-.6v-3.9h-7.5a3 3 0 0 1-3-3V16.7a3 3 0 0 1 3-3Z" fill="url(#hm-launcher-cream)" stroke="#FFF8DC" stroke-width=".7"/>
+  <path d="M17 20h14M17 24h9" stroke="#B59549" stroke-width="1.4" stroke-linecap="round" opacity=".72"/>
+</svg>
         <span>راهنمای خرید</span>
     </button>
 </div>

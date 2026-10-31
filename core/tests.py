@@ -1,3 +1,4 @@
+from django.test import override_settings as legacy_photo_policy
 import tempfile
 from pathlib import Path
 from unittest.mock import patch
@@ -27,6 +28,8 @@ from core.payments import ZarinpalError
 from userauths.models import ContactUs
 
 
+# Legacy rendering checks exercise the explicitly supported fallback mode.
+@legacy_photo_policy(HIDE_PRODUCTS_WITHOUT_PHOTO=False)
 class StorefrontTests(TestCase):
     def test_header_has_order_tracking_and_telegram_contact(self):
         response = self.client.get(reverse("core:index"))
@@ -146,7 +149,7 @@ class StorefrontTests(TestCase):
                 self.assertContains(spin_detail, "frame-24.webp")
                 self.assertContains(
                     spin_detail,
-                    f'data-gallery-original-src="{spin_product.image.url}"',
+                    f'data-gallery-original-src="{spin_product.display_image_url}"',
                 )
                 self.assertNotContains(spin_detail, "data-gallery-thumb")
 
@@ -174,7 +177,7 @@ class StorefrontTests(TestCase):
                 self.assertContains(engraved_detail, "ماشین اصلاح خط‌زن طرح‌دار طلایی")
                 self.assertContains(
                     engraved_detail,
-                    f'<img data-gallery-main data-gallery-original-src="{engraved_product.image.url}"',
+                    f'<img data-gallery-main data-gallery-original-src="{engraved_product.display_image_url}"',
                 )
                 self.assertNotContains(engraved_detail, "dsp-gold-clipper/frame-01.webp")
 
@@ -202,7 +205,7 @@ class StorefrontTests(TestCase):
                 self.assertContains(kemei_detail, "Kemei مدل KM-1698")
                 self.assertContains(
                     kemei_detail,
-                    f'<img data-gallery-main data-gallery-original-src="{kemei_product.image.url}"',
+                    f'<img data-gallery-main data-gallery-original-src="{kemei_product.display_image_url}"',
                 )
 
                 styling_product = Product.objects.get(
@@ -213,11 +216,11 @@ class StorefrontTests(TestCase):
                 )
                 self.assertContains(
                     styling_detail,
-                    f'<img data-gallery-main data-gallery-original-src="{styling_product.image.url}"',
+                    f'<img data-gallery-main data-gallery-original-src="{styling_product.display_image_url}"',
                 )
 
         response = self.client.get(reverse("core:index"))
-        self.assertContains(response, "تازه‌ترین محصولات فروشگاه")
+        self.assertContains(response, "محصولات پر فروش")
         visible_sample_products = [
             item
             for item in SAMPLE_STORE_PRODUCTS
@@ -772,6 +775,8 @@ class StorefrontCompletionTests(TestCase):
                 self.assertContains(response, "تصویر مفهومی")
 
 
+# Legacy rendering checks exercise the explicitly supported fallback mode.
+@legacy_photo_policy(HIDE_PRODUCTS_WITHOUT_PHOTO=False)
 class CustomerDashboardTests(TestCase):
     def setUp(self):
         self.user = get_user_model().objects.create_user(

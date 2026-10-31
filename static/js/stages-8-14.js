@@ -20,6 +20,20 @@
 
   var helper = document.querySelector('[data-shopping-assistant]');
   if (!helper) return;
+  var mobile = helper.querySelector('[data-helper-mobile]');
+  if (mobile) {
+    var mobileError = helper.querySelector('#hm-chat-mobile-error');
+    function validateMobile(show) {
+      var invalid = mobile.value.length !== 9;
+      mobile.setAttribute('aria-invalid', String(show && invalid));
+      mobileError.hidden = !show || !invalid;
+    }
+    mobile.addEventListener('input', function () {
+      mobile.value = ascii(mobile.value).replace(/[^0-9]/g, '').slice(0, 9);
+      if (mobile.getAttribute('aria-invalid') === 'true') validateMobile(true);
+    });
+    mobile.addEventListener('blur', function () { validateMobile(true); });
+  }
   var panel = helper.querySelector('#hm-helper-panel');
   var toggle = helper.querySelector('[data-helper-toggle]');
   var close = helper.querySelector('[data-helper-close]');

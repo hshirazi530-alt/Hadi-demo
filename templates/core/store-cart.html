@@ -2,6 +2,7 @@
 {% load static humanize %}
 {% block title %}سبد خرید | Hazhirmarkett{% endblock %}
 
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/shipping-info-task14.css' %}?v=1">{% endblock %}
 {% block content %}
 <main class="store-page store-cart-page" id="cart-list" dir="rtl"
       data-update-url="{% url 'core:update-cart' %}"
@@ -72,7 +73,8 @@
         <aside class="store-cart-summary">
             <h2>خلاصهٔ سبد</h2>
             <div class="store-cart-summary__row"><span>تعداد کالا</span><strong>{{ totalcartitems }}</strong></div>
-            <div class="store-cart-summary__row"><span>هزینهٔ ارسال</span><span>در مرحلهٔ بعد مشخص می‌شود</span></div>
+            <div class="store-cart-summary__row"><span>هزینهٔ ارسال</span><span>هنوز محاسبه نشده</span></div>
+            <div class="hm-shipping-summary" role="note"><strong>اطلاعات ارسال پستی</strong><p>هزینه و زمان ارسال را پیش از ثبت نهایی از فروشگاه استعلام کنید؛ جمع کالاها شامل هزینهٔ ارسال نیست.</p><a href="{% url 'core:purchase_guide' %}#shipping-info">جزئیات ارسال و پیگیری ←</a></div>
             <div class="store-cart-summary__total"><span>{% if has_demo_items %}جمع نمایشی کالاها{% else %}جمع کالاها{% endif %}</span><strong>{{ cart_total_display }}{% if not has_warranty_issues %} تومان{% endif %}</strong></div>
             <p>با ادامه، اطلاعات تماس و نشانی برای ثبت سفارش استفاده می‌شود. مرحلهٔ بعد فقط پرداخت نمایشی است و هیچ مبلغی دریافت نمی‌شود.</p>
             {% if has_warranty_issues %}

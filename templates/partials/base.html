@@ -37,7 +37,7 @@
     <link rel="stylesheet" href="{% static 'css/product-detail.css' %}?v=5">
     <!-- Footer: Cream/Gold identity -->
     <link rel="stylesheet" href="{% static 'css/footer.css' %}?v=2">
-    <link rel="stylesheet" href="{% static 'css/stages-8-14.css' %}?v=1">
+    <link rel="stylesheet" href="{% static 'css/stages-8-14.css' %}?v=3">
     <!-- Font Awesome (CDN allowed for icons) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Persian fonts are served locally when available. -->
@@ -413,9 +413,13 @@
         <p>در مرورگر Safari روی دکمهٔ «اشتراک‌گذاری» بزنید و سپس «افزودن به صفحهٔ اصلی» را انتخاب کنید.</p>
     </div>
 </dialog>
-<script src="{% static 'js/stages-8-14.js' %}?v=1" defer></script>
+<script src="{% static 'js/stages-8-14.js' %}?v=3" defer></script>
 <script src="{% static 'js/header.js' %}?v=3" defer></script>
 <script src="{% static 'js/pwa.js' %}?v=3" defer></script>
 {% block extra_js %}{% endblock %}
+{% if preview_tab_enabled %}
+<a href="{{ request.get_full_path }}" target="_blank" rel="noopener noreferrer" class="preview-new-tab">باز کردن پیش‌نمایش در تب جدید ↗</a>
+<style>.preview-new-tab{position:fixed;z-index:99990;bottom:14px;left:14px;display:inline-block;padding:10px 15px;border-radius:10px;background:#fff8dc;border:1px solid #d4af37;color:#513c13!important;font-size:13px;font-weight:700;box-shadow:0 3px 16px #0002;text-decoration:none!important}.preview-new-tab:focus-visible{outline:3px solid #d4af37;outline-offset:2px}</style>
+{% endif %}
 </body>
 </html>

@@ -1,3 +1,4 @@
+from django.test import override_settings as legacy_photo_policy
 from pathlib import Path
 
 from django.contrib.staticfiles import finders
@@ -8,6 +9,8 @@ from core.models import Product
 from core.storefront import HOME_CATEGORIES
 
 
+# Legacy rendering checks exercise the explicitly supported fallback mode.
+@legacy_photo_policy(HIDE_PRODUCTS_WITHOUT_PHOTO=False)
 class HomeSectionAlignmentTests(TestCase):
     def test_categories_and_empty_products_keep_their_content(self):
         response = self.client.get(reverse("core:index"))

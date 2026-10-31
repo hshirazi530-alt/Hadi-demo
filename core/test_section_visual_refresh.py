@@ -1,3 +1,4 @@
+from django.test import override_settings as legacy_photo_policy
 from datetime import timedelta
 from decimal import Decimal
 import re
@@ -9,6 +10,8 @@ from django.utils import timezone
 from core.models import AmazingOffersSettings, Product, ProductBundle
 
 
+# Legacy rendering checks exercise the explicitly supported fallback mode.
+@legacy_photo_policy(HIDE_PRODUCTS_WITHOUT_PHOTO=False)
 class HomepageSectionRefreshTests(TestCase):
     def setUp(self):
         self.sample = Product.objects.create(

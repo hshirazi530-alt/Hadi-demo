@@ -1,5 +1,6 @@
 from decimal import Decimal
 import re
+from unittest.mock import patch
 
 from django.test import TestCase
 from django.urls import reverse
@@ -21,11 +22,16 @@ class InquiryCatalogTests(TestCase):
         self.assertIsNotNone(found)
         return found.group(0)
 
-    def test_dataset_is_minimal_and_only_two_verified_images_are_shipped(self):
+    def test_dataset_is_minimal_and_images_are_registered(self):
         rows = catalog_items()
         self.assertEqual(len(rows), 689)
         self.assertEqual(len({row["id"] for row in rows}), 689)
-        self.assertEqual({row["id"] for row in rows if row["image"]}, {8460, 15839})
+        self.assertTrue({8460, 15839, 15857, 15849}.issubset({row["id"] for row in rows if row["image"]}))
+        from pathlib import Path
+        from django.conf import settings
+        for row in rows:
+            if row["image"]:
+                self.assertTrue((Path(settings.BASE_DIR) / "static" / row["image"]).is_file(), row["title"])
         self.assertFalse(any(set(row) & {"price", "stock", "in_stock", "sale_price", "description", "url", "gallery"} for row in rows))
         self.assertEqual(catalog_by_id()[8460]["title"], "مخلوط‌کن مدل TF-67")
         self.assertEqual(catalog_by_id()[15839]["title"], "اپیلیدی DSP 70019U")
@@ -48,7 +54,8 @@ class InquiryCatalogTests(TestCase):
             title="کالای واقعی تست", product_status="published", status=True,
             in_stock=True, featured=True, price=Decimal("1234567"), image="actual.jpg",
         )
-        response = self.client.get(reverse("core:index"))
+        with patch('core.photo_visibility.has_product_photo', return_value=True):
+            response = self.client.get(reverse("core:index"))
         section = self.homepage_product_section(response)
         self.assertIn(actual.title, section)
         self.assertIn('data-product-price="1234567"', section)
@@ -65,7 +72,7 @@ class InquiryCatalogTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response["X-Robots-Tag"], "noindex, nofollow")
         self.assertContains(response, '<meta name="robots" content="noindex,nofollow">', html=True)
-        self.assertEqual(response.context["total_count"], 689)
+        self.assertEqual(response.context["total_count"], sum(bool(row["image"]) for row in catalog_items()))
         self.assertEqual(len(response.context["items"]), 24)
         self.assertContains(response, "قیمت، موجودی، اصالت و مشخصات این کالاها تأیید نشده")
         self.assertNotContains(response, "product-cart-btn")

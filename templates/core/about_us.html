@@ -1,94 +1,32 @@
-﻿{% extends 'partials/base.html' %}
+{% extends 'partials/base.html' %}
 {% load static %}
+{% block title %}درباره ما | هژیر مارکت{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/about-hazhir-task8.css' %}?v=3">{% endblock %}
 {% block content %}
-<main class="main pages" dir="rtl">
-    <div class="page-header breadcrumb-wrap">
-        <div class="container">
-            <div class="breadcrumb">
-                <a href="{% url 'core:index' %}" rel="nofollow">صفحه اصلی <i class="fi-rs-home mr-5"></i></a>
-                <span></span> صفحات <span></span> درباره ما
-            </div>
-        </div>
-    </div>
-
-    <div class="page-content pt-50">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-10 col-lg-12 m-auto">
-                    <section class="row align-items-center mb-50">
-                        <div class="col-lg-6">
-                            <img src="{% static 'assets/imgs/page/about-1.png' %}" alt="درباره Hazhirmarkett" class="border-radius-15 mb-md-3 mb-lg-0 mb-sm-4">
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="pr-25">
-                                <h2 class="mb-30">به Hazhirmarkett خوش آمدید</h2>
-                                <p class="mb-25">Hazhirmarkett با تمرکز بر محصولات مراقبت شخصی و ابزارهای روزمره‌ای که کیفیت و راحتی را به زندگی شما می‌بخشند، شکل گرفته است. ما به دنبال ایجاد تجربه‌ای ساده، شفاف و خوشایند برای مشتریان هستیم؛ تجربه‌ای که در آن انتخاب محصول، خرید و پیگیری سفارش بدون دغدغه صورت گیرد.</p>
-                                <p class="mb-50">ما باور داریم مراقبت از ظاهر، سلامتی و حس اعتماد به نفس، ریشه در انتخاب درست و استفاده از ابزارهای باکیفیت دارد. به همین دلیل، محصولات ما با دقت انتخاب شده‌اند تا با سبک زندگی مدرن و نیازهای واقعی کاربران هماهنگ باشند.</p>
-                                <div class="carausel-3-columns-cover position-relative">
-                            <div id="carausel-3-columns-arrows"></div>
-                            <div class="carausel-3-columns" id="carausel-3-columns" dir="auto">
-                                <img src="{% static 'assets/imgs/page/about-2.png' %}" alt="محصول حرفه‌ای">
-                                <img src="{% static 'assets/imgs/page/about-3.png' %}" alt="مراقبت شخصی">
-                                <img src="{% static 'assets/imgs/page/about-4.png' %}" alt="سبک زندگی">
-                                <img src="{% static 'assets/imgs/page/about-10.png' %}" alt="سفارش و تجربه خرید">
-                            </div>
-                        </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section class="text-center mb-50">
-                        <h2 class="title style-3 mb-40">آنچه ما ارائه می‌دهیم</h2>
-                        <div class="row">
-                            <div class="col-lg-4 col-md-6 mb-24">
-                                <div class="featured-card">
-                                    <img src="{% static 'assets/imgs/theme/icons/icon-1.png' %}" alt="محصولات انتخابی">
-                                    <h4>برندهای معتبر و انتخاب هوشمند</h4>
-                                    <p>ما فقط محصولات مناسب و قابل‌اعتماد را برای مشتریان انتخاب می‌کنیم تا تجربه خرید مطمئن و رضایت‌بخش باشد.</p>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6 mb-24">
-                                <div class="featured-card">
-                                    <img src="{% static 'assets/imgs/theme/icons/icon-2.png' %}" alt="پشتیبانی سریع">
-                                    <h4>پشتیبانی سریع و دقیق</h4>
-                                    <p>تیم ما در مسیر انتخاب، ثبت سفارش و پیگیری سفارش، پاسخ‌گو و همراه شماست تا هیچ سؤال و ابهامی باقی نماند.</p>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6 mb-24">
-                                <div class="featured-card">
-                                    <img src="{% static 'assets/imgs/theme/icons/icon-3.png' %}" alt="قیمت مناسب">
-                                    <h4>قیمت‌های شفاف و منصفانه</h4>
-                                    <p>در Hazhirmarkett، قیمت‌ها با توضیح روشن و شفاف ارائه می‌شوند تا بتوانید تصمیمی آگاهانه بگیرید.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section class="mb-50">
-                        <div class="row text-center">
-                            <div class="col-md-4 mb-4">
-                                <div class="card border-0 bg-light p-4 rounded-4">
-                                    <h3 class="text-brand mb-2">+۱۲ هزار</h3>
-                                    <p class="mb-0">خرید و تجربه مشتری</p>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="card border-0 bg-light p-4 rounded-4">
-                                    <h3 class="text-brand mb-2">۲۴/۷</h3>
-                                    <p class="mb-0">پشتیبانی و پاسخ‌گویی</p>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="card border-0 bg-light p-4 rounded-4">
-                                    <h3 class="text-brand mb-2">۹۸٪</h3>
-                                    <p class="mb-0">رضایت مشتریان</p>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-            </div>
-        </div>
-    </div>
+<main class="hm-about" dir="rtl">
+  <div class="hm-about__container">
+    <nav class="hm-about__breadcrumb" aria-label="مسیر صفحه"><a href="{% url 'core:index' %}">صفحه اصلی</a><span aria-hidden="true"> / </span><span aria-current="page">درباره ما</span></nav>
+    <section class="hm-about__hero" aria-labelledby="about-title">
+      <div class="hm-about__copy">
+        <span class="hm-about__eyebrow">آشنایی با هژیر مارکت</span>
+        <h1 id="about-title">به <span>هژیر مارکت</span><br>خوش آمدید</h1>
+        <p>Hazhirmarket با تمرکز بر محصولات مراقبت شخصی و ابزارهای روزمره‌ای که کیفیت و راحتی را به زندگی شما می‌بخشند، شکل گرفته است. ما به دنبال ایجاد تجربه‌ای ساده، شفاف و خوشایند برای مشتریان هستیم؛ تجربه‌ای که در آن انتخاب محصول، خرید و پیگیری سفارش بدون دغدغه صورت گیرد.</p>
+        <p>ما باور داریم مراقبت از ظاهر، سلامتی و حس اعتماد به نفس، ریشه در انتخاب درست و استفاده از ابزارهای باکیفیت دارد. به همین دلیل، محصولات ما با دقت انتخاب شده‌اند تا با سبک زندگی مدرن و نیازهای واقعی کاربران هماهنگ باشند.</p>
+        <div class="hm-about__actions"><a class="hm-about__button" href="{% url 'core:product-list' %}">مشاهده محصولات <span aria-hidden="true">←</span></a><a class="hm-about__button hm-about__button--outline" href="{% url 'core:contact' %}">تماس با ما</a></div>
+      </div>
+      <figure class="hm-about__visual"><img src="{% static 'assets/imgs/page/about-hazhir-task8.webp' %}" alt="تصویر طراحی‌شده از ابزارهای مراقبت شخصی در فضایی کرم و طلایی" width="1536" height="1024" decoding="async"><figcaption>انتخابی آگاهانه، برای هر روز</figcaption></figure>
+    </section>
+    <section class="hm-about__features" aria-labelledby="about-features-title">
+      <div class="hm-about__section-head"><span class="hm-about__eyebrow">در کنار شما</span><h2 id="about-features-title">آنچه ما ارائه می‌دهیم</h2><p>تجربه‌ای ساده و روشن، از انتخاب محصول تا پیگیری سفارش</p></div>
+      <div class="hm-about__cards">
+        <article class="hm-about__card"><span class="hm-about__icon" aria-hidden="true">✦</span><h3>برندهای معتبر و انتخاب هوشمند</h3><p>ما فقط محصولات مناسب و قابل‌اعتماد را برای مشتریان انتخاب می‌کنیم تا تجربه خرید مطمئن و رضایت‌بخش باشد.</p></article>
+        <article class="hm-about__card"><span class="hm-about__icon" aria-hidden="true">♡</span><h3>پشتیبانی سریع و دقیق</h3><p>تیم ما در مسیر انتخاب، ثبت سفارش و پیگیری سفارش، پاسخ‌گو و همراه شماست تا هیچ سؤال و ابهامی باقی نماند.</p></article>
+        <article class="hm-about__card"><span class="hm-about__icon" aria-hidden="true">◇</span><h3>قیمت‌های شفاف و منصفانه</h3><p>در Hazhirmarket، قیمت‌ها با توضیح روشن و شفاف ارائه می‌شوند تا بتوانید تصمیمی آگاهانه بگیرید.</p></article>
+      </div>
+    </section>
+    <section class="hm-about__stats" aria-label="آمار فروشگاه">
+      <div><strong class="hm-about__count"><bdi dir="ltr">+۱۲</bdi><span>هزار</span></strong><span>خرید و تجربه مشتری</span></div><div><strong>۲۴/۷</strong><span>پشتیبانی و پاسخ‌گویی</span></div><div><strong><bdi dir="ltr">٪۹۸</bdi></strong><span>رضایت مشتریان</span></div>
+    </section>
+  </div>
 </main>
 {% endblock %}
