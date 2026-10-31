@@ -118,9 +118,22 @@ def catalog_list(request):
     }))
 
 
+@lru_cache(maxsize=1)
+def catalog_specifications():
+    path = CATALOG_PATH.with_name("catalog_inquiry_specs.json")
+    with path.open(encoding="utf-8") as source:
+        return json.load(source)
+
+
 @require_safe
 def catalog_detail(request, source_id):
     item = catalog_by_id().get(source_id)
     if item is None or not has_inquiry_photo(item):
         raise Http404("کالا در کاتالوگ بررسی پیدا نشد.")
-    return noindex(render(request, "core/catalog_inquiry_detail.html", {"item": item}))
+    verified = catalog_specifications().get(str(source_id))
+    rows = [{"label": row[0], "value": row[1]} for row in verified["rows"]] if verified else []
+    rows.extend([{"label": "دسته‌بندی", "value": item["category_label"]},
+                 {"label": "شناسهٔ کاتالوگ", "value": str(item["id"])}])
+    return noindex(render(request, "core/catalog_inquiry_detail.html", {
+        "item": item, "spec_rows": rows, "source_record": verified,
+    }))
