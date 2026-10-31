@@ -16,7 +16,9 @@ def create_webp(product):
     try:
         with product.image.storage.open(source, 'rb') as f:
             with Image.open(f) as image:
-                image.seek(0)  # animated uploads: a static first frame
+                seek = getattr(image, "seek", None)
+                if callable(seek):
+                    seek(0)  # animated uploads: a static first frame
                 image = ImageOps.exif_transpose(image)
                 image.thumbnail((2000, 2000), Image.Resampling.LANCZOS)
                 image = image.convert('RGBA' if 'A' in image.getbands() or 'transparency' in image.info else 'RGB')

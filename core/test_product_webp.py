@@ -36,6 +36,22 @@ class ProductWebPTest(TestCase):
         self.assertTrue(product.image.storage.exists(first))
         self.assertTrue(product.image.storage.exists(old_webp))
 
+    def test_static_image_without_seek_is_supported(self):
+        real_open = Image.open
+
+        class NoSeekImage:
+            def __init__(self, image): self.image = image
+            def __enter__(self): return self
+            def __exit__(self, *args): self.image.close()
+            def __getattr__(self, name):
+                if name == 'seek': raise AttributeError(name)
+                return getattr(self.image, name)
+
+        with patch('core.product_webp.Image.open', side_effect=lambda *args, **kwargs: NoSeekImage(real_open(*args, **kwargs))):
+            product = Product.objects.create(title='no seek', user=self.user, image=self.jpeg())
+        product.refresh_from_db()
+        self.assertTrue(product.image_webp.name.endswith('.webp'))
+
     def test_missing_image_uses_default(self):
         with patch('core.product_webp.create_webp', return_value=False):
             product = Product.objects.create(title='missing', image='missing.jpg')
