@@ -3,10 +3,21 @@ from pathlib import Path
 
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
+from django.db import IntegrityError
 
 from core.models import Category, Product, ProductImages, SubCategory, Vendor
 from core.storefront import HOME_CATEGORIES, SAMPLE_STORE_PRODUCTS, STORE_SUBCATEGORIES
 from userauths.models import User
+
+
+def upsert_sample_product(**kwargs):
+    """Retry SKU collisions only; do not hide other database errors."""
+    for attempt in range(5):
+        try:
+            return Product.objects.update_or_create(**kwargs)
+        except IntegrityError as exc:
+            if 'sku' not in str(exc).lower() or attempt == 4:
+                raise
 
 
 class Command(BaseCommand):
@@ -104,7 +115,7 @@ class Command(BaseCommand):
                 category.save(update_fields=["image"])
                 categories[category_name] = category
 
-            product, _ = Product.objects.update_or_create(
+            product, _ = upsert_sample_product(
                 title=item["title"],
                 category=categories[category_name],
                 defaults={
