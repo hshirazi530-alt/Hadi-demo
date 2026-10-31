@@ -1,7 +1,7 @@
 {% load static %}
 {% if item.image %}
 <img src="{% static item.image %}" alt="{{ item.image_alt }}" width="800" height="800" loading="lazy" decoding="async">
-<span class="hm-inquiry-image-label">تصویر طراحی‌شده</span>
+<span class="hm-inquiry-image-label">{% if item.id == 8460 or item.id == 15839 %}تصویر طراحی‌شده{% else %}تصویر مرجع؛ نیازمند تأیید{% endif %}</span>
 {% else %}
 <span class="hm-inquiry-placeholder hm-inquiry-tone-{{ item.tone }}" role="img" aria-label="تصویر این کالا هنوز تأیید نشده است">
     <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><rect x="13" y="16" width="38" height="36" rx="7"></rect><path d="M22 16v-3a10 10 0 0 1 20 0v3M20 39l8-8 6 6 5-5 5 7"></path><circle cx="40" cy="26" r="3"></circle></svg>

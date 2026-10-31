@@ -137,7 +137,7 @@
         </div>
         <div class="category-grid">
             {% for category in home_categories %}
-            <a class="category-card category-card--{{ category.tone }}" href="{% if category.tone == 'gold' %}{{ hero_digital_category_url }}{% else %}{% url 'core:search' %}?q={{ category.query|urlencode }}{% endif %}">
+            <a class="category-card category-card--{{ category.tone }}" href="{% if category.name == 'قطعات' %}{{ parts_category_url }}{% elif category.name == 'لوازم جانبی' %}{{ accessories_category_url }}{% elif category.tone == 'gold' %}{{ hero_digital_category_url }}{% else %}{% url 'core:search' %}?q={{ category.query|urlencode }}{% endif %}">
                 <span class="category-card__media">
                     {% if category.tone == 'rose' %}
                     <img src="{% static 'assets/imgs/hazhir-visual-2026/categories/category-personal-care.webp' %}" alt="{{ category.alt }}" width="1200" height="600" loading="lazy" decoding="async">
@@ -147,6 +147,8 @@
                     <img src="{% static 'assets/imgs/hazhir-visual-2026/categories/category-perfume.webp' %}" alt="{{ category.alt }}" width="1200" height="600" loading="lazy" decoding="async">
                     {% elif category.tone == 'sky' %}
                     <img src="{% static 'assets/imgs/hazhir-visual-2026/categories/category-home.webp' %}" alt="{{ category.alt }}" width="1200" height="600" loading="lazy" decoding="async">
+                    {% elif category.name == 'قطعات' %}
+                    <img src="{% static 'assets/imgs/beauty/photos/cat-shaver.jpg' %}" alt="تصویر نمادین ریش‌تراش" width="1200" height="600" loading="lazy" decoding="async">
                     {% elif category.tone == 'gold' %}
                     <img src="{% static 'assets/imgs/hazhir-visual-2026/categories/category-digital.webp' %}" alt="{{ category.alt }}" width="1200" height="600" loading="lazy" decoding="async">
                     {% elif category.tone == 'lilac' %}

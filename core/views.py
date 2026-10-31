@@ -1,7 +1,10 @@
+from core.photo_visibility import has_product_photo, with_product_photo
+from core.product_specifications import specification_rows
 
 import json
+import os
 
-from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
+from django.http import Http404, HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from taggit.models import Tag
 from core.models import (
@@ -51,6 +54,7 @@ from django.utils.html import strip_tags
 from django.utils.safestring import mark_safe
 from core.storefront import HOME_CATEGORIES, HOME_PRODUCT_TERMS, STORE_PROFILE
 from core.catalog_inquiry import featured_items as inquiry_featured_items
+from core.research_proposals import proposals_for
 from django.views.decorators.http import require_POST
 from userauths.forms import ProfileForm
 from django.contrib.auth import login
@@ -84,8 +88,9 @@ def _amazing_offers_products():
             review_count=Count("نظرات", filter=Q(نظرات__is_approved=True)),
             average_rating=Avg("نظرات__rating", filter=Q(نظرات__is_approved=True)),
         )
-        .order_by("-date")[:10]
+        .order_by("-date")
     )
+    on_sale = with_product_photo(on_sale)[:10]
     if on_sale.exists():
         return list(on_sale), True
 
@@ -100,8 +105,9 @@ def _amazing_offers_products():
             review_count=Count("نظرات", filter=Q(نظرات__is_approved=True)),
             average_rating=Avg("نظرات__rating", filter=Q(نظرات__is_approved=True)),
         )
-        .order_by("-date")[:10]
+        .order_by("-date")
     )
+    featured = with_product_photo(featured)[:10]
     return list(featured), False
 
 
@@ -115,8 +121,9 @@ def index(request):
             review_count=Count("نظرات", filter=Q(نظرات__is_approved=True)),
             average_rating=Avg("نظرات__rating", filter=Q(نظرات__is_approved=True)),
         )
-        .order_by("-featured", "-date")[:12]
+        .order_by("-featured", "-date")
     )
+    products = with_product_photo(products)[:12]
     catalog_inquiry_items = inquiry_featured_items(max(0, 12 - len(products)))
     categories = Category.objects.filter(_personal_care_category_filter()).distinct()
     comparison_products = []
@@ -128,8 +135,8 @@ def index(request):
                 | Q(category__title__icontains=home_category["name"])
             )
             .order_by("-featured", "-date")
-            .first()
         )
+        matching_product = with_product_photo(matching_product).first()
         if matching_product:
             comparison_products.append(matching_product)
 
@@ -151,7 +158,7 @@ def index(request):
     category_directory = reverse("core:category-list")
     hero_category_urls = {}
     featured_categories = Category.objects.filter(
-        title__in=("لوازم شخصی", "قطعات و لوازم دیجیتال")
+        title__in=("لوازم شخصی", "قطعات و لوازم دیجیتال", "قطعات", "لوازم جانبی")
     ).order_by("id").values_list("title", "cid")
     for title, cid in featured_categories:
         hero_category_urls.setdefault(title, reverse("core:category-product-list", args=[cid]))
@@ -159,6 +166,8 @@ def index(request):
     context = {
         "hero_personal_category_url": hero_category_urls.get("لوازم شخصی", category_directory),
         "hero_digital_category_url": hero_category_urls.get("قطعات و لوازم دیجیتال", category_directory),
+        "parts_category_url": hero_category_urls.get("قطعات", category_directory),
+        "accessories_category_url": hero_category_urls.get("لوازم جانبی", category_directory),
         "products": products,
         "catalog_inquiry_items": catalog_inquiry_items,
         "categories": categories,
@@ -212,6 +221,7 @@ def product_list_view(request):
         product_status="published",
         status=True,
     ).filter(_personal_care_product_filter()).order_by("-featured", "-date")
+    products = with_product_photo(products)
     tags = Tag.objects.all().order_by("-id")[:6]
 
     context = {
@@ -240,9 +250,12 @@ def category_product_list__view(request, cid):
         category=category,
     )
 
+    products = with_product_photo(products)
     context = {
         "category":category,
         "products":products,
+        "category_children": category.subcategories.filter(is_active=True),
+        "legacy_category": (Category.objects.filter(title="قطعات و لوازم دیجیتال").order_by("id").first() if category.title in ("قطعات", "لوازم جانبی") else None),
     }
     return render(request, "core/store-category-products.html", context)
 
@@ -256,10 +269,12 @@ def subcategory_product_list__view(request, scid):
         subcategory=subcategory,
     )
 
+    products = with_product_photo(products)
     context = {
         "category": subcategory.category,
         "subcategory": subcategory,
         "products": products,
+        "research_proposals": proposals_for(subcategory.category.title, subcategory.title) if os.environ.get("HAZHIR_RESEARCH_PREVIEW") == "1" else [],
     }
     return render(request, "core/store-category-products.html", context)
 
@@ -274,7 +289,7 @@ def vendor_list_view(request):
 
 def vendor_detail_view(request, vid):
     vendor = Vendor.objects.get(vid=vid)
-    products = Product.objects.filter(vendor=vendor, product_status="published").order_by("-id")
+    products = with_product_photo(Product.objects.filter(vendor=vendor, product_status="published", status=True).order_by("-id"))
 
     context = {
         "vendor": vendor,
@@ -288,10 +303,13 @@ def product_detail_view(request, pid):
     if not request.user.is_superuser:
         product_lookup.update(product_status="published", status=True)
     product = get_object_or_404(Product, **product_lookup)
+    if not request.user.is_superuser and not has_product_photo(product):
+        raise Http404("محصول در دسترس نیست.")
     # Related cards must never expose disabled or unpublished products.
     products = Product.objects.filter(
         category=product.category, product_status="published", status=True
     ).exclude(pid=pid)
+    products = with_product_photo(products)
 
     # The discount is based on the regular price, not on the sale price.
     discount_percent = None
@@ -381,6 +399,7 @@ def product_detail_view(request, pid):
 
     context = {
         "p": product,
+        "specification_rows": specification_rows(product.specifications),
         "make_review": make_review,
         "review_form": review_form,
         "p_image": p_image,
@@ -407,6 +426,7 @@ def tag_list(request, tag_slug=None):
         tag = get_object_or_404(Tag, slug=tag_slug)
         products = products.filter(tags__in=[tag])
 
+    products = with_product_photo(products.filter(status=True))
     context = {
         "products": products,
         "tag": tag
@@ -460,6 +480,7 @@ def search_view(request):
             search_filter |= Q(title__icontains=variant) | Q(category__title__icontains=variant)
         products = products.filter(search_filter).distinct()
 
+    products = with_product_photo(products)
     context = {
         "products": products,
         "query": query,
@@ -493,6 +514,7 @@ def filter_product(request):
        
 
     
+    products = with_product_photo(products.filter(status=True))
     data = render_to_string("core/async/product-list.html", {"products": products})
     return JsonResponse({"data": data})
 

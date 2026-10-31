@@ -36,14 +36,10 @@
                  data-product-pid="{{ product.pid }}"
                  data-product-title="{{ product.title }}"
                  data-product-price="{% if product.is_sale and product.sale_price %}{{ product.sale_price }}{% else %}{{ product.price }}{% endif %}"
-                 data-product-image="{% if product.image %}{{ product.image.url }}{% endif %}"
+                 data-product-image="{{ product.display_image_url }}"
                  data-cart-url="{% url 'core:add-to-cart' %}">
             <a class="store-product-card__image" href="{% url 'core:product-detail' product.pid %}" aria-label="مشاهدهٔ {{ product.title }}">
-                {% if product.image %}
-                <img src="{{ product.image.url }}" alt="{{ product.title }}" loading="lazy">
-                {% else %}
-                <img src="{% static 'assets/imgs/theme/product-image-pending.svg' %}" alt="تصویر محصول ثبت نشده است" loading="lazy">
-                {% endif %}
+                <img src="{{ product.display_image_url }}" alt="{{ product.title }}" loading="lazy">
                 {% if "(نمونه)" in product.title %}<span class="store-badge">نمونهٔ نمایشی</span>{% elif product.is_sale and product.sale_price %}<span class="store-badge">تخفیف ویژه</span>{% endif %}
             </a>
             <div class="store-product-card__body">

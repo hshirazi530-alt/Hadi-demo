@@ -5,7 +5,7 @@
 {% block og_title %}{{ p.title }} | Hazhirmarket{% endblock %}
 {% block og_description %}{{ meta_product_description|default:p.title }}{% endblock %}
 {% block og_type %}product{% endblock %}
-{% block extra_head %}<script type="application/ld+json">{{ product_schema_json }}</script><link rel="stylesheet" href="{% static 'css/product-detail-stage6.css' %}?v=1"><link rel="stylesheet" href="{% static 'css/warranty-stage7.css' %}?v=1"><link rel="stylesheet" href="{% static 'css/authenticity-product.css' %}?v=1">{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/product-features.css' %}?v=1"><noscript><style>[data-product-tabs] [data-tabs-panel][hidden]{display:block!important}</style></noscript><script type="application/ld+json">{{ product_schema_json }}</script><link rel="stylesheet" href="{% static 'css/product-detail-stage6.css' %}?v=1"><link rel="stylesheet" href="{% static 'css/warranty-stage7.css' %}?v=1"><link rel="stylesheet" href="{% static 'css/authenticity-product.css' %}?v=1">{% endblock %}
 
 {% block content %}
 <main class="store-page hm-product-detail-page" dir="rtl">
@@ -19,7 +19,7 @@
     <section class="store-product-detail">
         <div class="store-product-gallery">
             <figure class="store-product-gallery__main store-product-gallery__main--3d{% if spin_frames %} store-product-gallery__main--spin{% endif %}" data-product-3d{% if spin_frames %} data-spin-viewer data-spin-frames="{{ spin_frames|join:'|' }}"{% endif %} tabindex="0" role="group" aria-label="{% if spin_frames %}نمایش چرخش واقعی ۳۶۰ درجهٔ محصول؛ برای چرخاندن بکشید یا از کلیدهای چپ و راست استفاده کنید{% else %}تصویر محصول با افکت پرسپکتیو؛ برای تغییر زاویهٔ افکت از کلیدهای جهت استفاده کنید{% endif %}" aria-keyshortcuts="ArrowLeft ArrowRight Home">
-                {% if p.image %}<img data-gallery-main data-gallery-original-src="{{ p.image.url }}" data-gallery-original-alt="{{ p.title }}" src="{{ p.image.url }}" alt="{{ p.title }}" fetchpriority="high" loading="eager" draggable="false">{% else %}<img data-gallery-main data-gallery-original-src="{% static 'assets/imgs/theme/product-image-pending.svg' %}" data-gallery-original-alt="تصویر محصول ثبت نشده است" src="{% static 'assets/imgs/theme/product-image-pending.svg' %}" alt="تصویر محصول ثبت نشده است" fetchpriority="high" loading="eager" draggable="false">{% endif %}
+                <img data-gallery-main data-gallery-original-src="{{ p.display_image_url }}" data-gallery-original-alt="{{ p.title }}" src="{{ p.display_image_url }}" alt="{{ p.title }}" fetchpriority="high" loading="eager" draggable="false">
                 <button class="store-product-gallery__zoom-toggle" type="button" data-zoom-toggle aria-pressed="false" aria-label="بزرگ‌نمایی تصویر محصول">
                     <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
                     <span>بزرگ‌نمایی</span>
@@ -47,7 +47,7 @@
              data-product-pid="{{ p.pid }}"
              data-product-title="{{ p.title }}"
              data-product-price="{% if p.is_sale and p.sale_price %}{{ p.sale_price }}{% else %}{{ p.price }}{% endif %}"
-             data-product-image="{% if p.image %}{{ p.image.url }}{% endif %}"
+             data-product-image="{{ p.display_image_url }}"
              data-cart-url="{% url 'core:add-to-cart' %}"
              data-warranty-enabled="{{ warranty_options|yesno:'true,false' }}">
             <p class="store-eyebrow hm-product-eyebrow">{% if p.category %}{{ p.category.title }}{% else %}ابزار مراقبت شخصی{% endif %}</p>
@@ -60,6 +60,18 @@
                     {% if average_rating.rating %}{{ average_rating.rating|floatformat:1 }} از ۵ · {% endif %}{{ reviews.count }} نظر
                 </a>
             </div>
+
+            {% if specification_rows %}
+            <section class="hm-feature-preview" aria-labelledby="hm-feature-preview-title">
+                <h2 id="hm-feature-preview-title">ویژگی‌ها</h2>
+                <div class="hm-feature-preview__grid">
+                    {% for feature in specification_rows|slice:":2" %}
+                    <div class="hm-feature-preview__card"><span>{{ feature.label }}</span><strong>{{ feature.value }}</strong></div>
+                    {% endfor %}
+                </div>
+                <a class="hm-feature-preview__more" href="#panel-specs" data-tabs-goto="panel-specs">مشاهده همه ویژگی‌ها <svg class="hm-feature-preview__arrow" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            </section>
+            {% endif %}
 
             <div class="store-product-info__price hm-price-card">
                 {% if "(نمونه)" in p.title %}<span class="store-product-info__price-label hm-price-card__label">قیمت نمایشی</span>{% endif %}
@@ -110,22 +122,7 @@
             </fieldset>
             {% endif %}
 
-            {% if authenticity_badges %}
-            <div class="hm-authenticity" data-authenticity-wrap>
-                <p class="hm-authenticity__title">
-                    <span class="hm-authenticity__icon" aria-hidden="true">🔍</span>
-                    اصالت کالا
-                </p>
-                <div class="hm-authenticity__badges">
-                    {% for badge in authenticity_badges %}
-                    <span class="hm-authenticity__badge hm-authenticity__badge--{{ badge.key }}">
-                        <span class="hm-authenticity__mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" focusable="false"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="m8 12 2.6 2.6L16 9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                        {{ badge.label }}
-                    </span>
-                    {% endfor %}
-                </div>
-            </div>
-            {% endif %}
+            {% include 'core/_authenticity_spec.html' %}
 
             <div class="store-product-info__actions">
                 {% if p.in_stock or "(نمونه)" in p.title %}
@@ -185,8 +182,15 @@
         </div>
 
         <div class="hm-product-tabs__panel" role="tabpanel" id="panel-specs" aria-labelledby="tab-specs" data-tabs-panel tabindex="0" hidden>
-            {% include 'core/_authenticity_spec.html' %}
-            {% if p.specifications %}
+            {% if specification_rows %}
+            <h3 class="hm-features-table__title">مشخصات</h3>
+            <dl class="hm-features-table">
+                {% for feature in specification_rows %}
+                <div class="hm-features-table__row"><dt>{{ feature.label }}</dt><dd>{{ feature.value }}</dd></div>
+                {% endfor %}
+            </dl>
+            <details class="hm-features-original"><summary>نمایش متن اصلی مشخصات</summary><div class="store-rich-content">{{ p.specifications|safe }}</div></details>
+            {% elif p.specifications %}
             <div class="store-rich-content">{{ p.specifications|safe }}</div>
             {% else %}
             <p class="store-muted">برای این کالا هنوز مشخصات فنی ثبت نشده است.</p>
@@ -256,7 +260,7 @@
                      data-product-title="{{ product.title }}"
                      data-product-price="{% if product.is_sale and product.sale_price %}{{ product.sale_price }}{% else %}{{ product.price }}{% endif %}"
                      data-product-image="{% if product.image %}{{ product.image.url }}{% endif %}" data-cart-url="{% url 'core:add-to-cart' %}">
-                <a class="store-product-card__image" href="{% url 'core:product-detail' product.pid %}">{% if product.image %}<img src="{{ product.image.url }}" alt="{{ product.title }}" loading="lazy">{% else %}<img src="{% static 'assets/imgs/theme/product-image-pending.svg' %}" alt="تصویر محصول ثبت نشده است" loading="lazy">{% endif %}</a>
+                <a class="store-product-card__image" href="{% url 'core:product-detail' product.pid %}"><img src="{{ product.display_image_url }}" alt="{{ product.title }}" loading="lazy"></a>
                 <div class="store-product-card__body">
                     {% if product.category %}<p>{{ product.category.title }}</p>{% endif %}
                     <h3><a href="{% url 'core:product-detail' product.pid %}">{{ product.title }}</a></h3>

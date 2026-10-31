@@ -10,6 +10,7 @@ from functools import lru_cache
 import json
 from pathlib import Path
 
+from django.conf import settings
 from django.core.paginator import Paginator
 from django.http import Http404
 from django.shortcuts import render
@@ -35,6 +36,9 @@ def catalog_items():
     # customer data, or authentication material.
     with CATALOG_PATH.open(encoding="utf-8") as source:
         data = json.load(source)
+    source_path = CATALOG_PATH.with_name("catalog_inquiry_image_sources.json")
+    with source_path.open(encoding="utf-8") as source:
+        image_sources = json.load(source)
     rows = data["items"]
     if data.get("format") != 1 or len(rows) != 689:
         raise RuntimeError("Unexpected inquiry catalog data")
@@ -45,15 +49,21 @@ def catalog_items():
             raise RuntimeError("Invalid inquiry catalog record")
         if item["category_label"] != CATEGORY_LABELS[item["category"]] or item["tone"] not in range(1, 7):
             raise RuntimeError("Invalid inquiry catalog category or style")
-        if item["image"] and item["image"] not in (
-            "assets/imgs/hazhir-catalog-inquiry/8460.webp",
-            "assets/imgs/hazhir-catalog-inquiry/15839.webp",
-        ):
-            raise RuntimeError("Unreviewed catalog image")
+        if item["image"]:
+            approved_ids = {8460, 15839} | {int(key) for key in image_sources}
+            expected_path = f"assets/imgs/hazhir-catalog-inquiry/{item['id']}.webp"
+            if item["id"] not in approved_ids or item["image"] != expected_path:
+                raise RuntimeError("Unregistered catalog image")
         if not isinstance(item["id"], int) or item["id"] in ids:
             raise RuntimeError("Duplicate or invalid inquiry catalog ID")
         ids.add(item["id"])
     return tuple(rows)
+
+
+def has_inquiry_photo(item):
+    if not getattr(settings, 'HIDE_PRODUCTS_WITHOUT_PHOTO', True):
+        return True
+    return bool(item['image']) and (Path(settings.BASE_DIR) / 'static' / item['image']).is_file()
 
 
 @lru_cache(maxsize=1)
@@ -64,9 +74,9 @@ def catalog_by_id():
 def featured_items(limit=12):
     limit = max(0, min(int(limit), 12))
     by_id = catalog_by_id()
-    featured = [by_id[pid] for pid in FEATURED_IDS if pid in by_id]
+    featured = [by_id[pid] for pid in FEATURED_IDS if pid in by_id and has_inquiry_photo(by_id[pid])]
     seen = {item["id"] for item in featured}
-    featured.extend(item for item in catalog_items() if item["id"] not in seen)
+    featured.extend(item for item in catalog_items() if item["id"] not in seen and has_inquiry_photo(item))
     return featured[:limit]
 
 
@@ -81,7 +91,7 @@ def catalog_list(request):
     category = (request.GET.get("category") or "").strip()
     if category not in CATEGORY_LABELS:
         category = ""
-    matches = catalog_items()
+    matches = [item for item in catalog_items() if has_inquiry_photo(item)]
     if category:
         matches = [item for item in matches if item["category"] == category]
     if query:
@@ -111,6 +121,6 @@ def catalog_list(request):
 @require_safe
 def catalog_detail(request, source_id):
     item = catalog_by_id().get(source_id)
-    if item is None:
+    if item is None or not has_inquiry_photo(item):
         raise Http404("کالا در کاتالوگ بررسی پیدا نشد.")
     return noindex(render(request, "core/catalog_inquiry_detail.html", {"item": item}))
