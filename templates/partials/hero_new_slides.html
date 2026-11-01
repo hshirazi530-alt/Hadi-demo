@@ -1,0 +1,25 @@
+{% load static %}
+<article class="swiper-slide hm-hero__slide hm-hero__slide--care" data-hero-care-slide aria-label="مراقبت شخصی و زیبایی">
+  <div class="hm-hero__media"><img src="{% static 'assets/imgs/beauty/hero/care-slide-3.webp' %}" alt="محصولات مراقبت شخصی و دستگاه مراقبت از پوست" width="1568" height="456" loading="lazy" decoding="async"></div>
+  <div class="hm-hero__content">
+    <p class="hm-hero__eyebrow">لحظه‌ای برای خودتان</p>
+    <h2 class="hm-hero__title">زیبایی در جزئیات،<br><span>مراقبت در هر روز</span></h2>
+    <p class="hm-hero__description">محصولات مراقبت شخصی را متناسب با نیاز و سلیقهٔ خود انتخاب کنید.</p>
+    <div class="hm-hero__actions"><a class="hm-hero__cta" href="{% url 'core:product-list' %}">دیدن محصولات</a><a class="hm-hero__cta hm-hero__cta--quiet" href="{% url 'core:category-list' %}">همهٔ دسته‌بندی‌ها</a></div>
+  </div>
+</article>
+<article class="swiper-slide hm-hero__slide hm-hero-video hm-hero-video--barber" data-hero-video-slide data-hero-barber-slide data-swiper-autoplay="11000" aria-label="ویدئوی ابزارهای اصلاح">
+  <div class="hm-hero-video__frame">
+    <video class="hm-hero-video__video" data-hero-video muted playsinline loop preload="metadata" poster="{% static 'assets/video/hero-feature-4-poster.webp' %}" aria-label="ویدئوی ابزارهای اصلاح">
+      <source src="{% static 'assets/video/hero-feature-4.mp4' %}" type="video/mp4">مرورگر شما امکان پخش ویدئو را ندارد.
+    </video>
+    <div class="hm-hero-video__original-text-mask" aria-hidden="true"></div>
+    <div class="hm-hero-video__copy" dir="rtl">
+      <p class="hm-hero-video__eyebrow">آراستگی به سبک شما</p>
+      <h2 class="hm-hero-video__title">انتخابی دقیق،<br><span>برای استایلی ماندگار</span></h2>
+      <p class="hm-hero-video__description">ابزارهای اصلاح را برای ساختن سبک دلخواه خود بررسی و انتخاب کنید.</p>
+      <div class="hm-hero-video__actions hm-hero__actions"><a class="hm-hero__cta" href="{% url 'core:product-list' %}">دیدن محصولات</a><a class="hm-hero__cta hm-hero__cta--quiet" href="{% url 'core:category-list' %}">همهٔ دسته‌بندی‌ها</a></div>
+    </div>
+    <div class="hm-hero-video__controls" aria-label="کنترل ویدئو"><button type="button" data-video-play aria-label="توقف ویدئو">توقف ویدئو</button></div>
+  </div>
+</article>

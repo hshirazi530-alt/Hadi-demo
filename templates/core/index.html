@@ -4,7 +4,8 @@
 {% block title %}Hazhirmarket | ابزارهای زیبایی و مراقبت شخصی{% endblock %}
 
 {% block extra_head %}
-    <link rel="stylesheet" href="{% static 'css/hero-video-slide.css' %}?v=2">
+    <link rel="stylesheet" href="{% static 'css/hero-video-slide.css' %}?v=6">
+    <link rel="stylesheet" href="{% static 'css/hero-home-appliances.css' %}?v=1">
     <link rel="stylesheet" href="{% static 'build/hero-slider.css' %}?v=1">
     <link rel="stylesheet" href="{% static 'build/product-slider.css' %}?v=1">
     <link rel="stylesheet" href="{% static 'build/amazing-slider.css' %}?v=1">
@@ -19,6 +20,8 @@
              data-hero-slider
              aria-label="بنرهای اصلی هژیر مارکت">
         <div class="swiper-wrapper hm-hero__slides">
+            {% include 'partials/hero_video_slide.html' %}
+            {% include 'partials/hero_new_slides.html' %}
             {% if hero_banners or digital_banners %}
             {% for banner in digital_banners %}
             <article class="swiper-slide hm-hero__slide hm-hero__slide--digital" aria-label="{{ forloop.counter }} از {{ digital_banners|length }} بنر دیجیتال">
@@ -42,19 +45,27 @@
             </article>
             {% endfor %}
             {% for banner in hero_banners %}
-            <article class="swiper-slide hm-hero__slide" aria-label="{{ forloop.counter }} از {{ hero_banners|length }}">
+            <article class="swiper-slide hm-hero__slide{% if banner.title == 'ابزارهای مراقبت شخصی مردانه' and banner.image.name == 'storefront/banners/barber-hero.jpg' %} hm-hero__slide--home-appliances{% endif %}" aria-label="{{ forloop.counter }} از {{ hero_banners|length }}">
                 <div class="hm-hero__bg" aria-hidden="true"></div>
                 <div class="hm-hero__media">
-                    {% if banner.image %}
+                    {% if banner.title == 'ابزارهای مراقبت شخصی مردانه' and banner.image.name == 'storefront/banners/barber-hero.jpg' %}
+                    <img src="{% static 'assets/imgs/beauty/hero/home-appliances-slide-2.webp' %}" alt="لوازم خانگی و آشپزخانه" width="1568" height="456" loading="lazy" decoding="async">
+                    {% elif banner.image %}
                     <img src="{{ banner.image.url }}" alt="{{ banner.image_alt|default:banner.title }}" width="1600" height="900" {% if forloop.first and not digital_banners %}fetchpriority="high"{% else %}loading="lazy"{% endif %} decoding="async">
                     {% else %}
                     <img src="{% static 'assets/imgs/beauty/barber-hero-task7.webp' %}" alt="{{ banner.image_alt|default:banner.title }}" width="1600" height="900" {% if forloop.first and not digital_banners %}fetchpriority="high"{% else %}loading="lazy"{% endif %} decoding="async">
                     {% endif %}
                 </div>
                 <div class="hm-hero__content">
+                    {% if banner.title == 'ابزارهای مراقبت شخصی مردانه' and banner.image.name == 'storefront/banners/barber-hero.jpg' %}
+                    <p class="hm-hero__eyebrow">انتخابی برای خانهٔ شما</p>
+                    <h1 class="hm-hero__title" id="hero-title-{{ forloop.counter }}">خانه‌ای زیباتر،<br><span>زندگی آسان‌تر</span></h1>
+                    <p class="hm-hero__description">لوازم خانه و آشپزخانه را با سلیقهٔ خود انتخاب کنید و به لحظه‌های روزمره جلوه‌ای تازه ببخشید.</p>
+                    {% else %}
                     {% if banner.eyebrow %}<p class="hm-hero__eyebrow">{{ banner.eyebrow }}</p>{% endif %}
                     <h1 class="hm-hero__title" id="hero-title-{{ forloop.counter }}">{{ banner.title }}</h1>
                     {% if banner.description %}<p class="hm-hero__description">{{ banner.description }}</p>{% endif %}
+                    {% endif %}
                     <div class="hm-hero__actions">
                         <a class="hm-hero__cta" href="{{ banner.button_url|default:'/products/' }}">{{ banner.button_label|default:'مشاهده محصولات' }}</a>
                         <a class="hm-hero__cta hm-hero__cta--quiet" href="{% url 'core:category-list' %}">همهٔ دسته‌بندی‌ها</a>
@@ -81,7 +92,6 @@
             </article>
             {% endfor %}
             {% endif %}
-            {% include 'partials/hero_video_slide.html' %}
             {# Additional editorial slides are appended; existing admin banners stay unchanged. #}
             <article class="swiper-slide hm-hero__slide hm-hero__slide--showcase hm-hero__slide--personal" data-hero-showcase="personal" aria-label="لوازم شخصی و اصلاح">
                 <div class="hm-hero__media">
@@ -783,7 +793,7 @@
 {% endblock content %}
 
 {% block extra_js %}
-    <script src="{% static 'js/hero-video-slide.js' %}?v=1" defer></script>
+    <script src="{% static 'js/hero-video-slide.js' %}?v=3" defer></script>
     <script type="module" src="{% static 'build/hero-slider.js' %}?v=1"></script>
     <script type="module" src="{% static 'build/product-slider.js' %}?v=1"></script>
     <script type="module" src="{% static 'build/amazing-slider.js' %}?v=1"></script>

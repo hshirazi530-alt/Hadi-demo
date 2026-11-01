@@ -43,7 +43,7 @@ class HeroShowcaseTests(TestCase):
         expected = ["بنر دیجیتال قبلی", "بنر قدیمی اول", "بنر قدیمی دوم", 'data-hero-showcase="personal"', 'data-hero-showcase="digital"']
         offsets = [html.index(item) for item in expected]
         self.assertEqual(offsets, sorted(offsets))
-        self.assertEqual(html.count('<article class="swiper-slide hm-hero__slide'), 6)
+        self.assertEqual(html.count('<article class="swiper-slide hm-hero__slide'), 8)
         self.assertNotIn("نباید دیده شود", html)
         self.assertIn('href="/search/?q=one">دکمهٔ اول</a>', html)
         digital.refresh_from_db()
@@ -57,7 +57,7 @@ class HeroShowcaseTests(TestCase):
         response = self.client.get(reverse("core:index"))
         self.assertEqual(response.status_code, 200)
         html = self.hero_html(response)
-        self.assertEqual(html.count('<article class="swiper-slide hm-hero__slide'), len(HOME_CATEGORIES) + 3)
+        self.assertEqual(html.count('<article class="swiper-slide hm-hero__slide'), len(HOME_CATEGORIES) + 5)
         for category in HOME_CATEGORIES:
             self.assertIn(category["hero_title"], html)
             self.assertLess(html.index(category["hero_title"]), html.index('data-hero-showcase="personal"'))

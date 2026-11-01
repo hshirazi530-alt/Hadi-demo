@@ -5,3 +5,26 @@
 .store-css .hm-hero-video__controls button{border:1px solid #e5d293;border-radius:999px;background:rgba(255,248,220,.96);color:#30250c;padding:9px 13px;font-size:13px;font-weight:700;line-height:1.4;cursor:pointer;box-shadow:0 3px 12px #0003}
 .store-css .hm-hero-video__controls button:hover{background:#d4af37}.store-css .hm-hero-video__controls button:focus-visible{outline:3px solid white;outline-offset:3px}
 @media(max-width:600px){.store-css .hm-hero-video__controls{top:10px;left:10px;gap:6px}.store-css .hm-hero-video__controls button{font-size:12px;padding:7px 10px}}
+
+/* Copy belongs only to the silent video slide. */
+.store-css .hm-hero-video__copy{position:absolute;z-index:3;right:clamp(22px,5vw,80px);bottom:clamp(72px,10vw,110px);width:min(38%,430px);box-sizing:border-box;direction:rtl;text-align:right;pointer-events:none;color:#fff8dc;text-shadow:0 2px 5px #091710,0 4px 18px #091710}
+.store-css .hm-hero-video__eyebrow{color:#f0d58a;font-size:13px;font-weight:700;margin:0 0 8px}
+.store-css .hm-hero-video__title{color:#fff8dc;font-size:clamp(26px,3vw,44px);font-weight:800;line-height:1.35;margin:0 0 8px}
+.store-css .hm-hero-video__title span{color:#f2d486}
+.store-css .hm-hero-video__description{color:#fff9e9;font-size:15px;font-weight:600;line-height:1.85;margin:0;max-width:36ch}
+@media(max-width:600px){.store-css .hm-hero-video__copy{right:18px;bottom:105px;width:min(64%,300px)}.store-css .hm-hero-video__eyebrow{font-size:11px;margin-bottom:4px}.store-css .hm-hero-video__title{font-size:clamp(21px,6vw,27px);margin-bottom:4px}.store-css .hm-hero-video__description{font-size:12px;line-height:1.6}}
+
+/* Bright cream and gold copy; links remain interactive without a background panel. */
+.store-css .hm-hero .hm-hero-video__copy{width:min(42%,470px);padding:clamp(14px,1.8vw,24px);background:transparent;border:0;box-shadow:none;pointer-events:auto}
+.store-css .hm-hero .hm-hero-video__eyebrow{color:#ffe9a8}
+.store-css .hm-hero .hm-hero-video__title{color:#fffef6}
+.store-css .hm-hero .hm-hero-video__title span{color:#ffe8a3}
+.store-css .hm-hero .hm-hero-video__description{color:#fffef5}
+.store-css .hm-hero .hm-hero-video__actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:12px;pointer-events:auto}
+@media(max-width:600px){.store-css .hm-hero .hm-hero-video__copy{width:min(78%,320px);padding:12px;bottom:90px}.store-css .hm-hero .hm-hero-video__actions{gap:6px;margin-top:8px}.store-css .hm-hero .hm-hero-video__actions .hm-hero__cta{font-size:11px;padding:8px 10px}}
+
+/* Cover only the embedded lettering in video 4, retaining its full frame. */
+.store-css .hm-hero-video--barber .hm-hero-video__original-text-mask{position:absolute;inset:0 auto 0 0;width:46%;z-index:1;pointer-events:none;background:linear-gradient(90deg,#161713 0%,#191a16 78%,rgba(25,26,22,.93) 92%,transparent 100%)}
+.store-css .hm-hero .hm-hero-video--barber .hm-hero-video__copy{right:auto;left:clamp(20px,4vw,65px);width:min(37%,430px)}
+.store-css .hm-hero .hm-hero__slide--care .hm-hero__media::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(270deg,rgba(38,21,23,.68),rgba(38,21,23,.22) 40%,transparent 70%)}
+@media(max-width:600px){.store-css .hm-hero-video--barber .hm-hero-video__original-text-mask{width:55%}.store-css .hm-hero .hm-hero-video--barber .hm-hero-video__copy{left:12px;width:min(53%,240px);bottom:80px}.store-css .hm-hero .hm-hero-video--barber .hm-hero-video__title{font-size:clamp(18px,5vw,25px)}.store-css .hm-hero .hm-hero-video--barber .hm-hero-video__description{font-size:11px}}

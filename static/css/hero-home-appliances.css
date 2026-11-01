@@ -1,0 +1,14 @@
+/* Scoped only to the selected home-appliances slide. */
+.store-css .hm-hero .hm-hero__slide--home-appliances .hm-hero__media::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(270deg, rgba(8, 25, 21, .82), rgba(8, 25, 21, .28) 35%, transparent 65%);
+}
+.store-css .hm-hero .hm-hero__slide--home-appliances .hm-hero__eyebrow { color: #f5df9d; }
+.store-css .hm-hero .hm-hero__slide--home-appliances .hm-hero__title { color: #fff8dc; font-weight: 800; }
+.store-css .hm-hero .hm-hero__slide--home-appliances .hm-hero__title span { color: #f4d988; }
+.store-css .hm-hero .hm-hero__slide--home-appliances .hm-hero__description { color: #fff9e8; }
+@media (max-width: 575px) {
+  .store-css .hm-hero .hm-hero__slide--home-appliances .hm-hero__media::after {
+    background: linear-gradient(270deg, rgba(8, 25, 21, .88), rgba(8, 25, 21, .48) 60%, rgba(8, 25, 21, .12));
+  }
+}

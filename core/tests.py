@@ -770,7 +770,8 @@ class StorefrontCompletionTests(TestCase):
                 )
 
                 response = self.client.get(reverse("core:index"))
-                self.assertContains(response, banner.image.url)
+                # Selected banner has a presentation-only replacement; stored original remains intact.
+                self.assertContains(response, "home-appliances-slide-2.webp")
                 self.assertNotContains(response, "پک ویرایش‌شده توسط مدیر")
                 self.assertContains(response, "تصویر مفهومی")
 
