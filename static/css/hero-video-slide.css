@@ -26,5 +26,5 @@
 /* Cover only the embedded lettering in video 4, retaining its full frame. */
 .store-css .hm-hero-video--barber .hm-hero-video__original-text-mask{position:absolute;inset:0 auto 0 0;width:46%;z-index:1;pointer-events:none;background:linear-gradient(90deg,#161713 0%,#191a16 78%,rgba(25,26,22,.93) 92%,transparent 100%)}
 .store-css .hm-hero .hm-hero-video--barber .hm-hero-video__copy{right:auto;left:clamp(20px,4vw,65px);width:min(37%,430px)}
-.store-css .hm-hero .hm-hero__slide--care .hm-hero__media::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(270deg,rgba(38,21,23,.68),rgba(38,21,23,.22) 40%,transparent 70%)}
+.store-css .hm-hero .hm-hero__slide--care .hm-hero__media::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(270deg,rgba(46,22,30,.88) 0%,rgba(46,22,30,.74) 22%,rgba(46,22,30,.46) 44%,rgba(46,22,30,.16) 66%,transparent 82%)}
 @media(max-width:600px){.store-css .hm-hero-video--barber .hm-hero-video__original-text-mask{width:55%}.store-css .hm-hero .hm-hero-video--barber .hm-hero-video__copy{left:12px;width:min(53%,240px);bottom:80px}.store-css .hm-hero .hm-hero-video--barber .hm-hero-video__title{font-size:clamp(18px,5vw,25px)}.store-css .hm-hero .hm-hero-video--barber .hm-hero-video__description{font-size:11px}}

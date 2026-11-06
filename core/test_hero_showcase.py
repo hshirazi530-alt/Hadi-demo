@@ -6,7 +6,7 @@ from django.contrib.staticfiles import finders
 from django.test import TestCase
 from django.urls import reverse
 
-from core.models import Category, DigitalBanner, HeroBanner, Product
+from core.models import Category, HeroBanner, Product
 from core.navigation import invalidate_nav_cache
 from core.storefront import HOME_CATEGORIES
 
@@ -28,9 +28,6 @@ class HeroShowcaseTests(TestCase):
         )[0]
 
     def test_original_active_banner_slides_remain_first_and_untouched(self):
-        digital = DigitalBanner.objects.create(
-            title="بنر دیجیتال قبلی", button_label="دکمهٔ دیجیتال", button_url="/products/", sort_order=2
-        )
         first = HeroBanner.objects.create(
             title="بنر قدیمی اول", button_label="دکمهٔ اول", button_url="/search/?q=one", sort_order=1
         )
@@ -40,16 +37,14 @@ class HeroShowcaseTests(TestCase):
         response = self.client.get(reverse("core:index"))
         self.assertEqual(response.status_code, 200)
         html = self.hero_html(response)
-        expected = ["بنر دیجیتال قبلی", "بنر قدیمی اول", "بنر قدیمی دوم", 'data-hero-showcase="personal"', 'data-hero-showcase="digital"']
+        expected = ["بنر قدیمی اول", "بنر قدیمی دوم", 'data-hero-showcase="personal"', 'data-hero-showcase="digital"']
         offsets = [html.index(item) for item in expected]
         self.assertEqual(offsets, sorted(offsets))
-        self.assertEqual(html.count('<article class="swiper-slide hm-hero__slide'), 8)
+        self.assertEqual(html.count('<article class="swiper-slide hm-hero__slide'), 7)
         self.assertNotIn("نباید دیده شود", html)
         self.assertIn('href="/search/?q=one">دکمهٔ اول</a>', html)
-        digital.refresh_from_db()
         first.refresh_from_db()
         second.refresh_from_db()
-        self.assertEqual((digital.title, digital.button_url, digital.sort_order), ("بنر دیجیتال قبلی", "/products/", 2))
         self.assertEqual((first.title, first.button_url, first.sort_order), ("بنر قدیمی اول", "/search/?q=one", 1))
         self.assertEqual(second.title, "بنر قدیمی دوم")
 

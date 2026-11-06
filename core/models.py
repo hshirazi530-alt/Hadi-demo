@@ -596,27 +596,3 @@ class AmazingOffersSettings(models.Model):
     def get_settings(cls):
         obj, _ = cls.objects.get_or_create(pk=1)
         return obj
-
-
-class DigitalBanner(models.Model):
-    """Banner slides for the homepage Digital Goods slider."""
-
-    eyebrow = models.CharField(max_length=80, blank=True, verbose_name="عنوان کوتاه")
-    title = models.CharField(max_length=160, verbose_name="عنوان")
-    description = models.TextField(blank=True, verbose_name="توضیحات")
-    image = models.ImageField(upload_to="storefront/digital/", blank=True, verbose_name="تصویر")
-    image_alt = models.CharField(max_length=180, blank=True, verbose_name="متن جایگزین تصویر")
-    button_label = models.CharField(max_length=60, default="مشاهده محصولات", verbose_name="متن دکمه")
-    button_url = models.CharField(max_length=300, default="/products/", verbose_name="پیوند دکمه")
-    is_active = models.BooleanField(default=True, verbose_name="فعال")
-    sort_order = models.PositiveSmallIntegerField(default=0, verbose_name="ترتیب نمایش")
-    updated_at = models.DateTimeField(auto_now=True, verbose_name="آخرین ویرایش")
-
-    class Meta:
-        ordering = ("sort_order", "id")
-        verbose_name = "بنر دیجیتال"
-        verbose_name_plural = "بنرهای دیجیتال"
-
-    def __str__(self):
-        return self.title
-

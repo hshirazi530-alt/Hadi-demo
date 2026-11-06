@@ -12,3 +12,59 @@
     background: linear-gradient(270deg, rgba(8, 25, 21, .88), rgba(8, 25, 21, .48) 60%, rgba(8, 25, 21, .12));
   }
 }
+
+/* ---------- Animated care slide (MP4 / animated WebP in <video>) ---------- */
+/* Same box model as .hm-hero__media > img so the motion layer fills the
+   slide exactly: cover-fit, centre, never stretched. */
+.store-css .hm-hero .hm-hero__media > .hm-hero__motion {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  filter: none;
+  pointer-events: none;
+}
+
+/* The pink scrim lives on .hm-hero__slide--care (hero-video-slide.css), so the
+   copy stays legible over the moving picture without dimming the products. */
+.store-css .hm-hero .hm-hero__slide--care .hm-hero__eyebrow { color: #ffe6ef; }
+.store-css .hm-hero .hm-hero__slide--care .hm-hero__title { color: #fffafc; font-weight: 800; }
+.store-css .hm-hero .hm-hero__slide--care .hm-hero__title span { color: #ffd3e2; }
+.store-css .hm-hero .hm-hero__slide--care .hm-hero__description { color: #fff7fa; }
+
+/* Respect reduced-motion: freeze on the poster frame. */
+@media (prefers-reduced-motion: reduce) {
+  .store-css .hm-hero .hm-hero__media > .hm-hero__motion { visibility: visible; }
+}
+
+/* Keep the floating "راهنمای خرید" badge off the hero CTA row. */
+.store-css .hm-hero .hm-hero__slide .hm-hero__actions { position: relative; z-index: 3; }
+
+/* ---------- Readability for the two editorial showcase slides ---------- */
+/* The personal/digital showcase photos carry dark product silhouettes on the
+   right, exactly where the RTL copy sits. A rose-to-transparent veil restores
+   contrast without touching the left side of the picture. */
+.store-css .hm-hero .hm-hero__slide--personal .hm-hero__media::after,
+.store-css .hm-hero .hm-hero__slide--digital-showcase .hm-hero__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    270deg,
+    rgba(28, 20, 14, .86) 0%,
+    rgba(28, 20, 14, .70) 22%,
+    rgba(28, 20, 14, .40) 46%,
+    rgba(28, 20, 14, .12) 68%,
+    transparent 84%
+  );
+}
+.store-css .hm-hero .hm-hero__slide--personal .hm-hero__title,
+.store-css .hm-hero .hm-hero__slide--digital-showcase .hm-hero__title {
+  text-shadow: 0 2px 5px rgba(12, 9, 6, .92), 0 4px 18px rgba(12, 9, 6, .7);
+}
+.store-css .hm-hero .hm-hero__slide--personal .hm-hero__description,
+.store-css .hm-hero .hm-hero__slide--digital-showcase .hm-hero__description {
+  text-shadow: 0 1px 4px rgba(12, 9, 6, .98), 0 3px 14px rgba(12, 9, 6, .85);
+}

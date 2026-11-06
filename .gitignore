@@ -61,3 +61,6 @@ htmlcov/
 
 # Node toolchain
 node_modules/
+
+# collectstatic output for the local preview server (generated, not source)
+staticfiles/

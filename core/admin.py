@@ -14,7 +14,6 @@ from core.models import (
     CartOrderProducts,
     Category,
     Coupon,
-    DigitalBanner,
     FAQ,
     HeroBanner,
     PaymentAttempt,
@@ -471,25 +470,6 @@ class BannerAdmin(admin.ModelAdmin):
         )
 
 
-class DigitalBannerAdmin(admin.ModelAdmin):
-    list_display = ["image_preview", "title", "is_active", "sort_order", "updated_at"]
-    list_display_links = ["title"]
-    list_filter = ["is_active"]
-    list_editable = ["is_active", "sort_order"]
-    search_fields = ["title", "eyebrow", "description"]
-    ordering = ["sort_order", "id"]
-
-    @admin.display(description="تصویر")
-    def image_preview(self, obj):
-        if not obj.image:
-            return "—"
-        return format_html(
-            '<img class="admin-product-thumbnail" src="{}" alt="تصویر {}">',
-            obj.image.url,
-            obj.title,
-        )
-
-
 @admin.register(AmazingOffersSettings)
 class AmazingOffersSettingsAdmin(admin.ModelAdmin):
     list_display = ['is_active', 'deadline', 'updated_at']
@@ -510,7 +490,6 @@ class AmazingOffersSettingsAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Banner, BannerAdmin)
-admin.site.register(DigitalBanner, DigitalBannerAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(SubCategory, SubCategoryAdmin)

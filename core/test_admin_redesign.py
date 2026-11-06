@@ -178,7 +178,7 @@ class RedesignTests(TestCase):
                  'core_cartorderproducts_changelist', 'core_paymentattempt_changelist',
                  'core_address_changelist', 'core_wishlist_model_changelist',
                  'core_herobanner_changelist', 'core_banner_changelist',
-                 'core_digitalbanner_changelist', 'core_amazingofferssettings_changelist',
+                 'core_amazingofferssettings_changelist',
                  'core_productbundle_changelist', 'core_storetrustfeature_changelist',
                  'core_faq_changelist', 'core_vendor_changelist')
         for name in names:

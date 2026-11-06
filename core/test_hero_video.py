@@ -32,10 +32,10 @@ class HeroVideoTests(TestCase):
         HeroBanner.objects.create(title='ابزارهای مراقبت شخصی مردانه', image='storefront/banners/barber-hero.jpg', button_label='دیدن محصولات', button_url='/products/')
         HeroBanner.objects.create(title='بنر دیگر', image='storefront/banners/other.jpg', button_label='لینک دیگر', button_url='/category/')
         html = self.client.get(reverse('core:index')).content.decode('utf-8')
-        selected = html.split('home-appliances-slide-2.webp', 1)[1].split('</article>', 1)[0]
-        self.assertIn('خانه‌ای زیباتر', selected)
-        self.assertIn('زندگی آسان‌تر', selected)
-        self.assertIn('لوازم خانه و آشپزخانه', selected)
+        selected = html.split('home-appliances-hero-v3.webp', 1)[1].split('</article>', 1)[0]
+        self.assertIn('آشپزخانه‌ای مدرن', selected)
+        self.assertIn('خانه‌ای گرم‌تر', selected)
+        self.assertIn('لوازم خانگی و آشپزخانه', selected)
         self.assertIn('دیدن محصولات', selected)
         self.assertIn('href="/products/"', selected)
         self.assertIn('همهٔ دسته‌بندی‌ها', selected)
@@ -45,7 +45,9 @@ class HeroVideoTests(TestCase):
     def test_two_new_slides_are_independent_and_have_links(self):
         html = self.client.get(reverse('core:index')).content.decode('utf-8')
         self.assertEqual(html.count('data-hero-video-slide'), 2)
-        self.assertIn('care-slide-3.webp', html)
+        self.assertIn('care-hero-v3-poster.webp', html)
+        self.assertIn('care-hero-v3.mp4', html)
+        self.assertIn('data-hero-animated-slide', html)
         self.assertIn('hero-feature-4.mp4', html)
         self.assertIn('hm-hero-video__original-text-mask', html)
         for marker in ('data-hero-care-slide', 'data-hero-barber-slide'):

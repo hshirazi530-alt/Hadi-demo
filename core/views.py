@@ -15,7 +15,6 @@ from core.models import (
     CartOrderProducts,
     Category,
     Coupon,
-    DigitalBanner,
     FAQ,
     HeroBanner,
     PaymentAttempt,
@@ -148,9 +147,7 @@ def index(request):
     amazing_banners = list(
         Banner.objects.filter(is_active=True, placement="amazing_offers").order_by("sort_order", "id")
     )
-    digital_banners = list(
-        DigitalBanner.objects.filter(is_active=True).order_by("sort_order", "id")[:5]
-    )
+
 
     # Look up actual category IDs rather than embedding sandbox IDs. Query
     # the current database directly so a deleted category cannot leave a
@@ -174,7 +171,6 @@ def index(request):
         "home_categories": HOME_CATEGORIES,
         "store_profile": STORE_PROFILE,
         "hero_banners": HeroBanner.objects.filter(is_active=True)[:3],
-        "digital_banners": digital_banners,
         "trust_features": StoreTrustFeature.objects.filter(is_active=True)[:4],
         # Hide explicit demonstration bundles only; never edit or delete them.
         "bundles": (
